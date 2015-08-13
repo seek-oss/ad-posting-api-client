@@ -44,12 +44,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this._mockService
-                .Given($"There is an advertisement with id: '{advertisementId}'")
+                .Given(string.Format("There is an advertisement with id: '{0}'", advertisementId))
                 .UponReceiving("GET request for advertisement")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = $"/advertisement/{advertisementId}",
+                    Path = "/advertisement/" + advertisementId,
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -69,7 +69,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             self = new
                             {
-                                href = $"/advertisement/{advertisementId}"
+                                href = "/advertisement/" + advertisementId
                             }
                         },
                         agentId = (object)null,
