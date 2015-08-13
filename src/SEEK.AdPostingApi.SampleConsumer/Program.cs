@@ -1,5 +1,7 @@
-﻿using SEEK.AdPostingApi.Client;
+﻿using Newtonsoft.Json;
+using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
+using SEEK.AdPostingApi.Client.Resources;
 using SEEK.AdPostingApi.Configuration;
 using System;
 using System.Threading.Tasks;
@@ -38,9 +40,9 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
             Console.WriteLine(jobAdLink.ToString());
 
-            string content = await postingClient.GetAdvertisementAsync(jobAdLink);
+            AdvertisementResource content = await postingClient.GetAdvertisementAsync(jobAdLink);
 
-            Console.WriteLine(content);
+            Console.WriteLine(JsonConvert.SerializeObject(content, Formatting.Indented));
 
             Console.ReadLine();
         }

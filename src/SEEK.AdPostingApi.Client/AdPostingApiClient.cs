@@ -2,7 +2,9 @@
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using SEEK.AdPostingApi.Client.Models;
+using SEEK.AdPostingApi.Client.Resources;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -80,7 +82,7 @@ namespace SEEK.AdPostingApi.Client
             return adUri;
         }
 
-        public async Task<string> GetAdvertisementAsync(Uri advertisementLocation)
+        public async Task<AdvertisementResource> GetAdvertisementAsync(Uri advertisementLocation)
         {
             if (advertisementLocation == null)
             {
@@ -96,7 +98,11 @@ namespace SEEK.AdPostingApi.Client
 
                 using (HttpResponseMessage response = (await _httpClient.SendAsync(request)).EnsureSuccessStatusCode())
                 {
-                    return await response.Content.ReadAsStringAsync();
+                    var advertisementResource = JsonConvert.DeserializeObject<AdvertisementResource>(await response.Content.ReadAsStringAsync());
+
+                    advertisementResource.Status = response.Headers.GetValues("status").Single();
+
+                    return await Task.FromResult(advertisementResource);
                 }
             }
         }
