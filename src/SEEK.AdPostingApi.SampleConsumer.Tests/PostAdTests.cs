@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
+using Moq;
 using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
@@ -15,23 +15,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
     {
         private readonly IMockProviderService _mockService;
         private readonly PactProvider _pactProvider;
-        private readonly ISEEKOauth2TokenClient _mockOauthClient;
+        private readonly ISEEKOauth2TokenClient _oauthClient;
 
         public PostAdTests()
         {
             this._pactProvider = new PactProvider();
             this._mockService = _pactProvider.MockService;
-
-            this._mockOauthClient = Substitute.For<ISEEKOauth2TokenClient>();
-            this._mockOauthClient
-                .GetOauth2Token(Arg.Any<string>(), Arg.Any<string>())
-                .Returns(Task.FromResult(SetupAToken()));
+            this._oauthClient = Mock.Of<ISEEKOauth2TokenClient>(
+                c => c.GetOauth2Token(It.IsAny<string>(), It.IsAny<string>()) == Task.FromResult(SetupAToken()));
         }
 
         public void Dispose()
         {
             this._pactProvider.Dispose();
-            this._mockOauthClient.Dispose();
+            this._oauthClient.Dispose();
         }
 
         [TestCleanup]
@@ -291,7 +288,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             SetupJobCreationWithMinimumData(oauth2Token.AccessToken, SetupJobAdWithMinimumRequiredData());
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _mockOauthClient);
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _oauthClient);
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
 
             StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
@@ -322,7 +319,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             SetupJobCreationWithMaximumData(oauth2Token.AccessToken, SetupJobAdWithMaximumData());
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _mockOauthClient);
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _oauthClient);
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
 
             StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
@@ -335,7 +332,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             SetupJobCreationWithBadData(oauth2Token.AccessToken);
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _mockOauthClient);
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _oauthClient);
 
             try
             {
