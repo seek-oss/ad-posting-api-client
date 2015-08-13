@@ -37,7 +37,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             _mockService.VerifyInteractions();
         }
 
-        private void SetupJobCreationWithMinimumData(string accessToken, Advertisement testAdvertisement)
+        private void SetupJobCreationWithMinimumData(string accessToken)
         {
             const string advertisementLink = "/advertisement";
 
@@ -88,7 +88,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             {"Authorization", "Bearer " + accessToken},
                             {"Content-Type", "application/json"}
                         },
-                        Body = testAdvertisement
+                        Body = new
+                        {
+                            advertiserId = "advertiserA",
+                            advertisementType = AdvertisementType.Classic.ToString(),
+                            jobTitle = "Bricklayer",
+                            locationId = "1002",
+                            subclassificationId = "6227",
+                            workType = WorkType.Casual.ToString(),
+                            salaryType = SalaryType.HourlyRate.ToString(),
+                            salaryMinimum = 20,
+                            salaryMaximum = 24,
+                            jobSummary = "some text",
+                            advertisementDetails = "experience required"
+                        }
                     }
                 )
                 .WillRespondWith(
@@ -163,8 +176,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             advertisementType = AdvertisementType.StandOut.ToString(),
                             workType = WorkType.Casual.ToString(),
                             salaryType = SalaryType.HourlyRate.ToString(),
-                            locationId = 1002,
-                            subclassificationId = 6227,
+                            locationId = "1002",
+                            subclassificationId = "6227",
                             salaryMinimum = 20,
                             salaryMaximum = 24,
                             salaryDetails = "Huge bonus",
@@ -252,8 +265,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         Body = new
                         {
-                            locationId = 0,
-                            subclassificationId = 0,
+                            advertisementType = 0,
+                            workType = 0,
+                            salaryType = 0,
                             salaryMinimum = 0,
                             salaryMaximum = 0
                         }
@@ -275,7 +289,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            SetupJobCreationWithMinimumData(oAuth2Token.AccessToken, SetupJobAdWithMinimumRequiredData());
+            SetupJobCreationWithMinimumData(oAuth2Token.AccessToken);
 
             var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, _pactProvider.MockServiceUri);
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());

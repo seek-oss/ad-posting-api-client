@@ -3,7 +3,6 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using SEEK.AdPostingApi.Client.Models;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -107,7 +106,7 @@ namespace SEEK.AdPostingApi.Client
         {
             using (var request = new HttpRequestMessage(HttpMethod.Get, this._adpostingUri))
             {
-                request.Headers.Add(HttpRequestHeader.Accept.ToString(), "application/json");
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 request.Headers.Connection.Add("Keep-Alive");
 
                 using (HttpResponseMessage availableActionsResponse = (await _httpClient.SendAsync(request)).EnsureSuccessStatusCode())
