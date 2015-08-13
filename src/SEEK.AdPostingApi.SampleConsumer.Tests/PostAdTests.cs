@@ -15,14 +15,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
     {
         private readonly IMockProviderService _mockService;
         private readonly PactProvider _pactProvider;
-        private readonly ISEEKOauth2TokenClient _oauthClient;
+        private readonly ISeekOAuth2TokenClient _oauthClient;
 
         public PostAdTests()
         {
             this._pactProvider = new PactProvider();
             this._mockService = _pactProvider.MockService;
-            this._oauthClient = Mock.Of<ISEEKOauth2TokenClient>(
-                c => c.GetOauth2Token(It.IsAny<string>(), It.IsAny<string>()) == Task.FromResult(SetupAToken()));
+            this._oauthClient = Mock.Of<ISeekOAuth2TokenClient>(
+                c => c.GetOAuth2Token(It.IsAny<string>(), It.IsAny<string>()) == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
         public void Dispose()
@@ -270,23 +270,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
         }
 
-        private Oauth2Token SetupAToken()
-        {
-            return new Oauth2Token
-            {
-                AccessToken = "b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-                ExpiresIn = 3600,
-                Scope = "seek",
-                TokenType = "Bearer"
-            };
-        }
-
         [TestMethod]
         public async Task PostAdWithMinimumRequiredData()
         {
-            Oauth2Token oauth2Token = SetupAToken();
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            SetupJobCreationWithMinimumData(oauth2Token.AccessToken, SetupJobAdWithMinimumRequiredData());
+            SetupJobCreationWithMinimumData(oAuth2Token.AccessToken, SetupJobAdWithMinimumRequiredData());
 
             var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _oauthClient);
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
@@ -315,9 +304,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [TestMethod]
         public async Task PostAdWithMaximumData()
         {
-            Oauth2Token oauth2Token = SetupAToken();
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            SetupJobCreationWithMaximumData(oauth2Token.AccessToken, SetupJobAdWithMaximumData());
+            SetupJobCreationWithMaximumData(oAuth2Token.AccessToken, SetupJobAdWithMaximumData());
 
             var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _oauthClient);
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
@@ -328,9 +317,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [TestMethod]
         public async Task PostAdWithWrongData()
         {
-            Oauth2Token oauth2Token = SetupAToken();
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            SetupJobCreationWithBadData(oauth2Token.AccessToken);
+            SetupJobCreationWithBadData(oAuth2Token.AccessToken);
 
             var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _oauthClient);
 

@@ -19,7 +19,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             this.MockService = _pactBuilder.MockService(MockProviderServicePort);
         }
 
-        public IMockProviderService MockService { get; }
+        public IMockProviderService MockService { get; private set; }
 
         public string MockServiceUri
         {

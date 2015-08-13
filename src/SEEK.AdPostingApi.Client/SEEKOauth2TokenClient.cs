@@ -1,20 +1,19 @@
-﻿using System;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using SEEK.AdPostingApi.Client.Models;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using SEEK.AdPostingApi.Client.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace SEEK.AdPostingApi.Client
 {
-    internal class SEEKOauth2TokenClient : ISEEKOauth2TokenClient
+    internal class SeekOAuth2TokenClient : ISeekOAuth2TokenClient
     {
         private readonly Uri _tokenUri;
         private readonly HttpClient _httpClient;
 
-        public SEEKOauth2TokenClient()
+        public SeekOAuth2TokenClient()
         {
             _tokenUri = new Uri("https://api.seek.com.au/auth/oauth2/token");
             _httpClient = new HttpClient();
@@ -26,42 +25,27 @@ namespace SEEK.AdPostingApi.Client
             NullValueHandling = NullValueHandling.Ignore
         };
 
-        public async Task<Oauth2Token> GetOauth2Token(string id, string secret)
+        public async Task<OAuth2Token> GetOAuth2Token(string id, string secret)
         {
-            var tokenRequest = new HttpRequestMessage(HttpMethod.Post, _tokenUri);
-            var content = String.Format("client_id={0}&client_secret={1}&grant_type=client_credentials", id, secret);
-            tokenRequest.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+            using (var tokenRequest = new HttpRequestMessage(HttpMethod.Post, _tokenUri))
+            {
+                var content = string.Format("client_id={0}&client_secret={1}&grant_type=client_credentials", id, secret);
 
-            try
-            {
-                var result = (await _httpClient.SendAsync(tokenRequest)).EnsureSuccessStatusCode();
-                var responseContent = await result.Content.ReadAsStringAsync();
-                var token = JsonConvert.DeserializeObject<Oauth2Token>(responseContent,
-                    _jsonSettings);
-                return token;
-            }
-            finally
-            {
-                Dispose(tokenRequest);
+                tokenRequest.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+
+                using (HttpResponseMessage result = (await _httpClient.SendAsync(tokenRequest)).EnsureSuccessStatusCode())
+                {
+                    string responseContent = await result.Content.ReadAsStringAsync();
+                    var token = JsonConvert.DeserializeObject<OAuth2Token>(responseContent, _jsonSettings);
+
+                    return token;
+                }
             }
         }
 
         public void Dispose()
         {
-            Dispose(_httpClient);
-        }
-
-        private void Dispose(params IDisposable[] disposables)
-        {
-            if (disposables == null)
-            {
-                return;
-            }
-
-            foreach (var disposable in disposables.Where(d => d != null))
-            {
-                disposable.Dispose();
-            }
+            _httpClient.Dispose();
         }
     }
 }

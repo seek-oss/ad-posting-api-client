@@ -18,9 +18,9 @@ namespace SEEK.AdPostingApi.Client
         private readonly Uri _adpostingUri;
         private readonly string _id;
         private readonly string _secret;
-        private Oauth2Token _token;
+        private OAuth2Token _token;
         private readonly HttpClient _httpClient;
-        private readonly ISEEKOauth2TokenClient _tokenClient;
+        private readonly ISeekOAuth2TokenClient _tokenClient;
 
         private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
         {
@@ -29,11 +29,11 @@ namespace SEEK.AdPostingApi.Client
         };
 
         public AdPostingApiClient(string id, string secret)
-            : this(id, secret, new SEEKOauth2TokenClient())
+            : this(id, secret, new SeekOAuth2TokenClient())
         {
         }
 
-        internal AdPostingApiClient(string id, string secret, ISEEKOauth2TokenClient tokenClient)
+        internal AdPostingApiClient(string id, string secret, ISeekOAuth2TokenClient tokenClient)
         {
             _id = id;
             _secret = secret;
@@ -56,7 +56,7 @@ namespace SEEK.AdPostingApi.Client
             }
         }
 
-        internal AdPostingApiClient(string id, string secret, string adPostingUri, ISEEKOauth2TokenClient tokenClient)
+        internal AdPostingApiClient(string id, string secret, string adPostingUri, ISeekOAuth2TokenClient tokenClient)
             : this(id, secret, tokenClient)
         {
             _adpostingUri = new Uri(adPostingUri);
@@ -116,7 +116,7 @@ namespace SEEK.AdPostingApi.Client
 
             if (_token == null)
             {
-                _token = await _tokenClient.GetOauth2Token(_id, _secret);
+                _token = await _tokenClient.GetOAuth2Token(_id, _secret);
             }
 
             AvailableActions availableActions = await GetAvailableApiActions();

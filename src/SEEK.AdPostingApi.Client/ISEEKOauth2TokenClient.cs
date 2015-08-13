@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SEEK.AdPostingApi.Client.Models;
+using System;
 using System.Threading.Tasks;
-using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client
 {
-    public interface ISEEKOauth2TokenClient : IDisposable
+    public interface ISeekOAuth2TokenClient : IDisposable
     {
-        Task<Oauth2Token> GetOauth2Token(string clientId, string clientSecret);
+        Task<OAuth2Token> GetOAuth2Token(string clientId, string clientSecret);
     }
 }
