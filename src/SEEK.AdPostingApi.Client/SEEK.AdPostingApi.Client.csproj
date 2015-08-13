@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdPostingApiClient.cs" />
+    <Compile Include="HttpHeadersExtensions.cs" />
     <Compile Include="IAdPostingApiClient.cs" />
     <Compile Include="ISeekOAuth2TokenClient.cs" />
     <Compile Include="Models\AdditionalPropertyType.cs" />

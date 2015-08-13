@@ -1,63 +1,59 @@
-﻿using SEEK.AdPostingApi.Client.Models;
-
-namespace SEEK.AdPostingApi.Client.Models
+﻿namespace SEEK.AdPostingApi.Client.Models
 {
     public class Advertisement
     {
-        public string postingRequestorId { get; set; }
+        public string AdvertiserId { get; set; }
 
-        public string advertiserId { get; set; }
+        public string AgentId { get; set; }
 
-        public string jobTitle { get; set; }
+        public AdvertisementType AdvertisementType { get; set; }
 
-        public string jobSummary { get; set; }
+        public string JobTitle { get; set; }
 
-        public string advertisementDetails { get; set; }
+        public string LocationId { get; set; }
 
-        public string advertisementType { get; set; }
+        public string SubclassificationId { get; set; }
 
-        public string workType { get; set; }
+        public WorkType WorkType { get; set; }
 
-        public string salaryType { get; set; }
+        public SalaryType SalaryType { get; set; }
 
-        public int locationId { get; set; }
+        public int SalaryMinimum { get; set; }
 
-        public int subclassificationId { get; set; }
+        public int SalaryMaximum { get; set; }
 
-        public int salaryMinimum { get; set; }
+        public string SalaryDetails { get; set; }
 
-        public int salaryMaximum { get; set; }
+        public string JobSummary { get; set; }
 
-        public string agentId { get; set; }
+        public string AdvertisementDetails { get; set; }
 
-        public string salaryDetails { get; set; }
+        public string ContactDetails { get; set; }
 
-        public string contactDetails { get; set; }
+        public string VideoUrl { get; set; }
 
-        public string videoUrl { get; set; }
+        public VideoPosition? VideoPosition { get; set; }
 
-        public string videoPosition { get; set; }
+        public string ApplicationEmail { get; set; }
 
-        public string applicationEmail { get; set; }
+        public string ApplicationFormUrl { get; set; }
 
-        public string applicationFormUrl { get; set; }
+        public int? ScreenId { get; set; }
 
-        public int? screenId { get; set; }
+        public string JobReference { get; set; }
 
-        public string jobReference { get; set; }
+        public int? TemplateId { get; set; }
 
-        public int? templateId { get; set; }
+        public TemplateItemModel[] TemplateItems { get; set; }
 
-        public TemplateItemModel[] templateItems { get; set; }
+        public int? StandoutLogoId { get; set; }
 
-        public int? standoutLogoId { get; set; }
+        public string StandoutBullet1 { get; set; }
 
-        public string standoutBullet1 { get; set; }
+        public string StandoutBullet2 { get; set; }
 
-        public string standoutBullet2 { get; set; }
+        public string StandoutBullet3 { get; set; }
 
-        public string standoutBullet3 { get; set; }
-
-        public AdditionalPropertyType[] additionalProperties { get; set; }
+        public AdditionalPropertyType[] AdditionalProperties { get; set; }
     }
 }

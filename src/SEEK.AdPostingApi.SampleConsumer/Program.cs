@@ -1,14 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using SEEK.AdPostingApi.Client;
+﻿using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Configuration;
+using System;
+using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.SampleConsumer
 {
-    class Program
+    public class Program
     {
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Task.Run(() => MainAsync()).Wait();
         }
@@ -17,26 +17,27 @@ namespace SEEK.AdPostingApi.SampleConsumer
         {
             IConfiguration configuration = new JsonConfiguration();
 
-            var postingClient = new AdPostingApiClient(configuration.ClientId, configuration.ClientSecret, configuration.Environment);
+            IAdPostingApiClient postingClient = new AdPostingApiClient(configuration.ClientId, configuration.ClientSecret, configuration.Environment);
 
             var ad = new Advertisement
             {
-                advertiserId = "Advertiser Id",
-                jobTitle = "A Job Title",
-                jobSummary = "Job summary of the job ad",
-                advertisementDetails = "Experience Required",
-                advertisementType = AdvertisementType.Classic.ToString(),
-                workType = WorkType.Casual.ToString(),
-                salaryType = SalaryType.HourlyRate.ToString(),
-                locationId = 1002,
-                subclassificationId = 6227,
-                salaryMinimum = 20,
-                salaryMaximum = 24
+                AdvertiserId = "Advertiser Id",
+                JobTitle = "A Job Title",
+                JobSummary = "Job summary of the job ad",
+                AdvertisementDetails = "Experience Required",
+                AdvertisementType = AdvertisementType.Classic,
+                WorkType = WorkType.Casual,
+                SalaryType = SalaryType.HourlyRate,
+                LocationId = "1002",
+                SubclassificationId = "6227",
+                SalaryMinimum = 20,
+                SalaryMaximum = 24
             };
-            var jobAdLink = await postingClient.CreateAdvertisementAsync(ad);
+
+            Uri jobAdLink = await postingClient.CreateAdvertisementAsync(ad);
+
             Console.WriteLine(jobAdLink.ToString());
             Console.ReadLine();
         }
-
     }
 }

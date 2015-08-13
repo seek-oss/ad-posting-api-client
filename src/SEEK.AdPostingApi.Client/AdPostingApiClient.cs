@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using SEEK.AdPostingApi.Client.Models;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,7 +13,8 @@ namespace SEEK.AdPostingApi.Client
 {
     public class AdPostingApiClient : IAdPostingApiClient
     {
-        private const string AdvertisementLinkKey = "advertisements";
+        private const string AdvertisementsLinkKey = "advertisements";
+
         private const string AdPostingUriProd = "https://adposting.cloud.seek.com.au";
         private const string AdPostingUriIntegration = "https://adposting-integration.cloud.seek.com.au";
 
@@ -22,24 +25,14 @@ namespace SEEK.AdPostingApi.Client
         private readonly HttpClient _httpClient;
         private readonly ISeekOAuth2TokenClient _tokenClient;
 
-        private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            NullValueHandling = NullValueHandling.Ignore
-        };
-
         public AdPostingApiClient(string id, string secret)
             : this(id, secret, new SeekOAuth2TokenClient())
         {
         }
 
-        internal AdPostingApiClient(string id, string secret, ISeekOAuth2TokenClient tokenClient)
+        public AdPostingApiClient(string id, string secret, Uri adPostingUri) : this(id, secret)
         {
-            _id = id;
-            _secret = secret;
-            _adpostingUri = new Uri(AdPostingUriProd);
-            _httpClient = new HttpClient();
-            _tokenClient = tokenClient;
+            _adpostingUri = adPostingUri;
         }
 
         public AdPostingApiClient(string id, string secret, EnvironmentType env) : this(id, secret)
@@ -56,15 +49,13 @@ namespace SEEK.AdPostingApi.Client
             }
         }
 
-        internal AdPostingApiClient(string id, string secret, string adPostingUri, ISeekOAuth2TokenClient tokenClient)
-            : this(id, secret, tokenClient)
+        internal AdPostingApiClient(string id, string secret, ISeekOAuth2TokenClient tokenClient, Uri adPostingUri = null)
         {
-            _adpostingUri = new Uri(adPostingUri);
-        }
-
-        public AdPostingApiClient(string id, string secret, string adPostingUri) : this(id, secret)
-        {
-            _adpostingUri = new Uri(adPostingUri);
+            _id = id;
+            _secret = secret;
+            _adpostingUri = adPostingUri ?? new Uri(AdPostingUriProd);
+            _httpClient = new HttpClient();
+            _tokenClient = tokenClient;
         }
 
         public async Task<Uri> CreateAdvertisementAsync(Advertisement advertisement)
@@ -78,12 +69,12 @@ namespace SEEK.AdPostingApi.Client
 
             AvailableActions availableActions = await GetAvailableApiActions();
 
-            if (!availableActions.IsSupported(AdvertisementLinkKey))
+            if (!availableActions.IsSupported(AdvertisementsLinkKey))
             {
-                throw new NotSupportedException(string.Format("'{0}' is not a supported API action.", AdvertisementLinkKey));
+                throw new NotSupportedException(string.Format("'{0}' is not a supported API action.", AdvertisementsLinkKey));
             }
 
-            string postAdUri = availableActions.Links[AdvertisementLinkKey].Href;
+            string postAdUri = availableActions.Links[AdvertisementsLinkKey].Href;
 
             Uri adUri = await CreateJobAd(postAdUri, _token.AccessToken, advertisement);
 
@@ -96,21 +87,32 @@ namespace SEEK.AdPostingApi.Client
             _httpClient.Dispose();
         }
 
-        private Uri GenerateFullRequestUri(string path)
+        private JsonSerializerSettings JsonSettings
         {
-            return new Uri(_adpostingUri, path);
+            get
+            {
+                var settings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+
+                settings.Converters.Add(new StringEnumConverter());
+
+                return settings;
+            }
         }
 
         private async Task<AvailableActions> GetAvailableApiActions()
         {
-            using (var availableActionsRequest = new HttpRequestMessage(HttpMethod.Get, GenerateFullRequestUri("")))
+            using (var request = new HttpRequestMessage(HttpMethod.Get, this._adpostingUri))
             {
-                availableActionsRequest.Headers.Add("Accept", "application/json");
-                availableActionsRequest.Headers.Connection.Add("Keep-Alive");
+                request.Headers.Add(HttpRequestHeader.Accept.ToString(), "application/json");
+                request.Headers.Connection.Add("Keep-Alive");
 
-                using (HttpResponseMessage availableActionsResponse = (await _httpClient.SendAsync(availableActionsRequest)).EnsureSuccessStatusCode())
+                using (HttpResponseMessage availableActionsResponse = (await _httpClient.SendAsync(request)).EnsureSuccessStatusCode())
                 {
-                    var availableActions = JsonConvert.DeserializeObject<AvailableActions>(await availableActionsResponse.Content.ReadAsStringAsync(), _jsonSettings);
+                    var availableActions = JsonConvert.DeserializeObject<AvailableActions>(await availableActionsResponse.Content.ReadAsStringAsync(), this.JsonSettings);
 
                     return availableActions;
                 }
@@ -119,15 +121,15 @@ namespace SEEK.AdPostingApi.Client
 
         private async Task<Uri> CreateJobAd(string postjobUri, string accessToken, Advertisement advertisement)
         {
-            string jobJson = JsonConvert.SerializeObject(advertisement, _jsonSettings);
+            string jobJson = JsonConvert.SerializeObject(advertisement, this.JsonSettings);
 
-            using (var createJobRequest = new HttpRequestMessage(HttpMethod.Post, GenerateFullRequestUri(postjobUri)))
+            using (var request = new HttpRequestMessage(HttpMethod.Post, new Uri(_adpostingUri, postjobUri)))
             {
-                createJobRequest.Headers.Add("Authorization", string.Format("Bearer {0}", accessToken));
-                createJobRequest.Content = new StringContent(jobJson, Encoding.UTF8);
-                createJobRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                request.Headers.AddAccessToken(accessToken);
+                request.Content = new StringContent(jobJson, Encoding.UTF8);
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                using (HttpResponseMessage createJobResponse = (await _httpClient.SendAsync(createJobRequest)).EnsureSuccessStatusCode())
+                using (HttpResponseMessage createJobResponse = (await _httpClient.SendAsync(request)).EnsureSuccessStatusCode())
                 {
                     Uri createdJobLink = createJobResponse.Headers.Location;
 

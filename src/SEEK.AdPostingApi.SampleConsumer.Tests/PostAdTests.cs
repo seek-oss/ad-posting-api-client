@@ -102,7 +102,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
         }
 
-        private void SetupJobCreationWithMaximumData(string accessToken, Advertisement testAdvertisement)
+        private void SetupJobCreationWithMaximumData(string accessToken)
         {
             const string advertisementLink = "/advertisement";
 
@@ -277,7 +277,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             SetupJobCreationWithMinimumData(oAuth2Token.AccessToken, SetupJobAdWithMinimumRequiredData());
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _oauthClient);
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, _pactProvider.MockServiceUri);
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
 
             StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
@@ -287,17 +287,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             return new Advertisement
             {
-                advertiserId = "advertiserA",
-                jobTitle = "Bricklayer",
-                jobSummary = "some text",
-                advertisementDetails = "experience required",
-                advertisementType = AdvertisementType.Classic.ToString(),
-                workType = WorkType.Casual.ToString(),
-                salaryType = SalaryType.HourlyRate.ToString(),
-                locationId = 1002,
-                subclassificationId = 6227,
-                salaryMinimum = 20,
-                salaryMaximum = 24
+                AdvertiserId = "advertiserA",
+                JobTitle = "Bricklayer",
+                JobSummary = "some text",
+                AdvertisementDetails = "experience required",
+                AdvertisementType = AdvertisementType.Classic,
+                WorkType = WorkType.Casual,
+                SalaryType = SalaryType.HourlyRate,
+                LocationId = "1002",
+                SubclassificationId = "6227",
+                SalaryMinimum = 20,
+                SalaryMaximum = 24
             };
         }
 
@@ -306,9 +306,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            SetupJobCreationWithMaximumData(oAuth2Token.AccessToken, SetupJobAdWithMaximumData());
+            SetupJobCreationWithMaximumData(oAuth2Token.AccessToken);
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _oauthClient);
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, _pactProvider.MockServiceUri);
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
 
             StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
@@ -321,7 +321,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             SetupJobCreationWithBadData(oAuth2Token.AccessToken);
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _oauthClient);
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, _pactProvider.MockServiceUri);
 
             try
             {
@@ -337,36 +337,36 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             return new Advertisement
             {
-                agentId = "agentA",
-                advertiserId = "advertiserB",
-                jobTitle = "Baker",
-                jobSummary = "Fantastic opportunity for an awesome baker",
-                advertisementDetails = "Baking experience required",
-                advertisementType = AdvertisementType.StandOut.ToString(),
-                workType = WorkType.Casual.ToString(),
-                salaryType = SalaryType.HourlyRate.ToString(),
-                locationId = 1002,
-                subclassificationId = 6227,
-                salaryMinimum = 20,
-                salaryMaximum = 24,
-                salaryDetails = "Huge bonus",
-                contactDetails = "0412345678",
-                videoUrl = "http://www.youtube.com/v/abc",
-                videoPosition = VideoPosition.Above.ToString(),
-                applicationEmail = "me@contactme.com.au",
-                applicationFormUrl = "http://FakeATS.com.au",
-                screenId = 100,
-                jobReference = "REF1234",
-                templateId = 43496,
-                templateItems = new[]
+                AgentId = "agentA",
+                AdvertiserId = "advertiserB",
+                JobTitle = "Baker",
+                JobSummary = "Fantastic opportunity for an awesome baker",
+                AdvertisementDetails = "Baking experience required",
+                AdvertisementType = AdvertisementType.StandOut,
+                WorkType = WorkType.Casual,
+                SalaryType = SalaryType.HourlyRate,
+                LocationId = "1002",
+                SubclassificationId = "6227",
+                SalaryMinimum = 20,
+                SalaryMaximum = 24,
+                SalaryDetails = "Huge bonus",
+                ContactDetails = "0412345678",
+                VideoUrl = "http://www.youtube.com/v/abc",
+                VideoPosition = VideoPosition.Above,
+                ApplicationEmail = "me@contactme.com.au",
+                ApplicationFormUrl = "http://FakeATS.com.au",
+                ScreenId = 100,
+                JobReference = "REF1234",
+                TemplateId = 43496,
+                TemplateItems = new[]
                          {
                              new TemplateItemModel { Name = "template1", Value = "value1" },
                              new TemplateItemModel { Name = "template2", Value = "value2" }
                          },
-                standoutLogoId = 39,
-                standoutBullet1 = "standout bullet 1",
-                standoutBullet2 = "standout bullet 2",
-                standoutBullet3 = "standout bullet 3",
+                StandoutLogoId = 39,
+                StandoutBullet1 = "standout bullet 1",
+                StandoutBullet2 = "standout bullet 2",
+                StandoutBullet3 = "standout bullet 3",
             };
         }
     }

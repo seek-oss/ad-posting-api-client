@@ -17,14 +17,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .HasPactWith("AdPostingApi");
 
             this.MockService = _pactBuilder.MockService(MockProviderServicePort);
+            this.MockServiceUri = new Uri("http://localhost:" + MockProviderServicePort);
         }
 
         public IMockProviderService MockService { get; private set; }
 
-        public string MockServiceUri
-        {
-            get { return "http://localhost:" + MockProviderServicePort; }
-        }
+        public Uri MockServiceUri { get; private set; }
 
         public void Dispose()
         {
