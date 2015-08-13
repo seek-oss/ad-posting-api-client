@@ -3,6 +3,6 @@
     public enum EnvironmentType
     {
         Integration,
-        Prod
+        Production
     }
 }

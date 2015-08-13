@@ -1,66 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using PactNet;
 using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
     [TestClass]
-    public class PostAdTests
+    public class PostAdTests : IDisposable
     {
-        private const int MockProviderServicePort = 8893;
-        private static IPactBuilder _pactBuilder;
-        private static IMockProviderService _mockProviderService;
-        private static ISEEKOauth2TokenClient _mockOauthClient;
-        private readonly string _mockProviderServiceUri = String.Format("http://localhost:{0}", MockProviderServicePort);
+        private readonly IMockProviderService _mockService;
+        private readonly PactProvider _pactProvider;
+        private readonly ISEEKOauth2TokenClient _mockOauthClient;
 
-        [ClassInitialize]
-        public static void TestClassSetup(TestContext testContext)
+        public PostAdTests()
         {
-            _pactBuilder = new PactBuilder()
-                .ServiceConsumer("AdPostingApi SampleConsumer")
-                .HasPactWith("AdPostingApi");
+            this._pactProvider = new PactProvider();
+            this._mockService = _pactProvider.MockService;
 
-            _mockProviderService = _pactBuilder.MockService(MockProviderServicePort);
-            _mockOauthClient = Substitute.For<ISEEKOauth2TokenClient>();
-        }
-
-        [ClassCleanup]
-        public static void TestClassTeardown()
-        {
-            _pactBuilder.Build();
-        }
-
-        [TestInitialize]
-        public void TestSetup()
-        {
-            _mockProviderService.ClearInteractions();
-
-            _mockOauthClient
+            this._mockOauthClient = Substitute.For<ISEEKOauth2TokenClient>();
+            this._mockOauthClient
                 .GetOauth2Token(Arg.Any<string>(), Arg.Any<string>())
                 .Returns(Task.FromResult(SetupAToken()));
         }
 
-        [TestCleanup]
-        public void TestTeardown()
+        public void Dispose()
         {
-            _mockProviderService.VerifyInteractions();
+            this._pactProvider.Dispose();
+            this._mockOauthClient.Dispose();
         }
 
-        private static void SetupJobCreationWithMinimumData(string accessToken, Advertisement testAdvertisement)
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            _mockService.VerifyInteractions();
+        }
+
+        private void SetupJobCreationWithMinimumData(string accessToken, Advertisement testAdvertisement)
         {
             const string advertisementLink = "/advertisement";
 
-            _mockProviderService
+            _mockService
                 .UponReceiving("a request to retrieve API links")
-                .With( new ProviderServiceRequest
+                .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
                     Path = "/",
@@ -68,7 +54,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     {
                         {"Accept", "application/json"}
                     }
-                    
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
@@ -92,10 +77,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             }
                         }
                     }
-                }
-                );
+                });
 
-            _mockProviderService
+            _mockService
                 .UponReceiving("a request to create a job ad with minimum required data")
                 .With(
                     new ProviderServiceRequest
@@ -118,15 +102,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             {"Location", "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"}
                         }
-                    }
-                );
+                    });
         }
 
-        private static void SetupJobCreationWithMaximumData(string accessToken, Advertisement testAdvertisement)
+        private void SetupJobCreationWithMaximumData(string accessToken, Advertisement testAdvertisement)
         {
             const string advertisementLink = "/advertisement";
 
-            _mockProviderService
+            _mockService
                 .UponReceiving("a request to retrieve API links")
                 .With(new ProviderServiceRequest
                 {
@@ -136,7 +119,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     {
                         {"Accept", "application/json"}
                     }
-
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
@@ -160,10 +142,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             }
                         }
                     }
-                }
-                );
+                });
 
-            _mockProviderService
+            _mockService
                 .UponReceiving("a request to create a job ad with maximum required data")
                 .With(
                     new ProviderServiceRequest
@@ -207,8 +188,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             standoutBullet1 = "standout bullet 1",
                             standoutBullet2 = "standout bullet 2",
                             standoutBullet3 = "standout bullet 3"
-            }
-        }
+                        }
+                    }
                 )
                 .WillRespondWith(
                     new ProviderServiceResponse
@@ -216,17 +197,16 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 204,
                         Headers = new Dictionary<string, string>
                         {
-                                        {"Location", "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"}
+                            { "Location", "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a" }
                         }
-                    }
-                );
+                    });
         }
 
-        private static void SetupJobCreationWithBadData(string accessToken)
+        private void SetupJobCreationWithBadData(string accessToken)
         {
             const string advertisementLink = "/advertisement";
 
-            _mockProviderService
+            _mockService
                 .UponReceiving("a request to retrieve API links")
                 .With(new ProviderServiceRequest
                 {
@@ -236,7 +216,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     {
                         {"Accept", "application/json"}
                     }
-
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
@@ -260,10 +239,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             }
                         }
                     }
-                }
-                );
+                });
 
-            _mockProviderService
+            _mockService
                 .UponReceiving("a request to create a job ad with bad data")
                 .With(
                     new ProviderServiceRequest
@@ -281,7 +259,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             subclassificationId = 0,
                             salaryMinimum = 0,
                             salaryMaximum = 0
-                        }                   
+                        }
                     }
                 )
                 .WillRespondWith(
@@ -292,11 +270,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         //{
                         //    {"salaryType", "Error parsing boolean value. Path 'salaryType', line 8, position 19."}
                         //}
-                    }
-                );
+                    });
         }
 
-        private static Oauth2Token SetupAToken()
+        private Oauth2Token SetupAToken()
         {
             return new Oauth2Token
             {
@@ -310,17 +287,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [TestMethod]
         public async Task PostAdWithMinimumRequiredData()
         {
-            var oauth2Token = SetupAToken();
+            Oauth2Token oauth2Token = SetupAToken();
 
             SetupJobCreationWithMinimumData(oauth2Token.AccessToken, SetupJobAdWithMinimumRequiredData());
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _mockProviderServiceUri, _mockOauthClient);
-
-            var jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _mockOauthClient);
+            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
 
             StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
         }
-
 
         public Advertisement SetupJobAdWithMinimumRequiredData()
         {
@@ -343,13 +318,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [TestMethod]
         public async Task PostAdWithMaximumData()
         {
-            var oauth2Token = SetupAToken();
+            Oauth2Token oauth2Token = SetupAToken();
 
             SetupJobCreationWithMaximumData(oauth2Token.AccessToken, SetupJobAdWithMaximumData());
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _mockProviderServiceUri, _mockOauthClient);
-
-            var jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _mockOauthClient);
+            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
 
             StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
         }
@@ -357,25 +331,21 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [TestMethod]
         public async Task PostAdWithWrongData()
         {
-
-            var oauth2Token = SetupAToken();
+            Oauth2Token oauth2Token = SetupAToken();
 
             SetupJobCreationWithBadData(oauth2Token.AccessToken);
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _mockProviderServiceUri, _mockOauthClient);
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _pactProvider.MockServiceUri, _mockOauthClient);
 
             try
             {
                 await client.CreateAdvertisementAsync(new Advertisement());
             }
-            catch(Exception ex)
-            { 
-            
-                Assert.AreEqual("Response status code does not indicate success: 400 (Bad Request).",
-                    ex.Message);
+            catch (Exception ex)
+            {
+                Assert.AreEqual("Response status code does not indicate success: 400 (Bad Request).", ex.Message);
             }
         }
-
 
         public Advertisement SetupJobAdWithMaximumData()
         {

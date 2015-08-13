@@ -1,26 +1,26 @@
-﻿using System;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using SEEK.AdPostingApi.Client.Models;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using SEEK.AdPostingApi.Client.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace SEEK.AdPostingApi.Client
 {
     public class AdPostingApiClient : IAdPostingApiClient
     {
-        private readonly Uri _adpostingUri;
-        private string _id;
-        private string _secret;
-        private Oauth2Token _token = null;
-        private readonly HttpClient _httpClient;
         private const string AdvertisementLinkKey = "advertisements";
         private const string AdPostingUriProd = "https://adposting.cloud.seek.com.au";
         private const string AdPostingUriIntegration = "https://adposting-integration.cloud.seek.com.au";
-        private ISEEKOauth2TokenClient _tokenClient;
+
+        private readonly Uri _adpostingUri;
+        private readonly string _id;
+        private readonly string _secret;
+        private Oauth2Token _token;
+        private readonly HttpClient _httpClient;
+        private readonly ISEEKOauth2TokenClient _tokenClient;
 
         private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
         {
@@ -29,7 +29,7 @@ namespace SEEK.AdPostingApi.Client
         };
 
         public AdPostingApiClient(string id, string secret)
-            :this(id, secret, new SEEKOauth2TokenClient())
+            : this(id, secret, new SEEKOauth2TokenClient())
         {
         }
 
@@ -44,23 +44,25 @@ namespace SEEK.AdPostingApi.Client
 
         public AdPostingApiClient(string id, string secret, EnvironmentType env) : this(id, secret)
         {
-            if (env == EnvironmentType.Prod)
+            switch (env)
             {
-                _adpostingUri = new Uri(AdPostingUriProd);
-            }
-            else if (env == EnvironmentType.Integration)
-            {
-                _adpostingUri = new Uri(AdPostingUriIntegration);
+                case EnvironmentType.Production:
+                    _adpostingUri = new Uri(AdPostingUriProd);
+                    break;
+
+                case EnvironmentType.Integration:
+                    _adpostingUri = new Uri(AdPostingUriIntegration);
+                    break;
             }
         }
 
-        internal AdPostingApiClient(string id, string secret, String adPostingUri, ISEEKOauth2TokenClient tokenClient)
+        internal AdPostingApiClient(string id, string secret, string adPostingUri, ISEEKOauth2TokenClient tokenClient)
             : this(id, secret, tokenClient)
         {
             _adpostingUri = new Uri(adPostingUri);
         }
 
-        public AdPostingApiClient(string id, string secret, String adPostingUri) : this(id, secret)
+        public AdPostingApiClient(string id, string secret, string adPostingUri) : this(id, secret)
         {
             _adpostingUri = new Uri(adPostingUri);
         }
@@ -72,45 +74,36 @@ namespace SEEK.AdPostingApi.Client
 
         private async Task<AvailableActions> GetAvailableApiActions()
         {
-            var availableActionsRequest = new HttpRequestMessage(HttpMethod.Get, GenerateFullRequestUri(""));
-
-            availableActionsRequest.Headers.Add("Accept", "application/json");
-            availableActionsRequest.Headers.Connection.Add("Keep-Alive");
-
-            HttpResponseMessage availableActionsResponse = null;
-
-            try
+            using (var availableActionsRequest = new HttpRequestMessage(HttpMethod.Get, GenerateFullRequestUri("")))
             {
-                availableActionsResponse = (await _httpClient.SendAsync(availableActionsRequest)).EnsureSuccessStatusCode();
+                availableActionsRequest.Headers.Add("Accept", "application/json");
+                availableActionsRequest.Headers.Connection.Add("Keep-Alive");
 
-                var availableActions = JsonConvert.DeserializeObject<AvailableActions>(await availableActionsResponse.Content.ReadAsStringAsync(), _jsonSettings);
-                return availableActions;
-            }
-            finally
-            {
-                Dispose(availableActionsRequest, availableActionsResponse);
+                using (HttpResponseMessage availableActionsResponse = (await _httpClient.SendAsync(availableActionsRequest)).EnsureSuccessStatusCode())
+                {
+                    var availableActions = JsonConvert.DeserializeObject<AvailableActions>(await availableActionsResponse.Content.ReadAsStringAsync(), _jsonSettings);
+
+                    return availableActions;
+                }
             }
         }
 
         private async Task<Uri> CreateJobAd(string postjobUri, string accessToken, Advertisement advertisement)
         {
-            var createJobRequest = new HttpRequestMessage(HttpMethod.Post, GenerateFullRequestUri(postjobUri));
-            createJobRequest.Headers.Add("Authorization", String.Format("Bearer {0}", accessToken));
-            var jobJson = JsonConvert.SerializeObject(advertisement, _jsonSettings);
-            createJobRequest.Content = new StringContent(jobJson, Encoding.UTF8);
-            createJobRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            string jobJson = JsonConvert.SerializeObject(advertisement, _jsonSettings);
 
-            HttpResponseMessage createJobResponse = null;
+            using (var createJobRequest = new HttpRequestMessage(HttpMethod.Post, GenerateFullRequestUri(postjobUri)))
+            {
+                createJobRequest.Headers.Add("Authorization", string.Format("Bearer {0}", accessToken));
+                createJobRequest.Content = new StringContent(jobJson, Encoding.UTF8);
+                createJobRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            try
-            {
-                createJobResponse = (await _httpClient.SendAsync(createJobRequest)).EnsureSuccessStatusCode();
-                var createdJobLink = createJobResponse.Headers.Location;
-                return createdJobLink;
-            }
-            finally
-            {
-                Dispose(createJobRequest, createJobResponse);
+                using (HttpResponseMessage createJobResponse = (await _httpClient.SendAsync(createJobRequest)).EnsureSuccessStatusCode())
+                {
+                    Uri createdJobLink = createJobResponse.Headers.Location;
+
+                    return createdJobLink;
+                }
             }
         }
 
@@ -124,38 +117,25 @@ namespace SEEK.AdPostingApi.Client
             if (_token == null)
             {
                 _token = await _tokenClient.GetOauth2Token(_id, _secret);
-            }          
+            }
 
-            var availableActions = await GetAvailableApiActions();
+            AvailableActions availableActions = await GetAvailableApiActions();
 
             if (!availableActions.IsSupported(AdvertisementLinkKey))
             {
-                throw new NotSupportedException(String.Format("'{0}' is not a supported API action.", AdvertisementLinkKey));
+                throw new NotSupportedException(string.Format("'{0}' is not a supported API action.", AdvertisementLinkKey));
             }
 
-            var postAdUri = availableActions.Links[AdvertisementLinkKey].Href;
+            string postAdUri = availableActions.Links[AdvertisementLinkKey].Href;
 
-            var adUri = await CreateJobAd(postAdUri, _token.AccessToken, advertisement);
+            Uri adUri = await CreateJobAd(postAdUri, _token.AccessToken, advertisement);
 
             return adUri;
         }
 
         public void Dispose()
         {
-            Dispose(_httpClient);
-        }
-
-        private void Dispose(params IDisposable[] disposables)
-        {
-            if (disposables == null)
-            {
-                return;
-            }
-
-            foreach (var disposable in disposables.Where(d => d != null))
-            {
-                disposable.Dispose();
-            }
+            _httpClient.Dispose();
         }
     }
 }
