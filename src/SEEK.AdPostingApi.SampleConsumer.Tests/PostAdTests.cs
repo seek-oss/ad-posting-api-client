@@ -22,7 +22,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             this._pactProvider = new PactProvider();
             this._mockService = _pactProvider.MockService;
             this._oauthClient = Mock.Of<ISeekOAuth2TokenClient>(
-                c => c.GetOAuth2Token(It.IsAny<string>(), It.IsAny<string>()) == Task.FromResult(new OAuth2TokenBuilder().Build()));
+                c => c.GetOAuth2TokenAsync(It.IsAny<string>(), It.IsAny<string>()) == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
         public void Dispose()

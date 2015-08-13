@@ -25,7 +25,7 @@ namespace SEEK.AdPostingApi.Client
             NullValueHandling = NullValueHandling.Ignore
         };
 
-        public async Task<OAuth2Token> GetOAuth2Token(string id, string secret)
+        public async Task<OAuth2Token> GetOAuth2TokenAsync(string id, string secret)
         {
             using (var tokenRequest = new HttpRequestMessage(HttpMethod.Post, _tokenUri))
             {

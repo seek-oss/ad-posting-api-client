@@ -74,10 +74,7 @@ namespace SEEK.AdPostingApi.Client
                 throw new ArgumentNullException("advertisement");
             }
 
-            if (_token == null)
-            {
-                _token = await _tokenClient.GetOAuth2Token(_id, _secret);
-            }
+            _token = _token ?? await _tokenClient.GetOAuth2TokenAsync(_id, _secret);
 
             AvailableActions availableActions = await GetAvailableApiActions();
 
