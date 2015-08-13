@@ -1,4 +1,5 @@
 ﻿using SEEK.AdPostingApi.Client.Models;
+using SEEK.AdPostingApi.Client.Resources;
 using System;
 using System.Threading.Tasks;
 
@@ -8,6 +9,6 @@ namespace SEEK.AdPostingApi.Client
     {
         Task<Uri> CreateAdvertisementAsync(Advertisement advertisement);
 
-        Task<string> GetAdvertisementAsync(Uri advertisementLocation);
+        Task<AdvertisementResource> GetAdvertisementAsync(Uri advertisementLocation);
     }
 }

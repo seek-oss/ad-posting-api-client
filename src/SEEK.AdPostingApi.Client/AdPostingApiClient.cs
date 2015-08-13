@@ -2,7 +2,9 @@
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using SEEK.AdPostingApi.Client.Models;
+using SEEK.AdPostingApi.Client.Resources;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -22,10 +24,10 @@ namespace SEEK.AdPostingApi.Client
         private readonly string _secret;
         private OAuth2Token _token;
         private readonly HttpClient _httpClient;
-        private readonly ISeekOAuth2TokenClient _tokenClient;
+        private readonly IOAuth2TokenClient _tokenClient;
 
         public AdPostingApiClient(string id, string secret)
-            : this(id, secret, new SeekOAuth2TokenClient())
+            : this(id, secret, new OAuth2TokenClient())
         {
         }
 
@@ -48,7 +50,7 @@ namespace SEEK.AdPostingApi.Client
             }
         }
 
-        internal AdPostingApiClient(string id, string secret, ISeekOAuth2TokenClient tokenClient, Uri adPostingUri = null)
+        internal AdPostingApiClient(string id, string secret, IOAuth2TokenClient tokenClient, Uri adPostingUri = null)
         {
             _id = id;
             _secret = secret;
@@ -80,7 +82,7 @@ namespace SEEK.AdPostingApi.Client
             return adUri;
         }
 
-        public async Task<string> GetAdvertisementAsync(Uri advertisementLocation)
+        public async Task<AdvertisementResource> GetAdvertisementAsync(Uri advertisementLocation)
         {
             if (advertisementLocation == null)
             {
@@ -96,7 +98,11 @@ namespace SEEK.AdPostingApi.Client
 
                 using (HttpResponseMessage response = (await _httpClient.SendAsync(request)).EnsureSuccessStatusCode())
                 {
-                    return await response.Content.ReadAsStringAsync();
+                    var advertisementResource = JsonConvert.DeserializeObject<AdvertisementResource>(await response.Content.ReadAsStringAsync());
+
+                    advertisementResource.Status = response.Headers.GetValues("status").Single();
+
+                    return await Task.FromResult(advertisementResource);
                 }
             }
         }

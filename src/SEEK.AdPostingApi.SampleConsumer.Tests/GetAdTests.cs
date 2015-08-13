@@ -15,13 +15,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
     {
         private readonly IMockProviderService _mockService;
         private readonly PactProvider _pactProvider;
-        private readonly ISeekOAuth2TokenClient _oauthClient;
+        private readonly IOAuth2TokenClient _oauthClient;
 
         public GetAdTests()
         {
             this._pactProvider = new PactProvider();
             this._mockService = _pactProvider.MockService;
-            this._oauthClient = Mock.Of<ISeekOAuth2TokenClient>(
+            this._oauthClient = Mock.Of<IOAuth2TokenClient>(
                 c => c.GetOAuth2TokenAsync(It.IsAny<string>(), It.IsAny<string>()) == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
