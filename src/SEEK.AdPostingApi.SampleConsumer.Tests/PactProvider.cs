@@ -21,7 +21,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         public IMockProviderService MockService { get; }
 
-        public string MockServiceUri => $"http://localhost:{MockProviderServicePort}";
+        public string MockServiceUri
+        {
+            get { return "http://localhost:" + MockProviderServicePort; }
+        }
 
         public void Dispose()
         {
