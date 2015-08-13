@@ -80,6 +80,27 @@ namespace SEEK.AdPostingApi.Client
             return adUri;
         }
 
+        public async Task<string> GetAdvertisementAsync(Uri advertisementLocation)
+        {
+            if (advertisementLocation == null)
+            {
+                throw new ArgumentNullException("advertisementLocation");
+            }
+
+            _token = _token ?? await _tokenClient.GetOAuth2TokenAsync(_id, _secret);
+
+            using (var request = new HttpRequestMessage(HttpMethod.Get, advertisementLocation))
+            {
+                request.Headers.AddAccessToken(_token.AccessToken);
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.seek.advertisement+json"));
+
+                using (HttpResponseMessage response = (await _httpClient.SendAsync(request)).EnsureSuccessStatusCode())
+                {
+                    return await response.Content.ReadAsStringAsync();
+                }
+            }
+        }
+
         public void Dispose()
         {
             _tokenClient.Dispose();

@@ -37,6 +37,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
             Uri jobAdLink = await postingClient.CreateAdvertisementAsync(ad);
 
             Console.WriteLine(jobAdLink.ToString());
+
+            string content = await postingClient.GetAdvertisementAsync(jobAdLink);
+
+            Console.WriteLine(content);
+
             Console.ReadLine();
         }
     }

@@ -77,6 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetAdTests.cs" />
     <Compile Include="OAuth2TokenBuilder.cs" />
     <Compile Include="PactProvider.cs" />
     <Compile Include="PostAdTests.cs" />
