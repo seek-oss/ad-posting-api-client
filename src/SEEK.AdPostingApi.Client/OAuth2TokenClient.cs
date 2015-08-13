@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.Client
 {
-    internal class SeekOAuth2TokenClient : ISeekOAuth2TokenClient
+    internal class OAuth2TokenClient : IOAuth2TokenClient
     {
         private readonly Uri _tokenUri;
         private readonly HttpClient _httpClient;
 
-        public SeekOAuth2TokenClient()
+        public OAuth2TokenClient()
         {
             _tokenUri = new Uri("https://api.seek.com.au/auth/oauth2/token");
             _httpClient = new HttpClient();

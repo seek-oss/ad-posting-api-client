@@ -24,10 +24,10 @@ namespace SEEK.AdPostingApi.Client
         private readonly string _secret;
         private OAuth2Token _token;
         private readonly HttpClient _httpClient;
-        private readonly ISeekOAuth2TokenClient _tokenClient;
+        private readonly IOAuth2TokenClient _tokenClient;
 
         public AdPostingApiClient(string id, string secret)
-            : this(id, secret, new SeekOAuth2TokenClient())
+            : this(id, secret, new OAuth2TokenClient())
         {
         }
 
@@ -50,7 +50,7 @@ namespace SEEK.AdPostingApi.Client
             }
         }
 
-        internal AdPostingApiClient(string id, string secret, ISeekOAuth2TokenClient tokenClient, Uri adPostingUri = null)
+        internal AdPostingApiClient(string id, string secret, IOAuth2TokenClient tokenClient, Uri adPostingUri = null)
         {
             _id = id;
             _secret = secret;
