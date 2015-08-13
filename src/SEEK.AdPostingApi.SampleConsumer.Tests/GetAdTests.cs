@@ -55,7 +55,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
                         {"Accept", "application/vnd.seek.advertisement+json"}
                     }
-                }).WillRespondWith(new ProviderServiceResponse
+                })
+                .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 200,
                     Headers = new Dictionary<string, string>
@@ -109,6 +110,39 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, _pactProvider.MockServiceUri);
 
             await client.GetAdvertisementAsync(new Uri(this._pactProvider.MockServiceUri, "advertisement/" + advertisementId));
+        }
+
+        [TestMethod]
+        public async Task GetNonExistentAdvertisement()
+        {
+            const string advertisementId = "No Advertisement";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            this._mockService
+                .Given(string.Format("There isn't an advertisement with id: '{0}'", advertisementId))
+                .UponReceiving("GET request for advertisement")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = "/advertisement/" + advertisementId,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Accept", "application/vnd.seek.advertisement+json"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse { Status = 404 });
+
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, _pactProvider.MockServiceUri);
+
+            try
+            {
+                await client.GetAdvertisementAsync(new Uri(this._pactProvider.MockServiceUri, "advertisement/" + advertisementId));
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual("Response status code does not indicate success: 404 (Not Found).", ex.Message);
+            }
         }
     }
 }
