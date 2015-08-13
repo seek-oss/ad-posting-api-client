@@ -17,7 +17,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
         {
             IConfiguration configuration = new JsonConfiguration();
 
-            IAdPostingApiClient postingClient = new AdPostingApiClient(configuration.ClientId, configuration.ClientSecret, configuration.Environment);
+            IAdPostingApiClient postingClient = new AdPostingApiClient(configuration.ClientKey, configuration.ClientSecret, configuration.Environment);
 
             var ad = new Advertisement
             {

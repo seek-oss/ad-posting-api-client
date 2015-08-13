@@ -4,7 +4,7 @@ namespace SEEK.AdPostingApi.Configuration
 {
     public interface IConfiguration
     {
-        string ClientId { get; }
+        string ClientKey { get; }
 
         string ClientSecret { get; }
 

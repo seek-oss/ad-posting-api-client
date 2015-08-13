@@ -20,7 +20,7 @@ namespace SEEK.AdPostingApi.Configuration
             return "conf/" + environment + ".json";
         }
 
-        public string ClientId { get; set; }
+        public string ClientKey { get; set; }
 
         public string ClientSecret { get; set; }
 
