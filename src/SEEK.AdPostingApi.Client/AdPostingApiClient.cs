@@ -67,6 +67,38 @@ namespace SEEK.AdPostingApi.Client
             _adpostingUri = new Uri(adPostingUri);
         }
 
+        public async Task<Uri> CreateAdvertisementAsync(Advertisement advertisement)
+        {
+            if (advertisement == null)
+            {
+                throw new ArgumentNullException("advertisement");
+            }
+
+            if (_token == null)
+            {
+                _token = await _tokenClient.GetOAuth2Token(_id, _secret);
+            }
+
+            AvailableActions availableActions = await GetAvailableApiActions();
+
+            if (!availableActions.IsSupported(AdvertisementLinkKey))
+            {
+                throw new NotSupportedException(string.Format("'{0}' is not a supported API action.", AdvertisementLinkKey));
+            }
+
+            string postAdUri = availableActions.Links[AdvertisementLinkKey].Href;
+
+            Uri adUri = await CreateJobAd(postAdUri, _token.AccessToken, advertisement);
+
+            return adUri;
+        }
+
+        public void Dispose()
+        {
+            _tokenClient.Dispose();
+            _httpClient.Dispose();
+        }
+
         private Uri GenerateFullRequestUri(string path)
         {
             return new Uri(_adpostingUri, path);
@@ -105,37 +137,6 @@ namespace SEEK.AdPostingApi.Client
                     return createdJobLink;
                 }
             }
-        }
-
-        public async Task<Uri> CreateAdvertisementAsync(Advertisement advertisement)
-        {
-            if (advertisement == null)
-            {
-                throw new ArgumentNullException("advertisement");
-            }
-
-            if (_token == null)
-            {
-                _token = await _tokenClient.GetOAuth2Token(_id, _secret);
-            }
-
-            AvailableActions availableActions = await GetAvailableApiActions();
-
-            if (!availableActions.IsSupported(AdvertisementLinkKey))
-            {
-                throw new NotSupportedException(string.Format("'{0}' is not a supported API action.", AdvertisementLinkKey));
-            }
-
-            string postAdUri = availableActions.Links[AdvertisementLinkKey].Href;
-
-            Uri adUri = await CreateJobAd(postAdUri, _token.AccessToken, advertisement);
-
-            return adUri;
-        }
-
-        public void Dispose()
-        {
-            _httpClient.Dispose();
         }
     }
 }
