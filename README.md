@@ -8,7 +8,7 @@ This is a .Net version of SEEK's Job Ad Posting API Client. It composes of the f
 ## Build your consumer
 
 ### Install the client
-Via Nuget with [Install-Package SEEK.AdPostingApi](http://www.nuget.org/packages/TODO)
+Via Nuget with [Install-Package SEEK.AdPostingApi -IncludePrerelease](http://www.nuget.org/packages/TODO)
 
 ### Configure values
 The client needs the following configuration values:
@@ -45,9 +45,9 @@ A job ad posting request may look something like this.
 
 ## What does the client do
 Take the posting request as an example, when the "CreateAdvertisementAsync" method is called, the following actions will be taken:
-1. It takes the OAuth 2.0 credentials (client key and client secret) to obtain an OAuth2 access token
-2. It takes the OAuth2 access token to get all the available links and identify which one to use to create a job ad
-3. It then takes the OAuth2 access token, the link (from step 2) and the job ad object to make a request to the create the job ad 
+ 1. It takes the OAuth 2.0 credentials (client key and client secret) to obtain an OAuth2 access token
+ 2. It takes the OAuth2 access token to get all the available links and identify which one to use to create a job ad
+ 3. It then takes the OAuth2 access token, the link (from step 2) and the job ad object to make a request to the create the job ad 
 
 ## API document
 * [SEEK OAuth 2](http://docs.oauth2seek.apiary.io/#)
