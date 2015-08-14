@@ -57,7 +57,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", "application/json; charset=utf-8"}
+                        {"Content-Type", "application/hal+json; charset=utf-8"}
                     },
                     Body = new
                     {
