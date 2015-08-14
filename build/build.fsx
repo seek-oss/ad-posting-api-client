@@ -1,24 +1,24 @@
 #r "packages/FAKE/tools/FakeLib.dll"; open Fake 
 #load "build-tools/version.fsx"; open Version
+#load "build-tools/pact.fsx"; open Pact
 open System.IO
 open Fake.VSTest
 
 let outputDir = "../out"
+let srcDir = "../src"
 let version = generateVersionNumber "../src/SEEK.AdPostingApi.Client/version.txt"
-let solutionDir = "../src/SEEK.AdPostingApi.SampleConsumer.sln"
-let testDir = "../src/SEEK.AdPostingApi.SampleConsumer.Tests"
-let clientDir = "../src/SEEK.AdPostingApi.Client"
+let solutionDir = srcDir + "/SEEK.AdPostingApi.SampleConsumer.sln"
+let testDir = srcDir + "/SEEK.AdPostingApi.SampleConsumer.Tests"
+let clientDir = srcDir + "/SEEK.AdPostingApi.Client"
 let nugetVersion = generateNugetVersion
-let buildMetaDataFile = "../out/build.metadata.json"
 
 let authors = ["SEEK"]
 let projectName = "SEEK.AdPostingApi"
 let projectDescription = "SEEK.AdPostingApi"
-let packagingRoot = "../out/artifacts"
+let packagingRoot = outputDir + "/artifacts"
 let projectSummary = "SEEK.AdPostingApi"
-let myAccesskey = "fake-key"
 
-trace (sprintf "##teamcity[setParameter name='VERSION' value='%s']" version)
+trace (sprintf "##teamcity[setParameter name='VERSION' value='%s']" (version |> String.concat "."))
 
 Target "Clean" (fun _ ->
     CleanDirs [outputDir]
@@ -29,7 +29,7 @@ Target "RestorePackages" (fun _ ->
      |> RestoreMSSolutionPackages (fun p ->
          { p with
              Sources = "https://www.nuget.org/api/v2/" :: p.Sources
-             OutputPath = "../src/packages"
+             OutputPath = srcDir + "/packages"
              Retries = 4 })
  )
  
@@ -45,8 +45,9 @@ Target "Test" (fun _ ->
       |> VSTest (fun p -> { p with WorkingDir = testDir })
 )
 
-Target "WriteMetaData" (fun _ -> 
-    WriteStringToFile false buildMetaDataFile generateMetaData
+
+Target "UploadPact" (fun _ ->
+   (!! "**/pacts/*.json") |> PublishPact version
 )
 
 Target "NuGet" (fun _ ->
@@ -61,20 +62,19 @@ Target "NuGet" (fun _ ->
             Summary = projectSummary
             WorkingDir = clientDir
             Version = nugetVersion
-            AccessKey = myAccesskey
             Files = [
                 (@"bin\Release\SEEK.AdPostingApi.Client.dll", Some "lib/net45", None)
                 (@"bin\Release\SEEK.AdPostingApi.Client.pdb", Some "lib/net45", None)
             ]
             Publish = false }) 
-            "../src/SEEK.AdPostingApi.Client/SEEK.AdPostingApi.Client.nuspec"
+            (srcDir + "/SEEK.AdPostingApi.Client/SEEK.AdPostingApi.Client.nuspec")
 )
 
 "Clean"
    ==> "RestorePackages"
    ==> "Build"
    ==> "Test"
-   ==> "WriteMetaData"
+   ==> "UploadPact"
    ==> "NuGet"
 
 RunTargetOrDefault "NuGet"

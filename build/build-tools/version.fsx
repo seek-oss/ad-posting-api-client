@@ -56,9 +56,9 @@ let generateVersionNumber path =
     let buildNumber = environVarOrDefault "BUILD_NUMBER" "0"
     let version = deserialiseVersion(File.ReadAllText("./version.json"))
     let date = DateTime.Now.ToString("yyMMdd")
-    let version = [ buildVars.branch; version.major; version.minor; date; buildNumber; buildVars.gitHash] |> String.concat "."
+    let version = [| buildVars.branch; version.major; version.minor; date; buildNumber; buildVars.gitHash |]
 
-    File.WriteAllText(path, version)
+    File.WriteAllText(path, version |> String.concat ".")
 
     version
 
@@ -69,11 +69,3 @@ let generateNugetVersion =
     let nugetVersion = [ version.major; version.minor; date; buildNumber] |> String.concat "."
     
     nugetVersion
-
-let generateMetaData =
-    let buildNumber = environVarOrDefault "BUILD_NUMBER" "0"
-    let version = generateNugetVersion
-    let date = DateTime.Now.ToString("yyMMdd")
-    let buildMetaData = @"{buildNumber: """ + buildNumber + @""", timestamp: """ + date + @""", nugetVersion:  """ + version + @""" }"
-
-    buildMetaData
