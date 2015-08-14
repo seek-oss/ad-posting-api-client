@@ -74,7 +74,7 @@ Target "NuGet" (fun _ ->
    ==> "RestorePackages"
    ==> "Build"
    ==> "Test"
-   ==> "UploadPact"
    ==> "NuGet"
+   ==> "UploadPact"
 
 RunTargetOrDefault "NuGet"
