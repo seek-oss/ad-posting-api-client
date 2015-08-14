@@ -47,7 +47,7 @@ let PublishPact (version:string[]) pactfiles =
         Seq.iter(fun file -> 
             let pactContent = File.ReadAllText(file)
             let pact = deserialisePact(pactContent)
-            let url = sprintf "%s/pacts/provider/%s/consumer/%s/version/%s" pactBroker pact.provider.name pact.consumer.name (pactVersionFromVersion version)
+            let url = sprintf "%s/pacts/provider/%s/consumer/%s/version/%s" pactBroker Uri.EscapeDataString(pact.provider.name) Uri.EscapeDataString(pact.consumer.name) (pactVersionFromVersion version)
 
             let request = WebRequest.Create url
             request.ContentType <- "application/json"
