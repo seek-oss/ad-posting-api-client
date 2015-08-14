@@ -47,7 +47,7 @@ Target "Test" (fun _ ->
 
 
 Target "UploadPact" (fun _ ->
-   (!! "**/pacts/*.json") |> PublishPact version
+   (!! "../**/pacts/*.json") |> PublishPact version
 )
 
 Target "NuGet" (fun _ ->
