@@ -40,7 +40,7 @@ let private deserialisePact (s:string) =
     json.ReadObject(stream) :?> Pact
 
 let private pactVersionFromVersion (version:string[]) = 
-    version.[1..3] |> String.concat "."
+    version.[1..4] |> String.concat "."
 
 let PublishPact (version:string[]) pactfiles =
     pactfiles |>
