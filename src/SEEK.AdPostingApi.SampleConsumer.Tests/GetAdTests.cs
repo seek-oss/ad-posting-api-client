@@ -66,29 +66,22 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     },
                     Body = new
                     {
-                        _links = new
-                        {
-                            self = new
-                            {
-                                href = "/advertisement/" + advertisementId
-                            }
-                        },
                         agentId = (object)null,
                         advertiserId = "9012",
-                        advertisementType = AdvertisementType.StandOut,
+                        advertisementType = AdvertisementType.StandOut.ToString(),
                         jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$",
                         locationId = "378",
                         subclassificationId = "734",
-                        workType = WorkType.FullTime,
-                        salaryType = SalaryType.AnnualPackage,
+                        workType = WorkType.FullTime.ToString(),
+                        salaryType = SalaryType.AnnualPackage.ToString(),
                         salaryMinimum = 100000,
                         salaryMaximum = 200000,
                         salaryDetails = "We will pay you",
-                        jobSummary = "It's a job",
+                        jobSummary = "Developer job",
                         advertisementDetails = "Exciting, do I need to say more?",
-                        contactDetails = "Call me baby",
-                        videoUrl = "https://www.youtube.com/watch?v=4r7wHMg5Yjg",
-                        videoPosition = VideoPosition.Above,
+                        contactDetails = "Call me",
+                        videoUrl = "https://www.youtube.com/watch?v=dVDk7PXNXB8",
+                        videoPosition = VideoPosition.Above.ToString(),
                         applicationEmail = "asdf@asdf.com",
                         applicationFormUrl = "http://applicationform/",
                         screenId = 20,
@@ -103,7 +96,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         standoutBullet1 = "Uzi",
                         standoutBullet2 = "Remington Model",
                         standoutBullet3 = "AK-47",
-                        additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly }
+                        additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
+                        _links = new
+                        {
+                            self = new
+                            {
+                                href = "/advertisement/" + advertisementId
+                            }
+                        }
                     }
                 });
 
