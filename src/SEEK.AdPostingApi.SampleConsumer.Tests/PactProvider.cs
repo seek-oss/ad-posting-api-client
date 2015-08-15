@@ -1,32 +1,45 @@
-﻿using PactNet;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PactNet;
 using PactNet.Mocks.MockHttpService;
 using System;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
-    public class PactProvider : IDisposable
+    [TestClass]
+    public static class PactProvider
     {
         private const int MockProviderServicePort = 8893;
 
-        private readonly IPactBuilder _pactBuilder;
+        private static readonly IPactBuilder PactBuilder;
 
-        public PactProvider()
+        static PactProvider()
         {
-            this._pactBuilder = new PactBuilder()
+            PactBuilder = new PactBuilder()
                 .ServiceConsumer("AdPostingApi SampleConsumer")
                 .HasPactWith("AdPostingApi");
 
-            this.MockService = _pactBuilder.MockService(MockProviderServicePort);
-            this.MockServiceUri = new Uri("http://localhost:" + MockProviderServicePort);
+            MockService = PactBuilder.MockService(MockProviderServicePort);
+            MockServiceUri = new Uri("http://localhost:" + MockProviderServicePort);
         }
 
-        public IMockProviderService MockService { get; private set; }
+        public static IMockProviderService MockService { get; private set; }
 
-        public Uri MockServiceUri { get; private set; }
+        public static Uri MockServiceUri { get; private set; }
 
-        public void Dispose()
+        public static void ClearInteractions()
         {
-            this._pactBuilder.Build();
+            MockService.ClearInteractions();
+        }
+
+        public static void VerifyInteractions()
+        {
+            MockService.VerifyInteractions();
+        }
+
+        [AssemblyCleanup]
+        public static void AssemblyCleanup()
+        {
+            PactBuilder.Build();
         }
     }
 }

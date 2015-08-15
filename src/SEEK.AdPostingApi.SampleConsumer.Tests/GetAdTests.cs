@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
@@ -13,28 +12,29 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
     [TestClass]
     public class GetAdTests : IDisposable
     {
-        private readonly IMockProviderService _mockService;
-        private readonly PactProvider _pactProvider;
         private readonly IOAuth2TokenClient _oauthClient;
 
         public GetAdTests()
         {
-            this._pactProvider = new PactProvider();
-            this._mockService = _pactProvider.MockService;
             this._oauthClient = Mock.Of<IOAuth2TokenClient>(
                 c => c.GetOAuth2TokenAsync(It.IsAny<string>(), It.IsAny<string>()) == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
         public void Dispose()
         {
-            this._pactProvider.Dispose();
             this._oauthClient.Dispose();
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            PactProvider.ClearInteractions();
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            _mockService.VerifyInteractions();
+            PactProvider.VerifyInteractions();
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string advertisementId = "8E2FDE50-BC5F-4A12-9CFB-812E50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this._mockService
+            PactProvider.MockService
                 .Given(string.Format("There is an advertisement with id: '{0}'", advertisementId))
                 .UponReceiving("GET request for advertisement")
                 .With(new ProviderServiceRequest
@@ -61,7 +61,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", "application/vnd.seek.advertisement+json"},
+                        {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
                         {"Status", "Pending"}
                     },
                     Body = new
@@ -107,18 +107,18 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     }
                 });
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, _pactProvider.MockServiceUri);
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, PactProvider.MockServiceUri);
 
-            await client.GetAdvertisementAsync(new Uri(this._pactProvider.MockServiceUri, "advertisement/" + advertisementId));
+            await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId));
         }
 
         [TestMethod]
         public async Task GetNonExistentAdvertisement()
         {
-            const string advertisementId = "No Advertisement";
+            const string advertisementId = "9B650105-7434-473F-8293-4E23B7E0E064";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this._mockService
+            PactProvider.MockService
                 .Given(string.Format("There isn't an advertisement with id: '{0}'", advertisementId))
                 .UponReceiving("GET request for advertisement")
                 .With(new ProviderServiceRequest
@@ -133,11 +133,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 })
                 .WillRespondWith(new ProviderServiceResponse { Status = 404 });
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, _pactProvider.MockServiceUri);
+            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, PactProvider.MockServiceUri);
 
             try
             {
-                await client.GetAdvertisementAsync(new Uri(this._pactProvider.MockServiceUri, "advertisement/" + advertisementId));
+                await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId));
             }
             catch (Exception ex)
             {
