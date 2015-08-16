@@ -89,8 +89,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         templateId = 99,
                         templateItems = new[]
                         {
-                            new TemplateItemModel {Name = "Template Line 1", Value = "Template Value 1"},
-                            new TemplateItemModel {Name = "Template Line 2", Value = "Template Value 2"}
+                            new { name = "Template Line 1", value = "Template Value 1" },
+                            new { name = "Template Line 2", value = "Template Value 2" }
                         },
                         standoutLogoId = 333,
                         standoutBullet1 = "Uzi",
