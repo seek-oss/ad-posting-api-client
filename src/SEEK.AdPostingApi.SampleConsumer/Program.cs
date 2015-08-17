@@ -2,9 +2,9 @@
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
-using SEEK.AdPostingApi.Configuration;
 using System;
 using System.Threading.Tasks;
+using Environment = SEEK.AdPostingApi.Client.Environment;
 
 namespace SEEK.AdPostingApi.SampleConsumer
 {
@@ -17,9 +17,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
         private static async Task MainAsync()
         {
-            IConfiguration configuration = new JsonConfiguration();
-
-            IAdPostingApiClient postingClient = new AdPostingApiClient(configuration.ClientKey, configuration.ClientSecret, configuration.Environment);
+            IAdPostingApiClient postingClient = new AdPostingApiClient("<client id>", "<client secret>", Environment.Integration);
 
             var ad = new Advertisement
             {

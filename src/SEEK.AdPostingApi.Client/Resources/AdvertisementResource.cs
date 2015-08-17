@@ -1,8 +1,10 @@
-﻿using SEEK.AdPostingApi.Client.Models;
+﻿using SEEK.AdPostingApi.Client.Hal;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Resources
 {
-    public class AdvertisementResource : HypermediaEnabledResponse
+    [MediaType("application/vnd.seek.advertisement+json")]
+    public class AdvertisementResource : HalResource
     {
         public string AdvertiserId { get; set; }
         public string AgentId { get; set; }

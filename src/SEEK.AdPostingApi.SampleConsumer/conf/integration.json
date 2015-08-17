@@ -1,6 +1,0 @@
-{
-  "AdPostingApiBaseUrl": "https://adposting-integration.cloud.seek.com.au",
-  "ClientKey": "a23ed814-072c-4e4b-876d-a485bee9cfc0",
-  "ClientSecret": "fa3e3cbc-44f3-47c7-a856-e36ead90d62a",
-  "Environment": "Integration"
-}

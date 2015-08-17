@@ -10,11 +10,15 @@ namespace SEEK.AdPostingApi.Client
 {
     internal class OAuth2TokenClient : IOAuth2TokenClient
     {
+        private readonly string _id;
+        private readonly string _secret;
         private readonly Uri _tokenUri;
         private readonly HttpClient _httpClient;
 
-        public OAuth2TokenClient()
+        public OAuth2TokenClient(string id, string secret)
         {
+            _id = id;
+            _secret = secret;
             _tokenUri = new Uri("https://api.seek.com.au/auth/oauth2/token");
             _httpClient = new HttpClient();
         }
@@ -25,11 +29,11 @@ namespace SEEK.AdPostingApi.Client
             NullValueHandling = NullValueHandling.Ignore
         };
 
-        public async Task<OAuth2Token> GetOAuth2TokenAsync(string id, string secret)
+        public async Task<OAuth2Token> GetOAuth2TokenAsync()
         {
             using (var tokenRequest = new HttpRequestMessage(HttpMethod.Post, _tokenUri))
             {
-                var content = string.Format("client_id={0}&client_secret={1}&grant_type=client_credentials", id, secret);
+                var content = $"client_id={_id}&client_secret={_secret}&grant_type=client_credentials";
 
                 tokenRequest.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
 

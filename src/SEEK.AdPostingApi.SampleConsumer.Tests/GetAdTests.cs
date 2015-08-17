@@ -17,7 +17,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         public GetAdTests()
         {
             this._oauthClient = Mock.Of<IOAuth2TokenClient>(
-                c => c.GetOAuth2TokenAsync(It.IsAny<string>(), It.IsAny<string>()) == Task.FromResult(new OAuth2TokenBuilder().Build()));
+                c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
         public void Dispose()
@@ -107,7 +107,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     }
                 });
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, PactProvider.MockServiceUri);
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId));
         }
@@ -133,7 +133,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 })
                 .WillRespondWith(new ProviderServiceResponse { Status = 404 });
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, PactProvider.MockServiceUri);
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             try
             {

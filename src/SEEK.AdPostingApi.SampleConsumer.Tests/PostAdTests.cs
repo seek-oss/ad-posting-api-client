@@ -17,7 +17,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         public PostAdTests()
         {
             this._oauthClient = Mock.Of<IOAuth2TokenClient>(
-                c => c.GetOAuth2TokenAsync(It.IsAny<string>(), It.IsAny<string>()) == Task.FromResult(new OAuth2TokenBuilder().Build()));
+                c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
         public void Dispose()
@@ -49,7 +49,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Accept", "application/json"}
+                        {"Accept", "application/hal+json"},
+                        {"Authorization", "Bearer " + accessToken},
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -86,7 +87,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + accessToken},
-                            {"Content-Type", "application/json"}
+                            {"Content-Type", "application/json; charset=utf-8"}
                         },
                         Body = new
                         {
@@ -127,7 +128,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Accept", "application/json"}
+                        {"Accept", "application/hal+json"},
+                        {"Authorization", "Bearer " + accessToken},
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -164,7 +166,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Headers = new Dictionary<string, string>
                         {
                                         {"Authorization", "Bearer " + accessToken},
-                                        {"Content-Type", "application/json"}
+                                        {"Content-Type", "application/json; charset=utf-8"}
                         },
                         Body = new
                         {
@@ -224,7 +226,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Accept", "application/json"}
+                        {"Accept", "application/hal+json"},
+                        {"Authorization", "Bearer " + accessToken}
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -261,7 +264,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + accessToken},
-                            {"Content-Type", "application/json"}
+                            {"Content-Type", "application/json; charset=utf-8"}
                         },
                         Body = new
                         {
@@ -291,7 +294,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             SetupJobCreationWithMinimumData(oAuth2Token.AccessToken);
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, PactProvider.MockServiceUri);
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
 
             StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
@@ -322,7 +325,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             SetupJobCreationWithMaximumData(oAuth2Token.AccessToken);
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, PactProvider.MockServiceUri);
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
 
             StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
@@ -335,7 +339,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             SetupJobCreationWithBadData(oAuth2Token.AccessToken);
 
-            var client = new AdPostingApiClient("testClientId", "testClientSecret", _oauthClient, PactProvider.MockServiceUri);
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             try
             {

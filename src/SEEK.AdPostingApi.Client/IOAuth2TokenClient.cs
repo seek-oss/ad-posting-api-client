@@ -6,6 +6,6 @@ namespace SEEK.AdPostingApi.Client
 {
     public interface IOAuth2TokenClient : IDisposable
     {
-        Task<OAuth2Token> GetOAuth2TokenAsync(string clientId, string clientSecret);
+        Task<OAuth2Token> GetOAuth2TokenAsync();
     }
 }
