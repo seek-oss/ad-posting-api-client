@@ -62,8 +62,7 @@ Target "NuGet" (fun _ ->
             WorkingDir = clientDir
             Version = nugetVersion
             Files = [
-                (@"bin\Release\SEEK.AdPostingApi.Client.dll", Some "lib/net45", None)
-                (@"bin\Release\SEEK.AdPostingApi.Client.pdb", Some "lib/net45", None)
+                (@"bin/Release/SEEK.AdPostingApi.Client.dll", Some "lib/net45", None)
             ]
             Publish = false }) 
             (srcDir + "/SEEK.AdPostingApi.Client/SEEK.AdPostingApi.Client.nuspec")
