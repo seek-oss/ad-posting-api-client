@@ -141,7 +141,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
             catch (Exception ex)
             {
-                Assert.AreEqual("Response status code does not indicate success: 404 (Not Found).", ex.Message);
+                StringAssert.Contains("404 (Not Found)", ex.Message);
             }
         }
     }

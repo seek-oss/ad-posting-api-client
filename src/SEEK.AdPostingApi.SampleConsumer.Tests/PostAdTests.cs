@@ -4,6 +4,7 @@ using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
@@ -347,7 +348,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
             catch (Exception ex)
             {
-                Assert.AreEqual("Response status code does not indicate success: 400 (Bad Request).", ex.Message);
+                StringAssert.Contains("Bad Request", ex.Message);
             }
         }
 
