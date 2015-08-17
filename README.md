@@ -10,14 +10,14 @@ This is a .Net version of SEEK's Job Ad Posting API Client. It composes of the f
 ### Install the client
 Via Nuget with [Install-Package SEEK.AdPostingApi.Client -Pre](https://www.nuget.org/packages/SEEK.AdPostingApi.Client/)
 
-### Configure values
-The client needs the following configuration values:
+### Input values
+To initialize a client, the following values are needed:
 * **Client Key** [Required]: the client key for getting an OAuth 2 access token
 * **Client Secret** [Required]: the client secret for getting an OAuth 2 access token
 * **Environment** [Optional]: the environment to which your consumer will integrate with, either "Integration" or "Production" can be supplied. Without supplying anything, "Production" will be used by default.
 * **AdPostingApiBaseUrl** [Optional]: the URL of the Job Ad Posting API. Without supplying anything, "Production" URL will be used by default.
 
-The configuration can be done by JSON file as the "SEEK.AdPostingApi.SampleConsumer" project shows. You can also use your own mechanism like setting them as environmental variable.
+You can choose your own mechanism to supply the above values, like JSON file or environmental variables.
 
 ### Construct a client to make API calls
 A job ad posting request may look something like this.
