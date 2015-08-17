@@ -13,10 +13,10 @@ let clientDir = srcDir + "/SEEK.AdPostingApi.Client"
 let nugetVersion = generateNugetVersion
 
 let authors = ["SEEK"]
-let projectName = "SEEK.AdPostingApi"
-let projectDescription = "SEEK.AdPostingApi"
+let projectName = "SEEK.AdPostingApi.Client"
+let projectDescription = "SEEK.AdPostingApi.Client"
 let packagingRoot = outputDir + "/artifacts"
-let projectSummary = "SEEK.AdPostingApi"
+let projectSummary = "SEEK.AdPostingApi.Client"
 
 trace (sprintf "##teamcity[setParameter name='VERSION' value='%s']" (version |> String.concat "."))
 
