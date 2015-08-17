@@ -1,11 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PactNet;
+﻿using PactNet;
 using PactNet.Mocks.MockHttpService;
 using System;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
-    [TestClass]
     public static class PactProvider
     {
         private const int MockProviderServicePort = 8893;
@@ -14,9 +12,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         static PactProvider()
         {
-            PactBuilder = new PactBuilder()
-                .ServiceConsumer("AdPostingApi SampleConsumer")
-                .HasPactWith("AdPostingApi");
+            PactBuilder = new PactBuilder(new PactConfig
+            {
+                PactDir = "../../pacts/",
+                LogDir = "../../logs/"
+
+            }).ServiceConsumer("AdPostingApi SampleConsumer")
+              .HasPactWith("AdPostingApi");
 
             MockService = PactBuilder.MockService(MockProviderServicePort);
             MockServiceUri = new Uri("http://localhost:" + MockProviderServicePort);
@@ -36,7 +38,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             MockService.VerifyInteractions();
         }
 
-        [AssemblyCleanup]
         public static void AssemblyCleanup()
         {
             PactBuilder.Build();

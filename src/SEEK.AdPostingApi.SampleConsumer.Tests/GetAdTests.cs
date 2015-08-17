@@ -1,15 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class GetAdTests : IDisposable
     {
         private readonly IOAuth2TokenClient _oauthClient;
@@ -25,19 +25,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             this._oauthClient.Dispose();
         }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             PactProvider.ClearInteractions();
         }
 
-        [TestCleanup]
+        [TearDown]
         public void TestCleanup()
         {
             PactProvider.VerifyInteractions();
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetExistingAdvertisement()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
@@ -112,7 +112,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId));
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetNonExistentAdvertisement()
         {
             const string advertisementId = "9B650105-7434-473F-8293-4E23B7E0E064";

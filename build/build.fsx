@@ -21,7 +21,7 @@ let projectSummary = "SEEK.AdPostingApi"
 trace (sprintf "##teamcity[setParameter name='VERSION' value='%s']" (version |> String.concat "."))
 
 Target "Clean" (fun _ ->
-    CleanDirs [outputDir]
+    CleanDirs [outputDir; testDir + @"/bin/"]
 )
 
 Target "RestorePackages" (fun _ -> 
@@ -39,12 +39,11 @@ Target "Build" (fun _ ->
       |> Log "AppBuild-Output: "
 )
 
-
 Target "Test" (fun _ ->
    !! (testDir + @"/bin/**/SEEK.AdPostingApi.SampleConsumer.Tests.dll") 
-      |> VSTest (fun p -> { p with WorkingDir = testDir })
+      |> NUnit (fun p -> { p with WorkingDir = testDir 
+                                  ToolPath = "../src/packages/NUnit.Runners.2.6.4/tools" })
 )
-
 
 Target "UploadPact" (fun _ ->
    (!! "../**/pacts/*.json") |> PublishPact version

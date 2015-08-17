@@ -163,3 +163,4 @@ $RECYCLE.BIN/
 
 build/.fake/
 src/SEEK.AdPostingApi.Client/version.txt
+build/TestResult.xml

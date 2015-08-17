@@ -1,15 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class PostAdTests : IDisposable
     {
         private readonly IOAuth2TokenClient _oauthClient;
@@ -25,13 +25,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             this._oauthClient.Dispose();
         }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             PactProvider.ClearInteractions();
         }
 
-        [TestCleanup]
+        [TearDown]
         public void TestCleanup()
         {
             PactProvider.VerifyInteractions();
@@ -287,7 +287,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
         }
 
-        [TestMethod]
+        [Test]
         public async Task PostAdWithMinimumRequiredData()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -297,7 +297,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
 
-            StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
+            StringAssert.StartsWith("http://localhost/advertisement", jobAdLink.ToString());
         }
 
         public Advertisement SetupJobAdWithMinimumRequiredData()
@@ -318,7 +318,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             };
         }
 
-        [TestMethod]
+        [Test]
         public async Task PostAdWithMaximumData()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -329,10 +329,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
 
-            StringAssert.StartsWith(jobAdLink.ToString(), "http://localhost/advertisement");
+            StringAssert.StartsWith("http://localhost/advertisement", jobAdLink.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public async Task PostAdWithWrongData()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
