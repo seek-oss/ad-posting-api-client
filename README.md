@@ -8,7 +8,7 @@ This is a .Net version of SEEK's Job Ad Posting API Client. It composes of the f
 ## Build your consumer
 
 ### Install the client
-Via Nuget with [Install-Package SEEK.AdPostingApi -IncludePrerelease](http://www.nuget.org/packages/TODO)
+Via Nuget with [Install-Package SEEK.AdPostingApi.Client -Pre](https://www.nuget.org/packages/SEEK.AdPostingApi.Client/)
 
 ### Configure values
 The client needs the following configuration values:
