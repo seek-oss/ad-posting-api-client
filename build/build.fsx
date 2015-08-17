@@ -41,7 +41,7 @@ Target "Build" (fun _ ->
 
 Target "Test" (fun _ ->
    !! (testDir + @"/bin/**/SEEK.AdPostingApi.SampleConsumer.Tests.dll") 
-      |> NUnit (fun p -> { p with WorkingDir = testDir 
+      |> NUnit (fun p -> { p with Domain = NUnitDomainModel.NoDomainModel
                                   ToolPath = "../src/packages/NUnit.Runners.2.6.4/tools" })
 )
 
