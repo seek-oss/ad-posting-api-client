@@ -160,3 +160,6 @@ $RECYCLE.BIN/
 *.orig
 
 .vs/
+
+build/.fake/
+src/SEEK.AdPostingApi.Client/version.txt
