@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -70,6 +72,25 @@ namespace SEEK.AdPostingApi.Client
             var resource = new AdvertisementResource();
             await resource.Initialise(this._httpClient, uri, _tokenClient);
             return resource;
+        }
+
+        public async Task UpdateAdvertisementAsync(Guid id, Advertisement advertisement)
+        {
+            if (advertisement == null)
+                throw new ArgumentNullException(nameof(advertisement));
+            await this.EnsureInitialised();
+            await this._indexResource.PutAdvertisementByIdAsync(id, advertisement);
+        }
+
+        public async Task UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)
+        {
+            if (advertisement == null)
+                throw new ArgumentNullException(nameof(advertisement));
+
+            var content = JsonConvert.SerializeObject(advertisement, HalResource.SerializerSettings);
+            var request = await HalResource.CreateRequest<Advertisement>(uri, HttpMethod.Put, content, _tokenClient);
+            var response = await this._httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
         }
 
         public void Dispose()

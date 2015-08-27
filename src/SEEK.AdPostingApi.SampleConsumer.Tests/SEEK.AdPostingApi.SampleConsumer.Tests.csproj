@@ -99,6 +99,7 @@
     <Compile Include="PostAdTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetUpFixture.cs" />
+    <Compile Include="UpdateAdTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

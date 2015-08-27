@@ -25,7 +25,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             return false;
         }
 
-        protected static JsonSerializerSettings SerializerSettings { get; } = new JsonSerializerSettings
+        internal static JsonSerializerSettings SerializerSettings { get; } = new JsonSerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             NullValueHandling = NullValueHandling.Ignore,
@@ -61,7 +61,7 @@ namespace SEEK.AdPostingApi.Client.Hal
         {
             var uri = new Uri(this.baseUri, this.Links[relation].Resolve(parameters));
             var content = JsonConvert.SerializeObject(resource, SerializerSettings);
-            var request = await CreateRequest<T>(uri, HttpMethod.Post, content);
+            var request = await CreateRequest<T>(uri, HttpMethod.Post, content, this.tokenClient);
 
             var response = await this.httpClient.SendAsync(request);
 
@@ -79,10 +79,8 @@ namespace SEEK.AdPostingApi.Client.Hal
         {
             var uri = new Uri(this.baseUri, this.Links[relation].Resolve(parameters));
             var content = JsonConvert.SerializeObject(resource, SerializerSettings);
-            var request = await CreateRequest<T>(uri, HttpMethod.Put, content);
-
+            var request = await CreateRequest<T>(uri, HttpMethod.Put, content, this.tokenClient);
             var response = await this.httpClient.SendAsync(request);
-
             response.EnsureSuccessStatusCode();
         }
 
@@ -104,10 +102,11 @@ namespace SEEK.AdPostingApi.Client.Hal
             return this.GetResourceAsync<T>(relation, null);
         }
 
-        private async Task<HttpRequestMessage> CreateRequest<T>(Uri uri, HttpMethod method, string content)
+        internal static async Task<HttpRequestMessage> CreateRequest<T>(Uri uri, HttpMethod method, string content, IOAuth2TokenClient tokenClient)
         {
-            var token = await this.tokenClient.GetOAuth2TokenAsync();
-
+            Console.WriteLine("before create token ");
+            var token = await tokenClient.GetOAuth2TokenAsync();
+            Console.WriteLine("token: " + token);
             return new HttpRequestMessage(method, uri)
             {
                 Content = new StringContent(content, Encoding.UTF8, typeof (T).GetMediaType("application/json")),

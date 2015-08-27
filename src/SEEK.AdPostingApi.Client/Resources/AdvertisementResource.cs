@@ -1,5 +1,8 @@
-﻿using SEEK.AdPostingApi.Client.Hal;
+﻿using System;
+using System.Net.Http;
+using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
+using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.Client.Resources
 {
@@ -34,5 +37,11 @@ namespace SEEK.AdPostingApi.Client.Resources
         public string StandoutBullet3 { get; set; }
         public AdditionalPropertyType[] AdditionalProperties { get; set; }
         public string Status { get; set; }
+
+        public async Task SaveAsync()
+        {
+            await this.PutResourceAsync("self", this);
+        }
+
     }
 }

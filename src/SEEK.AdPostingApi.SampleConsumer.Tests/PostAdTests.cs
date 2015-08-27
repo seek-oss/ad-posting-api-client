@@ -88,7 +88,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + accessToken},
-                            {"Content-Type", "application/json; charset=utf-8"}
+                            {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
                         },
                         Body = new
                         {
@@ -167,7 +167,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Headers = new Dictionary<string, string>
                         {
                                         {"Authorization", "Bearer " + accessToken},
-                                        {"Content-Type", "application/json; charset=utf-8"}
+                                        {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
                         },
                         Body = new
                         {
@@ -265,7 +265,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + accessToken},
-                            {"Content-Type", "application/json; charset=utf-8"}
+                            {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
                         },
                         Body = new
                         {

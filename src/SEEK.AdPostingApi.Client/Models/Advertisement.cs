@@ -1,5 +1,8 @@
-﻿namespace SEEK.AdPostingApi.Client.Models
+﻿using SEEK.AdPostingApi.Client.Hal;
+
+namespace SEEK.AdPostingApi.Client.Models
 {
+    [MediaType("application/vnd.seek.advertisement+json")]
     public class Advertisement
     {
         public string AdvertiserId { get; set; }
