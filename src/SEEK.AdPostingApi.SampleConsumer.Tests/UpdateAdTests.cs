@@ -84,7 +84,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
             catch (Exception ex)
             {
-                StringAssert.Contains("404 (Not Found)", ex.Message);
+                StringAssert.Contains("Not Found", ex.Message);
             }
         }
 
