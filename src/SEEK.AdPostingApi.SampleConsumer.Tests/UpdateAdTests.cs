@@ -148,6 +148,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
                         {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                    },
+                    Body = new
+                    {
+                        advertiserId = "advertiserA",
+                        jobTitle = "Bricklayer",
+                        jobSummary = "some text",
+                        advertisementDetails = "experience required",
+                        advertisementType = AdvertisementType.Classic.ToString(),
+                        workType = WorkType.Casual.ToString(),
+                        salaryType = SalaryType.HourlyRate.ToString(),
+                        locationId = "1002",
+                        subclassificationId = "6227",
+                        salaryMinimum = 20,
+                        salaryMaximum = 24
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse { Status = 404 });
