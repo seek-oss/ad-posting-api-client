@@ -45,7 +45,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public async Task UpdateNonExistentAdvertisement()
         {
-            const string advertisementId = "f945e101-7226-43cd-a358-26aeacbc1e26";
+            const string advertisementId = "9B650105-7434-473F-8293-4E23B7E0E064";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             PactProvider.MockService
