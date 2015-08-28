@@ -104,9 +104,7 @@ namespace SEEK.AdPostingApi.Client.Hal
 
         internal static async Task<HttpRequestMessage> CreateRequest<T>(Uri uri, HttpMethod method, string content, IOAuth2TokenClient tokenClient)
         {
-            Console.WriteLine("before create token ");
             var token = await tokenClient.GetOAuth2TokenAsync();
-            Console.WriteLine("token: " + token);
             return new HttpRequestMessage(method, uri)
             {
                 Content = new StringContent(content, Encoding.UTF8, typeof (T).GetMediaType("application/json")),

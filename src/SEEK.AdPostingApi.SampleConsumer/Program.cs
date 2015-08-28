@@ -39,8 +39,16 @@ namespace SEEK.AdPostingApi.SampleConsumer
             Console.WriteLine(jobAdLink.ToString());
 
             AdvertisementResource content = await postingClient.GetAdvertisementAsync(jobAdLink);
-
+            Console.WriteLine("Created job advertisement.");
             Console.WriteLine(JsonConvert.SerializeObject(content, Formatting.Indented));
+
+            content.JobTitle = "New job title";
+            await content.SaveAsync();
+
+            AdvertisementResource newContent = await postingClient.GetAdvertisementAsync(jobAdLink);
+            Console.WriteLine();
+            Console.WriteLine("Updated job advertisement.");
+            Console.WriteLine(JsonConvert.SerializeObject(newContent, Formatting.Indented));
 
             Console.ReadLine();
         }
