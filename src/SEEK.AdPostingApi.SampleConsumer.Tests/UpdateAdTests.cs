@@ -134,11 +134,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public async Task UpdateNonExistentAdvertisement()
         {
-            const string advertisementId = "9B650105-7434-473F-8293-4E23B7E0E064";
+            const string advertisementId = "18418a40-167a-45bf-84a9-f92d7cc8f286";//"9B650105-7434-473F-8293-4E23B7E0E064";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             PactProvider.MockService
-                .Given(string.Format("There isn't an advertisement with id: '{0}'", advertisementId))
+                .Given(string.Format("There isn't an advertisement for update with id: '{0}'", advertisementId))
                 .UponReceiving("Update request for advertisement")
                 .With(new ProviderServiceRequest
                 {
