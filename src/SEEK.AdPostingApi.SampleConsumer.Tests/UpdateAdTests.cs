@@ -191,6 +191,66 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
         }
 
+        [Test]
+        public async Task UpdateWithBadAdvertisementData()
+        {
+            const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            PactProvider.MockService
+                .Given(string.Format("There is an advertisement with id: '{0}'", advertisementId))
+                .UponReceiving("Update request for advertisement")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = "/advertisement/" + advertisementId,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                    },
+                    Body = new
+                    {
+                        advertiserId = "advertiserA",
+                        jobTitle = "A very longgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg title",
+                        jobSummary = "some text",
+                        advertisementDetails = "experience required",
+                        advertisementType = AdvertisementType.Classic.ToString(),
+                        workType = WorkType.Casual.ToString(),
+                        salaryType = SalaryType.HourlyRate.ToString(),
+                        locationId = "1002",
+                        subclassificationId = "6227",
+                        salaryMinimum = 20,
+                        salaryMaximum = 24
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse { Status = 400 });
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            try
+            {
+                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId), new Advertisement
+                {
+                    AdvertiserId = "advertiserA",
+                    JobTitle = "A very longgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg title",
+                    JobSummary = "some text",
+                    AdvertisementDetails = "experience required",
+                    AdvertisementType = AdvertisementType.Classic,
+                    WorkType = WorkType.Casual,
+                    SalaryType = SalaryType.HourlyRate,
+                    LocationId = "1002",
+                    SubclassificationId = "6227",
+                    SalaryMinimum = 20,
+                    SalaryMaximum = 24
+                });
+            }
+            catch (Exception ex)
+            {
+                StringAssert.Contains("Bad Request", ex.Message);
+            }
+        }
+
     }
 
 }
