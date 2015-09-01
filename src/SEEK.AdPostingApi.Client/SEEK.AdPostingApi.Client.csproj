@@ -75,6 +75,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AdvertisementResource.cs" />
     <Compile Include="OAuth2TokenClient.cs" />
+    <Compile Include="Resources\AdvertisementSummary.cs" />
+    <Compile Include="Resources\AdvertisementSummaryFeed.cs" />
     <Compile Include="Resources\IndexResource.cs" />
   </ItemGroup>
   <ItemGroup>

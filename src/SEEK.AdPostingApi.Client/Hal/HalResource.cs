@@ -8,9 +8,21 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
+    public class HalResource<T> : HalResource where T : new()
+    {
+        public T Properties { get; set; }
+
+        protected override void PopulateResource(string content)
+        {
+            this.Properties = new T();
+            JsonConvert.PopulateObject(content, this.Properties);
+        }
+    }
+
     public class HalResource
     {
         private HttpClient httpClient;
@@ -54,14 +66,19 @@ namespace SEEK.AdPostingApi.Client.Hal
 
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
+            this.PopulateResource(content);
+        }
+
+        protected virtual void PopulateResource(string content)
+        {
             JsonConvert.PopulateObject(content, this);
         }
 
-        protected async Task<Uri> PostResourceAsync<T>(string relation, object parameters, T resource)
+        protected async Task<Uri> PostResourceAsync<TResource>(string relation, object parameters, TResource resource)
         {
             var uri = new Uri(this.baseUri, this.Links[relation].Resolve(parameters));
             var content = JsonConvert.SerializeObject(resource, SerializerSettings);
-            var request = await CreateRequest<T>(uri, HttpMethod.Post, content, this.tokenClient);
+            var request = await CreateRequest<TResource>(uri, HttpMethod.Post, content, this.tokenClient);
 
             var response = await this.httpClient.SendAsync(request);
 
@@ -70,44 +87,44 @@ namespace SEEK.AdPostingApi.Client.Hal
             return response.Headers.Location;
         }
 
-        protected Task<Uri> PostResourceAsync<T>(string relation, T resource)
+        protected Task<Uri> PostResourceAsync<TResource>(string relation, TResource resource)
         {
             return this.PostResourceAsync(relation, null, resource);
         }
 
-        protected async Task PutResourceAsync<T>(string relation, object parameters, T resource)
+        protected async Task PutResourceAsync<TResource>(string relation, object parameters, TResource resource)
         {
             var uri = new Uri(this.baseUri, this.Links[relation].Resolve(parameters));
             var content = JsonConvert.SerializeObject(resource, SerializerSettings);
-            var request = await CreateRequest<T>(uri, HttpMethod.Put, content, this.tokenClient);
+            var request = await CreateRequest<TResource>(uri, HttpMethod.Put, content, this.tokenClient);
             var response = await this.httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
         }
 
-        protected Task PutResourceAsync<T>(string relation, T resource)
+        protected Task PutResourceAsync<TResource>(string relation, TResource resource)
         {
             return this.PutResourceAsync(relation, null, resource);
         }
 
-        protected async Task<T> GetResourceAsync<T>(string relation, object parameters) where T : HalResource, new()
+        protected async Task<TResource> GetResourceAsync<TResource>(string relation, object parameters) where TResource : HalResource, new()
         {
             var uri = new Uri(this.baseUri, this.Links[relation].Resolve(parameters));
-            var resource = new T();
+            var resource = new TResource();
             await resource.Initialise(this.httpClient, uri, this.tokenClient);
             return resource;
         }
 
-        protected Task<T> GetResourceAsync<T>(string relation) where T : HalResource, new()
+        protected Task<TResource> GetResourceAsync<TResource>(string relation) where TResource : HalResource, new()
         {
-            return this.GetResourceAsync<T>(relation, null);
+            return this.GetResourceAsync<TResource>(relation, null);
         }
 
-        internal static async Task<HttpRequestMessage> CreateRequest<T>(Uri uri, HttpMethod method, string content, IOAuth2TokenClient tokenClient)
+        internal static async Task<HttpRequestMessage> CreateRequest<TResource>(Uri uri, HttpMethod method, string content, IOAuth2TokenClient tokenClient)
         {
             var token = await tokenClient.GetOAuth2TokenAsync();
             return new HttpRequestMessage(method, uri)
             {
-                Content = new StringContent(content, Encoding.UTF8, typeof (T).GetMediaType("application/json")),
+                Content = new StringContent(content, Encoding.UTF8, typeof (TResource).GetMediaType("application/json")),
                 Headers =
                 {
                     Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken)

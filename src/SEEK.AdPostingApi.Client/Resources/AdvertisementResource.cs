@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 namespace SEEK.AdPostingApi.Client.Resources
 {
     [MediaType("application/vnd.seek.advertisement+json")]
-    public class AdvertisementResource : HalResource
+    public class AdvertisementResource : HalResource<Advertisement>
     {
-        public Advertisement AdvertisementProperties{get; set;}
-
         public string Status { get; set; }
 
         public async Task SaveAsync()

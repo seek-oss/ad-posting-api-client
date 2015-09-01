@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -74,6 +75,12 @@ namespace SEEK.AdPostingApi.Client
             return resource;
         }
 
+        public async Task<AdvertisementSummaryFeed> GetAllAdvertisementAsync()
+        {
+            await this.EnsureInitialised();
+            return await _indexResource.GetAllAdvertisements(); 
+        }
+
         public async Task UpdateAdvertisementAsync(Guid id, Advertisement advertisement)
         {
             if (advertisement == null)
@@ -87,8 +94,8 @@ namespace SEEK.AdPostingApi.Client
             if (advertisement == null)
                 throw new ArgumentNullException(nameof(advertisement));
 
-            var content = JsonConvert.SerializeObject(advertisement, HalResource.SerializerSettings);
-            var request = await HalResource.CreateRequest<Advertisement>(uri, HttpMethod.Put, content, _tokenClient);
+            var content = JsonConvert.SerializeObject(advertisement, HalResource<Advertisement>.SerializerSettings);
+            var request = await HalResource<Advertisement>.CreateRequest<Advertisement>(uri, HttpMethod.Put, content, _tokenClient);
             var response = await this._httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
         }
