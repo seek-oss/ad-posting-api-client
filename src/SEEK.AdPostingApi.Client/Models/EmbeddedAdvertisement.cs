@@ -1,8 +1,6 @@
-﻿using SEEK.AdPostingApi.Client.Hal;
-
-namespace SEEK.AdPostingApi.Client.Resources
+namespace SEEK.AdPostingApi.Client.Models
 {
-    public class AdvertisementSummary: HalResource<object>
+    public class EmbeddedAdvertisement
     {
         public string AdvertiserId { get; set; }
         public string JobTitle { get; set; }

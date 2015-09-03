@@ -102,44 +102,49 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     {
                         {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
                     },
-                    Body = new []
+                    Body = new
                     {
-
-                            new
+                        _embedded = new
+                        {
+                            advertisements = new[]
                             {
-                                advertiserId = "9012",
-                                jobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
-                                jobReference = "JOB12345",
-                                _links = new
+                                new
                                 {
-                                    self = new
+                                    advertiserId = "9012",
+                                    jobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
+                                    jobReference = "JOB12345",
+                                    _links = new
                                     {
-                                        href = "/advertisement/" + advertisementId2
+                                        self = new
+                                        {
+                                            href = "/advertisement/" + advertisementId2
+                                        }
                                     }
-                                }
-                            },
-                            new
-                            {
-                                advertiserId = "9011",
-                                jobTitle = "Exciting Developer role in a great CBD location. Great $$",
-                                jobReference = "JOB1234",
-                                _links = new
+                                },
+                                new
                                 {
-                                    self = new
+                                    advertiserId = "9011",
+                                    jobTitle = "Exciting Developer role in a great CBD location. Great $$",
+                                    jobReference = "JOB1234",
+                                    _links = new
                                     {
-                                        href = "/advertisement/" + advertisementId1
+                                        self = new
+                                        {
+                                            href = "/advertisement/" + advertisementId1
+                                        }
                                     }
                                 }
                             }
 
-                    
-                }});
+                        }
+                    }
+                });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             var advertisements = await client.GetAllAdvertisementAsync();
-            Assert.AreEqual(2, advertisements.Properties.Count());
 
+            Assert.AreEqual(2, advertisements.Count());
         }
     }
 }

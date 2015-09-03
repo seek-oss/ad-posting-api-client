@@ -57,6 +57,7 @@
     <Compile Include="AdPostingApiClient.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="EnvironmentUrlAttribute.cs" />
+    <Compile Include="Hal\HalResourceConverter.cs" />
     <Compile Include="Hal\MediaTypeAttribute.cs" />
     <Compile Include="Hal\Link.cs" />
     <Compile Include="Hal\HalResource.cs" />
@@ -75,8 +76,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AdvertisementResource.cs" />
     <Compile Include="OAuth2TokenClient.cs" />
-    <Compile Include="Resources\AdvertisementSummary.cs" />
-    <Compile Include="Resources\AdvertisementSummaryFeed.cs" />
+    <Compile Include="Models\EmbeddedAdvertisement.cs" />
+    <Compile Include="Resources\EmbeddedAdvertisementResource.cs" />
+    <Compile Include="Resources\AdvertisementListResource.cs" />
     <Compile Include="Resources\IndexResource.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
@@ -75,7 +77,7 @@ namespace SEEK.AdPostingApi.Client
             return resource;
         }
 
-        public async Task<AdvertisementSummaryFeed> GetAllAdvertisementAsync()
+        public async Task<AdvertisementListResource> GetAllAdvertisementAsync()
         {
             await this.EnsureInitialised();
             return await _indexResource.GetAllAdvertisements(); 
@@ -94,8 +96,8 @@ namespace SEEK.AdPostingApi.Client
             if (advertisement == null)
                 throw new ArgumentNullException(nameof(advertisement));
 
-            var content = JsonConvert.SerializeObject(advertisement, HalResource<Advertisement>.SerializerSettings);
-            var request = await HalResource<Advertisement>.CreateRequest<Advertisement>(uri, HttpMethod.Put, content, _tokenClient);
+            var content = JsonConvert.SerializeObject(advertisement, SerializerSettings);
+            var request = await HalResource.CreateRequest<Advertisement>(uri, HttpMethod.Put, content, _tokenClient);
             var response = await this._httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
         }
@@ -105,5 +107,12 @@ namespace SEEK.AdPostingApi.Client
             _tokenClient.Dispose();
             _httpClient.Dispose();
         }
+
+        private JsonSerializerSettings SerializerSettings { get; } = new JsonSerializerSettings
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            NullValueHandling = NullValueHandling.Ignore,
+            Converters = { new StringEnumConverter() },
+        };
     }
 }
