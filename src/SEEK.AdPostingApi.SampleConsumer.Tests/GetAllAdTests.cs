@@ -38,11 +38,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.VerifyInteractions();
         }
 
-        [Test]
-        public async Task GetAllAdvertisementBelongToRequester()
+        public void RetrieveLinks()
         {
-            const string advertisementId1 = "fa6939b5-c91f-4f6a-9600-1ea74963fbb2";
-            const string advertisementId2 = "e6e31b9c-3c2c-4b85-b17f-babbf7da972b";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             const string advertisementLink = "/advertisement";
@@ -81,6 +78,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         }
                     }
                 });
+        }
+        [Test]
+        public async Task GetAllAdvertisementWithNoNextLink()
+        {
+            const string advertisementId1 = "fa6939b5-c91f-4f6a-9600-1ea74963fbb2";
+            const string advertisementId2 = "e6e31b9c-3c2c-4b85-b17f-babbf7da972b";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            const string advertisementLink = "/advertisement";
+
+            RetrieveLinks();
 
             PactProvider.MockService
                 .Given("There is a page of advertisements with no next link")
@@ -145,6 +153,47 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var advertisements = await client.GetAllAdvertisementAsync();
 
             Assert.AreEqual(2, advertisements.Count());
+        }
+
+        [Test]
+        public async Task GetAllAdvertisementWithNoAdvertisementReturns()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            RetrieveLinks();
+            PactProvider.MockService
+                .Given("There is a page of advertisements with no advertisement returns")
+                .UponReceiving("GET request for all advertisements")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = "/advertisement/",
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Accept", "application/hal+json"}
+                    }
+                })
+                .WillRespondWith(response: new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                    },
+                    Body = new
+                    {
+                        _embedded = new
+                        {
+                            advertisements = new EmbeddedAdvertisement[] {}
+                        }
+                    }
+                });
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            var advertisements = await client.GetAllAdvertisementAsync();
+
+            Assert.AreEqual(0, advertisements.Count());
         }
     }
 }
