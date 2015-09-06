@@ -281,7 +281,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string advertisementId1 = "fa6939b5-c91f-4f6a-9600-1ea74963fbb2";
             const string advertisementId2 = "e6e31b9c-3c2c-4b85-b17f-babbf7da972b";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            const string queryLink = "after = 2";
+            const string queryLink = "after=2";
 
             RetrieveLinks();
 
