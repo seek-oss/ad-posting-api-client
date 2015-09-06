@@ -77,10 +77,16 @@ namespace SEEK.AdPostingApi.Client
             return resource;
         }
 
-        public async Task<AdvertisementListResource> GetAllAdvertisementAsync()
+        public async Task<AdvertisementListResource> GetAllAdvertisementsAsync()
         {
             await this.EnsureInitialised();
             return await _indexResource.GetAllAdvertisements(); 
+        }
+
+        public async Task<AdvertisementListResource> GetAllAdvertisementsAsync(string queryLink)
+        {
+            await this.EnsureInitialised();
+            return await _indexResource.GetAllAdvertisements(queryLink);
         }
 
         public async Task UpdateAdvertisementAsync(Guid id, Advertisement advertisement)
