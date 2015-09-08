@@ -27,5 +27,15 @@ namespace SEEK.AdPostingApi.Client.Resources
         {
             return this.Embedded.Advertisements.GetEnumerator();
         }
+
+        public async Task<AdvertisementListResource> NextPageAsync()
+        {
+            if (Eof)
+                throw new NotSupportedException("There are no more results");
+
+            return await this.GetResourceAsync<AdvertisementListResource>("next");
+        }
+
+        public bool Eof => !this.Links.ContainsKey("next");
     }
 }
