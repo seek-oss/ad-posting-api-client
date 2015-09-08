@@ -95,7 +95,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/advertisement/",
+                    Path = "/advertisements",
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -165,7 +165,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/advertisement/",
+                    Path = "/advertisements",
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -210,7 +210,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/advertisement/",
+                    Path = "/advertisements",
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -262,7 +262,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             next = new
                             {
-                                href = "/advertisement?after=2"
+                                href = "/advertisements?after=2"
                             }
                         }
                     }
