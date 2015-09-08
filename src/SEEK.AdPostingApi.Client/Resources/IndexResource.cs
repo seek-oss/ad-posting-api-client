@@ -18,8 +18,7 @@ namespace SEEK.AdPostingApi.Client.Resources
         }
         public Task<AdvertisementListResource> GetAllAdvertisements()
         {
-
-            return this.GetResourceByQueryAsync<AdvertisementListResource>("/advertisements");
+            return this.GetResourceAsync<AdvertisementListResource>("advertisement");
         }
         public Task<AdvertisementListResource> GetAllAdvertisements(string queryLink)
         {

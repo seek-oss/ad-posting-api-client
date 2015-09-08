@@ -95,7 +95,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/advertisements",
+                    Path = "/advertisement/",
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -165,7 +165,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/advertisements",
+                    Path = "/advertisement/",
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -210,7 +210,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/advertisements",
+                    Path = "/advertisement/",
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -262,7 +262,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             next = new
                             {
-                                href = "/advertisements?after=2"
+                                href = "/advertisement?after=2"
                             }
                         }
                     }
@@ -291,7 +291,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/advertisements",
+                    Path = "/advertisement",
                     Query = queryLink,
                     Headers = new Dictionary<string, string>
                     {
@@ -344,7 +344,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             next = new
                             {
-                                href = "/advertisements?after=4"
+                                href = "/advertisement?after=4"
                             }
                         }
                     }
@@ -352,7 +352,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            var advertisements = await client.GetAllAdvertisementsAsync("/advertisements?" + queryLink);
+            var advertisements = await client.GetAllAdvertisementsAsync("/advertisement?" + queryLink);
 
             Assert.AreEqual(2, advertisements.Count());
         }
