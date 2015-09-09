@@ -133,8 +133,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             RetrieveLinks();
 
             PactProvider.MockService
-                .Given("There is a page of advertisements with a next link")
-                .UponReceiving("GET request for a page of advertisements")
+                .Given("a page size of 2, and there are 2 pages worth of data")
+                .UponReceiving("GET request for first page of data")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -197,8 +197,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 });
 
             PactProvider.MockService
-                .Given("There is a page of advertisements with no next link")
-                .UponReceiving("GET request for a page of advertisements by following next link")
+                .Given("a page size of 2, and there are 2 pages worth of data")
+                .UponReceiving("GET request for second page of data")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
