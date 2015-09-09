@@ -126,14 +126,6 @@ namespace SEEK.AdPostingApi.Client.Hal
             await resource.Initialise(this.httpClient, uri, this.tokenClient);
             return resource;
         }
-        protected async Task<TResource> GetResourceByQueryAsync<TResource>(string query) where TResource : HalResource, new()
-        {
-            var baseUri = this.baseUri.ToString();
-            var uri = new Uri(baseUri.Substring(0, baseUri.Length - 1) + query);
-            var resource = new TResource();
-            await resource.Initialise(this.httpClient, uri, this.tokenClient);
-            return resource;
-        }
 
         protected Task<TResource> GetResourceAsync<TResource>(string relation) where TResource : HalResource, new()
         {

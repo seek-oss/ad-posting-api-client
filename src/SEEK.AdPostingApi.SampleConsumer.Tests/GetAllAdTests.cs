@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -91,7 +92,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             PactProvider.MockService
                 .Given("There is a page of advertisements with no next link")
-                .UponReceiving("GET request for all advertisements")
+                .UponReceiving("GET request for a page of advertisements")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -196,17 +197,18 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task GetAllAdvertisementsWithNextLinkReturned()
+        public async Task GetAllAdvertisementsByFollowingNextLink()
         {
             const string advertisementId1 = "fa6939b5-c91f-4f6a-9600-1ea74963fbb2";
             const string advertisementId2 = "e6e31b9c-3c2c-4b85-b17f-babbf7da972b";
+            const string nextLink = "/advertisement?after=" + advertisementId2;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             RetrieveLinks();
 
             PactProvider.MockService
                 .Given("There is a page of advertisements with a next link")
-                .UponReceiving("GET request for all advertisements")
+                .UponReceiving("GET request for a page of advertisements")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -232,7 +234,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             {
                                 new
                                 {
-                                    advertiserId = "9012",
+                                    advertiserId = "0002",
                                     jobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
                                     jobReference = "JOB12345",
                                     _links = new
@@ -245,7 +247,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 },
                                 new
                                 {
-                                    advertiserId = "9011",
+                                    advertiserId = "0001",
                                     jobTitle = "Exciting Developer role in a great CBD location. Great $$",
                                     jobReference = "JOB1234",
                                     _links = new
@@ -262,37 +264,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             next = new
                             {
-                                href = "/advertisement?after=2"
+                                href = nextLink
                             }
                         }
                     }
                 });
 
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-
-            var advertisements = await client.GetAllAdvertisementsAsync();
-
-            Assert.AreEqual(2, advertisements.Count());
-        }
-
-        [Test]
-        public async Task GetAllAdvertisementsByQueryingNextLink()
-        {
-            const string advertisementId1 = "fa6939b5-c91f-4f6a-9600-1ea74963fbb2";
-            const string advertisementId2 = "e6e31b9c-3c2c-4b85-b17f-babbf7da972b";
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            const string queryLink = "after=2";
-
-            RetrieveLinks();
-
             PactProvider.MockService
-                .Given("There is a page of advertisements with a next link")
-                .UponReceiving("GET request for all advertisements by following the next link")
+                .Given("There is a page of advertisements with no next link")
+                .UponReceiving("GET request for a page of advertisements by following next link")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
                     Path = "/advertisement",
-                    Query = queryLink,
+                    Query = "after=" + advertisementId2,
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -314,37 +299,30 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             {
                                 new
                                 {
-                                    advertiserId = "9014",
+                                    advertiserId = "0004",
                                     jobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
                                     jobReference = "JOB12347",
                                     _links = new
                                     {
                                         self = new
                                         {
-                                            href = "/advertisement/" + advertisementId2
+                                            href = "/advertisement/" + "9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
                                         }
                                     }
                                 },
                                 new
                                 {
-                                    advertiserId = "9013",
+                                    advertiserId = "0003",
                                     jobTitle = "Exciting Developer role in a great CBD location. Great $$",
                                     jobReference = "JOB1236",
                                     _links = new
                                     {
                                         self = new
                                         {
-                                            href = "/advertisement/" + advertisementId1
+                                            href = "/advertisement/" + "7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
                                         }
                                     }
                                 }
-                            }
-                        },
-                        _links = new
-                        {
-                            next = new
-                            {
-                                href = "/advertisement?after=4"
                             }
                         }
                     }
@@ -352,9 +330,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            var advertisements = await client.GetAllAdvertisementsAsync("/advertisement?" + queryLink);
+            var allAdvertisements = new List<EmbeddedAdvertisementResource>();
+            var advertisementPage = await client.GetAllAdvertisementsAsync();
 
-            Assert.AreEqual(2, advertisements.Count());
+            Assert.AreEqual(2, advertisementPage.Count());
+
+            allAdvertisements.AddRange(advertisementPage.Embedded.Advertisements);
+
+            while (!advertisementPage.Eof)
+            {
+                advertisementPage = await advertisementPage.NextPageAsync();
+                allAdvertisements.AddRange(advertisementPage.Embedded.Advertisements);
+            }
+
+            Assert.AreEqual(4, allAdvertisements.Count);
         }
     }
 }

@@ -36,6 +36,7 @@ namespace SEEK.AdPostingApi.Client.Resources
             return await this.GetResourceAsync<AdvertisementListResource>("next");
         }
 
-        public bool Eof => !this.Links.ContainsKey("next");
+        public bool Eof => (this.Links == null) || !this.Links.ContainsKey("next");
+
     }
 }
