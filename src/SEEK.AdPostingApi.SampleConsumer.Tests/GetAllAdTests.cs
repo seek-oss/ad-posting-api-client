@@ -87,7 +87,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             RetrieveLinks();
             PactProvider.MockService
-                .Given("There is a page of advertisements with no advertisement returns")
+                .Given("There are no advertisements")
                 .UponReceiving("GET request for all advertisements")
                 .With(new ProviderServiceRequest
                 {
@@ -104,7 +104,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                        {"Content-Type", "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"}
                     },
                     Body = new
                     {
