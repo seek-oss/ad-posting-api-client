@@ -12,13 +12,12 @@ using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.Client
 {
-    public class AdPostingApiClient : IAdPostingApiClient
+    public class AdPostingApiClient : Hal.Client, IAdPostingApiClient
     {
-        private readonly Uri _adpostingUri;
-        private readonly HttpClient _httpClient;
         private readonly IOAuth2TokenClient _tokenClient;
         private IndexResource _indexResource;
         private readonly Lazy<Task> _ensureInitialised;
+        private HttpClient _httpClient;
 
         public AdPostingApiClient(string id, string secret)
             : this(id, secret, Environment.Production)
@@ -35,10 +34,9 @@ namespace SEEK.AdPostingApi.Client
 
         internal AdPostingApiClient(Uri adPostingUri, IOAuth2TokenClient tokenClient)
         {
-            this._ensureInitialised = new Lazy<Task>(()=>this.Initialise(adPostingUri, tokenClient), LazyThreadSafetyMode.ExecutionAndPublication);
-            
+            this._ensureInitialised = new Lazy<Task>(()=>this.Initialise(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             _tokenClient = tokenClient;
-            _httpClient = new HttpClient();
+            this.Initialise(_httpClient = new HttpClient(new OAuthMessageHandler(tokenClient) {InnerHandler = new HttpClientHandler()}), adPostingUri);
         }
 
         private Task EnsureInitialised()
@@ -46,11 +44,9 @@ namespace SEEK.AdPostingApi.Client
             return this._ensureInitialised.Value;
         }
 
-        private async Task Initialise(Uri adPostingUri, IOAuth2TokenClient tokenClient)
+        private async Task Initialise(Uri adPostingUri)
         {
-            this._indexResource = new IndexResource();
-
-            await this._indexResource.Initialise(_httpClient, adPostingUri, tokenClient);
+            _indexResource = await this.GetResourceAsync<IndexResource>(adPostingUri);
         }
 
         public async Task<Uri> CreateAdvertisementAsync(Advertisement advertisement)
@@ -60,7 +56,7 @@ namespace SEEK.AdPostingApi.Client
 
             await this.EnsureInitialised();
 
-            return await this._indexResource.PostAdvertisementAsync(advertisement);
+            return await this._indexResource.CreateAdvertisementAsync(advertisement);
         }
 
         public async Task<AdvertisementResource> GetAdvertisementAsync(Guid id)
@@ -70,11 +66,21 @@ namespace SEEK.AdPostingApi.Client
             return await this._indexResource.GetAdvertisementByIdAsync(id);
         }
 
-        public async Task<AdvertisementResource> GetAdvertisementAsync(Uri uri)
+        public Task<AdvertisementResource> GetAdvertisementAsync(Uri uri)
         {
-            var resource = new AdvertisementResource();
-            await resource.Initialise(this._httpClient, uri, _tokenClient);
-            return resource;
+            return this.GetResourceAsync<AdvertisementResource>(uri);
+        }
+
+        public async Task<Status> GetAdvertisementStatusAsync(Guid id)
+        {
+            await this.EnsureInitialised();
+
+            return await this._indexResource.GetAdvertisementStatusByIdAsync(id);
+        }
+
+        public Task<Status> GetAdvertisementStatusAsync(Uri uri)
+        {
+            return this.HeadResourceAsync<Status, AdvertisementResource>(uri);
         }
 
         public async Task<AdvertisementListResource> GetAllAdvertisementsAsync()
@@ -87,19 +93,17 @@ namespace SEEK.AdPostingApi.Client
         {
             if (advertisement == null)
                 throw new ArgumentNullException(nameof(advertisement));
+
             await this.EnsureInitialised();
-            await this._indexResource.PutAdvertisementByIdAsync(id, advertisement);
+            await this._indexResource.UpdateAdvertisementByIdAsync(id, advertisement);
         }
 
-        public async Task UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)
+        public Task UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)
         {
             if (advertisement == null)
                 throw new ArgumentNullException(nameof(advertisement));
 
-            var content = JsonConvert.SerializeObject(advertisement, SerializerSettings);
-            var request = await HalResource.CreateRequest<Advertisement>(uri, HttpMethod.Put, content, _tokenClient);
-            var response = await this._httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
+            return this.PutResourceAsync(uri, advertisement);
         }
 
         public void Dispose()
@@ -107,12 +111,5 @@ namespace SEEK.AdPostingApi.Client
             _tokenClient.Dispose();
             _httpClient.Dispose();
         }
-
-        private JsonSerializerSettings SerializerSettings { get; } = new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            NullValueHandling = NullValueHandling.Ignore,
-            Converters = { new StringEnumConverter() },
-        };
     }
 }

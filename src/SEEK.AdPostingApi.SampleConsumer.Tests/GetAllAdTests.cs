@@ -39,53 +39,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.VerifyInteractions();
         }
 
-        public void RetrieveLinks()
-        {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            const string advertisementLink = "/advertisement";
-            PactProvider.MockService
-                .UponReceiving("a request to retrieve API links")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = "/",
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Accept", "application/hal+json"},
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Content-Type", "application/hal+json; charset=utf-8"}
-                    },
-                    Body = new
-                    {
-                        _links = new
-                        {
-                            advertisements = new
-                            {
-                                href = advertisementLink
-                            },
-                            advertisement = new
-                            {
-                                href = advertisementLink + "/{advertisementId}",
-                                templated = true
-                            }
-                        }
-                    }
-                });
-        }
-
         [Test]
         public async Task GetAllAdvertisementsWithNoAdvertisementReturns()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            RetrieveLinks();
+            PactProvider.MockLinks();
             PactProvider.MockService
                 .Given("There are no advertisements")
                 .UponReceiving("GET request for all advertisements")
@@ -131,7 +89,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string nextLink = "/advertisement?beforeId=" + advertisementJobId2;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            RetrieveLinks();
+            PactProvider.MockLinks();
 
             PactProvider.MockService
                 .Given("A page size of 2, and there are 2 pages worth of data")

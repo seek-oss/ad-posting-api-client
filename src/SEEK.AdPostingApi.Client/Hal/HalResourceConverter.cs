@@ -9,13 +9,11 @@ namespace SEEK.AdPostingApi.Client.Hal
     {
         private readonly HttpClient _httpClient;
         private readonly Uri _baseUri;
-        private readonly IOAuth2TokenClient _tokenClient;
 
-        public HalResourceConverter(HttpClient httpClient, Uri baseUri, IOAuth2TokenClient tokenClient)
+        public HalResourceConverter(HttpClient httpClient, Uri baseUri)
         {
             _httpClient = httpClient;
             _baseUri = baseUri;
-            _tokenClient = tokenClient;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -27,7 +25,7 @@ namespace SEEK.AdPostingApi.Client.Hal
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var obj = (HalResource)Activator.CreateInstance(objectType);
-            obj.InitialiseEmbedded(this._httpClient, this._baseUri, this._tokenClient);
+            obj.Initialise(this._httpClient, this._baseUri);
             obj.PopulateResource(JToken.ReadFrom(reader));
             return obj;
         }

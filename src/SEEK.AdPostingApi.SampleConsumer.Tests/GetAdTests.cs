@@ -44,7 +44,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             PactProvider.MockService
-                .Given(string.Format("There is an advertisement with id: '{0}'", advertisementId))
+                .Given($"There is an advertisement with id: '{advertisementId}'")
                 .UponReceiving("GET request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -111,6 +111,79 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var jobAd = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId));
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job titile returned!");
+            Assert.AreEqual(Status.Pending, jobAd.Status);
+        }
+
+        [Test]
+        public async Task GetExistingAdvertisementStatus()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+            var oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            PactProvider.MockLinks();
+
+            PactProvider.MockService
+                .Given($"There is an advertisement with id: '{advertisementId}'")
+                .UponReceiving("HEAD request for advertisement")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Head,
+                    Path = "/advertisement/" + advertisementId,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Accept", "application/vnd.seek.advertisement+json"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
+                        {"Status", "Pending"}
+                    }
+                });
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            var status = await client.GetAdvertisementStatusAsync(new Guid(advertisementId));
+            Assert.AreEqual(Status.Pending, status);
+        }
+
+        [Test]
+        public async Task GetExistingAdvertisementStatusUsingUri()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+            var oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            PactProvider.MockService
+                .Given($"There is an advertisement with id: '{advertisementId}'")
+                .UponReceiving("HEAD request for advertisement")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Head,
+                    Path = "/advertisement/" + advertisementId,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Accept", "application/vnd.seek.advertisement+json"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
+                        {"Status", "Pending"}
+                    }
+                });
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            var status = await client.GetAdvertisementStatusAsync(new Uri(PactProvider.MockServiceUri, "advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"));
+            Assert.AreEqual(Status.Pending, status);
         }
 
         [Test]
@@ -120,7 +193,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             PactProvider.MockService
-                .Given(string.Format("There isn't an advertisement with id: '{0}'", advertisementId))
+                .Given($"There isn't an advertisement with id: '{advertisementId}'")
                 .UponReceiving("GET request for advertisement")
                 .With(new ProviderServiceRequest
                 {
