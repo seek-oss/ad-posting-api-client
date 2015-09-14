@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using SEEK.AdPostingApi.Client.Hal;
+using SEEK.AdPostingApi.Client.Exceptions;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -56,7 +53,18 @@ namespace SEEK.AdPostingApi.Client
 
             await this.EnsureInitialised();
 
-            return await this._indexResource.CreateAdvertisementAsync(advertisement);
+            try
+            {
+                return await this._indexResource.CreateAdvertisementAsync(advertisement);
+            }
+            catch (ResourceActionException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Conflict)
+                {
+                    throw new AdvertisementAlreadyExistsException(advertisement.CorrelationId, ex);
+                }
+                throw;
+            }
         }
 
         public async Task<AdvertisementResource> GetAdvertisementAsync(Guid id)

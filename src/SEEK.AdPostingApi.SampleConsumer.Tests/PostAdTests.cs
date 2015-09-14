@@ -4,9 +4,10 @@ using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
+using System.Net;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using SEEK.AdPostingApi.Client.Exceptions;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -14,6 +15,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
     public class PostAdTests : IDisposable
     {
         private readonly IOAuth2TokenClient _oauthClient;
+
+        private const string AdvertisementLink = "/advertisement";
+        private const string CorrelationIdForAdWithMinimumRequiredData = "20150914_134527_00042";
+        private const string CorrelationIdForAdWithMaximumRequiredData = "20150914_134527_00097";
 
         public PostAdTests()
         {
@@ -40,43 +45,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private void SetupJobCreationWithMinimumData(string accessToken)
         {
-            const string advertisementLink = "/advertisement";
-
-            PactProvider.MockService
-                .UponReceiving("a request to retrieve API links")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = "/",
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Accept", "application/hal+json"},
-                        {"Authorization", "Bearer " + accessToken},
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Content-Type", "application/hal+json; charset=utf-8"}
-                    },
-                    Body = new
-                    {
-                        _links = new
-                        {
-                            advertisements = new
-                            {
-                                href = advertisementLink
-                            },
-                            advertisement = new
-                            {
-                                href = advertisementLink + "/{advertisementId}",
-                                templated = true
-                            }
-                        }
-                    }
-                });
+            PactProvider.MockLinks();
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad with minimum required data")
@@ -84,7 +53,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ProviderServiceRequest
                     {
                         Method = HttpVerb.Post,
-                        Path = advertisementLink,
+                        Path = AdvertisementLink,
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + accessToken},
@@ -93,6 +62,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new
                         {
                             advertiserId = "advertiserA",
+                            correlationId = CorrelationIdForAdWithMinimumRequiredData,
                             advertisementType = AdvertisementType.Classic.ToString(),
                             jobTitle = "Bricklayer",
                             locationId = "1002",
@@ -119,43 +89,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private void SetupJobCreationWithMaximumData(string accessToken)
         {
-            const string advertisementLink = "/advertisement";
-
-            PactProvider.MockService
-                .UponReceiving("a request to retrieve API links")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = "/",
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Accept", "application/hal+json"},
-                        {"Authorization", "Bearer " + accessToken},
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Content-Type", "application/hal+json; charset=utf-8"}
-                    },
-                    Body = new
-                    {
-                        _links = new
-                        {
-                            advertisements = new
-                            {
-                                href = advertisementLink
-                            },
-                            advertisement = new
-                            {
-                                href = advertisementLink + "/{advertisementId}",
-                                templated = true
-                            }
-                        }
-                    }
-                });
+            PactProvider.MockLinks();
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad with maximum required data")
@@ -163,7 +97,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ProviderServiceRequest
                     {
                         Method = HttpVerb.Post,
-                        Path = advertisementLink,
+                        Path = AdvertisementLink,
                         Headers = new Dictionary<string, string>
                         {
                                         {"Authorization", "Bearer " + accessToken},
@@ -173,6 +107,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             agentId = "agentA",
                             advertiserId = "advertiserB",
+                            correlationId = CorrelationIdForAdWithMaximumRequiredData,
                             jobTitle = "Baker",
                             jobSummary = "Fantastic opportunity for an awesome baker",
                             advertisementDetails = "Baking experience required",
@@ -217,43 +152,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private void SetupJobCreationWithBadData(string accessToken)
         {
-            const string advertisementLink = "/advertisement";
-
-            PactProvider.MockService
-                .UponReceiving("a request to retrieve API links")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = "/",
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Accept", "application/hal+json"},
-                        {"Authorization", "Bearer " + accessToken}
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Content-Type", "application/hal+json; charset=utf-8"}
-                    },
-                    Body = new
-                    {
-                        _links = new
-                        {
-                            advertisements = new
-                            {
-                                href = advertisementLink
-                            },
-                            advertisement = new
-                            {
-                                href = advertisementLink + "/{advertisementId}",
-                                templated = true
-                            }
-                        }
-                    }
-                });
+            PactProvider.MockLinks();
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad with bad data")
@@ -261,7 +160,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ProviderServiceRequest
                     {
                         Method = HttpVerb.Post,
-                        Path = advertisementLink,
+                        Path = AdvertisementLink,
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + accessToken},
@@ -269,6 +168,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         Body = new
                         {
+                            correlationId = "20150914_134527_00109",
                             advertisementType = 0,
                             workType = 0,
                             salaryType = 0,
@@ -288,6 +188,94 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
         }
 
+        private void SetupJobCreationWithNoCorrelationId(string accessToken)
+        {
+            PactProvider.MockLinks();
+
+            PactProvider.MockService
+                .UponReceiving("a request to create a job ad without a correlation id")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            {"Authorization", "Bearer " + accessToken},
+                            {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                        },
+                        Body = new
+                        {
+                            advertiserId = "advertiserA",
+                            advertisementType = AdvertisementType.Classic.ToString(),
+                            jobTitle = "Bricklayer",
+                            locationId = "1002",
+                            subclassificationId = "6227",
+                            workType = WorkType.Casual.ToString(),
+                            salaryType = SalaryType.HourlyRate.ToString(),
+                            salaryMinimum = 20,
+                            salaryMaximum = 24,
+                            jobSummary = "some text",
+                            advertisementDetails = "experience required"
+                        }
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 400,
+                        //Body = new Dictionary<string, string>
+                        //{
+                        //    {"correlationId", "Correlation ID is missing. Path 'correlationId'"}
+                        //}
+                    });
+        }
+
+        private void SetupJobCreationWithExistingCorrelationId(string accessToken)
+        {
+            PactProvider.MockLinks();
+
+            PactProvider.MockService
+                .Given($"a job ad with correlation ID '{CorrelationIdForAdWithMinimumRequiredData}' already exists")
+                .UponReceiving("a request to create a job ad")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            {"Authorization", "Bearer " + accessToken},
+                            {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                        },
+                        Body = new
+                        {
+                            advertiserId = "advertiserA",
+                            correlationId = CorrelationIdForAdWithMinimumRequiredData,
+                            advertisementType = AdvertisementType.Classic.ToString(),
+                            jobTitle = "Bricklayer",
+                            locationId = "1002",
+                            subclassificationId = "6227",
+                            workType = WorkType.Casual.ToString(),
+                            salaryType = SalaryType.HourlyRate.ToString(),
+                            salaryMinimum = 20,
+                            salaryMaximum = 24,
+                            jobSummary = "some text",
+                            advertisementDetails = "experience required"
+                        }
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 409,
+                        Headers = new Dictionary<string, string>
+                        {
+                            {"Location", "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"}
+                        }
+                    });
+        }
+
         [Test]
         public async Task PostAdWithMinimumRequiredData()
         {
@@ -296,16 +284,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             SetupJobCreationWithMinimumData(oAuth2Token.AccessToken);
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
+            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CorrelationIdForAdWithMinimumRequiredData));
 
             StringAssert.StartsWith("http://localhost/advertisement", jobAdLink.ToString());
         }
 
-        public Advertisement SetupJobAdWithMinimumRequiredData()
+        public Advertisement SetupJobAdWithMinimumRequiredData(string correlationId = null)
         {
             return new Advertisement
             {
                 AdvertiserId = "advertiserA",
+                CorrelationId = correlationId,
                 JobTitle = "Bricklayer",
                 JobSummary = "some text",
                 AdvertisementDetails = "experience required",
@@ -344,11 +333,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.CreateAdvertisementAsync(new Advertisement());
+                await client.CreateAdvertisementAsync(new Advertisement() { CorrelationId = "20150914_134527_00109" });
+                Assert.Fail($"Should throw a '{typeof(ResourceActionException).FullName}' exception");
             }
             catch (Exception ex)
             {
-                StringAssert.Contains("Bad Request", ex.Message);
+                StringAssert.Contains($"{HttpStatusCode.BadRequest:G}", ex.Message);
             }
         }
 
@@ -358,6 +348,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             {
                 AgentId = "agentA",
                 AdvertiserId = "advertiserB",
+                CorrelationId = CorrelationIdForAdWithMaximumRequiredData,
                 JobTitle = "Baker",
                 JobSummary = "Fantastic opportunity for an awesome baker",
                 AdvertisementDetails = "Baking experience required",
@@ -387,6 +378,46 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 StandoutBullet2 = "standout bullet 2",
                 StandoutBullet3 = "standout bullet 3",
             };
+        }
+
+        [Test]
+        public async Task PostAdWithNoCorrelationId()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            SetupJobCreationWithNoCorrelationId(oAuth2Token.AccessToken);
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            try
+            {
+                await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
+                Assert.Fail($"Should throw a '{typeof(ResourceActionException).FullName}' exception");
+            }
+            catch (ResourceActionException ex)
+            {
+                StringAssert.Contains($"{HttpStatusCode.BadRequest:G}", ex.Message);
+            }
+        }
+
+        [Test]
+        public async Task PostAdWithExistingCorrelationId()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            SetupJobCreationWithExistingCorrelationId(oAuth2Token.AccessToken);
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            try
+            {
+                await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CorrelationIdForAdWithMinimumRequiredData));
+                Assert.Fail($"Should throw an '{typeof(AdvertisementAlreadyExistsException).FullName}' exception");
+            }
+            catch (AdvertisementAlreadyExistsException ex)
+            {
+                Assert.AreEqual(ex.CorrelationId, CorrelationIdForAdWithMinimumRequiredData);
+            }
         }
     }
 }

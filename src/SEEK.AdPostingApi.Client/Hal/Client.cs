@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SEEK.AdPostingApi.Client.Exceptions;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
@@ -79,8 +80,14 @@ namespace SEEK.AdPostingApi.Client.Hal
             using (var request = CreateRequest<TResource>(uri, HttpMethod.Post, content))
             using (var response = await this.httpClient.SendAsync(request))
             {
-                response.EnsureSuccessStatusCode();
-                return response.Headers.Location;
+                if (response.IsSuccessStatusCode) return response.Headers.Location;
+
+                string responseContent = null;
+                if (response.Content != null)
+                {
+                    responseContent = await response.Content.ReadAsStringAsync();
+                }
+                throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
             }
         }
 

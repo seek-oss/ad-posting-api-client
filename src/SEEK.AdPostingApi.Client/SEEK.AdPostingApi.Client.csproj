@@ -57,11 +57,13 @@
     <Compile Include="AdPostingApiClient.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="EnvironmentUrlAttribute.cs" />
+    <Compile Include="Exceptions\AdvertisementAlreadyExistsException.cs" />
     <Compile Include="Hal\Client.cs" />
     <Compile Include="Hal\HalResourceConverter.cs" />
     <Compile Include="Hal\MediaTypeAttribute.cs" />
     <Compile Include="Hal\Link.cs" />
     <Compile Include="Hal\HalResource.cs" />
+    <Compile Include="Exceptions\ResourceActionException.cs" />
     <Compile Include="Hal\TypeExtensions.cs" />
     <Compile Include="IAdPostingApiClient.cs" />
     <Compile Include="IOAuth2TokenClient.cs" />
