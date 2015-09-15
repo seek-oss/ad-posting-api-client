@@ -1,3 +1,4 @@
+#!/bin/sh
 docker run \
     --rm \
     -v $(which docker):/usr/local/bin/docker \
