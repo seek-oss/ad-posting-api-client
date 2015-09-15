@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -78,16 +80,52 @@ namespace SEEK.AdPostingApi.Client.Hal
             var content = JsonConvert.SerializeObject(resource, serializerSettings);
 
             using (var request = CreateRequest<TResource>(uri, HttpMethod.Post, content))
-            using (var response = await this.httpClient.SendAsync(request))
             {
-                if (response.IsSuccessStatusCode) return response.Headers.Location;
-
-                string responseContent = null;
-                if (response.Content != null)
+                try
                 {
-                    responseContent = await response.Content.ReadAsStringAsync();
+                    using (var response = await this.httpClient.SendAsync(request))
+                    {
+                        if (response.IsSuccessStatusCode) return response.Headers.Location;
+
+                        string responseContent = null;
+                        if (response.Content != null)
+                        {
+                            responseContent = await response.Content.ReadAsStringAsync();
+                        }
+                        throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
+                    }
                 }
-                throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
+                catch (WebException ex)
+                {
+                    await ThrowResourceActionExceptionIfExceptionIsProtocolError(ex);
+                    throw;
+                }
+            }
+        }
+
+        private static async Task ThrowResourceActionExceptionIfExceptionIsProtocolError(WebException ex)
+        {
+            // Ugly workaround for mono in docker where the repo is on a unix file system throws a WebException :'(
+            if ((ex.Status != WebExceptionStatus.ProtocolError) || (!(ex.Response is HttpWebResponse))) return;
+
+            var webResponse = (HttpWebResponse) ex.Response;
+            string responseContent = null;
+            using (var responseStream = webResponse.GetResponseStream())
+            {
+                using (var streamReader = new StreamReader(responseStream, Encoding.GetEncoding(webResponse.ContentEncoding)))
+                {
+                    responseContent = await streamReader.ReadToEndAsync();
+                }
+            }
+
+            using (var responseMessage = new HttpResponseMessage(webResponse.StatusCode))
+            {
+                foreach (string headerName in webResponse.Headers.Keys)
+                {
+                    responseMessage.Headers.Add(headerName, webResponse.Headers[headerName]);
+                }
+
+                throw new ResourceActionException(HttpMethod.Post, responseMessage.StatusCode, responseMessage.Headers, responseContent);
             }
         }
 

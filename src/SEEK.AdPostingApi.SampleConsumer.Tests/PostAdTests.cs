@@ -336,7 +336,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 await client.CreateAdvertisementAsync(new Advertisement() { CorrelationId = "20150914_134527_00109" });
                 Assert.Fail($"Should throw a '{typeof(ResourceActionException).FullName}' exception");
             }
-            catch (Exception ex)
+            catch (ResourceActionException ex)
             {
                 StringAssert.Contains($"{HttpStatusCode.BadRequest:G}", ex.Message);
             }
