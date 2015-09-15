@@ -112,7 +112,8 @@ namespace SEEK.AdPostingApi.Client.Hal
             string responseContent = null;
             using (var responseStream = webResponse.GetResponseStream())
             {
-                using (var streamReader = new StreamReader(responseStream, Encoding.GetEncoding(webResponse.ContentEncoding)))
+                var encoding = string.IsNullOrWhiteSpace(webResponse.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(webResponse.ContentEncoding);
+                using (var streamReader = new StreamReader(responseStream, encoding))
                 {
                     responseContent = await streamReader.ReadToEndAsync();
                 }
