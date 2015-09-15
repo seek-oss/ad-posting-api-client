@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -121,7 +122,8 @@ namespace SEEK.AdPostingApi.Client.Hal
 
             using (var responseMessage = new HttpResponseMessage(webResponse.StatusCode))
             {
-                foreach (string headerName in webResponse.Headers.Keys)
+                foreach (var headerName in webResponse.Headers.Keys.Cast<string>()
+                    .Where(headerName => !string.IsNullOrWhiteSpace(webResponse.Headers[headerName])))
                 {
                     responseMessage.Headers.Add(headerName, webResponse.Headers[headerName]);
                 }
