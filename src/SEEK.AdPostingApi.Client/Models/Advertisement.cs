@@ -7,7 +7,7 @@ namespace SEEK.AdPostingApi.Client.Models
     {
         public string AdvertiserId { get; set; }
 
-        public string CorrelationId { get; set; }
+        public string CreationId { get; set; }
 
         public string AgentId { get; set; }
 

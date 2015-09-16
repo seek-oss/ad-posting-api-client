@@ -17,8 +17,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private readonly IOAuth2TokenClient _oauthClient;
 
         private const string AdvertisementLink = "/advertisement";
-        private const string CorrelationIdForAdWithMinimumRequiredData = "20150914_134527_00042";
-        private const string CorrelationIdForAdWithMaximumRequiredData = "20150914_134527_00097";
+        private const string CreationIdForAdWithMinimumRequiredData = "20150914_134527_00042";
+        private const string CreationIdForAdWithMaximumRequiredData = "20150914_134527_00097";
 
         public PostAdTests()
         {
@@ -62,7 +62,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new
                         {
                             advertiserId = "advertiserA",
-                            correlationId = CorrelationIdForAdWithMinimumRequiredData,
+                            creationId = CreationIdForAdWithMinimumRequiredData,
                             advertisementType = AdvertisementType.Classic.ToString(),
                             jobTitle = "Bricklayer",
                             locationId = "1002",
@@ -107,7 +107,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             agentId = "agentA",
                             advertiserId = "advertiserB",
-                            correlationId = CorrelationIdForAdWithMaximumRequiredData,
+                            creationId = CreationIdForAdWithMaximumRequiredData,
                             jobTitle = "Baker",
                             jobSummary = "Fantastic opportunity for an awesome baker",
                             advertisementDetails = "Baking experience required",
@@ -168,7 +168,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         Body = new
                         {
-                            correlationId = "20150914_134527_00109",
+                            creationId = "20150914_134527_00109",
                             advertisementType = 0,
                             workType = 0,
                             salaryType = 0,
@@ -188,12 +188,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
         }
 
-        private void SetupJobCreationWithNoCorrelationId(string accessToken)
+        private void SetupJobCreationWithNoCreationId(string accessToken)
         {
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .UponReceiving("a request to create a job ad without a correlation id")
+                .UponReceiving("a request to create a job ad without a creation id")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -226,17 +226,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 400,
                         //Body = new Dictionary<string, string>
                         //{
-                        //    {"correlationId", "Correlation ID is missing. Path 'correlationId'"}
+                        //    {"creationId", "Creation ID is missing. Path 'creationId'"}
                         //}
                     });
         }
 
-        private void SetupJobCreationWithExistingCorrelationId(string accessToken)
+        private void SetupJobCreationWithExistingCreationId(string accessToken)
         {
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"a job ad with correlation ID '{CorrelationIdForAdWithMinimumRequiredData}' already exists")
+                .Given($"a job ad with creation ID '{CreationIdForAdWithMinimumRequiredData}' already exists")
                 .UponReceiving("a request to create a job ad")
                 .With(
                     new ProviderServiceRequest
@@ -251,7 +251,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new
                         {
                             advertiserId = "advertiserA",
-                            correlationId = CorrelationIdForAdWithMinimumRequiredData,
+                            creationId = CreationIdForAdWithMinimumRequiredData,
                             advertisementType = AdvertisementType.Classic.ToString(),
                             jobTitle = "Bricklayer",
                             locationId = "1002",
@@ -284,17 +284,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             SetupJobCreationWithMinimumData(oAuth2Token.AccessToken);
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CorrelationIdForAdWithMinimumRequiredData));
+            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
 
             StringAssert.StartsWith("http://localhost/advertisement", jobAdLink.ToString());
         }
 
-        public Advertisement SetupJobAdWithMinimumRequiredData(string correlationId = null)
+        public Advertisement SetupJobAdWithMinimumRequiredData(string creationId = null)
         {
             return new Advertisement
             {
                 AdvertiserId = "advertiserA",
-                CorrelationId = correlationId,
+                CreationId = creationId,
                 JobTitle = "Bricklayer",
                 JobSummary = "some text",
                 AdvertisementDetails = "experience required",
@@ -333,7 +333,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.CreateAdvertisementAsync(new Advertisement() { CorrelationId = "20150914_134527_00109" });
+                await client.CreateAdvertisementAsync(new Advertisement() { CreationId = "20150914_134527_00109" });
                 Assert.Fail($"Should throw a '{typeof(ResourceActionException).FullName}' exception");
             }
             catch (ResourceActionException ex)
@@ -348,7 +348,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             {
                 AgentId = "agentA",
                 AdvertiserId = "advertiserB",
-                CorrelationId = CorrelationIdForAdWithMaximumRequiredData,
+                CreationId = CreationIdForAdWithMaximumRequiredData,
                 JobTitle = "Baker",
                 JobSummary = "Fantastic opportunity for an awesome baker",
                 AdvertisementDetails = "Baking experience required",
@@ -381,11 +381,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task PostAdWithNoCorrelationId()
+        public async Task PostAdWithNoCreationId()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            SetupJobCreationWithNoCorrelationId(oAuth2Token.AccessToken);
+            SetupJobCreationWithNoCreationId(oAuth2Token.AccessToken);
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
@@ -401,22 +401,22 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task PostAdWithExistingCorrelationId()
+        public async Task PostAdWithExistingCreationId()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            SetupJobCreationWithExistingCorrelationId(oAuth2Token.AccessToken);
+            SetupJobCreationWithExistingCreationId(oAuth2Token.AccessToken);
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             try
             {
-                await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CorrelationIdForAdWithMinimumRequiredData));
+                await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
                 Assert.Fail($"Should throw an '{typeof(AdvertisementAlreadyExistsException).FullName}' exception");
             }
             catch (AdvertisementAlreadyExistsException ex)
             {
-                Assert.AreEqual(ex.CorrelationId, CorrelationIdForAdWithMinimumRequiredData);
+                Assert.AreEqual(ex.CreationId, CreationIdForAdWithMinimumRequiredData);
             }
         }
     }

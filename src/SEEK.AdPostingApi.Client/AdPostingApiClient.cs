@@ -61,7 +61,7 @@ namespace SEEK.AdPostingApi.Client
             {
                 if (ex.StatusCode == HttpStatusCode.Conflict)
                 {
-                    throw new AdvertisementAlreadyExistsException(advertisement.CorrelationId, ex);
+                    throw new AdvertisementAlreadyExistsException(advertisement.CreationId, ex);
                 }
                 throw;
             }

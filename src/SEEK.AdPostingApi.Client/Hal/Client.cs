@@ -125,7 +125,8 @@ namespace SEEK.AdPostingApi.Client.Hal
                 foreach (var headerName in webResponse.Headers.Keys.Cast<string>()
                     .Where(headerName => !string.IsNullOrWhiteSpace(webResponse.Headers[headerName])))
                 {
-                    responseMessage.Headers.Add(headerName, webResponse.Headers[headerName]);
+                    // Try add the header since e.g. the "Content-Type" header throws a "System.InvalidOperationException : Content-Type" exception.
+                    responseMessage.Headers.TryAddWithoutValidation(headerName, webResponse.Headers[headerName]);
                 }
 
                 throw new ResourceActionException(HttpMethod.Post, responseMessage.StatusCode, responseMessage.Headers, responseContent);
