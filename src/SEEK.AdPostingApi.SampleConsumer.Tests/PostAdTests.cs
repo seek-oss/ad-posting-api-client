@@ -17,7 +17,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private readonly IOAuth2TokenClient _oauthClient;
 
         private const string AdvertisementLink = "/advertisement";
-        private const string CreationIdForAdWithMinimumRequiredData = "20150914_134527_00042";
+        private const string CreationIdForAdThatAlreadyExists = "20150914_134527_00042";
+        private const string CreationIdForAdWithMinimumRequiredData = "20150914_134527_00012";
         private const string CreationIdForAdWithMaximumRequiredData = "20150914_134527_00097";
 
         public PostAdTests()
@@ -237,7 +238,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"a job ad with creation ID '{CreationIdForAdWithMinimumRequiredData}' already exists")
+                .Given($"a job ad with creation ID '{CreationIdForAdThatAlreadyExists}' already exists")
                 .UponReceiving("a request to create a job ad")
                 .With(
                     new ProviderServiceRequest
@@ -252,7 +253,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new
                         {
                             advertiserId = "advertiserA",
-                            creationId = CreationIdForAdWithMinimumRequiredData,
+                            creationId = CreationIdForAdThatAlreadyExists,
                             advertisementType = AdvertisementType.Classic.ToString(),
                             jobTitle = "Bricklayer",
                             locationId = "1002",
@@ -412,12 +413,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
+                await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdThatAlreadyExists));
                 Assert.Fail($"Should throw an '{typeof(AdvertisementAlreadyExistsException).FullName}' exception");
             }
             catch (AdvertisementAlreadyExistsException ex)
             {
-                Assert.AreEqual(ex.CreationId, CreationIdForAdWithMinimumRequiredData);
+                Assert.AreEqual(ex.CreationId, CreationIdForAdThatAlreadyExists);
             }
         }
     }
