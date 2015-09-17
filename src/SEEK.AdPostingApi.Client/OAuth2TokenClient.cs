@@ -21,6 +21,7 @@ namespace SEEK.AdPostingApi.Client
             _secret = secret;
             _tokenUri = new Uri("https://api.seek.com.au/auth/oauth2/token");
             _httpClient = new HttpClient();
+            AccessToken = GetOAuth2TokenAsync().Result.AccessToken;
         }
 
         private readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
@@ -46,6 +47,8 @@ namespace SEEK.AdPostingApi.Client
                 }
             }
         }
+
+        public string AccessToken { get; set; }
 
         public void Dispose()
         {

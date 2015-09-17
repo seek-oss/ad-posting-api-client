@@ -32,19 +32,17 @@ namespace SEEK.AdPostingApi.Client.Hal
 
             resource.Initialise(this.httpClient, uri);
 
-            using (var request = new HttpRequestMessage(HttpMethod.Get, uri)
+            using (var request = new HttpRequestMessage(HttpMethod.Get, uri))
             {
-                Headers =
-                {
-                    Accept = {new MediaTypeWithQualityHeaderValue(typeof(TResource).GetMediaType("application/hal+json")) }
-                }
-            })
-            using (var response = await httpClient.SendAsync(request))
-            {
-                response.EnsureSuccessStatusCode();
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(typeof(TResource).GetMediaType("application/hal+json")));
 
-                resource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
-                resource.ResponseHeaders = response.Headers;
+                using (var response = await httpClient.SendAsync(request))
+                {
+                    response.EnsureSuccessStatusCode();
+
+                    resource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
+                    resource.ResponseHeaders = response.Headers;
+                }
             }
 
             return resource;

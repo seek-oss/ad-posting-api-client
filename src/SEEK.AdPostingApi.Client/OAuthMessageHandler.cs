@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,11 +18,23 @@ namespace SEEK.AdPostingApi.Client
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var token = await _tokenClient.GetOAuth2TokenAsync();
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenClient.AccessToken);
 
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
+            var res = await base.SendAsync(request, cancellationToken);
 
-            return await base.SendAsync(request, cancellationToken);
+            if (res.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                res.Dispose();
+
+                var token = await _tokenClient.GetOAuth2TokenAsync();
+
+                _tokenClient.AccessToken = token.AccessToken;
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenClient.AccessToken);
+
+                res = await base.SendAsync(request, cancellationToken);
+            }
+
+            return res;
         }
     }
 }
