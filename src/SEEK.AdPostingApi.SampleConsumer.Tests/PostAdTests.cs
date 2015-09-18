@@ -102,8 +102,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Path = AdvertisementLink,
                         Headers = new Dictionary<string, string>
                         {
-                                        {"Authorization", "Bearer " + accessToken},
-                                        {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                            { "Authorization", "Bearer " + accessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                         },
                         Body = new
                         {
@@ -130,14 +130,22 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             jobReference = "REF1234",
                             templateId = 43496,
                             templateItems = new[]
-                                     {
-                                         new { name = "template1", value = "value1" },
-                                         new { name = "template2", value = "value2" }
-                                     },
+                            {
+                                new { name = "template1", value = "value1" },
+                                new { name = "template2", value = "value2" }
+                            },
                             standoutLogoId = 39,
                             standoutBullet1 = "standout bullet 1",
                             standoutBullet2 = "standout bullet 2",
-                            standoutBullet3 = "standout bullet 3"
+                            standoutBullet3 = "standout bullet 3",
+                            seekCodes = new[]
+                            {
+                                "SK840239A",
+                                "SK4232A",
+                                "SK23894023A",
+                                "SK23432A",
+                                "SK238429A"
+                            }
                         }
                     }
                 )
@@ -371,14 +379,22 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 JobReference = "REF1234",
                 TemplateId = 43496,
                 TemplateItems = new[]
-                         {
-                             new TemplateItemModel { Name = "template1", Value = "value1" },
-                             new TemplateItemModel { Name = "template2", Value = "value2" }
-                         },
+                {
+                    new TemplateItemModel { Name = "template1", Value = "value1" },
+                    new TemplateItemModel { Name = "template2", Value = "value2" }
+                },
                 StandoutLogoId = 39,
                 StandoutBullet1 = "standout bullet 1",
                 StandoutBullet2 = "standout bullet 2",
                 StandoutBullet3 = "standout bullet 3",
+                SeekCodes = new[]
+                {
+                    "SK840239A",
+                    "SK4232A",
+                    "SK23894023A",
+                    "SK23432A",
+                    "SK238429A"
+                }
             };
         }
 

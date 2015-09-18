@@ -60,5 +60,7 @@ namespace SEEK.AdPostingApi.Client.Models
         public string StandoutBullet3 { get; set; }
 
         public AdditionalPropertyType[] AdditionalProperties { get; set; }
+
+        public string[] SeekCodes { get; set; }
     }
 }
