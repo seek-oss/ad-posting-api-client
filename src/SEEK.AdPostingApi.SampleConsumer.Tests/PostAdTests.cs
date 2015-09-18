@@ -17,9 +17,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private readonly IOAuth2TokenClient _oauthClient;
 
         private const string AdvertisementLink = "/advertisement";
-        private const string CreationIdForAdThatAlreadyExists = "20150914_134527_00042";
-        private const string CreationIdForAdWithMinimumRequiredData = "20150914_134527_00012";
-        private const string CreationIdForAdWithMaximumRequiredData = "20150914_134527_00097";
+        private const string CreationIdForAdThatAlreadyExists = "20150914-134527-00042";
+        private const string CreationIdForAdWithMinimumRequiredData = "20150914-134527-00012";
+        private const string CreationIdForAdWithMaximumRequiredData = "20150914-134527-00097";
 
         public PostAdTests()
         {
@@ -170,7 +170,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         Body = new
                         {
-                            creationId = "20150914_134527_00109",
+                            creationId = "20150914-134527-00109",
                             advertisementType = 0,
                             workType = 0,
                             salaryType = 0,
@@ -335,7 +335,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.CreateAdvertisementAsync(new Advertisement() { CreationId = "20150914_134527_00109" });
+                await client.CreateAdvertisementAsync(new Advertisement() { CreationId = "20150914-134527-00109" });
                 Assert.Fail($"Should throw a '{typeof(ResourceActionException).FullName}' exception");
             }
             catch (ResourceActionException ex)
