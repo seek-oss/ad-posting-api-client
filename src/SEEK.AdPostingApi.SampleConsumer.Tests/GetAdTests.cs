@@ -97,6 +97,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         standoutBullet1 = "Uzi",
                         standoutBullet2 = "Remington Model",
                         standoutBullet3 = "AK-47",
+                        seekCodes = new[]
+                        {
+                            "SK010001Z",
+                            "SK010010z",
+                            "SK0101OOZ",
+                            "SK910101A"
+                        },
                         additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
                         _links = new
                         {
