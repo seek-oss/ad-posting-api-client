@@ -245,7 +245,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         Body = new Dictionary<string, object[]>
                         {
-                            { "advertiserId", new object[] { new { severity = "Error", code = "Required" } } },
                             { "salaryMinimum", new object[] { new { severity = "Error", code = "ValueOutOfRange" } } },
                             { "videoUrl", new object[] {
                                 new { severity = "Error", code = "MaxLengthExceeded" },
