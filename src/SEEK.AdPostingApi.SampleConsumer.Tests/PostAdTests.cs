@@ -4,7 +4,6 @@ using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using SEEK.AdPostingApi.Client.Exceptions;
@@ -207,7 +206,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 400,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "Application/Json" }
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; charset=utf-8" }
                         },
                         Body = new Dictionary<string, object[]>
                         {
@@ -263,7 +262,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 400,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "Application/Json" }
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; charset=utf-8" }
                         },
                         Body = new Dictionary<string, object[]>
                         {
@@ -401,27 +400,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
             catch (ValidationException ex)
             {
-                Assert.IsNotNull(ex.ValidationErrorDictionary);
-                Assert.AreEqual(7, ex.ValidationErrorDictionary.Count);
-                AssertValidationData(ex.ValidationErrorDictionary, "advertiserId", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
-                AssertValidationData(ex.ValidationErrorDictionary, "salaryMinimum", new ValidationData { Severity = ValidationSeverity.Error, Code = "ValueOutOfRange" });
-                AssertValidationData(ex.ValidationErrorDictionary, "videoUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" }, new ValidationData { Severity = ValidationSeverity.Error, Code = "RegexPatternNotMatched" });
-                AssertValidationData(ex.ValidationErrorDictionary, "applicationEmail", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidEmailAddress" });
-                AssertValidationData(ex.ValidationErrorDictionary, "applicationFormUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidUrl" });
-                AssertValidationData(ex.ValidationErrorDictionary, "templateItems[1].name", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
-                AssertValidationData(ex.ValidationErrorDictionary, "templateItems[1].value", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" });
-            }
-        }
-
-        private void AssertValidationData(Dictionary<string, ValidationData[]> validationDataDictionary, string expectedKey,
-            params ValidationData[] expectedValidationData)
-        {
-            Assert.IsTrue(validationDataDictionary.ContainsKey(expectedKey), $"validationDataDictionary does not contain key {expectedKey}.");
-            var validationDataArray = validationDataDictionary[expectedKey];
-            Assert.AreEqual(expectedValidationData.Length, validationDataArray.Length, $"Key {expectedKey} ValidationDataArray count does not match expected.");
-            foreach (var expectedValidationDataItem in validationDataArray)
-            {
-                Assert.IsTrue(validationDataArray.Any(v => v.Severity == expectedValidationDataItem.Severity && v.Code == expectedValidationDataItem.Code), $"Key {expectedKey} does not have any ValidationData object with severity {expectedValidationDataItem.Severity:G} and code {expectedValidationDataItem.Code}.");
+                Assert.IsNotNull(ex.ValidationDataDictionary);
+                Assert.AreEqual(7, ex.ValidationDataDictionary.Count);
+                ex.ValidationDataDictionary.AssertValidationData("advertiserId", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
+                ex.ValidationDataDictionary.AssertValidationData("salaryMinimum", new ValidationData { Severity = ValidationSeverity.Error, Code = "ValueOutOfRange" });
+                ex.ValidationDataDictionary.AssertValidationData("videoUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" }, new ValidationData { Severity = ValidationSeverity.Error, Code = "RegexPatternNotMatched" });
+                ex.ValidationDataDictionary.AssertValidationData("applicationEmail", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidEmailAddress" });
+                ex.ValidationDataDictionary.AssertValidationData("applicationFormUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidUrl" });
+                ex.ValidationDataDictionary.AssertValidationData("templateItems[1].name", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
+                ex.ValidationDataDictionary.AssertValidationData("templateItems[1].value", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" });
             }
         }
 
@@ -487,9 +474,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
             catch (ValidationException ex)
             {
-                Assert.IsNotNull(ex.ValidationErrorDictionary);
-                Assert.AreEqual(1, ex.ValidationErrorDictionary.Count);
-                AssertValidationData(ex.ValidationErrorDictionary, "creationId", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
+                Assert.IsNotNull(ex.ValidationDataDictionary);
+                Assert.AreEqual(1, ex.ValidationDataDictionary.Count);
+                ex.ValidationDataDictionary.AssertValidationData("creationId", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
             }
         }
 

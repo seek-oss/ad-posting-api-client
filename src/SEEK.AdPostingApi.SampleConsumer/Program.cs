@@ -68,7 +68,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 }
                 catch (ValidationException ex)
                 {
-                    validationDataDictionary = ex.ValidationErrorDictionary;
+                    validationDataDictionary = ex.ValidationDataDictionary;
                     createResult = CreateResult.ValidationErrors;
                     break;
                 }

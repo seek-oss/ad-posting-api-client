@@ -54,7 +54,7 @@ namespace SEEK.AdPostingApi.Client.Exceptions
         }
 
         public ResourceActionException(HttpMethod method, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders, string responseContent, Exception innerException)
-            : base($"{method:G} failed with HTTP status code {statusCode:D} {statusCode:G}", innerException)
+            : base($"{method:G} failed with HTTP status code {statusCode:D}{innerException?.Message.PadLeft(innerException.Message.Length + 1)}", innerException)
         {
             Method = method;
             StatusCode = statusCode;

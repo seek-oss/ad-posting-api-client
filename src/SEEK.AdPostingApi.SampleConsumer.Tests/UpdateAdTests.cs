@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
+using SEEK.AdPostingApi.Client.Exceptions;
 using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
@@ -213,19 +214,49 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Body = new
                     {
                         advertiserId = "advertiserA",
-                        jobTitle = "A very longgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg title",
-                        jobSummary = "some text",
-                        advertisementDetails = "experience required",
                         advertisementType = AdvertisementType.Classic.ToString(),
                         workType = WorkType.Casual.ToString(),
-                        salaryType = SalaryType.HourlyRate.ToString(),
+                        jobTitle = "Candle Stick Maker",
                         locationId = "1002",
                         subclassificationId = "6227",
-                        salaryMinimum = 20,
-                        salaryMaximum = 24
+                        salaryType = SalaryType.HourlyRate.ToString(),
+                        salaryMinimum = 0,
+                        salaryMaximum = 24,
+                        jobSummary = "some text",
+                        advertisementDetails = "experience required",
+                        videoUrl = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
+                        videoPosition = VideoPosition.Below.ToString(),
+                        applicationEmail = "someone(at)some.domain",
+                        applicationFormUrl = "htp://somecompany.domain/apply",
+                        templateItems = new[]
+                            {
+                                new { name = "template1", value = "value1" },
+                                new { name = "", value = "value2".PadRight(260, '!') }
+                            }
                     }
                 })
-                .WillRespondWith(new ProviderServiceResponse { Status = 400 });
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 400,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; charset=utf-8" }
+                        },
+                        Body = new Dictionary<string, object[]>
+                        {
+                            { "advertiserId", new object[] { new { severity = "Error", code = "Required" } } },
+                            { "salaryMinimum", new object[] { new { severity = "Error", code = "ValueOutOfRange" } } },
+                            { "videoUrl", new object[] {
+                                new { severity = "Error", code = "MaxLengthExceeded" },
+                                new { severity = "Error", code = "RegexPatternNotMatched" } }
+                            },
+                            { "applicationEmail", new object[] { new { severity = "Error", code = "InvalidEmailAddress" } } },
+                            { "applicationFormUrl", new object[] { new { severity = "Error", code = "InvalidUrl" } } },
+                            { "templateItems[1].name", new object[] { new { severity = "Error", code = "Required" } } },
+                            { "templateItems[1].value", new object[] { new { severity = "Error", code = "MaxLengthExceeded" } } }
+                        }
+                    });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
@@ -234,21 +265,39 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId), new Advertisement
                 {
                     AdvertiserId = "advertiserA",
-                    JobTitle = "A very longgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg title",
-                    JobSummary = "some text",
-                    AdvertisementDetails = "experience required",
                     AdvertisementType = AdvertisementType.Classic,
                     WorkType = WorkType.Casual,
-                    SalaryType = SalaryType.HourlyRate,
+                    JobTitle = "Candle Stick Maker",
                     LocationId = "1002",
                     SubclassificationId = "6227",
-                    SalaryMinimum = 20,
-                    SalaryMaximum = 24
+                    SalaryType = SalaryType.HourlyRate,
+                    SalaryMinimum = 0,
+                    SalaryMaximum = 24,
+                    JobSummary = "some text",
+                    AdvertisementDetails = "experience required",
+                    VideoUrl = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
+                    VideoPosition = VideoPosition.Below,
+                    ApplicationEmail = "someone(at)some.domain",
+                    ApplicationFormUrl = "htp://somecompany.domain/apply",
+                    TemplateItems = new[]
+                        {
+                            new TemplateItemModel { Name = "template1", Value = "value1" },
+                            new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') }
+                        }
                 });
+                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
             }
-            catch (Exception ex)
+            catch (ValidationException ex)
             {
-                StringAssert.Contains("Bad Request", ex.Message);
+                Assert.IsNotNull(ex.ValidationDataDictionary);
+                Assert.AreEqual(7, ex.ValidationDataDictionary.Count);
+                ex.ValidationDataDictionary.AssertValidationData("advertiserId", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
+                ex.ValidationDataDictionary.AssertValidationData("salaryMinimum", new ValidationData { Severity = ValidationSeverity.Error, Code = "ValueOutOfRange" });
+                ex.ValidationDataDictionary.AssertValidationData("videoUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" }, new ValidationData { Severity = ValidationSeverity.Error, Code = "RegexPatternNotMatched" });
+                ex.ValidationDataDictionary.AssertValidationData("applicationEmail", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidEmailAddress" });
+                ex.ValidationDataDictionary.AssertValidationData("applicationFormUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidUrl" });
+                ex.ValidationDataDictionary.AssertValidationData("templateItems[1].name", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
+                ex.ValidationDataDictionary.AssertValidationData("templateItems[1].value", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" });
             }
         }
 

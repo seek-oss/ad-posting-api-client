@@ -1,7 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -80,54 +77,17 @@ namespace SEEK.AdPostingApi.Client.Hal
 
             using (var request = CreateRequest<TResource>(uri, HttpMethod.Post, content))
             {
-                try
+                using (var response = await this.httpClient.SendAsync(request))
                 {
-                    using (var response = await this.httpClient.SendAsync(request))
+                    if (response.IsSuccessStatusCode) return response.Headers.Location;
+
+                    string responseContent = null;
+                    if (response.Content != null)
                     {
-                        if (response.IsSuccessStatusCode) return response.Headers.Location;
-
-                        string responseContent = null;
-                        if (response.Content != null)
-                        {
-                            responseContent = await response.Content.ReadAsStringAsync();
-                        }
-                        throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
+                        responseContent = await response.Content.ReadAsStringAsync();
                     }
+                    throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
                 }
-                catch (WebException ex)
-                {
-                    await ThrowResourceActionExceptionIfExceptionIsProtocolError(ex);
-                    throw;
-                }
-            }
-        }
-
-        private static async Task ThrowResourceActionExceptionIfExceptionIsProtocolError(WebException ex)
-        {
-            // Ugly workaround for mono in docker where the repo is on a unix file system throws a WebException :'(
-            if ((ex.Status != WebExceptionStatus.ProtocolError) || (!(ex.Response is HttpWebResponse))) return;
-
-            var webResponse = (HttpWebResponse) ex.Response;
-            string responseContent = null;
-            using (var responseStream = webResponse.GetResponseStream())
-            {
-                var encoding = string.IsNullOrWhiteSpace(webResponse.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(webResponse.ContentEncoding);
-                using (var streamReader = new StreamReader(responseStream, encoding))
-                {
-                    responseContent = await streamReader.ReadToEndAsync();
-                }
-            }
-
-            using (var responseMessage = new HttpResponseMessage(webResponse.StatusCode))
-            {
-                foreach (var headerName in webResponse.Headers.Keys.Cast<string>()
-                    .Where(headerName => !string.IsNullOrWhiteSpace(webResponse.Headers[headerName])))
-                {
-                    // Try add the header since e.g. the "Content-Type" header throws a "System.InvalidOperationException : Content-Type" exception.
-                    responseMessage.Headers.TryAddWithoutValidation(headerName, webResponse.Headers[headerName]);
-                }
-
-                throw new ResourceActionException(HttpMethod.Post, responseMessage.StatusCode, responseMessage.Headers, responseContent);
             }
         }
 
