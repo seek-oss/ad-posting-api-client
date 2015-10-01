@@ -4,7 +4,7 @@ using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using SEEK.AdPostingApi.Client.Exceptions;
@@ -179,11 +179,25 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new
                         {
                             creationId = "20150914-134527-00109",
-                            advertisementType = 0,
-                            workType = 0,
-                            salaryType = 0,
+                            advertisementType = AdvertisementType.Classic.ToString(),
+                            workType = WorkType.Casual.ToString(),
+                            jobTitle = "Candle Stick Maker",
+                            locationId = "1002",
+                            subclassificationId = "6227",
+                            salaryType = SalaryType.HourlyRate.ToString(),
                             salaryMinimum = 0,
-                            salaryMaximum = 0
+                            salaryMaximum = 24,
+                            jobSummary = "some text",
+                            advertisementDetails = "experience required",
+                            videoUrl = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
+                            videoPosition = VideoPosition.Below.ToString(),
+                            applicationEmail = "someone(at)some.domain",
+                            applicationFormUrl = "htp://somecompany.domain/apply",
+                            templateItems = new[]
+                            {
+                                new { name = "template1", value = "value1" },
+                                new { name = "", value = "value2".PadRight(260, '!') }
+                            }
                         }
                     }
                 )
@@ -191,10 +205,23 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ProviderServiceResponse
                     {
                         Status = 400,
-                        //Body = new Dictionary<string, string>
-                        //{
-                        //    {"salaryType", "Error parsing boolean value. Path 'salaryType', line 8, position 19."}
-                        //}
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "Application/Json" }
+                        },
+                        Body = new Dictionary<string, object[]>
+                        {
+                            { "advertiserId", new object[] { new { severity = "Error", code = "Required" } } },
+                            { "salaryMinimum", new object[] { new { severity = "Error", code = "ValueOutOfRange" } } },
+                            { "videoUrl", new object[] {
+                                new { severity = "Error", code = "MaxLengthExceeded" },
+                                new { severity = "Error", code = "RegexPatternNotMatched" } }
+                            },
+                            { "applicationEmail", new object[] { new { severity = "Error", code = "InvalidEmailAddress" } } },
+                            { "applicationFormUrl", new object[] { new { severity = "Error", code = "InvalidUrl" } } },
+                            { "templateItems[1].name", new object[] { new { severity = "Error", code = "Required" } } },
+                            { "templateItems[1].value", new object[] { new { severity = "Error", code = "MaxLengthExceeded" } } }
+                        }
                     });
         }
 
@@ -234,10 +261,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ProviderServiceResponse
                     {
                         Status = 400,
-                        //Body = new Dictionary<string, string>
-                        //{
-                        //    {"creationId", "Creation ID is missing. Path 'creationId'"}
-                        //}
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "Application/Json" }
+                        },
+                        Body = new Dictionary<string, object[]>
+                        {
+                            { "creationId", new object[] { new { severity = "Error", code = "Required" } } }
+                        }
                     });
         }
 
@@ -294,9 +325,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             SetupJobCreationWithMinimumData(oAuth2Token.AccessToken);
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
+            Uri advertisementLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
 
-            StringAssert.StartsWith("http://localhost/advertisement", jobAdLink.ToString());
+            StringAssert.StartsWith("http://localhost/advertisement", advertisementLink.ToString());
         }
 
         public Advertisement SetupJobAdWithMinimumRequiredData(string creationId = null)
@@ -327,9 +358,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
+            Uri advertisementLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
 
-            StringAssert.StartsWith("http://localhost/advertisement", jobAdLink.ToString());
+            StringAssert.StartsWith("http://localhost/advertisement", advertisementLink.ToString());
         }
 
         [Test]
@@ -343,12 +374,54 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.CreateAdvertisementAsync(new Advertisement() { CreationId = "20150914-134527-00109" });
-                Assert.Fail($"Should throw a '{typeof(ResourceActionException).FullName}' exception");
+                await client.CreateAdvertisementAsync(new Advertisement
+                {
+                    CreationId = "20150914-134527-00109",
+                    AdvertisementType = AdvertisementType.Classic,
+                    WorkType = WorkType.Casual,
+                    JobTitle = "Candle Stick Maker",
+                    LocationId = "1002",
+                    SubclassificationId = "6227",
+                    SalaryType = SalaryType.HourlyRate,
+                    SalaryMinimum = 0,
+                    SalaryMaximum = 24,
+                    JobSummary = "some text",
+                    AdvertisementDetails = "experience required",
+                    VideoUrl = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
+                    VideoPosition = VideoPosition.Below,
+                    ApplicationEmail = "someone(at)some.domain",
+                    ApplicationFormUrl = "htp://somecompany.domain/apply",
+                    TemplateItems = new[]
+                        {
+                            new TemplateItemModel { Name = "template1", Value = "value1" },
+                            new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') }
+                        }
+                });
+                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
             }
-            catch (ResourceActionException ex)
+            catch (ValidationException ex)
             {
-                StringAssert.Contains($"{HttpStatusCode.BadRequest:G}", ex.Message);
+                Assert.IsNotNull(ex.ValidationErrorDictionary);
+                Assert.AreEqual(7, ex.ValidationErrorDictionary.Count);
+                AssertValidationData(ex.ValidationErrorDictionary, "advertiserId", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
+                AssertValidationData(ex.ValidationErrorDictionary, "salaryMinimum", new ValidationData { Severity = ValidationSeverity.Error, Code = "ValueOutOfRange" });
+                AssertValidationData(ex.ValidationErrorDictionary, "videoUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" }, new ValidationData { Severity = ValidationSeverity.Error, Code = "RegexPatternNotMatched" });
+                AssertValidationData(ex.ValidationErrorDictionary, "applicationEmail", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidEmailAddress" });
+                AssertValidationData(ex.ValidationErrorDictionary, "applicationFormUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidUrl" });
+                AssertValidationData(ex.ValidationErrorDictionary, "templateItems[1].name", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
+                AssertValidationData(ex.ValidationErrorDictionary, "templateItems[1].value", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" });
+            }
+        }
+
+        private void AssertValidationData(Dictionary<string, ValidationData[]> validationDataDictionary, string expectedKey,
+            params ValidationData[] expectedValidationData)
+        {
+            Assert.IsTrue(validationDataDictionary.ContainsKey(expectedKey), $"validationDataDictionary does not contain key {expectedKey}.");
+            var validationDataArray = validationDataDictionary[expectedKey];
+            Assert.AreEqual(expectedValidationData.Length, validationDataArray.Length, $"Key {expectedKey} ValidationDataArray count does not match expected.");
+            foreach (var expectedValidationDataItem in validationDataArray)
+            {
+                Assert.IsTrue(validationDataArray.Any(v => v.Severity == expectedValidationDataItem.Severity && v.Code == expectedValidationDataItem.Code), $"Key {expectedKey} does not have any ValidationData object with severity {expectedValidationDataItem.Severity:G} and code {expectedValidationDataItem.Code}.");
             }
         }
 
@@ -410,11 +483,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             try
             {
                 await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
-                Assert.Fail($"Should throw a '{typeof(ResourceActionException).FullName}' exception");
+                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
             }
-            catch (ResourceActionException ex)
+            catch (ValidationException ex)
             {
-                StringAssert.Contains($"{HttpStatusCode.BadRequest:G}", ex.Message);
+                Assert.IsNotNull(ex.ValidationErrorDictionary);
+                Assert.AreEqual(1, ex.ValidationErrorDictionary.Count);
+                AssertValidationData(ex.ValidationErrorDictionary, "creationId", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
             }
         }
 

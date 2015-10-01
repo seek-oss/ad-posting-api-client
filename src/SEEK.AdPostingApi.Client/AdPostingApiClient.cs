@@ -63,6 +63,10 @@ namespace SEEK.AdPostingApi.Client
                 {
                     throw new AdvertisementAlreadyExistsException(advertisement.CreationId, ex);
                 }
+                if (ex.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    throw new ValidationException(ex);
+                }
                 throw;
             }
         }

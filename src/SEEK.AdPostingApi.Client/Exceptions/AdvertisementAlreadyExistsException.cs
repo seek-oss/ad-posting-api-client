@@ -8,28 +8,30 @@ namespace SEEK.AdPostingApi.Client.Exceptions
     {
         public string CreationId { get; private set; }
 
-        public AdvertisementAlreadyExistsException(string creationId)
-            : this(creationId, null)
-        {
-        }
+        public Uri AdvertisementLink { get; private set; }
 
-        public AdvertisementAlreadyExistsException(string creationId, Exception innerException)
+        public new ResourceActionException InnerException => base.InnerException as ResourceActionException;
+
+        public AdvertisementAlreadyExistsException(string creationId, ResourceActionException innerException)
             : base($"Advertisement with creation Id {creationId} already exists.", innerException)
         {
             CreationId = creationId;
+            AdvertisementLink = innerException.ResponseHeaders.Location;
         }
 
         protected AdvertisementAlreadyExistsException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            info.AddValue("CreationId", CreationId);
+            info.AddValue(nameof(CreationId), CreationId);
+            info.AddValue(nameof(AdvertisementLink), AdvertisementLink);
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
 
-            CreationId = info.GetString("CreationId");
+            CreationId = info.GetString(nameof(CreationId));
+            AdvertisementLink = (Uri)info.GetValue(nameof(AdvertisementLink), typeof(Uri));
         }
     }
 }

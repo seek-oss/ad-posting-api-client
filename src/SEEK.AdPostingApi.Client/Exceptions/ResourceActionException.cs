@@ -65,20 +65,20 @@ namespace SEEK.AdPostingApi.Client.Exceptions
         protected ResourceActionException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            info.AddValue("Method", Method);
-            info.AddValue("StatusCode", StatusCode);
-            info.AddValue("ResponseHeaders", JsonConvert.SerializeObject(ResponseHeaders));
-            info.AddValue("ResponseContent", ResponseContent);
+            info.AddValue(nameof(Method), Method);
+            info.AddValue(nameof(StatusCode), StatusCode);
+            info.AddValue(nameof(ResponseHeaders), JsonConvert.SerializeObject(ResponseHeaders));
+            info.AddValue(nameof(ResponseContent), ResponseContent);
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
 
-            Method = (HttpMethod) info.GetValue("Method", typeof (HttpMethod));
-            StatusCode = (HttpStatusCode) info.GetValue("StatusCode", typeof (HttpStatusCode));
-            ResponseHeaders = (HttpResponseHeaders) JsonConvert.DeserializeObject(info.GetString("ResponseHeaders"), typeof(HttpResponseHeaders));
-            ResponseContent = info.GetString("ResponseContent");
+            Method = (HttpMethod) info.GetValue(nameof(Method), typeof (HttpMethod));
+            StatusCode = (HttpStatusCode) info.GetValue(nameof(StatusCode), typeof (HttpStatusCode));
+            ResponseHeaders = (HttpResponseHeaders) JsonConvert.DeserializeObject(info.GetString(nameof(ResponseHeaders)), typeof(HttpResponseHeaders));
+            ResponseContent = info.GetString(nameof(ResponseContent));
         }
     }
 }
