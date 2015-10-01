@@ -289,8 +289,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             catch (ValidationException ex)
             {
                 Assert.IsNotNull(ex.ValidationDataDictionary);
-                Assert.AreEqual(7, ex.ValidationDataDictionary.Count);
-                ex.ValidationDataDictionary.AssertValidationData("advertiserId", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
+                Assert.AreEqual(6, ex.ValidationDataDictionary.Count);
                 ex.ValidationDataDictionary.AssertValidationData("salaryMinimum", new ValidationData { Severity = ValidationSeverity.Error, Code = "ValueOutOfRange" });
                 ex.ValidationDataDictionary.AssertValidationData("videoUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" }, new ValidationData { Severity = ValidationSeverity.Error, Code = "RegexPatternNotMatched" });
                 ex.ValidationDataDictionary.AssertValidationData("applicationEmail", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidEmailAddress" });
