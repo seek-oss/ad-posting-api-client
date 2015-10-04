@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using SEEK.AdPostingApi.Client.Exceptions;
+using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -81,10 +82,36 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 204,
+                        Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Location", "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"}
+                            {"Content-Type", "application/json; charset=utf-8"}
+                        },
+                        Body = new
+                        {
+                            advertiserId = "advertiserA",
+                            creationId = CreationIdForAdWithMinimumRequiredData,
+                            advertisementType = AdvertisementType.Classic.ToString(),
+                            jobTitle = "Bricklayer",
+                            locationId = "1002",
+                            subclassificationId = "6227",
+                            workType = WorkType.Casual.ToString(),
+                            salaryType = SalaryType.HourlyRate.ToString(),
+                            salaryMinimum = 20,
+                            salaryMaximum = 24,
+                            jobSummary = "some text",
+                            advertisementDetails = "experience required",
+                            _links = new
+                            {
+                                self = new
+                                {
+                                    href = "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+                                },
+                                expire = new
+                                {
+                                    href = "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/expire"
+                                }
+                            }
                         }
                     });
         }
@@ -152,10 +179,63 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 204,
+                        Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Location", "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a" }
+                            {"Content-Type", "application/json; charset=utf-8"}
+                        },
+                        Body = new
+                        {
+                            agentId = "agentA",
+                            advertiserId = "advertiserB",
+                            creationId = CreationIdForAdWithMaximumRequiredData,
+                            jobTitle = "Baker",
+                            jobSummary = "Fantastic opportunity for an awesome baker",
+                            advertisementDetails = "Baking experience required",
+                            advertisementType = AdvertisementType.StandOut.ToString(),
+                            workType = WorkType.Casual.ToString(),
+                            salaryType = SalaryType.HourlyRate.ToString(),
+                            locationId = "1002",
+                            subclassificationId = "6227",
+                            salaryMinimum = 20,
+                            salaryMaximum = 24,
+                            salaryDetails = "Huge bonus",
+                            contactDetails = "0412345678",
+                            videoUrl = "http://www.youtube.com/v/abc",
+                            videoPosition = VideoPosition.Above.ToString(),
+                            applicationEmail = "me@contactme.com.au",
+                            applicationFormUrl = "http://FakeATS.com.au",
+                            screenId = 100,
+                            jobReference = "REF1234",
+                            templateId = 43496,
+                            templateItems = new[]
+                            {
+                                new { name = "template1", value = "value1" },
+                                new { name = "template2", value = "value2" }
+                            },
+                            standoutLogoId = 39,
+                            standoutBullet1 = "standout bullet 1",
+                            standoutBullet2 = "standout bullet 2",
+                            standoutBullet3 = "standout bullet 3",
+                            seekCodes = new[]
+                            {
+                                "SK840239A",
+                                "SK4232A",
+                                "SK23894023A",
+                                "SK23432A",
+                                "SK238429A"
+                            },
+                            _links = new
+                            {
+                                self = new
+                                {
+                                    href = "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+                                },
+                                expire = new
+                                {
+                                    href = "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/expire"
+                                }
+                            }
                         }
                     });
         }
@@ -294,9 +374,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             SetupJobCreationWithMinimumData(oAuth2Token.AccessToken);
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
+            AdvertisementResource jobAd = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
 
-            StringAssert.StartsWith("http://localhost/advertisement", jobAdLink.ToString());
+            StringAssert.StartsWith("/advertisement/", jobAd.Links["self"].Href);
+            StringAssert.EndsWith("/expire", jobAd.Links["expire"].Href);
+            Assert.AreEqual("advertiserA", jobAd.Properties.AdvertiserId);
         }
 
         public Advertisement SetupJobAdWithMinimumRequiredData(string creationId = null)
@@ -327,9 +409,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            Uri jobAdLink = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
+            AdvertisementResource jobAd = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
 
-            StringAssert.StartsWith("http://localhost/advertisement", jobAdLink.ToString());
+            StringAssert.StartsWith("/advertisement/", jobAd.Links["self"].Href);
+            StringAssert.EndsWith("/expire", jobAd.Links["expire"].Href);
+            Assert.AreEqual("advertiserB", jobAd.Properties.AdvertiserId);
         }
 
         [Test]

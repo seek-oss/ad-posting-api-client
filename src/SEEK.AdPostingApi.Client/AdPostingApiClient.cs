@@ -46,7 +46,7 @@ namespace SEEK.AdPostingApi.Client
             _indexResource = await this.GetResourceAsync<IndexResource>(adPostingUri);
         }
 
-        public async Task<Uri> CreateAdvertisementAsync(Advertisement advertisement)
+        public async Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
         {
             if (advertisement == null)
                 throw new ArgumentNullException(nameof(advertisement));

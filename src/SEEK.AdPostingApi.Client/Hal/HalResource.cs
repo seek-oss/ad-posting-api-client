@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
@@ -24,7 +25,7 @@ namespace SEEK.AdPostingApi.Client.Hal
 
     public class HalResource : Client
     {
-        protected Dictionary<string, Link> Links { get; private set; }
+        public Dictionary<string, Link> Links { get; private set; }
 
         private JsonSerializerSettings serializerSettings;
 
@@ -48,14 +49,14 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
-        protected Task<Uri> PostResourceAsync<TResource>(string relation, object parameters, TResource resource)
+        protected Task<TResource> PostResourceAsync<TResource, T>(string relation, object parameters, T resource) where TResource : HalResource, new()
         {
-            return base.PostResourceAsync<TResource>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
+            return base.PostResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
         }
 
-        protected Task<Uri> PostResourceAsync<TResource>(string relation, TResource resource)
+        protected Task<TResource> PostResourceAsync<TResource, T>(string relation, T resource) where TResource : HalResource, new()
         {
-            return this.PostResourceAsync(relation, null, resource);
+            return this.PostResourceAsync<TResource, T>(relation, null, resource);
         }
 
         protected Task PutResourceAsync<TResource>(string relation, object parameters, TResource resource)

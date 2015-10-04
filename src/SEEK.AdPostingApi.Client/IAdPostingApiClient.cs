@@ -7,7 +7,7 @@ namespace SEEK.AdPostingApi.Client
 {
     public interface IAdPostingApiClient : IDisposable
     {
-        Task<Uri> CreateAdvertisementAsync(Advertisement advertisement);
+        Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement);
 
         Task<AdvertisementResource> GetAdvertisementAsync(Guid id);
 

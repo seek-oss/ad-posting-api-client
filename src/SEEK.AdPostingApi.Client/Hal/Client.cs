@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -74,8 +75,9 @@ namespace SEEK.AdPostingApi.Client.Hal
                 response.EnsureSuccessStatusCode();
         }
 
-        protected async Task<Uri> PostResourceAsync<TResource>(Uri uri, TResource resource)
+        protected async Task<TResource> PostResourceAsync<TResource, T>(Uri uri, T resource) where TResource: HalResource, new()
         {
+            var responseResource = new TResource();
             var content = JsonConvert.SerializeObject(resource, serializerSettings);
 
             using (var request = CreateRequest<TResource>(uri, HttpMethod.Post, content))
@@ -84,14 +86,13 @@ namespace SEEK.AdPostingApi.Client.Hal
                 {
                     using (var response = await this.httpClient.SendAsync(request))
                     {
-                        if (response.IsSuccessStatusCode) return response.Headers.Location;
-
-                        string responseContent = null;
-                        if (response.Content != null)
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        if (!response.IsSuccessStatusCode)
                         {
-                            responseContent = await response.Content.ReadAsStringAsync();
+                            throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
                         }
-                        throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
+                        responseResource.PopulateResource(JObject.Parse(responseContent));
+                        responseResource.ResponseHeaders = response.Headers;
                     }
                 }
                 catch (WebException ex)
@@ -100,6 +101,7 @@ namespace SEEK.AdPostingApi.Client.Hal
                     throw;
                 }
             }
+            return responseResource;
         }
 
         private static async Task ThrowResourceActionExceptionIfExceptionIsProtocolError(WebException ex)

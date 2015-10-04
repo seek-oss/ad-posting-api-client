@@ -7,9 +7,9 @@ namespace SEEK.AdPostingApi.Client.Resources
 {
     public class IndexResource : HalResource
     {
-        public Task<Uri> CreateAdvertisementAsync(Advertisement advertisement)
+        public Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
         {
-            return this.PostResourceAsync("advertisements", advertisement);
+            return this.PostResourceAsync<AdvertisementResource, Advertisement>("advertisements", advertisement);
         }
 
         public Task<AdvertisementResource> GetAdvertisementByIdAsync(Guid id)

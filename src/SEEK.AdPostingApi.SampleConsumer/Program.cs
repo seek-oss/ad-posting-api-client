@@ -3,6 +3,7 @@ using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Environment = SEEK.AdPostingApi.Client.Environment;
 
@@ -34,18 +35,20 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 SalaryMaximum = 24
             };
 
-            Uri jobAdLink = await postingClient.CreateAdvertisementAsync(ad);
+            AdvertisementResource jobAd = await postingClient.CreateAdvertisementAsync(ad);
 
-            Console.WriteLine(jobAdLink.ToString());
+            Console.WriteLine(jobAd.Properties.JobTitle);
 
-            AdvertisementResource content = await postingClient.GetAdvertisementAsync(jobAdLink);
+            AdvertisementResource content = await postingClient.GetAdvertisementAsync(jobAd.ResponseHeaders.Location);
             Console.WriteLine("Created job advertisement.");
             Console.WriteLine(JsonConvert.SerializeObject(content, Formatting.Indented));
 
-            content.Properties.JobTitle = "New job title";
-            await content.SaveAsync();
+            //content.Properties.JobTitle = "New job title";
+            //await content.SaveAsync();
+            Console.WriteLine("waiting for token to expire ..................");
+            //Thread.Sleep(3600000);
 
-            AdvertisementResource newContent = await postingClient.GetAdvertisementAsync(jobAdLink);
+            AdvertisementResource newContent = await postingClient.GetAdvertisementAsync(jobAd.ResponseHeaders.Location);
             Console.WriteLine();
             Console.WriteLine("Updated job advertisement.");
             Console.WriteLine(JsonConvert.SerializeObject(newContent, Formatting.Indented));
