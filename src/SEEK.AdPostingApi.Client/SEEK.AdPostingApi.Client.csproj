@@ -58,6 +58,7 @@
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="EnvironmentUrlAttribute.cs" />
     <Compile Include="Exceptions\AdvertisementAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Hal\Client.cs" />
     <Compile Include="Hal\HalResourceConverter.cs" />
     <Compile Include="Hal\MediaTypeAttribute.cs" />
@@ -76,10 +77,14 @@
     <Compile Include="Models\SalaryType.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\TemplateItemModel.cs" />
+    <Compile Include="Models\ValidationData.cs" />
+    <Compile Include="Models\ValidationSeverity.cs" />
     <Compile Include="Models\VideoPosition.cs" />
     <Compile Include="Models\WorkType.cs" />
+    <Compile Include="MonoHttpClientWebExceptionHandler.cs" />
     <Compile Include="OAuthMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BadRequestHandler.cs" />
     <Compile Include="Resources\AdvertisementResource.cs" />
     <Compile Include="OAuth2TokenClient.cs" />
     <Compile Include="Models\EmbeddedAdvertisement.cs" />

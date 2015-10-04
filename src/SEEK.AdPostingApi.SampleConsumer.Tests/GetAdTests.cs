@@ -121,7 +121,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             var jobAd = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId));
-            Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job titile returned!");
+            Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job title returned!");
             Assert.AreEqual(Status.Pending, jobAd.Status);
         }
 

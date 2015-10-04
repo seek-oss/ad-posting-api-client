@@ -33,7 +33,10 @@ namespace SEEK.AdPostingApi.Client
         {
             this._ensureInitialised = new Lazy<Task>(()=>this.Initialise(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             _tokenClient = tokenClient;
-            this.Initialise(_httpClient = new HttpClient(new OAuthMessageHandler(tokenClient) {InnerHandler = new HttpClientHandler()}), adPostingUri);
+            this.Initialise(
+                _httpClient =
+                    new HttpClient(new OAuthMessageHandler(tokenClient) { InnerHandler = new BadRequestHandler { InnerHandler = new MonoHttpClientWebExceptionHandler { InnerHandler = new HttpClientHandler() } } }),
+                adPostingUri);
         }
 
         private Task EnsureInitialised()
