@@ -11,9 +11,9 @@ namespace SEEK.AdPostingApi.Client.Resources
     {
         public Status Status => (Status)Enum.Parse(typeof(Status), this.ResponseHeaders.GetValues("Status").First());
 
-        public async Task SaveAsync()
+        public async Task<AdvertisementResource> SaveAsync()
         {
-            await this.PutResourceAsync("self", this);
+            return await this.PutResourceAsync<AdvertisementResource>("self", this);
         }
     }
 }

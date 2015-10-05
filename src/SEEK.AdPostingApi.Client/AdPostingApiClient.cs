@@ -109,12 +109,12 @@ namespace SEEK.AdPostingApi.Client
             await this._indexResource.UpdateAdvertisementByIdAsync(id, advertisement);
         }
 
-        public Task UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)
+        public Task<AdvertisementResource> UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)
         {
             if (advertisement == null)
                 throw new ArgumentNullException(nameof(advertisement));
 
-            return this.PutResourceAsync(uri, advertisement);
+            return this.PutResourceAsync<AdvertisementResource, Advertisement>(uri, advertisement);
         }
 
         public void Dispose()

@@ -7,6 +7,7 @@ using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Exceptions;
 using SEEK.AdPostingApi.Client.Models;
+using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -92,11 +93,64 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() }
                     }
                 })
-                .WillRespondWith(new ProviderServiceResponse { Status = 204 });
+                .WillRespondWith(
+                new ProviderServiceResponse
+                {
+                    Status = 202,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                    },
+                    Body = new
+                    {
+                        agentId = (object)null,
+                        advertiserId = "9012",
+                        advertisementType = AdvertisementType.StandOut.ToString(),
+                        jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
+                        locationId = "378",
+                        subclassificationId = "734",
+                        workType = WorkType.FullTime.ToString(),
+                        salaryType = SalaryType.AnnualPackage.ToString(),
+                        salaryMinimum = 100000,
+                        salaryMaximum = 200000,
+                        salaryDetails = "We will pay you",
+                        jobSummary = "Developer job",
+                        advertisementDetails = "Exciting, do I need to say more?",
+                        contactDetails = "Call me",
+                        videoUrl = "https://www.youtube.com/v/abc",
+                        videoPosition = VideoPosition.Above.ToString(),
+                        applicationEmail = "asdf@asdf.com",
+                        applicationFormUrl = "http://FakeATS.com.au",
+                        screenId = 20,
+                        jobReference = "JOB1234",
+                        templateId = 99,
+                        templateItems = new[]
+                        {
+                            new { name = "Template Line 1", value = "Template Value 1" },
+                            new { name = "Template Line 2", value = "Template Value 2" }
+                        },
+                        standoutLogoId = 333,
+                        standoutBullet1 = "new Uzi",
+                        standoutBullet2 = "new Remington Model",
+                        standoutBullet3 = "new AK-47",
+                        additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
+                        _links = new
+                        {
+                            self = new
+                            {
+                                href = "/advertisement/" + advertisementId
+                            },
+                            expire = new
+                            {
+                                href = "/advertisement/"+ advertisementId + "/expire"
+                            }
+                        }
+                    }
+                });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId), 
+            AdvertisementResource jobAd = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId), 
                 new Advertisement
                     {
                         AdvertiserId = "9012",
@@ -130,6 +184,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         StandoutBullet3 = "new AK-47",
                         AdditionalProperties = new[] { AdditionalPropertyType.ResidentsOnly }
                 });
+            Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$ - updated", jobAd.Properties.JobTitle);
 
         }
 
@@ -187,9 +242,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     SalaryMaximum = 24
                 });
             }
-            catch (Exception ex)
-            {
-                StringAssert.Contains("Not Found", ex.Message);
+            catch (ResourceActionException ex)
+            {                
+                StringAssert.Contains("404", ex.Message);
             }
         }
 
@@ -241,7 +296,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 400,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; charset=utf-8" }
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
                         },
                         Body = new Dictionary<string, object[]>
                         {

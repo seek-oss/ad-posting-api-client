@@ -21,9 +21,9 @@ namespace SEEK.AdPostingApi.Client.Resources
             return this.GetResourceAsync<AdvertisementListResource>("advertisement");
         }
 
-        public Task UpdateAdvertisementByIdAsync(Guid id, Advertisement advertisement)
+        public Task<AdvertisementResource> UpdateAdvertisementByIdAsync(Guid id, Advertisement advertisement)
         {
-            return this.PutResourceAsync("advertisement", new { advertisementId = id }, advertisement);
+            return this.PutResourceAsync<AdvertisementResource, Advertisement>("advertisement", new { advertisementId = id }, advertisement);
         }
 
         public Task<Status> GetAdvertisementStatusByIdAsync(Guid id)

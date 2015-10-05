@@ -84,7 +84,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Content-Type", "application/json; charset=utf-8"},
+                            {"Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"},
                             {"Location", "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"}
                         },
                         Body = new
@@ -182,7 +182,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Content-Type", "application/json; charset=utf-8"},
+                            {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
                             { "Location", "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a" }
                         },
                         Body = new
@@ -288,7 +288,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 400,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; charset=utf-8" }
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
                         },
                         Body = new Dictionary<string, object[]>
                         {
@@ -344,7 +344,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 400,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; charset=utf-8" }
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
                         },
                         Body = new Dictionary<string, object[]>
                         {

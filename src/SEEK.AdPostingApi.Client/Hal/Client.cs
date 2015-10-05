@@ -63,13 +63,25 @@ namespace SEEK.AdPostingApi.Client.Hal
                 return fromHeaderAttribute.GetValue<T>(response.Headers);
             }
         }
-        protected async Task PutResourceAsync<TResource>(Uri uri, TResource resource)
+        protected async Task<T> PutResourceAsync<T, TResource>(Uri uri, TResource resource) where T: HalResource, new()
         {
+            var responseResource = new T();
             var content = JsonConvert.SerializeObject(resource, serializerSettings);
 
             using (var request = CreateRequest<TResource>(uri, HttpMethod.Put, content))
-            using (var response = await this.httpClient.SendAsync(request))
-                response.EnsureSuccessStatusCode();
+            {
+                using (var response = await this.httpClient.SendAsync(request))
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new ResourceActionException(HttpMethod.Put, response.StatusCode, response.Headers, responseContent);
+                    }
+                    responseResource.PopulateResource(JObject.Parse(responseContent));
+                    responseResource.ResponseHeaders = response.Headers;
+                }
+                return responseResource;
+            }
         }
 
         protected async Task<TResource> PostResourceAsync<TResource, T>(Uri uri, T resource) where TResource: HalResource, new()
@@ -81,13 +93,13 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 using (var response = await this.httpClient.SendAsync(request))
                 {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        if (!response.IsSuccessStatusCode)
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    if (!response.IsSuccessStatusCode)
                     {
-                            throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
-                        }
-                        responseResource.PopulateResource(JObject.Parse(responseContent));
-                        responseResource.ResponseHeaders = response.Headers;
+                        throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
+                    }
+                    responseResource.PopulateResource(JObject.Parse(responseContent));
+                    responseResource.ResponseHeaders = response.Headers;
                     }
             return responseResource;
             }

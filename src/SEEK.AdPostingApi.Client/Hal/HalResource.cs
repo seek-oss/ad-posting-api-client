@@ -59,14 +59,14 @@ namespace SEEK.AdPostingApi.Client.Hal
             return this.PostResourceAsync<TResource, T>(relation, null, resource);
         }
 
-        protected Task PutResourceAsync<TResource>(string relation, object parameters, TResource resource)
+        protected Task<TResource> PutResourceAsync<TResource, T>(string relation, object parameters, T resource) where TResource : HalResource, new()
         {
-            return base.PutResourceAsync(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
+            return base.PutResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
         }
 
-        protected Task PutResourceAsync<TResource>(string relation, TResource resource)
+        protected Task<TResource> PutResourceAsync<TResource>(string relation, TResource resource) where TResource : HalResource, new()
         {
-            return this.PutResourceAsync(relation, null, resource);
+            return this.PutResourceAsync<TResource, TResource>(relation, null, resource);
         }
 
         protected Task<TResource> GetResourceAsync<TResource>(string relation, object parameters) where TResource : HalResource, new()
