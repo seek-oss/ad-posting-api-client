@@ -69,6 +69,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     {
                         agentId = (object)null,
                         advertiserId = "9012",
+                        creationId = "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184",
                         advertisementType = AdvertisementType.StandOut.ToString(),
                         jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$",
                         locationId = "378",
@@ -123,6 +124,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var jobAd = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId));
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job title returned!");
             Assert.AreEqual(Status.Pending, jobAd.Status);
+            Assert.AreEqual("CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184", jobAd.Properties.CreationId);
         }
 
         [Test]

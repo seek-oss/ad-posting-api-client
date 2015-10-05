@@ -90,7 +90,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         standoutBullet1 = "new Uzi",
                         standoutBullet2 = "new Remington Model",
                         standoutBullet3 = "new AK-47",
-                        additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() }
+                        additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
+                        creationId = "Verify Creationid can't be updated in PUT request" 
                     }
                 })
                 .WillRespondWith(
@@ -99,12 +100,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Status = 202,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                        { "Content-Type", "application/vnd.seek.advertisement-error+json; charset=utf-8"}
                     },
                     Body = new
                     {
                         agentId = (object)null,
                         advertiserId = "9012",
+                        creationId = "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184",
                         advertisementType = AdvertisementType.StandOut.ToString(),
                         jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
                         locationId = "378",
@@ -182,10 +184,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         StandoutBullet1 = "new Uzi",
                         StandoutBullet2 = "new Remington Model",
                         StandoutBullet3 = "new AK-47",
-                        AdditionalProperties = new[] { AdditionalPropertyType.ResidentsOnly }
+                        AdditionalProperties = new[] { AdditionalPropertyType.ResidentsOnly },
+                        CreationId = "Verify Creationid can't be updated in PUT request" 
                 });
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$ - updated", jobAd.Properties.JobTitle);
-
+            Assert.AreEqual("CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184", jobAd.Properties.CreationId);
         }
 
         [Test]
