@@ -409,7 +409,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             AdvertisementResource jobAd = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
 
             StringAssert.StartsWith("/advertisement/", jobAd.Links["self"].Href);
-            StringAssert.EndsWith("/expire", jobAd.Links["expire"].Href);
             Assert.AreEqual("advertiserA", jobAd.Properties.AdvertiserId);
         }
 
@@ -444,7 +443,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             AdvertisementResource jobAd = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
 
             StringAssert.StartsWith("/advertisement/", jobAd.Links["self"].Href);
-            StringAssert.EndsWith("/expire", jobAd.Links["expire"].Href);
             Assert.AreEqual("advertiserB", jobAd.Properties.AdvertiserId);
         }
 
