@@ -91,7 +91,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         standoutBullet2 = "new Remington Model",
                         standoutBullet3 = "new AK-47",
                         additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
-                        creationId = "Verify Creationid can't be updated in PUT request" 
+                        creationId = "Verify Creationid can't be updated in PUT request"
                     }
                 })
                 .WillRespondWith(
@@ -100,7 +100,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Status = 202,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"}
+                        { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"}
                     },
                     Body = new
                     {
@@ -144,7 +144,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             },
                             expire = new
                             {
-                                href = "/advertisement/"+ advertisementId + "/expire"
+                                href = "/advertisement/" + advertisementId + "/expire"
                             }
                         }
                     }
@@ -152,40 +152,40 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            AdvertisementResource jobAd = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId), 
+            AdvertisementResource jobAd = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId),
                 new Advertisement
-                    {
-                        AdvertiserId = "9012",
-                        AdvertisementType = AdvertisementType.StandOut,
-                        JobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
-                        LocationId = "378",
-                        SubclassificationId = "734",
-                        WorkType = WorkType.FullTime,
-                        SalaryType = SalaryType.AnnualPackage,
-                        SalaryMinimum = 100000,
-                        SalaryMaximum = 200000,
-                        SalaryDetails = "We will pay you",
-                        JobSummary = "Developer job",
-                        AdvertisementDetails = "Exciting, do I need to say more?",
-                        ContactDetails = "Call me",
-                        VideoUrl = "https://www.youtube.com/v/abc",
-                        VideoPosition = VideoPosition.Above,
-                        ApplicationEmail = "asdf@asdf.com",
-                        ApplicationFormUrl = "http://FakeATS.com.au",
-                        ScreenId = 20,
-                        JobReference = "JOB1234",
-                        TemplateId = 99,
-                        TemplateItems = new[]
+                {
+                    AdvertiserId = "9012",
+                    AdvertisementType = AdvertisementType.StandOut,
+                    JobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
+                    LocationId = "378",
+                    SubclassificationId = "734",
+                    WorkType = WorkType.FullTime,
+                    SalaryType = SalaryType.AnnualPackage,
+                    SalaryMinimum = 100000,
+                    SalaryMaximum = 200000,
+                    SalaryDetails = "We will pay you",
+                    JobSummary = "Developer job",
+                    AdvertisementDetails = "Exciting, do I need to say more?",
+                    ContactDetails = "Call me",
+                    VideoUrl = "https://www.youtube.com/v/abc",
+                    VideoPosition = VideoPosition.Above,
+                    ApplicationEmail = "asdf@asdf.com",
+                    ApplicationFormUrl = "http://FakeATS.com.au",
+                    ScreenId = 20,
+                    JobReference = "JOB1234",
+                    TemplateId = 99,
+                    TemplateItems = new[]
                         {
                             new TemplateItemModel{Name = "Template Line 1", Value = "Template Value 1"},
                             new TemplateItemModel{Name = "Template Line 2", Value = "Template Value 2"}
                         },
-                        StandoutLogoId = 333,
-                        StandoutBullet1 = "new Uzi",
-                        StandoutBullet2 = "new Remington Model",
-                        StandoutBullet3 = "new AK-47",
-                        AdditionalProperties = new[] { AdditionalPropertyType.ResidentsOnly },
-                        CreationId = "Verify Creationid can't be updated in PUT request" 
+                    StandoutLogoId = 333,
+                    StandoutBullet1 = "new Uzi",
+                    StandoutBullet2 = "new Remington Model",
+                    StandoutBullet3 = "new AK-47",
+                    AdditionalProperties = new[] { AdditionalPropertyType.ResidentsOnly },
+                    CreationId = "Verify Creationid can't be updated in PUT request"
                 });
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$ - updated", jobAd.Properties.JobTitle);
             Assert.AreEqual("CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184", jobAd.Properties.CreationId);
@@ -246,7 +246,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 });
             }
             catch (ResourceActionException ex)
-            {                
+            {
                 StringAssert.Contains("404", ex.Message);
             }
         }
@@ -356,7 +356,5 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 ex.ValidationDataDictionary.AssertValidationData("templateItems[1].value", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" });
             }
         }
-
     }
-
 }
