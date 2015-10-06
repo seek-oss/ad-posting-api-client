@@ -100,7 +100,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Status = 202,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", "application/vnd.seek.advertisement-error+json; charset=utf-8"}
+                        { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"}
                     },
                     Body = new
                     {
