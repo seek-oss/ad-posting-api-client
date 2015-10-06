@@ -48,7 +48,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             };
 
             // Example of creating the advertisement using a simple retry loop.
-            Dictionary<string, ValidationData[]> validationDataDictionary = null;
+            ValidationData[] validationDataItems = null;
             var createResult = CreateResult.Unknown;
             AdvertisementResource advertisement = null;
             Uri advertisementLink = null;
@@ -69,7 +69,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 }
                 catch (ValidationException ex)
                 {
-                    validationDataDictionary = ex.ValidationDataDictionary;
+                    validationDataItems = ex.ValidationDataItems;
                     createResult = CreateResult.ValidationErrors;
                     break;
                 }
@@ -110,16 +110,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 case CreateResult.ValidationErrors:
                     // There were validation errors; show the errors.
                     Console.WriteLine("Advertisement creation failed. Validation errors:");
-                    foreach (var key in validationDataDictionary.Keys)
+                    var counter = 1;
+                    foreach (var item in validationDataItems)
                     {
-                        Console.WriteLine($"Field Name: {key}");
-                        var validationDataArray = validationDataDictionary[key];
-                        int counter = 1;
-                        foreach (var validationDataItem in validationDataArray)
-                        {
-                            Console.WriteLine($"  [{counter}] ({validationDataItem.Severity}) {validationDataItem.Code} - '{validationDataItem.Message}'");
-                            counter++;
-                        }
+                        Console.WriteLine($"  [{counter:##}] Field: '{item.Field}' Code: '{item.Code}' Message: '{item.Message}'");
+                        counter++;
                     }
                     break;
                 case CreateResult.Timeout:

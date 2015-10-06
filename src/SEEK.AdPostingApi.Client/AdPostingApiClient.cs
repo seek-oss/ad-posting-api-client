@@ -35,7 +35,7 @@ namespace SEEK.AdPostingApi.Client
             _tokenClient = tokenClient;
             this.Initialise(
                 _httpClient =
-                    new HttpClient(new OAuthMessageHandler(tokenClient) { InnerHandler = new BadRequestHandler { InnerHandler = new MonoHttpClientWebExceptionHandler { InnerHandler = new HttpClientHandler() } } }),
+                    new HttpClient(new OAuthMessageHandler(tokenClient) { InnerHandler = new UnprocessableEntityHandler { InnerHandler = new MonoHttpClientWebExceptionHandler { InnerHandler = new HttpClientHandler() } } }),
                 adPostingUri);
         }
 

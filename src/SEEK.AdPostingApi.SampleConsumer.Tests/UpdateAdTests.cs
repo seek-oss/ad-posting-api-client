@@ -289,26 +289,38 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 400,
+                        Status = 422,
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
                         },
-                        Body = new Dictionary<string, object[]>
+                        Body = new
                         {
-                            { "salaryMinimum", new object[] { new { severity = "Error", code = "ValueOutOfRange" } } },
-                            { "videoUrl", new object[] {
-                                new { severity = "Error", code = "MaxLengthExceeded" },
-                                new { severity = "Error", code = "RegexPatternNotMatched" } }
-                            },
-                            { "applicationEmail", new object[] { new { severity = "Error", code = "InvalidEmailAddress" } } },
-                            { "applicationFormUrl", new object[] { new { severity = "Error", code = "InvalidUrl" } } },
-                            { "templateItems[1].name", new object[] { new { severity = "Error", code = "Required" } } },
-                            { "templateItems[1].value", new object[] { new { severity = "Error", code = "MaxLengthExceeded" } } }
+                            message = "Validation Failure",
+                            errors = new[]
+                            {
+                                new { field = "salaryMinimum", code = "ValueOutOfRange" },
+                                new { field = "videoUrl", code = "MaxLengthExceeded" },
+                                new { field = "videoUrl", code = "RegexPatternNotMatched" },
+                                new { field = "applicationEmail", code = "InvalidEmailAddress" },
+                                new { field = "applicationFormUrl", code = "InvalidUrl" },
+                                new { field = "templateItems[1].name", code = "Required" },
+                                new { field = "templateItems[1].value", code = "MaxLengthExceeded" }
+                        }
                         }
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+            var expectedValidationDataItems = new[]
+            {
+                new ValidationData { Field = "salaryMinimum", Code = "ValueOutOfRange" },
+                new ValidationData { Field = "videoUrl", Code = "MaxLengthExceeded" },
+                new ValidationData { Field = "videoUrl", Code = "RegexPatternNotMatched" },
+                new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
+                new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                new ValidationData { Field = "templateItems[1].name", Code = "Required" },
+                new ValidationData { Field = "templateItems[1].value", Code = "MaxLengthExceeded" }
+            };
 
             try
             {
@@ -339,14 +351,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
             catch (ValidationException ex)
             {
-                Assert.IsNotNull(ex.ValidationDataDictionary);
-                Assert.AreEqual(6, ex.ValidationDataDictionary.Count);
-                ex.ValidationDataDictionary.AssertValidationData("salaryMinimum", new ValidationData { Severity = ValidationSeverity.Error, Code = "ValueOutOfRange" });
-                ex.ValidationDataDictionary.AssertValidationData("videoUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" }, new ValidationData { Severity = ValidationSeverity.Error, Code = "RegexPatternNotMatched" });
-                ex.ValidationDataDictionary.AssertValidationData("applicationEmail", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidEmailAddress" });
-                ex.ValidationDataDictionary.AssertValidationData("applicationFormUrl", new ValidationData { Severity = ValidationSeverity.Error, Code = "InvalidUrl" });
-                ex.ValidationDataDictionary.AssertValidationData("templateItems[1].name", new ValidationData { Severity = ValidationSeverity.Error, Code = "Required" });
-                ex.ValidationDataDictionary.AssertValidationData("templateItems[1].value", new ValidationData { Severity = ValidationSeverity.Error, Code = "MaxLengthExceeded" });
+                Assert.IsNotNull(ex.ValidationDataItems);
+                ex.ValidationDataItems.ShouldBe(expectedValidationDataItems);
             }
         }
     }

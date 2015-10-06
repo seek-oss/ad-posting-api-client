@@ -1,8 +1,11 @@
-﻿namespace SEEK.AdPostingApi.Client.Models
+﻿using System;
+
+namespace SEEK.AdPostingApi.Client.Models
 {
+    [Serializable]
     public class ValidationData
     {
-        public ValidationSeverity Severity { get; set; } = ValidationSeverity.Error;
+        public string Field { get; set; }
 
         public string Code { get; set; }
 
