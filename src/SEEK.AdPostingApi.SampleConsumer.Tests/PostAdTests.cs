@@ -90,7 +90,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new
                         {
                             advertiserId = "advertiserA",
-                            creationId = CreationIdForAdWithMinimumRequiredData,
                             advertisementType = AdvertisementType.Classic.ToString(),
                             jobTitle = "Bricklayer",
                             locationId = "1002",
@@ -185,7 +184,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             agentId = "agentA",
                             advertiserId = "advertiserB",
-                            creationId = CreationIdForAdWithMaximumRequiredData,
                             jobTitle = "Baker",
                             jobSummary = "Fantastic opportunity for an awesome baker",
                             advertisementDetails = "Baking experience required",
