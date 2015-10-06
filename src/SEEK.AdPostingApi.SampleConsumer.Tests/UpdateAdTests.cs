@@ -139,10 +139,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             self = new
                             {
                                 href = "/advertisement/" + advertisementId
-                            },
-                            expire = new
-                            {
-                                href = "/advertisement/" + advertisementId + "/expire"
                             }
                         }
                     }

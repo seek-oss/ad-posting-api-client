@@ -106,10 +106,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 self = new
                                 {
                                     href = "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
-                                },
-                                expire = new
-                                {
-                                    href = "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/expire"
                                 }
                             }
                         }
@@ -231,10 +227,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 self = new
                                 {
                                     href = "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
-                                },
-                                expire = new
-                                {
-                                    href = "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/expire"
                                 }
                             }
                         }
