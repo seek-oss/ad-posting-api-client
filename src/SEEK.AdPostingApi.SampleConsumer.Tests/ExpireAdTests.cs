@@ -44,7 +44,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task ExpireActiveAdvertisement()
+        public async Task ExpirePendingAdvertisement()
         {
             var advertisementId = new Guid("8e2fde50-bc5f-4a12-9cfb-812e50500184");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -81,7 +81,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new
                         {
                             advertiserId = "9012",
-                            state = AdvertisementState.Expired.ToString(),
+                            state = AdvertisementState.Pending.ToString(),
                             advertisementType = AdvertisementType.StandOut.ToString(),
                             jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
                             locationId = "378",
@@ -126,6 +126,69 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             AdvertisementResource jobAd = await client.ExpireAdvertisementAsync(advertisementId, new AdvertisementPatch { State = AdvertisementState.Expired });
 
             Assert.AreEqual("9012", jobAd.Properties.AdvertiserId);
+        }
+
+        [Test]
+        public async Task ExpireActiveAdvertisement()
+        {
+            var advertisementId = new Guid("66fb4361-c97c-4833-a46f-3606a703a65e");
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            PactProvider.MockLinks();
+
+            PactProvider.MockService
+                .Given($"There is an active advertisement with id: '{advertisementId}'")
+                .UponReceiving("An expire request for advertisement")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Patch,
+                        Path = $"{AdvertisementLink}/{advertisementId}",
+                        Headers = new Dictionary<string, string>
+                        {
+                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                            {"Content-Type", "application/vnd.seek.advertisement-patch+json; charset=utf-8"}
+                        },
+                        Body = new
+                        {
+                            state = AdvertisementState.Expired.ToString()
+                        }
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 202,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            advertiserId = "13",
+                            state = AdvertisementState.Expired.ToString(),
+                            advertisementType = "Classic",
+                            jobTitle = "Baker",
+                            workType = "FullTime",
+                            salaryType = "AnnualPackage",
+                            salaryMinimum = 10000,
+                            salaryMaximum = 20000,
+                            jobSummary = "Fantastic opportunity for an awesome baker",
+                            expiredDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc),
+                            _links = new
+                            {
+                                self = new
+                                {
+                                    href = "/advertisement/" + advertisementId
+                                }
+                            }
+                        }
+                    });
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+            AdvertisementResource jobAd = await client.ExpireAdvertisementAsync(advertisementId, new AdvertisementPatch { State = AdvertisementState.Expired });
+
+            Assert.AreEqual("13", jobAd.Properties.AdvertiserId);
         }
 
         [Test]
