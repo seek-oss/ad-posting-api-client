@@ -18,20 +18,33 @@ namespace SEEK.AdPostingApi.Client
         {
             HttpResponseMessage response = null;
             ValidationMessage validationMessage;
+
             try
             {
                 response = await base.SendAsync(request, cancellationToken);
-                if ((int)response.StatusCode != 422) return response;
 
-                var responseContent = await response.Content.ReadAsStringAsync();
-                TryDeserialize(responseContent, out validationMessage);
+                if ((int)response.StatusCode != 422)
+                {
+                    return response;
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+
+                this.TryDeserialize(responseContent, out validationMessage);
             }
             catch (ResourceActionException ex)
             {
-                if (!TryDeserialize(ex.ResponseContent, out validationMessage)) throw;
+                if (!this.TryDeserialize(ex.ResponseContent, out validationMessage))
+                {
+                    throw;
+                }
             }
 
-            if (validationMessage == null) return response;
+            if (validationMessage == null)
+            {
+                return response;
+            }
+
             throw new ValidationException(request.Method, validationMessage);
         }
 
@@ -42,6 +55,7 @@ namespace SEEK.AdPostingApi.Client
                 try
                 {
                     validationMessage = JsonConvert.DeserializeObject<ValidationMessage>(responseContent);
+
                     return validationMessage != null;
                 }
                 catch
@@ -51,6 +65,7 @@ namespace SEEK.AdPostingApi.Client
             }
 
             validationMessage = null;
+
             return false;
         }
     }

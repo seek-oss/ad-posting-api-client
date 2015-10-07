@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
@@ -27,8 +25,6 @@ namespace SEEK.AdPostingApi.Client.Hal
     {
         public Dictionary<string, Link> Links { get; private set; }
 
-        private JsonSerializerSettings serializerSettings;
-
         public HttpResponseHeaders ResponseHeaders { get; set; }
 
         internal virtual void PopulateResource(JToken content)
@@ -42,16 +38,21 @@ namespace SEEK.AdPostingApi.Client.Hal
 
                 if (property != null)
                 {
-                    var embeddedResources = content["_embedded"].ToObject(property.PropertyType, JsonSerializer.Create(this.serializerSettings));
+                    var embeddedResources = content["_embedded"].ToObject(property.PropertyType, JsonSerializer.Create());
 
                     property.SetValue(this, embeddedResources);
                 }
             }
         }
 
+        protected Task<TResource> PatchResourceAsync<TResource, T>(string relation, object parameters, T resource) where TResource : HalResource, new()
+        {
+            return this.PatchResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
+        }
+
         protected Task<TResource> PostResourceAsync<TResource, T>(string relation, object parameters, T resource) where TResource : HalResource, new()
         {
-            return base.PostResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
+            return this.PostResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
         }
 
         protected Task<TResource> PostResourceAsync<TResource, T>(string relation, T resource) where TResource : HalResource, new()
@@ -61,7 +62,7 @@ namespace SEEK.AdPostingApi.Client.Hal
 
         protected Task<TResource> PutResourceAsync<TResource, T>(string relation, object parameters, T resource) where TResource : HalResource, new()
         {
-            return base.PutResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
+            return this.PutResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
         }
 
         protected Task<TResource> PutResourceAsync<TResource>(string relation, TResource resource) where TResource : HalResource, new()
@@ -71,7 +72,7 @@ namespace SEEK.AdPostingApi.Client.Hal
 
         protected Task<TResource> GetResourceAsync<TResource>(string relation, object parameters) where TResource : HalResource, new()
         {
-            return base.GetResourceAsync<TResource>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)));
+            return this.GetResourceAsync<TResource>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)));
         }
 
         protected Task<TResource> GetResourceAsync<TResource>(string relation) where TResource : HalResource, new()
@@ -81,7 +82,7 @@ namespace SEEK.AdPostingApi.Client.Hal
 
         protected Task<T> HeadResourceAsync<T, TResource>(string relation, object parameters)
         {
-            return base.HeadResourceAsync<T, TResource>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)));
+            return this.HeadResourceAsync<T, TResource>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)));
         }
     }
 }

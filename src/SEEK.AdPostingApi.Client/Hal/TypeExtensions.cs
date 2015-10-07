@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
@@ -14,7 +11,7 @@ namespace SEEK.AdPostingApi.Client.Hal
                 .Cast<MediaTypeAttribute>()
                 .SingleOrDefault();
 
-            return mediaTypeAttribute == null ? defaultMediaType : mediaTypeAttribute.MediaType;
+            return (mediaTypeAttribute == null) ? defaultMediaType : mediaTypeAttribute.MediaType;
         }
     }
 }

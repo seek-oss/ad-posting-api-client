@@ -1,7 +1,7 @@
-﻿using PactNet;
-using PactNet.Mocks.MockHttpService;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using PactNet;
+using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client.Models;
 
@@ -15,13 +15,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         static PactProvider()
         {
-            PactBuilder = new PactBuilder(new PactConfig
-            {
-                PactDir = "../../pacts/",
-                LogDir = "../../logs/"
-
-            }).ServiceConsumer("AdPostingApi SampleConsumer")
-              .HasPactWith("AdPostingApi");
+            PactBuilder = new PactBuilder(
+                new PactConfig
+                {
+                    PactDir = "../../pacts/",
+                    LogDir = "../../logs/"
+                })
+                .ServiceConsumer("AdPostingApi SampleConsumer")
+                .HasPactWith("AdPostingApi");
 
             MockService = PactBuilder.MockService(MockProviderServicePort);
             MockServiceUri = new Uri("http://localhost:" + MockProviderServicePort);

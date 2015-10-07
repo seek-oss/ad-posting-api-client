@@ -12,10 +12,16 @@ namespace SEEK.AdPostingApi.Client.Resources
             return this.PostResourceAsync<AdvertisementResource, Advertisement>("advertisements", advertisement);
         }
 
+        public Task<AdvertisementResource> ExpireAdvertisementByIdAsync(Guid id, AdvertisementPatch advertisementPatch)
+        {
+            return this.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>("advertisement", new { advertisementId = id }, advertisementPatch);
+        }
+
         public Task<AdvertisementResource> GetAdvertisementByIdAsync(Guid id)
         {
-            return this.GetResourceAsync<AdvertisementResource>("advertisement", new {advertisementId = id});
+            return this.GetResourceAsync<AdvertisementResource>("advertisement", new { advertisementId = id });
         }
+
         public Task<AdvertisementListResource> GetAllAdvertisements()
         {
             return this.GetResourceAsync<AdvertisementListResource>("advertisement");
@@ -28,7 +34,7 @@ namespace SEEK.AdPostingApi.Client.Resources
 
         public Task<Status> GetAdvertisementStatusByIdAsync(Guid id)
         {
-            return base.HeadResourceAsync<Status, AdvertisementResource>("advertisement", new { advertisementId = id });
+            return this.HeadResourceAsync<Status, AdvertisementResource>("advertisement", new { advertisementId = id });
         }
     }
 }

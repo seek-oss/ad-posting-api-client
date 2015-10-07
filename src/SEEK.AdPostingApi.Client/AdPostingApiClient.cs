@@ -14,7 +14,7 @@ namespace SEEK.AdPostingApi.Client
         private readonly IOAuth2TokenClient _tokenClient;
         private IndexResource _indexResource;
         private readonly Lazy<Task> _ensureInitialised;
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
 
         public AdPostingApiClient(string id, string secret)
             : this(id, secret, Environment.Production)
@@ -31,7 +31,7 @@ namespace SEEK.AdPostingApi.Client
 
         internal AdPostingApiClient(Uri adPostingUri, IOAuth2TokenClient tokenClient)
         {
-            this._ensureInitialised = new Lazy<Task>(()=>this.Initialise(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
+            this._ensureInitialised = new Lazy<Task>(() => this.Initialise(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             _tokenClient = tokenClient;
             this.Initialise(
                 _httpClient =
@@ -70,6 +70,13 @@ namespace SEEK.AdPostingApi.Client
             }
         }
 
+        public async Task<AdvertisementResource> ExpireAdvertisementAsync(Guid id, AdvertisementPatch advertisementPatch)
+        {
+            await this.EnsureInitialised();
+
+            return await this._indexResource.ExpireAdvertisementByIdAsync(id, advertisementPatch);
+        }
+
         public async Task<AdvertisementResource> GetAdvertisementAsync(Guid id)
         {
             await this.EnsureInitialised();
@@ -97,7 +104,7 @@ namespace SEEK.AdPostingApi.Client
         public async Task<AdvertisementListResource> GetAllAdvertisementsAsync()
         {
             await this.EnsureInitialised();
-            return await _indexResource.GetAllAdvertisements(); 
+            return await _indexResource.GetAllAdvertisements();
         }
 
         public async Task UpdateAdvertisementAsync(Guid id, Advertisement advertisement)

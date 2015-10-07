@@ -69,6 +69,8 @@
     <Compile Include="IAdPostingApiClient.cs" />
     <Compile Include="IOAuth2TokenClient.cs" />
     <Compile Include="Models\AdditionalPropertyType.cs" />
+    <Compile Include="Models\AdvertisementPatch.cs" />
+    <Compile Include="Models\AdvertisementState.cs" />
     <Compile Include="Models\AdvertisementType.cs" />
     <Compile Include="Environment.cs" />
     <Compile Include="Models\Advertisement.cs" />

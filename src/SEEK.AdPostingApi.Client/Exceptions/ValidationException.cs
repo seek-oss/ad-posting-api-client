@@ -29,8 +29,7 @@ namespace SEEK.AdPostingApi.Client.Exceptions
         {
             base.GetObjectData(info, context);
 
-            ValidationDataItems =
-                (ValidationData[]) info.GetValue(nameof(ValidationDataItems), typeof (ValidationData[]));
+            ValidationDataItems = (ValidationData[])info.GetValue(nameof(ValidationDataItems), typeof(ValidationData[]));
         }
     }
 }
