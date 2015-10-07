@@ -131,7 +131,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public void ExpireAlreadyExpiredAdvertisement()
         {
-            var advertisementId = new Guid("4efd0bbd-c0b7-4c59-8b3d-4e5d97546181");
+            var advertisementId = new Guid("dfd944df-e17d-45b5-8c86-0af43f9bae5d");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             PactProvider.MockLinks();
