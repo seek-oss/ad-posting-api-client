@@ -111,7 +111,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             standoutBullet2 = "new Remington Model",
                             standoutBullet3 = "new AK-47",
                             additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
-                            expiredDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc),
+                            expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc),
                             _links = new
                             {
                                 self = new
@@ -174,7 +174,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             salaryMinimum = 10000,
                             salaryMaximum = 20000,
                             jobSummary = "Fantastic opportunity for an awesome baker",
-                            expiredDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc),
+                            expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc),
                             _links = new
                             {
                                 self = new
