@@ -299,27 +299,27 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             message = "Validation Failure",
                             errors = new[]
                             {
-                                new { field = "salaryMinimum", code = "ValueOutOfRange" },
-                                new { field = "videoUrl", code = "MaxLengthExceeded" },
-                                new { field = "videoUrl", code = "RegexPatternNotMatched" },
                                 new { field = "applicationEmail", code = "InvalidEmailAddress" },
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
+                                new { field = "salaryMinimum", code = "ValueOutOfRange" },
                                 new { field = "templateItems[1].name", code = "Required" },
-                                new { field = "templateItems[1].value", code = "MaxLengthExceeded" }
-                        }
+                                new { field = "templateItems[1].value", code = "MaxLengthExceeded" },
+                                new { field = "videoUrl", code = "MaxLengthExceeded" },
+                                new { field = "videoUrl", code = "RegexPatternNotMatched" }
+                            }
                         }
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
             var expectedValidationDataItems = new[]
             {
-                new ValidationData { Field = "salaryMinimum", Code = "ValueOutOfRange" },
-                new ValidationData { Field = "videoUrl", Code = "MaxLengthExceeded" },
-                new ValidationData { Field = "videoUrl", Code = "RegexPatternNotMatched" },
                 new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
                 new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                new ValidationData { Field = "salaryMinimum", Code = "ValueOutOfRange" },
                 new ValidationData { Field = "templateItems[1].name", Code = "Required" },
-                new ValidationData { Field = "templateItems[1].value", Code = "MaxLengthExceeded" }
+                new ValidationData { Field = "templateItems[1].value", Code = "MaxLengthExceeded" },
+                new ValidationData { Field = "videoUrl", Code = "MaxLengthExceeded" },
+                new ValidationData { Field = "videoUrl", Code = "RegexPatternNotMatched" }
             };
 
             try
