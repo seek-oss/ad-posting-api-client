@@ -83,7 +83,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             advertiserId = "9012",
                             state = AdvertisementState.Pending.ToString(),
                             advertisementType = AdvertisementType.StandOut.ToString(),
-                            jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
+                            jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$",
                             locationId = "378",
                             subclassificationId = "734",
                             workType = WorkType.FullTime.ToString(),
@@ -94,10 +94,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             jobSummary = "Developer job",
                             advertisementDetails = "Exciting, do I need to say more?",
                             contactDetails = "Call me",
-                            videoUrl = "https://www.youtube.com/v/abc",
+                            videoUrl = "https://www.youtube.com/watch?v=dVDk7PXNXB8",
                             videoPosition = VideoPosition.Above.ToString(),
                             applicationEmail = "asdf@asdf.com",
-                            applicationFormUrl = "http://FakeATS.com.au",
+                            applicationFormUrl = "http://applicationform/",
                             screenId = 20,
                             jobReference = "JOB1234",
                             templateId = 99,
@@ -107,9 +107,16 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 new { name = "Template Line 2", value = "Template Value 2" }
                             },
                             standoutLogoId = 333,
-                            standoutBullet1 = "new Uzi",
-                            standoutBullet2 = "new Remington Model",
-                            standoutBullet3 = "new AK-47",
+                            standoutBullet1 = "Uzi",
+                            standoutBullet2 = "Remington Model",
+                            standoutBullet3 = "AK-47",
+                            seekCodes = new[]
+                            {
+                                "SK010001Z",
+                                "SK010010z",
+                                "SK0101OOZ",
+                                "SK910101A"
+                            },
                             additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
                             expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc),
                             _links = new
