@@ -77,13 +77,6 @@ namespace SEEK.AdPostingApi.Client
             return await this.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>(uri, advertisementPatch);
         }
 
-        public async Task<AdvertisementResource> GetAdvertisementAsync(Guid id)
-        {
-            await this.EnsureInitialised();
-
-            return await this._indexResource.GetAdvertisementByIdAsync(id);
-        }
-
         public Task<AdvertisementResource> GetAdvertisementAsync(Uri uri)
         {
             return this.GetResourceAsync<AdvertisementResource>(uri);
@@ -105,15 +98,6 @@ namespace SEEK.AdPostingApi.Client
         {
             await this.EnsureInitialised();
             return await _indexResource.GetAllAdvertisements();
-        }
-
-        public async Task UpdateAdvertisementAsync(Guid id, Advertisement advertisement)
-        {
-            if (advertisement == null)
-                throw new ArgumentNullException(nameof(advertisement));
-
-            await this.EnsureInitialised();
-            await this._indexResource.UpdateAdvertisementByIdAsync(id, advertisement);
         }
 
         public Task<AdvertisementResource> UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)

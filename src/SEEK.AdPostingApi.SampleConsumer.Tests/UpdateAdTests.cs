@@ -15,6 +15,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
     public class UpdateAdTests : IDisposable
     {
         private readonly IOAuth2TokenClient _oauthClient;
+        private const string AdvertisementLink = "/advertisement";
 
         public UpdateAdTests()
         {
@@ -45,6 +46,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
                 .Given(string.Format("There is an advertisement with id: '{0}'", advertisementId))
@@ -52,7 +54,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
-                    Path = "/advertisement/" + advertisementId,
+                    Path = link,
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -151,7 +153,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             self = new
                             {
-                                href = "/advertisement/" + advertisementId
+                                href = link
                             }
                         }
                     }
@@ -159,7 +161,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            AdvertisementResource jobAd = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId),
+            AdvertisementResource jobAd = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
                 new Advertisement
                 {
                     AdvertiserId = "9012",
@@ -202,6 +204,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             const string advertisementId = "9b650105-7434-473f-8293-4e23b7e0e064";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
                 .Given(string.Format("There isn't an advertisement with id: '{0}'", advertisementId))
@@ -209,7 +212,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
-                    Path = "/advertisement/" + advertisementId,
+                    Path = link,
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -237,7 +240,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId), new Advertisement
+                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new Advertisement
                 {
                     AdvertiserId = "advertiserA",
                     JobTitle = "Bricklayer",
@@ -264,6 +267,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
                 .Given(string.Format("There is an advertisement with id: '{0}'", advertisementId))
@@ -271,7 +275,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
-                    Path = "/advertisement/" + advertisementId,
+                    Path = link,
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -339,7 +343,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, "advertisement/" + advertisementId), new Advertisement
+                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new Advertisement
                 {
                     AdvertiserId = "advertiserA",
                     AdvertisementType = AdvertisementType.Classic,
