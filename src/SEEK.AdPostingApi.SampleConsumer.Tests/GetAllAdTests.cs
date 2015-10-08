@@ -1,12 +1,12 @@
-﻿using Moq;
-using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client;
-using SEEK.AdPostingApi.Client.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
+using PactNet.Mocks.MockHttpService.Models;
+using SEEK.AdPostingApi.Client;
+using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
@@ -58,7 +58,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Accept", "application/hal+json"}
                     }
                 })
-                .WillRespondWith(response: new ProviderServiceResponse
+                .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 200,
                     Headers = new Dictionary<string, string>
@@ -69,7 +69,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     {
                         _embedded = new
                         {
-                            advertisements = new EmbeddedAdvertisement[] {}
+                            advertisements = new EmbeddedAdvertisement[] { }
                         }
                     }
                 });
@@ -127,7 +127,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                     {
                                         self = new
                                         {
-                                            href = "/advertisement/" + "9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
+                                            href = "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
                                         }
                                     }
                                 },
@@ -140,7 +140,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                     {
                                         self = new
                                         {
-                                            href = "/advertisement/" + "7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
+                                            href = "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
                                         }
                                     }
                                 }

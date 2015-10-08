@@ -45,6 +45,140 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.VerifyInteractions();
         }
 
+        [Test]
+        public async Task PostAdWithMinimumRequiredData()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            SetupJobCreationWithMinimumData(oAuth2Token.AccessToken);
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+            AdvertisementResource jobAd = await client.CreateAdvertisementAsync(BuildJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
+
+            StringAssert.StartsWith("/advertisement/", jobAd.Links["self"].Href);
+            Assert.AreEqual("advertiserA", jobAd.Properties.AdvertiserId);
+        }
+
+        [Test]
+        public async Task PostAdWithMaximumData()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            SetupJobCreationWithMaximumData(oAuth2Token.AccessToken);
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            AdvertisementResource jobAd = await client.CreateAdvertisementAsync(BuildJobAdWithMaximumData());
+
+            StringAssert.StartsWith("/advertisement/", jobAd.Links["self"].Href);
+            Assert.AreEqual("advertiserB", jobAd.Properties.AdvertiserId);
+        }
+
+        [Test]
+        public async Task PostAdWithWrongData()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            SetupJobCreationWithBadData(oAuth2Token.AccessToken);
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+            var expectedValidationDataItems = new[]
+            {
+                new ValidationData { Field = "advertiserId", Code = "Required" },
+                new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
+                new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                new ValidationData { Field = "salaryMinimum", Code = "ValueOutOfRange" },
+                new ValidationData { Field = "templateItems[1].name", Code = "Required" },
+                new ValidationData { Field = "templateItems[1].value", Code = "MaxLengthExceeded" },
+                new ValidationData { Field = "videoUrl", Code = "MaxLengthExceeded" },
+                new ValidationData { Field = "videoUrl", Code = "RegexPatternNotMatched" }
+            };
+
+            try
+            {
+                await client.CreateAdvertisementAsync(new Advertisement
+                {
+                    CreationId = "20150914-134527-00109",
+                    AdvertisementType = AdvertisementType.Classic,
+                    WorkType = WorkType.Casual,
+                    JobTitle = "Candle Stick Maker",
+                    LocationId = "1002",
+                    SubclassificationId = "6227",
+                    Salary = new Salary
+                    {
+                        Type = SalaryType.HourlyRate,
+                        Minimum = 0,
+                        Maximum = 24
+                    },
+                    JobSummary = "some text",
+                    AdvertisementDetails = "experience required",
+
+                    Video = new Video
+                    {
+                        Url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
+                        Position = VideoPosition.Below
+                    },
+                    ApplicationEmail = "someone(at)some.domain",
+                    ApplicationFormUrl = "htp://somecompany.domain/apply",
+                    Template = new Template
+                    {
+                        Items = new[]
+                        {
+                            new TemplateItemModel { Name = "template1", Value = "value1" },
+                            new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') }
+                        }
+                    }
+                });
+                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
+            }
+            catch (ValidationException ex)
+            {
+                Assert.IsNotNull(ex.ValidationDataItems);
+                ex.ValidationDataItems.ShouldBe(expectedValidationDataItems);
+            }
+        }
+
+        [Test]
+        public async Task PostAdWithNoCreationId()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            SetupJobCreationWithNoCreationId(oAuth2Token.AccessToken);
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            try
+            {
+                await client.CreateAdvertisementAsync(BuildJobAdWithMinimumRequiredData());
+                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
+            }
+            catch (ValidationException ex)
+            {
+                Assert.IsNotNull(ex.ValidationDataItems);
+                ex.ValidationDataItems.ShouldBe(new ValidationData { Field = "creationId", Code = "Required" });
+            }
+        }
+
+        [Test]
+        public async Task PostAdWithExistingCreationId()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            SetupJobCreationWithExistingCreationId(oAuth2Token.AccessToken);
+
+            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            try
+            {
+                await client.CreateAdvertisementAsync(BuildJobAdWithMinimumRequiredData(CreationIdForAdThatAlreadyExists));
+                Assert.Fail($"Should throw an '{typeof(AdvertisementAlreadyExistsException).FullName}' exception");
+            }
+            catch (AdvertisementAlreadyExistsException ex)
+            {
+                Assert.AreEqual(ex.CreationId, CreationIdForAdThatAlreadyExists);
+            }
+        }
+
         private void SetupJobCreationWithMinimumData(string accessToken)
         {
             PactProvider.MockLinks();
@@ -76,7 +210,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 minimum = 20,
                                 maximum = 24
                             },
-                           
+
                             jobSummary = "some text",
                             advertisementDetails = "experience required"
                         }
@@ -94,6 +228,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new
                         {
                             advertiserId = "advertiserA",
+                            state = AdvertisementState.Pending.ToString(),
                             advertisementType = AdvertisementType.Classic.ToString(),
                             jobTitle = "Bricklayer",
                             locationId = "1002",
@@ -148,7 +283,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             subclassificationId = "6227",
                             salary = new
                             {
-                               type = SalaryType.HourlyRate.ToString(),
+                                type = SalaryType.HourlyRate.ToString(),
                                 minimum = 20,
                                 maximum = 24,
                                 details = "Huge bonus"
@@ -160,19 +295,22 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 url = "http://www.youtube.com/v/abc",
                                 position = VideoPosition.Above.ToString(),
                             },
-                          
+
                             applicationEmail = "me@contactme.com.au",
                             applicationFormUrl = "http://FakeATS.com.au",
                             screenId = 100,
                             jobReference = "REF1234",
-                            template = new  {
+                            template = new
+                            {
                                 id = 43496,
                                 items = new[]
                                 {
                                     new { name = "template1", value = "value1" },
                                     new { name = "template2", value = "value2" }
-                                }},
-                            standout = new {
+                                }
+                            },
+                            standout = new
+                            {
                                 logoId = 39,
                                 bullets = new[] { "standout bullet 1", "standout bullet 2", "standout bullet 3" }
                             },
@@ -200,6 +338,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             agentId = "agentA",
                             advertiserId = "advertiserB",
+                            state = AdvertisementState.Pending.ToString(),
                             jobTitle = "Baker",
                             jobSummary = "Fantastic opportunity for an awesome baker",
                             advertisementDetails = "Baking experience required",
@@ -220,7 +359,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 url = "http://www.youtube.com/v/abc",
                                 position = VideoPosition.Above.ToString(),
                             },
-                    
+
                             applicationEmail = "me@contactme.com.au",
                             applicationFormUrl = "http://FakeATS.com.au",
                             screenId = 100,
@@ -300,7 +439,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             applicationFormUrl = "htp://somecompany.domain/apply",
                             template = new
                             {
-                               
                                 items = new[]
                                 {
                                     new { name = "template1", value = "value1" },
@@ -359,10 +497,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             locationId = "1002",
                             subclassificationId = "6227",
                             workType = WorkType.Casual.ToString(),
-                            salary = new  {
+                            salary = new
+                            {
                                 type = SalaryType.HourlyRate.ToString(),
                                 minimum = 20,
-                                maximum = 24 },
+                                maximum = 24
+                            },
                             jobSummary = "some text",
                             advertisementDetails = "experience required"
                         }
@@ -435,21 +575,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
         }
 
-        [Test]
-        public async Task PostAdWithMinimumRequiredData()
-        {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            SetupJobCreationWithMinimumData(oAuth2Token.AccessToken);
-
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            AdvertisementResource jobAd = await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdWithMinimumRequiredData));
-
-            StringAssert.StartsWith("/advertisement/", jobAd.Links["self"].Href);
-            Assert.AreEqual("advertiserA", jobAd.Properties.AdvertiserId);
-        }
-
-        public Advertisement SetupJobAdWithMinimumRequiredData(string creationId = null)
+        private Advertisement BuildJobAdWithMinimumRequiredData(string creationId = null)
         {
             return new Advertisement
             {
@@ -460,87 +586,18 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 AdvertisementDetails = "experience required",
                 AdvertisementType = AdvertisementType.Classic,
                 WorkType = WorkType.Casual,
-                Salary = new Salary() { Type = SalaryType.HourlyRate,
-                                        Minimum = 20,
-                                        Maximum = 24},
+                Salary = new Salary()
+                {
+                    Type = SalaryType.HourlyRate,
+                    Minimum = 20,
+                    Maximum = 24
+                },
                 LocationId = "1002",
                 SubclassificationId = "6227",
-            
             };
         }
 
-        [Test]
-        public async Task PostAdWithMaximumData()
-        {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            SetupJobCreationWithMaximumData(oAuth2Token.AccessToken);
-
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-
-            AdvertisementResource jobAd = await client.CreateAdvertisementAsync(SetupJobAdWithMaximumData());
-
-            StringAssert.StartsWith("/advertisement/", jobAd.Links["self"].Href);
-            Assert.AreEqual("advertiserB", jobAd.Properties.AdvertiserId);
-        }
-
-        [Test]
-        public async Task PostAdWithWrongData()
-        {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            SetupJobCreationWithBadData(oAuth2Token.AccessToken);
-
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            var expectedValidationDataItems = new[]
-            {
-                new ValidationData { Field = "advertiserId", Code = "Required" },
-                new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
-                new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
-                new ValidationData { Field = "salaryMinimum", Code = "ValueOutOfRange" },
-                new ValidationData { Field = "templateItems[1].name", Code = "Required" },
-                new ValidationData { Field = "templateItems[1].value", Code = "MaxLengthExceeded" },
-                new ValidationData { Field = "videoUrl", Code = "MaxLengthExceeded" },
-                new ValidationData { Field = "videoUrl", Code = "RegexPatternNotMatched" }
-            };
-
-            try
-            {
-                await client.CreateAdvertisementAsync(new Advertisement
-                {
-                    CreationId = "20150914-134527-00109",
-                    AdvertisementType = AdvertisementType.Classic,
-                    WorkType = WorkType.Casual,
-                    JobTitle = "Candle Stick Maker",
-                    LocationId = "1002",
-                    SubclassificationId = "6227",
-                    Salary = new Salary() { Type = SalaryType.HourlyRate,
-                                            Minimum = 0,
-                                            Maximum = 24},
-                    JobSummary = "some text",
-                    AdvertisementDetails = "experience required",
-
-                    Video = new Video() { Url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
-                                          Position = VideoPosition.Below
-                                        },
-                    ApplicationEmail = "someone(at)some.domain",
-                    ApplicationFormUrl = "htp://somecompany.domain/apply",
-                    Template = new Template() { Items = new[]
-                                                {
-                                                    new TemplateItemModel { Name = "template1", Value = "value1" },
-                                                    new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') }
-                                                }
-                                              }});
-                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
-            }
-            catch (ValidationException ex)
-            {
-                Assert.IsNotNull(ex.ValidationDataItems);
-                ex.ValidationDataItems.ShouldBe(expectedValidationDataItems);
-            }
-        }
-
-        public Advertisement SetupJobAdWithMaximumData()
+        private Advertisement BuildJobAdWithMaximumData()
         {
             return new Advertisement
             {
@@ -552,29 +609,40 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 AdvertisementDetails = "Baking experience required",
                 AdvertisementType = AdvertisementType.StandOut,
                 WorkType = WorkType.Casual,
-                Salary= new Salary() { Type = SalaryType.HourlyRate,
-                                       Minimum = 20,
-                                       Maximum = 24,
-                                       Details = "Huge bonus"
+                Salary = new Salary
+                {
+                    Type = SalaryType.HourlyRate,
+                    Minimum = 20,
+                    Maximum = 24,
+                    Details = "Huge bonus"
                 },
                 LocationId = "1002",
                 SubclassificationId = "6227",
-              
+
                 ContactDetails = "0412345678",
-                Video = new Video() { Url = "http://www.youtube.com/v/abc",
-                Position = VideoPosition.Above},
+                Video = new Video
+                {
+                    Url = "http://www.youtube.com/v/abc",
+                    Position = VideoPosition.Above
+                },
                 ApplicationEmail = "me@contactme.com.au",
                 ApplicationFormUrl = "http://FakeATS.com.au",
                 ScreenId = 100,
                 JobReference = "REF1234",
-                Template = new Template() { Id = 43496,
-                                            Items = new[]
-                                            {
-                                                new TemplateItemModel { Name = "template1", Value = "value1" },
-                                                new TemplateItemModel { Name = "template2", Value = "value2" }
-                                            }},
-                Standout = new StandoutAdvertisement() { LogoId = 39,
-                                                         Bullets = new string[] { "standout bullet 1", "standout bullet 2", "standout bullet 3"}},
+                Template = new Template
+                {
+                    Id = 43496,
+                    Items = new[]
+                    {
+                        new TemplateItemModel { Name = "template1", Value = "value1" },
+                        new TemplateItemModel { Name = "template2", Value = "value2" }
+                    }
+                },
+                Standout = new StandoutAdvertisement
+                {
+                    LogoId = 39,
+                    Bullets = new[] { "standout bullet 1", "standout bullet 2", "standout bullet 3" }
+                },
                 SeekCodes = new[]
                 {
                     "SK840239A",
@@ -584,47 +652,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     "SK238429A"
                 }
             };
-        }
-
-        [Test]
-        public async Task PostAdWithNoCreationId()
-        {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            SetupJobCreationWithNoCreationId(oAuth2Token.AccessToken);
-
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-
-            try
-            {
-                await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData());
-                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
-            }
-            catch (ValidationException ex)
-            {
-                Assert.IsNotNull(ex.ValidationDataItems);
-                ex.ValidationDataItems.ShouldBe(new ValidationData { Field = "creationId", Code = "Required" });
-            }
-        }
-
-        [Test]
-        public async Task PostAdWithExistingCreationId()
-        {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            SetupJobCreationWithExistingCreationId(oAuth2Token.AccessToken);
-
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-
-            try
-            {
-                await client.CreateAdvertisementAsync(SetupJobAdWithMinimumRequiredData(CreationIdForAdThatAlreadyExists));
-                Assert.Fail($"Should throw an '{typeof(AdvertisementAlreadyExistsException).FullName}' exception");
-            }
-            catch (AdvertisementAlreadyExistsException ex)
-            {
-                Assert.AreEqual(ex.CreationId, CreationIdForAdThatAlreadyExists);
-            }
         }
     }
 }

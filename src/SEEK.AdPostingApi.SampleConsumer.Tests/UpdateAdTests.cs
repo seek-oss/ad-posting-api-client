@@ -49,7 +49,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given(string.Format("There is an advertisement with id: '{0}'", advertisementId))
+                .Given($"There is an advertisement with id: '{advertisementId}'")
                 .UponReceiving("Update request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -69,29 +69,36 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         locationId = "378",
                         subclassificationId = "734",
                         workType = WorkType.FullTime.ToString(),
-                        salary = new { 
+                        salary = new
+                        {
                             type = SalaryType.AnnualPackage.ToString(),
                             minimum = 100000,
                             maximum = 200000,
-                            details = "We will pay you"},
+                            details = "We will pay you"
+                        },
                         jobSummary = "Developer job",
                         advertisementDetails = "Exciting, do I need to say more?",
                         contactDetails = "Call me",
-                        video = new {
+                        video = new
+                        {
                             url = "https://www.youtube.com/v/abc",
-                            position = VideoPosition.Above.ToString()},
+                            position = VideoPosition.Above.ToString()
+                        },
                         applicationEmail = "asdf@asdf.com",
                         applicationFormUrl = "http://FakeATS.com.au",
                         screenId = 20,
                         jobReference = "JOB1234",
-                        template = new {
+                        template = new
+                        {
                             id = 99,
                             items = new[]
                             {
                                 new { name = "Template Line 1", value = "Template Value 1" },
                                 new { name = "Template Line 2", value = "Template Value 2" }
-                            }},
-                        standout = new {
+                            }
+                        },
+                        standout = new
+                        {
                             logoId = 333,
                             bullets = new[] { "new Uzi", "new Remington Model", "new AK-47" }
                         },
@@ -111,6 +118,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         agentId = (object)null,
                         advertiserId = "9012",
                         advertisementType = AdvertisementType.StandOut.ToString(),
+                        state = AdvertisementState.Pending.ToString(),
                         jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
                         locationId = "378",
                         subclassificationId = "734",
@@ -161,7 +169,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            AdvertisementResource jobAd = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
+            AdvertisementResource jobAd = await client.UpdateAdvertisementAsync(
+                new Uri(PactProvider.MockServiceUri, link),
                 new Advertisement
                 {
                     AdvertiserId = "9012",
@@ -170,29 +179,40 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     LocationId = "378",
                     SubclassificationId = "734",
                     WorkType = WorkType.FullTime,
-                    Salary= new Salary() { Type = SalaryType.AnnualPackage,
-                                           Minimum = 100000,
-                                           Maximum = 200000,
-                                           Details = "We will pay you"},
+                    Salary = new Salary
+                    {
+                        Type = SalaryType.AnnualPackage,
+                        Minimum = 100000,
+                        Maximum = 200000,
+                        Details = "We will pay you"
+                    },
                     JobSummary = "Developer job",
                     AdvertisementDetails = "Exciting, do I need to say more?",
                     ContactDetails = "Call me",
-                    Video = new Video() { Url = "https://www.youtube.com/v/abc",
-                                          Position = VideoPosition.Above},
+                    Video = new Video
+                    {
+                        Url = "https://www.youtube.com/v/abc",
+                        Position = VideoPosition.Above
+                    },
                     ApplicationEmail = "asdf@asdf.com",
                     ApplicationFormUrl = "http://FakeATS.com.au",
                     ScreenId = 20,
                     JobReference = "JOB1234",
-                    Template = new Template() { Id = 99,
-                                                Items = new[]
-                                                    {
-                                                        new TemplateItemModel{Name = "Template Line 1", Value = "Template Value 1"},
-                                                        new TemplateItemModel{Name = "Template Line 2", Value = "Template Value 2"}
-                                                    }},
-                    Standout= new StandoutAdvertisement() { LogoId = 333,
-                                                            Bullets = new string[] { "new Uzi", "new Remington Model", "new AK-47" }
-                                                          },
-               
+                    Template = new Template
+                    {
+                        Id = 99,
+                        Items = new[]
+                        {
+                            new TemplateItemModel{Name = "Template Line 1", Value = "Template Value 1"},
+                            new TemplateItemModel{Name = "Template Line 2", Value = "Template Value 2"}
+                        }
+                    },
+                    Standout = new StandoutAdvertisement
+                    {
+                        LogoId = 333,
+                        Bullets = new[] { "new Uzi", "new Remington Model", "new AK-47" }
+                    },
+
                     AdditionalProperties = new[] { AdditionalPropertyType.ResidentsOnly },
                 });
 
@@ -207,7 +227,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given(string.Format("There isn't an advertisement with id: '{0}'", advertisementId))
+                .Given($"There isn't an advertisement with id: '{advertisementId}'")
                 .UponReceiving("Update request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -226,10 +246,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         advertisementDetails = "experience required",
                         advertisementType = AdvertisementType.Classic.ToString(),
                         workType = WorkType.Casual.ToString(),
-                        salary = new { 
-                                        type = SalaryType.HourlyRate.ToString(),
-                                        minimum = 20,
-                                        maximum = 24},
+                        salary = new
+                        {
+                            type = SalaryType.HourlyRate.ToString(),
+                            minimum = 20,
+                            maximum = 24
+                        },
                         locationId = "1002",
                         subclassificationId = "6227",
                     }
@@ -248,12 +270,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     AdvertisementDetails = "experience required",
                     AdvertisementType = AdvertisementType.Classic,
                     WorkType = WorkType.Casual,
-                    Salary = new Salary() { Type = SalaryType.HourlyRate,
-                                            Minimum = 20,
-                                            Maximum = 24},
+                    Salary = new Salary
+                    {
+                        Type = SalaryType.HourlyRate,
+                        Minimum = 20,
+                        Maximum = 24
+                    },
                     LocationId = "1002",
                     SubclassificationId = "6227",
-                   
                 });
             }
             catch (ResourceActionException ex)
@@ -270,7 +294,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given(string.Format("There is an advertisement with id: '{0}'", advertisementId))
+                .Given($"There is an advertisement with id: '{advertisementId}'")
                 .UponReceiving("Update request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -289,20 +313,29 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         jobTitle = "Candle Stick Maker",
                         locationId = "1002",
                         subclassificationId = "6227",
-                        salary = new  { type = SalaryType.HourlyRate.ToString(),
-                                        minimum = 0,
-                                        maximum = 24},
+                        salary = new
+                        {
+                            type = SalaryType.HourlyRate.ToString(),
+                            minimum = 0,
+                            maximum = 24
+                        },
                         jobSummary = "some text",
                         advertisementDetails = "experience required",
-                        video = new { url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
-                                      position = VideoPosition.Below.ToString()},
+                        video = new
+                        {
+                            url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
+                            position = VideoPosition.Below.ToString()
+                        },
                         applicationEmail = "someone(at)some.domain",
                         applicationFormUrl = "htp://somecompany.domain/apply",
-                        template = new { items = new[]
-                                        {
-                                            new { name = "template1", value = "value1" },
-                                            new { name = "", value = "value2".PadRight(260, '!') }
-                                        }},
+                        template = new
+                        {
+                            items = new[]
+                            {
+                                new { name = "template1", value = "value1" },
+                                new { name = "", value = "value2".PadRight(260, '!') }
+                            }
+                        }
                     }
                 })
                 .WillRespondWith(
@@ -351,7 +384,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     JobTitle = "Candle Stick Maker",
                     LocationId = "1002",
                     SubclassificationId = "6227",
-                    Salary = new Salary()
+                    Salary = new Salary
                     {
                         Type = SalaryType.HourlyRate,
                         Minimum = 0,
@@ -359,16 +392,22 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     },
                     JobSummary = "some text",
                     AdvertisementDetails = "experience required",
-                    Video = new Video() { Url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
-                                          Position = VideoPosition.Below},
+                    Video = new Video
+                    {
+                        Url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
+                        Position = VideoPosition.Below
+                    },
                     ApplicationEmail = "someone(at)some.domain",
                     ApplicationFormUrl = "htp://somecompany.domain/apply",
-                    Template =new Template() { Items = new[]
-                                            {
-                                                new TemplateItemModel { Name = "template1", Value = "value1" },
-                                                new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') }
-                                            }
-                                            }});
+                    Template = new Template
+                    {
+                        Items = new[]
+                        {
+                            new TemplateItemModel { Name = "template1", Value = "value1" },
+                            new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') }
+                        }
+                    }
+                });
                 Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
             }
             catch (ValidationException ex)
