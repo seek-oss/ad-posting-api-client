@@ -15,5 +15,10 @@ namespace SEEK.AdPostingApi.Client.Resources
         {
             return await this.PutResourceAsync<AdvertisementResource>("self", this);
         }
+
+        public async Task<AdvertisementResource> ExpireAsync()
+        {
+            return await this.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>("self", this, new AdvertisementPatch { State = AdvertisementState.Expired });
+        } 
     }
 }

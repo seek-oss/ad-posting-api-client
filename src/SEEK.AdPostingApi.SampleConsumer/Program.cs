@@ -100,12 +100,16 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     // Update the advertisement.
                     content.Properties.JobTitle = "New job title";
                     await content.SaveAsync();
-            //Thread.Sleep(3600000);
 
                     AdvertisementResource newContent = await postingClient.GetAdvertisementAsync(advertisementLink);
                     Console.WriteLine();
                     Console.WriteLine("Updated job advertisement.");
                     Console.WriteLine(JsonConvert.SerializeObject(newContent, Formatting.Indented));
+
+                    var expiredAdvertisementContent = await newContent.ExpireAsync();
+                    Console.WriteLine();
+                    Console.WriteLine("Expired job advertisement.");
+                    Console.WriteLine(JsonConvert.SerializeObject(expiredAdvertisementContent, Formatting.Indented));
                     break;
                 case CreateResult.ValidationErrors:
                     // There were validation errors; show the errors.
