@@ -141,6 +141,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             var advertisementId = new Guid("66fb4361-c97c-4833-a46f-3606a703a65e");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockLinks();
 
@@ -151,7 +152,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ProviderServiceRequest
                     {
                         Method = HttpVerb.Patch,
-                        Path = $"{AdvertisementLink}/{advertisementId}",
+                        Path = link,
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -187,14 +188,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             {
                                 self = new
                                 {
-                                    href = "/advertisement/" + advertisementId
+                                    href = link
                                 }
                             }
                         }
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            AdvertisementResource jobAd = await client.ExpireAdvertisementAsync(advertisementId, new AdvertisementPatch { State = AdvertisementState.Expired });
+            AdvertisementResource jobAd = await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
 
             Assert.AreEqual("13", jobAd.Properties.AdvertiserId);
         }
@@ -204,6 +205,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             var advertisementId = new Guid("dfd944df-e17d-45b5-8c86-0af43f9bae5d");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockLinks();
 
@@ -214,7 +216,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ProviderServiceRequest
                     {
                         Method = HttpVerb.Patch,
-                        Path = $"{AdvertisementLink}/{advertisementId}",
+                        Path = link,
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -245,7 +247,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
             ValidationException exception = Assert.Throws<ValidationException>(
-                async () => { await client.ExpireAdvertisementAsync(advertisementId, new AdvertisementPatch { State = AdvertisementState.Expired }); });
+                async () => { await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }); });
 
             exception.ValidationDataItems.ShouldBe(new ValidationData { Code = "InvalidState" });
         }
@@ -255,6 +257,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             var advertisementId = new Guid("9b650105-7434-473f-8293-4e23b7e0e064");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockLinks();
 
@@ -265,7 +268,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ProviderServiceRequest
                     {
                         Method = HttpVerb.Patch,
-                        Path = $"{AdvertisementLink}/{advertisementId}",
+                        Path = link,
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -285,7 +288,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
             var exception = Assert.Throws<ResourceActionException>(
-                async () => await client.ExpireAdvertisementAsync(advertisementId, new AdvertisementPatch { State = AdvertisementState.Expired }));
+                async () => await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
 
             Assert.AreEqual(HttpStatusCode.NotFound, exception.StatusCode);
         }

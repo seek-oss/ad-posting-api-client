@@ -70,13 +70,6 @@ namespace SEEK.AdPostingApi.Client
             }
         }
 
-        public async Task<AdvertisementResource> ExpireAdvertisementAsync(Guid id, AdvertisementPatch advertisementPatch)
-        {
-            await this.EnsureInitialised();
-
-            return await this._indexResource.ExpireAdvertisementByIdAsync(id, advertisementPatch);
-        }
-
         public async Task<AdvertisementResource> ExpireAdvertisementAsync(Uri uri, AdvertisementPatch advertisementPatch)
         {
             await this.EnsureInitialised();
