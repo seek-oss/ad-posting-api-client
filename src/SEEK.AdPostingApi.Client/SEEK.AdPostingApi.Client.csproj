@@ -76,11 +76,15 @@
     <Compile Include="Models\Advertisement.cs" />
     <Compile Include="Hal\FromHeaderAttribute.cs" />
     <Compile Include="Models\OAuth2Token.cs" />
+    <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\SalaryType.cs" />
+    <Compile Include="Models\StandoutAdvertisement.cs" />
     <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\Template.cs" />
     <Compile Include="Models\TemplateItemModel.cs" />
     <Compile Include="Models\ValidationData.cs" />
     <Compile Include="Models\ValidationMessage.cs" />
+    <Compile Include="Models\Video.cs" />
     <Compile Include="Models\VideoPosition.cs" />
     <Compile Include="Models\WorkType.cs" />
     <Compile Include="MonoHttpClientWebExceptionHandler.cs" />

@@ -40,11 +40,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 AdvertisementDetails = "Experience Required",
                 AdvertisementType = AdvertisementType.Classic,
                 WorkType = WorkType.Casual,
-                SalaryType = SalaryType.HourlyRate,
+                Salary = new Salary() { Type = SalaryType.HourlyRate,
+                                        Minimum = 20,
+                                        Maximum = 24},
                 LocationId = "1002",
                 SubclassificationId = "6227",
-                SalaryMinimum = 20,
-                SalaryMaximum = 24
+               
             };
 
             // Example of creating the advertisement using a simple retry loop.

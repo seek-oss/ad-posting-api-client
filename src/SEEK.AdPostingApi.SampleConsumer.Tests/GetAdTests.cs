@@ -65,7 +65,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
                         {"Status", "Pending"}
                     },
-                    Body = new
+                    Body = new 
                     {
                         agentId = (object)null,
                         advertiserId = "9012",
@@ -74,29 +74,29 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         locationId = "378",
                         subclassificationId = "734",
                         workType = WorkType.FullTime.ToString(),
-                        salaryType = SalaryType.AnnualPackage.ToString(),
-                        salaryMinimum = 100000,
-                        salaryMaximum = 200000,
-                        salaryDetails = "We will pay you",
+                        salary = new  { type = SalaryType.AnnualPackage.ToString(),
+                                        minimum = 100000,
+                                        maximum = 200000,
+                                        details = "We will pay you"},
                         jobSummary = "Developer job",
                         advertisementDetails = "Exciting, do I need to say more?",
                         contactDetails = "Call me",
-                        videoUrl = "https://www.youtube.com/watch?v=dVDk7PXNXB8",
-                        videoPosition = VideoPosition.Above.ToString(),
+                        video = new { url = "https://www.youtube.com/watch?v=dVDk7PXNXB8",
+                                      position = VideoPosition.Above.ToString()
+                                     },
                         applicationEmail = "asdf@asdf.com",
                         applicationFormUrl = "http://applicationform/",
                         screenId = 20,
                         jobReference = "JOB1234",
-                        templateId = 99,
-                        templateItems = new[]
-                        {
-                            new { name = "Template Line 1", value = "Template Value 1" },
-                            new { name = "Template Line 2", value = "Template Value 2" }
-                        },
-                        standoutLogoId = 333,
-                        standoutBullet1 = "Uzi",
-                        standoutBullet2 = "Remington Model",
-                        standoutBullet3 = "AK-47",
+                        template = new { id = 99,
+                                        items = new[]
+                                        {
+                                            new { name = "Template Line 1", value = "Template Value 1" },
+                                            new { name = "Template Line 2", value = "Template Value 2" }
+                                        }},
+                        standout = new  { logoId = 333, 
+                                          bullets = new [] { "Uzi", "Remington Model", "AK-47"}
+                                        },
                         seekCodes = new[]
                         {
                             "SK010001Z",
