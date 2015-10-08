@@ -82,13 +82,6 @@ namespace SEEK.AdPostingApi.Client
             return this.GetResourceAsync<AdvertisementResource>(uri);
         }
 
-        public async Task<Status> GetAdvertisementStatusAsync(Guid id)
-        {
-            await this.EnsureInitialised();
-
-            return await this._indexResource.GetAdvertisementStatusByIdAsync(id);
-        }
-
         public Task<Status> GetAdvertisementStatusAsync(Uri uri)
         {
             return this.HeadResourceAsync<Status, AdvertisementResource>(uri);
