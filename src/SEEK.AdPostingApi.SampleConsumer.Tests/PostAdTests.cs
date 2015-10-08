@@ -70,9 +70,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             locationId = "1002",
                             subclassificationId = "6227",
                             workType = WorkType.Casual.ToString(),
-                            salaryType = SalaryType.HourlyRate.ToString(),
-                            salaryMinimum = 20,
-                            salaryMaximum = 24,
+                            salary = new
+                            {
+                                type = SalaryType.HourlyRate.ToString(),
+                                minimum = 20,
+                                maximum = 24
+                            },
+                           
                             jobSummary = "some text",
                             advertisementDetails = "experience required"
                         }
@@ -95,9 +99,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             locationId = "1002",
                             subclassificationId = "6227",
                             workType = WorkType.Casual.ToString(),
-                            salaryType = SalaryType.HourlyRate.ToString(),
-                            salaryMinimum = 20,
-                            salaryMaximum = 24,
+                            salary = new
+                            {
+                                type = SalaryType.HourlyRate.ToString(),
+                                minimum = 20,
+                                maximum = 24
+                            },
                             jobSummary = "some text",
                             advertisementDetails = "experience required",
                             _links = new
@@ -137,29 +144,38 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             advertisementDetails = "Baking experience required",
                             advertisementType = AdvertisementType.StandOut.ToString(),
                             workType = WorkType.Casual.ToString(),
-                            salaryType = SalaryType.HourlyRate.ToString(),
                             locationId = "1002",
                             subclassificationId = "6227",
-                            salaryMinimum = 20,
-                            salaryMaximum = 24,
-                            salaryDetails = "Huge bonus",
+                            salary = new
+                            {
+                               type = SalaryType.HourlyRate.ToString(),
+                                minimum = 20,
+                                maximum = 24,
+                                details = "Huge bonus"
+                            },
+
                             contactDetails = "0412345678",
-                            videoUrl = "http://www.youtube.com/v/abc",
-                            videoPosition = VideoPosition.Above.ToString(),
+                            video = new
+                            {
+                                url = "http://www.youtube.com/v/abc",
+                                position = VideoPosition.Above.ToString(),
+                            },
+                          
                             applicationEmail = "me@contactme.com.au",
                             applicationFormUrl = "http://FakeATS.com.au",
                             screenId = 100,
                             jobReference = "REF1234",
-                            templateId = 43496,
-                            templateItems = new[]
-                            {
-                                new { name = "template1", value = "value1" },
-                                new { name = "template2", value = "value2" }
+                            template = new  {
+                                id = 43496,
+                                items = new[]
+                                {
+                                    new { name = "template1", value = "value1" },
+                                    new { name = "template2", value = "value2" }
+                                }},
+                            standout = new {
+                                logoId = 39,
+                                bullets = new[] { "standout bullet 1", "standout bullet 2", "standout bullet 3" }
                             },
-                            standoutLogoId = 39,
-                            standoutBullet1 = "standout bullet 1",
-                            standoutBullet2 = "standout bullet 2",
-                            standoutBullet3 = "standout bullet 3",
                             seekCodes = new[]
                             {
                                 "SK840239A",
@@ -189,29 +205,41 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             advertisementDetails = "Baking experience required",
                             advertisementType = AdvertisementType.StandOut.ToString(),
                             workType = WorkType.Casual.ToString(),
-                            salaryType = SalaryType.HourlyRate.ToString(),
                             locationId = "1002",
                             subclassificationId = "6227",
-                            salaryMinimum = 20,
-                            salaryMaximum = 24,
-                            salaryDetails = "Huge bonus",
+                            salary = new
+                            {
+                                type = SalaryType.HourlyRate.ToString(),
+                                minimum = 20,
+                                maximum = 24,
+                                details = "Huge bonus"
+                            },
                             contactDetails = "0412345678",
-                            videoUrl = "http://www.youtube.com/v/abc",
-                            videoPosition = VideoPosition.Above.ToString(),
+                            video = new
+                            {
+                                url = "http://www.youtube.com/v/abc",
+                                position = VideoPosition.Above.ToString(),
+                            },
+                    
                             applicationEmail = "me@contactme.com.au",
                             applicationFormUrl = "http://FakeATS.com.au",
                             screenId = 100,
                             jobReference = "REF1234",
                             templateId = 43496,
-                            templateItems = new[]
+                            template = new
                             {
-                                new { name = "template1", value = "value1" },
-                                new { name = "template2", value = "value2" }
+                                id = 43496,
+                                items = new[]
+                                {
+                                    new { name = "template1", value = "value1" },
+                                    new { name = "template2", value = "value2" }
+                                }
                             },
-                            standoutLogoId = 39,
-                            standoutBullet1 = "standout bullet 1",
-                            standoutBullet2 = "standout bullet 2",
-                            standoutBullet3 = "standout bullet 3",
+                            standout = new
+                            {
+                                logoId = 39,
+                                bullets = new[] { "standout bullet 1", "standout bullet 2", "standout bullet 3" }
+                            },
                             seekCodes = new[]
                             {
                                 "SK840239A",
@@ -255,20 +283,30 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             jobTitle = "Candle Stick Maker",
                             locationId = "1002",
                             subclassificationId = "6227",
-                            salaryType = SalaryType.HourlyRate.ToString(),
-                            salaryMinimum = 0,
-                            salaryMaximum = 24,
+                            salary = new
+                            {
+                                type = SalaryType.HourlyRate.ToString(),
+                                minimum = 0,
+                                maximum = 24,
+                            },
                             jobSummary = "some text",
                             advertisementDetails = "experience required",
-                            videoUrl = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
-                            videoPosition = VideoPosition.Below.ToString(),
+                            video = new
+                            {
+                                url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
+                                position = VideoPosition.Below.ToString(),
+                            },
                             applicationEmail = "someone(at)some.domain",
                             applicationFormUrl = "htp://somecompany.domain/apply",
-                            templateItems = new[]
+                            template = new
                             {
-                                new { name = "template1", value = "value1" },
-                                new { name = "", value = "value2".PadRight(260, '!') }
-                            }
+                               
+                                items = new[]
+                                {
+                                    new { name = "template1", value = "value1" },
+                                    new { name = "", value = "value2".PadRight(260, '!') }
+                                }
+                            },
                         }
                     }
                 )
@@ -321,9 +359,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             locationId = "1002",
                             subclassificationId = "6227",
                             workType = WorkType.Casual.ToString(),
-                            salaryType = SalaryType.HourlyRate.ToString(),
-                            salaryMinimum = 20,
-                            salaryMaximum = 24,
+                            salary = new  {
+                                type = SalaryType.HourlyRate.ToString(),
+                                minimum = 20,
+                                maximum = 24 },
                             jobSummary = "some text",
                             advertisementDetails = "experience required"
                         }
@@ -374,9 +413,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             locationId = "1002",
                             subclassificationId = "6227",
                             workType = WorkType.Casual.ToString(),
-                            salaryType = SalaryType.HourlyRate.ToString(),
-                            salaryMinimum = 20,
-                            salaryMaximum = 24,
+                            salary = new
+                            {
+                                type = SalaryType.HourlyRate.ToString(),
+                                minimum = 20,
+                                maximum = 24
+                            },
                             jobSummary = "some text",
                             advertisementDetails = "experience required"
                         }
@@ -418,11 +460,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 AdvertisementDetails = "experience required",
                 AdvertisementType = AdvertisementType.Classic,
                 WorkType = WorkType.Casual,
-                SalaryType = SalaryType.HourlyRate,
+                Salary = new Salary() { Type = SalaryType.HourlyRate,
+                                        Minimum = 20,
+                                        Maximum = 24},
                 LocationId = "1002",
                 SubclassificationId = "6227",
-                SalaryMinimum = 20,
-                SalaryMaximum = 24
+            
             };
         }
 
@@ -471,21 +514,23 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     JobTitle = "Candle Stick Maker",
                     LocationId = "1002",
                     SubclassificationId = "6227",
-                    SalaryType = SalaryType.HourlyRate,
-                    SalaryMinimum = 0,
-                    SalaryMaximum = 24,
+                    Salary = new Salary() { Type = SalaryType.HourlyRate,
+                                            Minimum = 0,
+                                            Maximum = 24},
                     JobSummary = "some text",
                     AdvertisementDetails = "experience required",
-                    VideoUrl = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
-                    VideoPosition = VideoPosition.Below,
+
+                    Video = new Video() { Url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
+                                          Position = VideoPosition.Below
+                                        },
                     ApplicationEmail = "someone(at)some.domain",
                     ApplicationFormUrl = "htp://somecompany.domain/apply",
-                    TemplateItems = new[]
-                        {
-                            new TemplateItemModel { Name = "template1", Value = "value1" },
-                            new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') }
-                        }
-                });
+                    Template = new Template() { Items = new[]
+                                                {
+                                                    new TemplateItemModel { Name = "template1", Value = "value1" },
+                                                    new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') }
+                                                }
+                                              }});
                 Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
             }
             catch (ValidationException ex)
@@ -507,29 +552,29 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 AdvertisementDetails = "Baking experience required",
                 AdvertisementType = AdvertisementType.StandOut,
                 WorkType = WorkType.Casual,
-                SalaryType = SalaryType.HourlyRate,
+                Salary= new Salary() { Type = SalaryType.HourlyRate,
+                                       Minimum = 20,
+                                       Maximum = 24,
+                                       Details = "Huge bonus"
+                },
                 LocationId = "1002",
                 SubclassificationId = "6227",
-                SalaryMinimum = 20,
-                SalaryMaximum = 24,
-                SalaryDetails = "Huge bonus",
+              
                 ContactDetails = "0412345678",
-                VideoUrl = "http://www.youtube.com/v/abc",
-                VideoPosition = VideoPosition.Above,
+                Video = new Video() { Url = "http://www.youtube.com/v/abc",
+                Position = VideoPosition.Above},
                 ApplicationEmail = "me@contactme.com.au",
                 ApplicationFormUrl = "http://FakeATS.com.au",
                 ScreenId = 100,
                 JobReference = "REF1234",
-                TemplateId = 43496,
-                TemplateItems = new[]
-                {
-                    new TemplateItemModel { Name = "template1", Value = "value1" },
-                    new TemplateItemModel { Name = "template2", Value = "value2" }
-                },
-                StandoutLogoId = 39,
-                StandoutBullet1 = "standout bullet 1",
-                StandoutBullet2 = "standout bullet 2",
-                StandoutBullet3 = "standout bullet 3",
+                Template = new Template() { Id = 43496,
+                                            Items = new[]
+                                            {
+                                                new TemplateItemModel { Name = "template1", Value = "value1" },
+                                                new TemplateItemModel { Name = "template2", Value = "value2" }
+                                            }},
+                Standout = new StandoutAdvertisement() { LogoId = 39,
+                                                         Bullets = new string[] { "standout bullet 1", "standout bullet 2", "standout bullet 3"}},
                 SeekCodes = new[]
                 {
                     "SK840239A",
