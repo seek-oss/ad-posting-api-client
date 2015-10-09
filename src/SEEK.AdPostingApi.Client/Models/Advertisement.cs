@@ -27,5 +27,10 @@ namespace SEEK.AdPostingApi.Client.Models
         public Video Video { get; set; }
         public StandoutAdvertisement Standout { get; set; }
         public AdditionalPropertyType[] AdditionalProperties { get; set; }
+
+        public bool ShouldSerializeState()
+        {
+            return false;
+        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
-using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.Client.Resources
 {
@@ -13,12 +13,12 @@ namespace SEEK.AdPostingApi.Client.Resources
 
         public async Task<AdvertisementResource> SaveAsync()
         {
-            return await this.PutResourceAsync<AdvertisementResource>("self", this);
+            return await this.PutResourceAsync("self", this);
         }
 
         public async Task<AdvertisementResource> ExpireAsync()
         {
             return await this.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>("self", this, new AdvertisementPatch { State = AdvertisementState.Expired });
-        } 
+        }
     }
 }
