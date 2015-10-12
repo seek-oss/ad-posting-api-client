@@ -93,11 +93,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvertisementContentBuilder.cs" />
+    <Compile Include="AdvertisementModelBuilder.cs" />
+    <Compile Include="AllFieldsInitializer.cs" />
     <Compile Include="AssertExtensions.cs" />
     <Compile Include="ExpireAdTests.cs" />
     <Compile Include="GetAllAdTests.cs" />
     <Compile Include="GetAdTests.cs" />
+    <Compile Include="IBuilderInitializer.cs" />
+    <Compile Include="MinimumFieldsInitializer.cs" />
     <Compile Include="OAuth2TokenBuilder.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="PactProvider.cs" />
     <Compile Include="PostAdTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
