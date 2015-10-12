@@ -118,7 +118,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             },
                             standout = new
                             {
-                                id = 333,
+                                logoId = 333,
                                 bullets = new[] { "Uzi", "Remington Model", "AK-47" }
                             },
                             seekCodes = new[]
