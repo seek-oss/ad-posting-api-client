@@ -87,11 +87,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 new ValidationData { Field = "advertiserId", Code = "Required" },
                 new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
                 new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
-                new ValidationData { Field = "salaryMinimum", Code = "ValueOutOfRange" },
-                new ValidationData { Field = "templateItems[1].name", Code = "Required" },
-                new ValidationData { Field = "templateItems[1].value", Code = "MaxLengthExceeded" },
-                new ValidationData { Field = "videoUrl", Code = "MaxLengthExceeded" },
-                new ValidationData { Field = "videoUrl", Code = "RegexPatternNotMatched" }
+                new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
+                new ValidationData { Field = "template.items[1].name", Code = "Required" },
+                new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
+                new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
+                new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
             };
 
             try
@@ -364,7 +364,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             applicationFormUrl = "http://FakeATS.com.au",
                             screenId = 100,
                             jobReference = "REF1234",
-                            templateId = 43496,
                             template = new
                             {
                                 id = 43496,
@@ -463,11 +462,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 new { field = "advertiserId", code = "Required" },
                                 new { field = "applicationEmail", code = "InvalidEmailAddress" },
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
-                                new { field = "salaryMinimum", code = "ValueOutOfRange" },
-                                new { field = "templateItems[1].name", code = "Required" },
-                                new { field = "templateItems[1].value", code = "MaxLengthExceeded" },
-                                new { field = "videoUrl", code = "MaxLengthExceeded" },
-                                new { field = "videoUrl", code = "RegexPatternNotMatched" }
+                                new { field = "salary.minimum", code = "ValueOutOfRange" },
+                                new { field = "template.items[1].name", code = "Required" },
+                                new { field = "template.items[1].value", code = "MaxLengthExceeded" },
+                                new { field = "video.url", code = "MaxLengthExceeded" },
+                                new { field = "video.url", code = "RegexPatternNotMatched" }
                             }
                         }
                     });
