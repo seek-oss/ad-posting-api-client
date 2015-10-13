@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -199,15 +200,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementContentBuilder WithTemplateItem(object name, object value)
+        public AdvertisementContentBuilder WithTemplateItems(params KeyValuePair<object, object>[] templateItems)
         {
             EnsureTemplatePropertyExists();
 
-            if (!((IDictionary<string, object>) _advertisementModel.template).ContainsKey("items"))
-            {
-                _advertisementModel.template.items = new List<dynamic>();
-            }
-            _advertisementModel.template.items.Add(new {name, value});
+            _advertisementModel.template.items = templateItems?.Select(t => new { name = t.Key, value = t.Value }).ToArray();
             return this;
         }
 

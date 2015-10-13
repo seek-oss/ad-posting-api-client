@@ -152,14 +152,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithTemplateItem(string name, string value)
+        public AdvertisementModelBuilder WithTemplateItems(params TemplateItemModel[] templateItems)
         {
             _advertisementModel.Template = _advertisementModel.Template ?? new Template();
 
-            var templateItemModels = _advertisementModel.Template.Items == null ? new List<TemplateItemModel>() : new List<TemplateItemModel>(_advertisementModel.Template.Items);
-
-            templateItemModels.Add(new TemplateItemModel { Name = name, Value = value });
-            _advertisementModel.Template.Items = templateItemModels.ToArray();
+            _advertisementModel.Template.Items = templateItems?.Clone<TemplateItemModel[]>();
             return this;
         }
 

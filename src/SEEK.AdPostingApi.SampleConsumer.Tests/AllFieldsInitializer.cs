@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
@@ -23,8 +24,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithScreenId(GetDefaultScreenId())
                 .WithJobReference(GetDefaultJobReference())
                 .WithTemplateId(GetDefaultTemplateId())
-                .WithTemplateItem(GetDefaultTemplateItemName(1), GetDefaultTemplateItemValue(1))
-                .WithTemplateItem(GetDefaultTemplateItemName(2), GetDefaultTemplateItemValue(2))
+                .WithTemplateItems(
+                    new KeyValuePair<object, object>(GetDefaultTemplateItemName(1) , GetDefaultTemplateItemValue(1)),
+                    new KeyValuePair<object, object>(GetDefaultTemplateItemName(2), GetDefaultTemplateItemValue(2)))
                 .WithStandoutLogoId(GetDefaultLogoId())
                 .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
                 .WithSeekCodes(GetDefaultSeekCodesAsObjects())
@@ -47,8 +49,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithScreenId(GetDefaultScreenId())
                 .WithJobReference(GetDefaultJobReference())
                 .WithTemplateId(GetDefaultTemplateId())
-                .WithTemplateItem(GetDefaultTemplateItemName(1), GetDefaultTemplateItemValue(1))
-                .WithTemplateItem(GetDefaultTemplateItemName(2), GetDefaultTemplateItemValue(2))
+                .WithTemplateItems(
+                    new TemplateItemModel { Name = GetDefaultTemplateItemName(1), Value = GetDefaultTemplateItemValue(1) },
+                    new TemplateItemModel { Name = GetDefaultTemplateItemName(2), Value = GetDefaultTemplateItemValue(2) })
                 .WithStandoutLogoId(GetDefaultLogoId())
                 .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
                 .WithSeekCodes(GetDefaultSeekCodes())

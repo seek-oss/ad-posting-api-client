@@ -177,8 +177,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithVideoPosition(VideoPosition.Below.ToString())
                         .WithApplicationEmail("someone(at)some.domain")
                         .WithApplicationFormUrl("htp://somecompany.domain/apply")
-                        .WithTemplateItem("Template Line 1", "Template Value 1")
-                        .WithTemplateItem("", "value2".PadRight(260, '!'))
+                        .WithTemplateItems(
+                            new KeyValuePair<object, object>("Template Line 1", "Template Value 1"),
+                            new KeyValuePair<object, object>("", "value2".PadRight(260, '!')))
                         .Build()
                 })
                 .WillRespondWith(
@@ -226,8 +227,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithVideoPosition(VideoPosition.Below)
                         .WithApplicationEmail("someone(at)some.domain")
                         .WithApplicationFormUrl("htp://somecompany.domain/apply")
-                        .WithTemplateItem("Template Line 1", "Template Value 1")
-                        .WithTemplateItem("", "value2".PadRight(260, '!'))
+                        .WithTemplateItems(
+                            new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
+                            new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') })
                         .Build());
 
                 Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
