@@ -21,7 +21,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private const string CreationIdForAdWithMinimumRequiredData = "20150914-134527-00012";
         private const string CreationIdForAdWithMaximumRequiredData = "20150914-134527-00097";
 
-        private IBuilderInitializer MinimumFieldsInitializer => new AllFieldsInitializer();
+        private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 

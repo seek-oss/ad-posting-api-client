@@ -19,6 +19,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private const string AdvertisementLink = "/advertisement";
 
+        private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
+
+        private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
+
         public ExpireAdTests()
         {
             this._oauthClient = Mock.Of<IOAuth2TokenClient>(
@@ -79,65 +83,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" }
                         },
-                        Body = new
-                        {
-                            advertiserId = "9012",
-                            state = AdvertisementState.Pending.ToString(),
-                            advertisementType = AdvertisementType.StandOut.ToString(),
-                            jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$",
-                            locationId = "378",
-                            subclassificationId = "734",
-                            workType = WorkType.FullTime.ToString(),
-                            salary = new
-                            {
-                                type = SalaryType.AnnualPackage.ToString(),
-                                minimum = 100000,
-                                maximum = 200000,
-                                details = "We will pay you"
-                            },
-                            jobSummary = "Developer job",
-                            advertisementDetails = "Exciting, do I need to say more?",
-                            contactDetails = "Call me",
-                            video = new
-                            {
-                                url = "https://www.youtube.com/watch?v=dVDk7PXNXB8",
-                                position = VideoPosition.Above.ToString()
-                            },
-                            applicationEmail = "asdf@asdf.com",
-                            applicationFormUrl = "http://applicationform/",
-                            screenId = 20,
-                            jobReference = "JOB1234",
-                            template = new
-                            {
-                                id = 99,
-                                items = new[]
-                            {
-                                new { name = "Template Line 1", value = "Template Value 1" },
-                                new { name = "Template Line 2", value = "Template Value 2" }
-                            }
-                            },
-                            standout = new
-                            {
-                                logoId = 333,
-                                bullets = new[] { "Uzi", "Remington Model", "AK-47" }
-                            },
-                            seekCodes = new[]
-                            {
-                                "SK010001Z",
-                                "SK010010z",
-                                "SK0101OOZ",
-                                "SK910101A"
-                            },
-                            additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
-                            expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc),
-                            _links = new
-                            {
-                                self = new
-                                {
-                                    href = link
-                                }
-                            }
-                        }
+                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                            .WithoutAgentId()
+                            .WithState(AdvertisementState.Pending.ToString())
+                            .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
+                            .WithResponseLink("self", link)
+                            .Build()
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
@@ -182,35 +133,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" }
                         },
-                        Body = new
-                        {
-                            advertiserId = "13",
-                            state = AdvertisementState.Expired.ToString(),
-                            advertisementType = "Classic",
-                            jobTitle = "Baker",
-                            workType = "FullTime",
-                            salary = new
-                            {
-                                type = SalaryType.AnnualPackage.ToString(),
-                                minimum = 10000,
-                                maximum = 20000,
-                            },
-                            jobSummary = "Fantastic opportunity for an awesome baker",
-                            expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc),
-                            _links = new
-                            {
-                                self = new
-                                {
-                                    href = link
-                                }
-                            }
-                        }
+                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                            .WithState(AdvertisementState.Expired.ToString())
+                            .Build()
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
             AdvertisementResource jobAd = await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
 
-            Assert.AreEqual("13", jobAd.Properties.AdvertiserId);
+            Assert.AreEqual("9012", jobAd.Properties.AdvertiserId);
         }
 
         [Test]

@@ -17,7 +17,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private readonly IOAuth2TokenClient _oauthClient;
         private const string AdvertisementLink = "/advertisement";
 
-        private IBuilderInitializer MinimumFieldsInitializer => new AllFieldsInitializer();
+        private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 
