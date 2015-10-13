@@ -120,8 +120,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given($"There isn't an advertisement with id: '{advertisementId}'")
-                .UponReceiving("Update request for advertisement")
+                .UponReceiving("Update request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,

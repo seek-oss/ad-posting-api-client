@@ -208,8 +208,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"There isn't an advertisement with id: '{advertisementId}'")
-                .UponReceiving("An expire request for advertisement")
+                .UponReceiving("An expire request for a non-existent advertisement")
                 .With(
                     new ProviderServiceRequest
                     {
