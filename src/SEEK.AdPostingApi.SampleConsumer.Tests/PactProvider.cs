@@ -21,14 +21,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     PactDir = "../../pacts/",
                     LogDir = "../../logs/"
                 })
-                .ServiceConsumer("AdPostingApi SampleConsumer")
-                .HasPactWith("AdPostingApi");
+                .ServiceConsumer("Ad Posting API Sample Consumer")
+                .HasPactWith("Ad Posting API");
 
             MockService = PactBuilder.MockService(MockProviderServicePort);
             MockServiceUri = new Uri("http://localhost:" + MockProviderServicePort);
         }
 
-        public static IMockProviderService MockService { get; private set; }
+        public static IMockProviderService MockService { get; }
 
         public static Uri MockServiceUri { get; private set; }
 
