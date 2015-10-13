@@ -134,7 +134,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                            .WithoutAgentId()
                             .WithState(AdvertisementState.Expired.ToString())
+                            .WithResponseLink("self", link)
                             .Build()
                     });
 
