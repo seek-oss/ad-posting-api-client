@@ -38,52 +38,52 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private string GetDefaultAdvertiserId()
         {
-            return "advertiserB";
+            return "9012";
         }
 
         private string GetDefaultJobTitle()
         {
-            return "Baker";
-        }
-
-        private string GetDefaultLocationId()
-        {
-            return "1002";
-        }
-
-        private string GetDefaultSubclassificationId()
-        {
-            return "6227";
-        }
-
-        private WorkType GetDefaultWorkType()
-        {
-            return WorkType.Casual;
-        }
-
-        private SalaryType GetDefaultSalaryType()
-        {
-            return SalaryType.HourlyRate;
-        }
-
-        private int GetDefaultSalaryMinimum()
-        {
-            return 20;
-        }
-
-        private int GetDefaultSalaryMaximum()
-        {
-            return 24;
+            return "Exciting Senior Developer role in a great CBD location. Great $$$";
         }
 
         private string GetDefaultJobSummary()
         {
-            return "Fantastic opportunity for an awesome baker";
+            return "Developer job";
         }
 
         private string GetDefaultAdvertisementDetails()
         {
-            return "Baking experience required";
+            return "Exciting, do I need to say more?";
+        }
+
+        private string GetDefaultLocationId()
+        {
+            return "378";
+        }
+
+        private string GetDefaultSubclassificationId()
+        {
+            return "734";
+        }
+
+        private WorkType GetDefaultWorkType()
+        {
+            return WorkType.FullTime;
+        }
+
+        private SalaryType GetDefaultSalaryType()
+        {
+            return SalaryType.AnnualPackage;
+        }
+
+        private int GetDefaultSalaryMinimum()
+        {
+            return 100000;
+        }
+
+        private int GetDefaultSalaryMaximum()
+        {
+            return 200000;
         }
     }
 }

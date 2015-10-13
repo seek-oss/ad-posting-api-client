@@ -106,9 +106,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithVideo(string url, VideoPosition videoPosition)
+        public AdvertisementModelBuilder WithVideoUrl(string url)
         {
-            _advertisementModel.Video = new Video { Url = url, Position = videoPosition };
+            _advertisementModel.Video = _advertisementModel.Video ?? new Video();
+            _advertisementModel.Video.Url = url;
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithVideoPosition(VideoPosition? videoPosition)
+        {
+            _advertisementModel.Video = _advertisementModel.Video ?? new Video();
+            _advertisementModel.Video.Position = videoPosition;
             return this;
         }
 
@@ -136,17 +144,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        private void EnsureTemplatePropertyExists()
+        public AdvertisementModelBuilder WithTemplateId(int? id)
         {
-            if (_advertisementModel.Template == null)
-            {
-                _advertisementModel.Template = new Template();
-            }
-        }
-
-        public AdvertisementModelBuilder WithTemplate(int? id)
-        {
-            EnsureTemplatePropertyExists();
+            _advertisementModel.Template = _advertisementModel.Template ?? new Template();
 
             _advertisementModel.Template.Id = id;
             return this;
@@ -154,7 +154,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         public AdvertisementModelBuilder WithTemplateItem(string name, string value)
         {
-            EnsureTemplatePropertyExists();
+            _advertisementModel.Template = _advertisementModel.Template ?? new Template();
 
             var templateItemModels = _advertisementModel.Template.Items == null ? new List<TemplateItemModel>() : new List<TemplateItemModel>(_advertisementModel.Template.Items);
 
@@ -182,6 +182,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         public AdvertisementModelBuilder WithSeekCodes(params string[] seekCodes)
         {
             _advertisementModel.SeekCodes = seekCodes?.Clone<string[]>();
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithAdditionalProperties(params AdditionalPropertyType[] additionalPropertyTypes)
+        {
+            _advertisementModel.AdditionalProperties = additionalPropertyTypes.Clone<AdditionalPropertyType[]>();
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithState(AdvertisementState state)
+        {
+            _advertisementModel.State = state;
+
             return this;
         }
 

@@ -17,6 +17,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private readonly IOAuth2TokenClient _oauthClient;
         private const string AdvertisementLink = "/advertisement";
 
+        private IBuilderInitializer MinimumFieldsInitializer => new AllFieldsInitializer();
+
+        private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
+
         public UpdateAdTests()
         {
             this._oauthClient = Mock.Of<IOAuth2TokenClient>(
@@ -60,50 +64,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
                         {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
                     },
-                    Body = new
-                    {
-                        agentId = (object)null,
-                        advertiserId = "9012",
-                        advertisementType = AdvertisementType.StandOut.ToString(),
-                        jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
-                        locationId = "378",
-                        subclassificationId = "734",
-                        workType = WorkType.FullTime.ToString(),
-                        salary = new
-                        {
-                            type = SalaryType.AnnualPackage.ToString(),
-                            minimum = 100000,
-                            maximum = 200000,
-                            details = "We will pay you"
-                        },
-                        jobSummary = "Developer job",
-                        advertisementDetails = "Exciting, do I need to say more?",
-                        contactDetails = "Call me",
-                        video = new
-                        {
-                            url = "https://www.youtube.com/v/abc",
-                            position = VideoPosition.Above.ToString()
-                        },
-                        applicationEmail = "asdf@asdf.com",
-                        applicationFormUrl = "http://FakeATS.com.au",
-                        screenId = 20,
-                        jobReference = "JOB1234",
-                        template = new
-                        {
-                            id = 99,
-                            items = new[]
-                            {
-                                new { name = "Template Line 1", value = "Template Value 1" },
-                                new { name = "Template Line 2", value = "Template Value 2" }
-                            }
-                        },
-                        standout = new
-                        {
-                            logoId = 333,
-                            bullets = new[] { "new Uzi", "new Remington Model", "new AK-47" }
-                        },
-                        additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
-                    }
+                    Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                        .WithoutAgentId()
+                        .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
+                        .WithVideoUrl("https://www.youtube.com/v/abc")
+                        .WithApplicationFormUrl("http://FakeATS.com.au")
+                        .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
+                        .WithoutSeekCodes()
+                        .Build()
                 })
                 .WillRespondWith(
                 new ProviderServiceResponse
@@ -113,110 +81,35 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     {
                         { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"}
                     },
-                    Body = new
-                    {
-                        agentId = (object)null,
-                        advertiserId = "9012",
-                        advertisementType = AdvertisementType.StandOut.ToString(),
-                        state = AdvertisementState.Pending.ToString(),
-                        jobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
-                        locationId = "378",
-                        subclassificationId = "734",
-                        workType = WorkType.FullTime.ToString(),
-                        salary = new
-                        {
-                            type = SalaryType.AnnualPackage.ToString(),
-                            minimum = 100000,
-                            maximum = 200000,
-                            details = "We will pay you"
-                        },
-                        jobSummary = "Developer job",
-                        advertisementDetails = "Exciting, do I need to say more?",
-                        contactDetails = "Call me",
-                        video = new
-                        {
-                            url = "https://www.youtube.com/v/abc",
-                            position = VideoPosition.Above.ToString()
-                        },
-                        applicationEmail = "asdf@asdf.com",
-                        applicationFormUrl = "http://FakeATS.com.au",
-                        screenId = 20,
-                        jobReference = "JOB1234",
-                        template = new
-                        {
-                            id = 99,
-                            items = new[]
-                            {
-                                new { name = "Template Line 1", value = "Template Value 1" },
-                                new { name = "Template Line 2", value = "Template Value 2" }
-                            }
-                        },
-                        standout = new
-                        {
-                            logoId = 333,
-                            bullets = new[] { "new Uzi", "new Remington Model", "new AK-47" }
-                        },
-                        additionalProperties = new[] { AdditionalPropertyType.ResidentsOnly.ToString() },
-                        _links = new
-                        {
-                            self = new
-                            {
-                                href = link
-                            }
-                        }
-                    }
+                    Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                        .WithoutAgentId()
+                        .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
+                        .WithVideoUrl("https://www.youtube.com/v/abc")
+                        .WithApplicationFormUrl("http://FakeATS.com.au")
+                        .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
+                        .WithoutSeekCodes()
+                        .WithResponseLink("self", link)
+                        .Build()
                 });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             AdvertisementResource jobAd = await client.UpdateAdvertisementAsync(
                 new Uri(PactProvider.MockServiceUri, link),
-                new Advertisement
-                {
-                    AdvertiserId = "9012",
-                    AdvertisementType = AdvertisementType.StandOut,
-                    JobTitle = "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
-                    LocationId = "378",
-                    SubclassificationId = "734",
-                    WorkType = WorkType.FullTime,
-                    Salary = new Salary
-                    {
-                        Type = SalaryType.AnnualPackage,
-                        Minimum = 100000,
-                        Maximum = 200000,
-                        Details = "We will pay you"
-                    },
-                    JobSummary = "Developer job",
-                    AdvertisementDetails = "Exciting, do I need to say more?",
-                    ContactDetails = "Call me",
-                    Video = new Video
-                    {
-                        Url = "https://www.youtube.com/v/abc",
-                        Position = VideoPosition.Above
-                    },
-                    ApplicationEmail = "asdf@asdf.com",
-                    ApplicationFormUrl = "http://FakeATS.com.au",
-                    ScreenId = 20,
-                    JobReference = "JOB1234",
-                    Template = new Template
-                    {
-                        Id = 99,
-                        Items = new[]
-                        {
-                            new TemplateItemModel{Name = "Template Line 1", Value = "Template Value 1"},
-                            new TemplateItemModel{Name = "Template Line 2", Value = "Template Value 2"}
-                        }
-                    },
-                    Standout = new StandoutAdvertisement
-                    {
-                        LogoId = 333,
-                        Bullets = new[] { "new Uzi", "new Remington Model", "new AK-47" }
-                    },
-
-                    AdditionalProperties = new[] { AdditionalPropertyType.ResidentsOnly },
-                });
+                new AdvertisementModelBuilder(AllFieldsInitializer)
+                        .WithAgentId(null)
+                        .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
+                        .WithVideoUrl("https://www.youtube.com/v/abc")
+                        .WithApplicationFormUrl("http://FakeATS.com.au")
+                        .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
+                        .WithSeekCodes(null)
+                        .Build()
+                );
 
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$ - updated", jobAd.Properties.JobTitle);
+            Assert.AreEqual("https://www.youtube.com/v/abc", jobAd.Properties.Video.Url);
+            Assert.AreEqual("http://FakeATS.com.au", jobAd.Properties.ApplicationFormUrl);
+            CollectionAssert.AreEqual(new[] { "new Uzi", "new Remington Model", "new AK-47" }, jobAd.Properties.Standout.Bullets);
         }
 
         [Test]
@@ -238,23 +131,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
                         {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
                     },
-                    Body = new
-                    {
-                        advertiserId = "advertiserA",
-                        jobTitle = "Bricklayer",
-                        jobSummary = "some text",
-                        advertisementDetails = "experience required",
-                        advertisementType = AdvertisementType.Classic.ToString(),
-                        workType = WorkType.Casual.ToString(),
-                        salary = new
-                        {
-                            type = SalaryType.HourlyRate.ToString(),
-                            minimum = 20,
-                            maximum = 24
-                        },
-                        locationId = "1002",
-                        subclassificationId = "6227",
-                    }
+                    Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        .WithAdvertisementDetails("This advertisement should not exist.")
+                        .Build()
                 })
                 .WillRespondWith(new ProviderServiceResponse { Status = 404 });
 
@@ -262,23 +141,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new Advertisement
-                {
-                    AdvertiserId = "advertiserA",
-                    JobTitle = "Bricklayer",
-                    JobSummary = "some text",
-                    AdvertisementDetails = "experience required",
-                    AdvertisementType = AdvertisementType.Classic,
-                    WorkType = WorkType.Casual,
-                    Salary = new Salary
-                    {
-                        Type = SalaryType.HourlyRate,
-                        Minimum = 20,
-                        Maximum = 24
-                    },
-                    LocationId = "1002",
-                    SubclassificationId = "6227",
-                });
+                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
+                    new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                        .WithAdvertisementDetails("This advertisement should not exist.")
+                        .Build());
             }
             catch (ResourceActionException ex)
             {
@@ -305,38 +171,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
                         {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
                     },
-                    Body = new
-                    {
-                        advertiserId = "advertiserA",
-                        advertisementType = AdvertisementType.Classic.ToString(),
-                        workType = WorkType.Casual.ToString(),
-                        jobTitle = "Candle Stick Maker",
-                        locationId = "1002",
-                        subclassificationId = "6227",
-                        salary = new
-                        {
-                            type = SalaryType.HourlyRate.ToString(),
-                            minimum = 0,
-                            maximum = 24
-                        },
-                        jobSummary = "some text",
-                        advertisementDetails = "experience required",
-                        video = new
-                        {
-                            url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
-                            position = VideoPosition.Below.ToString()
-                        },
-                        applicationEmail = "someone(at)some.domain",
-                        applicationFormUrl = "htp://somecompany.domain/apply",
-                        template = new
-                        {
-                            items = new[]
-                            {
-                                new { name = "template1", value = "value1" },
-                                new { name = "", value = "value2".PadRight(260, '!') }
-                            }
-                        }
-                    }
+                    Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        .WithSalaryMinimum(0)
+                        .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
+                        .WithVideoPosition(VideoPosition.Below.ToString())
+                        .WithApplicationEmail("someone(at)some.domain")
+                        .WithApplicationFormUrl("htp://somecompany.domain/apply")
+                        .WithTemplateItem("Template Line 1", "Template Value 1")
+                        .WithTemplateItem("", "value2".PadRight(260, '!'))
+                        .Build()
                 })
                 .WillRespondWith(
                     new ProviderServiceResponse
@@ -376,38 +219,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new Advertisement
-                {
-                    AdvertiserId = "advertiserA",
-                    AdvertisementType = AdvertisementType.Classic,
-                    WorkType = WorkType.Casual,
-                    JobTitle = "Candle Stick Maker",
-                    LocationId = "1002",
-                    SubclassificationId = "6227",
-                    Salary = new Salary
-                    {
-                        Type = SalaryType.HourlyRate,
-                        Minimum = 0,
-                        Maximum = 24
-                    },
-                    JobSummary = "some text",
-                    AdvertisementDetails = "experience required",
-                    Video = new Video
-                    {
-                        Url = "htp://www.youtube.com/v/abc".PadRight(260, '!'),
-                        Position = VideoPosition.Below
-                    },
-                    ApplicationEmail = "someone(at)some.domain",
-                    ApplicationFormUrl = "htp://somecompany.domain/apply",
-                    Template = new Template
-                    {
-                        Items = new[]
-                        {
-                            new TemplateItemModel { Name = "template1", Value = "value1" },
-                            new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') }
-                        }
-                    }
-                });
+                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
+                    new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                        .WithSalaryMinimum(0)
+                        .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
+                        .WithVideoPosition(VideoPosition.Below)
+                        .WithApplicationEmail("someone(at)some.domain")
+                        .WithApplicationFormUrl("htp://somecompany.domain/apply")
+                        .WithTemplateItem("Template Line 1", "Template Value 1")
+                        .WithTemplateItem("", "value2".PadRight(260, '!'))
+                        .Build());
+
                 Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
             }
             catch (ValidationException ex)

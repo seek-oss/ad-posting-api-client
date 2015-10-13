@@ -12,15 +12,38 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             initializer?.Initialize(this);
         }
 
+        private void TryRemoveProperty(dynamic model, string propertyName)
+        {
+            var dictionary = model as IDictionary<string, object>;
+            if (dictionary == null) return;
+
+            if (dictionary.ContainsKey(propertyName))
+            {
+                dictionary.Remove(propertyName);
+            }
+        }
+
         public AdvertisementContentBuilder WithAgentId(object agentId)
         {
             _advertisementModel.agentId = agentId;
             return this;
         }
 
+        public AdvertisementContentBuilder WithoutAgentId()
+        {
+            TryRemoveProperty(_advertisementModel, "agentId");
+            return this;
+        }
+
         public AdvertisementContentBuilder WithAdvertiserId(object advertiserId)
         {
             _advertisementModel.advertiserId = advertiserId;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithoutAdvertiserId()
+        {
+            TryRemoveProperty(_advertisementModel, "advertiserId");
             return this;
         }
 
@@ -114,10 +137,24 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementContentBuilder WithVideo(object url, object videoPosition)
+        private void EnsureVideoPropertyExists()
         {
-            _advertisementModel.video = new ExpandoObject();
+            if (!((IDictionary<string, object>) _advertisementModel).ContainsKey("video"))
+            {
+                _advertisementModel.video = new ExpandoObject();
+            }
+        }
+
+        public AdvertisementContentBuilder WithVideoUrl(object url)
+        {
+            EnsureVideoPropertyExists();
             _advertisementModel.video.url = url;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithVideoPosition(object videoPosition)
+        {
+            EnsureVideoPropertyExists();
             _advertisementModel.video.position = videoPosition;
             return this;
         }
@@ -154,7 +191,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
         }
 
-        public AdvertisementContentBuilder WithTemplate(object id)
+        public AdvertisementContentBuilder WithTemplateId(object id)
         {
             EnsureTemplatePropertyExists();
 
@@ -204,16 +241,35 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
+        public AdvertisementContentBuilder WithoutSeekCodes()
+        {
+            TryRemoveProperty(_advertisementModel, "seekCodes");
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithAdditionalProperties(params object[] additionalPropertyTypes)
+        {
+            _advertisementModel.additionalProperties = additionalPropertyTypes?.Clone<object[]>();
+            return this;
+        }
+
         public AdvertisementContentBuilder WithResponseLink(string linkName, object linkRef)
         {
-            if (!((IDictionary<string, object>) _advertisementModel).ContainsKey("_links"))
+            if (!((IDictionary<string, object>)_advertisementModel).ContainsKey("_links"))
             {
                 _advertisementModel._links = new ExpandoObject();
             }
 
             dynamic href = new ExpandoObject();
             href.href = linkRef;
-            ((IDictionary<string, object>) _advertisementModel._links).Add(linkName, href);
+            ((IDictionary<string, object>)_advertisementModel._links).Add(linkName, href);
+
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithState(string state)
+        {
+            _advertisementModel.state = state;
 
             return this;
         }

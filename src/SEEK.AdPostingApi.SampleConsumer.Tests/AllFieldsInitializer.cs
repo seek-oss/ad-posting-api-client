@@ -16,17 +16,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                 .WithSalaryDetails(GetDefaultSalaryDetails())
                 .WithContactDetails(GetDefaultContactDetails())
-                .WithVideo(GetDefaultVideoUrl(), GetDefaultVideoPosition().ToString())
+                .WithVideoUrl(GetDefaultVideoUrl())
+                .WithVideoPosition(GetDefaultVideoPosition().ToString())
                 .WithApplicationEmail(GetDefaultApplicationEmail())
                 .WithApplicationFormUrl(GetDefaultApplicationFormUrl())
                 .WithScreenId(GetDefaultScreenId())
                 .WithJobReference(GetDefaultJobReference())
-                .WithTemplate(GetDefaultTemplateId())
+                .WithTemplateId(GetDefaultTemplateId())
                 .WithTemplateItem(GetDefaultTemplateItemName(1), GetDefaultTemplateItemValue(1))
                 .WithTemplateItem(GetDefaultTemplateItemName(2), GetDefaultTemplateItemValue(2))
                 .WithStandoutLogoId(GetDefaultLogoId())
                 .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
-                .WithSeekCodes(GetDefaultSeekCodesAsObjects());
+                .WithSeekCodes(GetDefaultSeekCodesAsObjects())
+                .WithAdditionalProperties(GetDefaultAdditionalPropertiesAsObjects());
         }
 
         public void Initialize(AdvertisementModelBuilder builder)
@@ -38,17 +40,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAdvertisementType(AdvertisementType.StandOut)
                 .WithSalaryDetails(GetDefaultSalaryDetails())
                 .WithContactDetails(GetDefaultContactDetails())
-                .WithVideo(GetDefaultVideoUrl(), GetDefaultVideoPosition())
+                .WithVideoUrl(GetDefaultVideoUrl())
+                .WithVideoPosition(GetDefaultVideoPosition())
                 .WithApplicationEmail(GetDefaultApplicationEmail())
                 .WithApplicationFormUrl(GetDefaultApplicationFormUrl())
                 .WithScreenId(GetDefaultScreenId())
                 .WithJobReference(GetDefaultJobReference())
-                .WithTemplate(GetDefaultTemplateId())
+                .WithTemplateId(GetDefaultTemplateId())
                 .WithTemplateItem(GetDefaultTemplateItemName(1), GetDefaultTemplateItemValue(1))
                 .WithTemplateItem(GetDefaultTemplateItemName(2), GetDefaultTemplateItemValue(2))
                 .WithStandoutLogoId(GetDefaultLogoId())
                 .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
-                .WithSeekCodes(GetDefaultSeekCodes());
+                .WithSeekCodes(GetDefaultSeekCodes())
+                .WithAdditionalProperties(GetDefaultAdditionalProperties());
         }
 
         private string GetDefaultAgentId()
@@ -58,17 +62,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private string GetDefaultSalaryDetails()
         {
-            return "Huge bonus";
+            return "We will pay you";
         }
 
         private string GetDefaultContactDetails()
         {
-            return "0412345678";
+            return "Call me";
         }
 
         private string GetDefaultVideoUrl()
         {
-            return "http://www.youtube.com/v/abc";
+            return "https://www.youtube.com/watch?v=dVDk7PXNXB8";
         }
 
         private VideoPosition GetDefaultVideoPosition()
@@ -78,57 +82,77 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private string GetDefaultApplicationEmail()
         {
-            return "me@contactme.com.au";
+            return "asdf@asdf.com";
         }
 
         private string GetDefaultApplicationFormUrl()
         {
-            return "http://FakeATS.com.au";
+            return "http://applicationform/";
         }
 
         private int GetDefaultScreenId()
         {
-            return 100;
+            return 20;
         }
 
         private string GetDefaultJobReference()
         {
-            return "REF1234";
+            return "JOB1234";
         }
 
         private int GetDefaultTemplateId()
         {
-            return 43496;
+            return 99;
         }
 
         private string GetDefaultTemplateItemName(int itemNumber)
         {
-            return $"template{itemNumber}";
+            return $"Template Line {itemNumber}";
         }
 
         private string GetDefaultTemplateItemValue(int itemNumber)
         {
-            return $"value{itemNumber}";
+            return $"Template Value {itemNumber}";
         }
 
         private int GetDefaultLogoId()
         {
-            return 39;
+            return 333;
         }
 
         private string GetDefaultStandoutBullet(int itemNumber)
         {
-            return $"standout bullet {itemNumber}";
+            switch (itemNumber)
+            {
+                case 1:
+                    return "Uzi";
+                case 2:
+                    return "Remington Model";
+                case 3:
+                    return "AK-47";
+                default:
+                    return $"Standout bullet {itemNumber}";
+            }
         }
 
         private string[] GetDefaultSeekCodes()
         {
-            return new[] { "SK840239A", "SK4232A", "SK23894023A", "SK23432A", "SK238429A" };
+            return new[] { "SK010001Z", "SK010010z", "SK0101OOZ", "SK910101A" };
         }
 
         private object[] GetDefaultSeekCodesAsObjects()
         {
             return GetDefaultSeekCodes().ToArray<object>();
+        }
+
+        private AdditionalPropertyType[] GetDefaultAdditionalProperties()
+        {
+            return new[] { AdditionalPropertyType.ResidentsOnly };
+        }
+
+        private object[] GetDefaultAdditionalPropertiesAsObjects()
+        {
+            return GetDefaultAdditionalProperties().Select(a => a.ToString()).ToArray<object>();
         }
     }
 }
