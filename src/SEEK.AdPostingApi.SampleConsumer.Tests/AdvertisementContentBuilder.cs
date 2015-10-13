@@ -98,7 +98,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private void EnsureSalaryPropertyExists()
         {
-            if (!((IDictionary<string, object>) _advertisementModel).ContainsKey("salary"))
+            if (!((IDictionary<string, object>)_advertisementModel).ContainsKey("salary"))
             {
                 _advertisementModel.salary = new ExpandoObject();
             }
@@ -140,7 +140,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private void EnsureVideoPropertyExists()
         {
-            if (!((IDictionary<string, object>) _advertisementModel).ContainsKey("video"))
+            if (!((IDictionary<string, object>)_advertisementModel).ContainsKey("video"))
             {
                 _advertisementModel.video = new ExpandoObject();
             }
@@ -210,7 +210,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private void EnsureStandoutPropertyExists()
         {
-            if (!((IDictionary<string, object>) _advertisementModel).ContainsKey("standout"))
+            if (!((IDictionary<string, object>)_advertisementModel).ContainsKey("standout"))
             {
                 _advertisementModel.standout = new ExpandoObject();
             }
@@ -267,6 +267,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         public AdvertisementContentBuilder WithState(string state)
         {
             _advertisementModel.state = state;
+
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithErrors(params object[] errors)
+        {
+            _advertisementModel.errors = errors;
 
             return this;
         }

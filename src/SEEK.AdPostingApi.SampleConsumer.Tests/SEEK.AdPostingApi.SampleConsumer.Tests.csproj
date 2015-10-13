@@ -35,6 +35,14 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentAssertions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.0.0\lib\net45\FluentAssertions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.0.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
@@ -71,8 +79,8 @@
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PactNet, Version=1.0.8.106, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PactNet.1.0.8\lib\net40\PactNet.dll</HintPath>
+    <Reference Include="PactNet, Version=1.0.11.114, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PactNet.1.0.11\lib\net40\PactNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -96,7 +104,6 @@
     <Compile Include="AdvertisementContentBuilder.cs" />
     <Compile Include="AdvertisementModelBuilder.cs" />
     <Compile Include="AllFieldsInitializer.cs" />
-    <Compile Include="AssertExtensions.cs" />
     <Compile Include="ExpireAdTests.cs" />
     <Compile Include="GetAllAdTests.cs" />
     <Compile Include="GetAdTests.cs" />

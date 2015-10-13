@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -74,14 +76,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithState(AdvertisementState.Pending.ToString())
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                         .WithResponseLink("self", link)
+                        .WithErrors(new { code = "Unauthorised", message = "Unauthorised" })
                         .Build()
                 });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             var jobAd = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
+
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job title returned!");
             Assert.AreEqual(Status.Pending, jobAd.Status);
+            jobAd.Properties.Errors.ShouldAllBeEquivalentTo(new[] { new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" } });
         }
 
         [Test]
@@ -179,14 +184,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            try
-            {
-                await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
-            }
-            catch (Exception ex)
-            {
-                StringAssert.Contains("404 (Not Found)", ex.Message);
-            }
+            HttpRequestException exception = Assert.Throws<HttpRequestException>(
+                async () => await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link)));
+
+            StringAssert.Contains("404 (Not Found)", exception.Message);
         }
     }
 }

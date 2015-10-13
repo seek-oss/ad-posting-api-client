@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -220,9 +221,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
             };
 
-            try
-            {
-                await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
+            ValidationException exception = Assert.Throws<ValidationException>(
+                async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
                     .WithRequestCreationId("20150914-134527-00109")
                     .WithAdvertiserId(null)
                     .WithSalaryMinimum(0)
@@ -233,15 +233,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     .WithTemplateItems(
                         new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
                         new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') })
-                    .Build());
+                    .Build()));
 
-                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
-            }
-            catch (ValidationException ex)
-            {
-                Assert.IsNotNull(ex.ValidationDataItems);
-                ex.ValidationDataItems.ShouldBe(expectedValidationDataItems);
-            }
+            exception.ValidationDataItems.ShouldBeEquivalentTo(expectedValidationDataItems);
         }
 
         [Test]
@@ -286,16 +280,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            try
-            {
-                await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).Build());
-                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
-            }
-            catch (ValidationException ex)
-            {
-                Assert.IsNotNull(ex.ValidationDataItems);
-                ex.ValidationDataItems.ShouldBe(new ValidationData { Field = "creationId", Code = "Required" });
-            }
+            ValidationException exception = Assert.Throws<ValidationException>(
+                async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).Build()));
+
+            exception.ValidationDataItems.ShouldBeEquivalentTo(new[] { new ValidationData { Field = "creationId", Code = "Required" } });
         }
 
         [Test]
@@ -336,16 +324,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            try
-            {
-                await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build());
-                Assert.Fail($"Should throw an '{typeof(AdvertisementAlreadyExistsException).FullName}' exception");
-            }
-            catch (AdvertisementAlreadyExistsException ex)
-            {
-                Assert.AreEqual(ex.CreationId, creationId);
-                Assert.AreEqual(location, ex.AdvertisementLink.AbsoluteUri);
-            }
+            AdvertisementAlreadyExistsException exception = Assert.Throws<AdvertisementAlreadyExistsException>(
+                async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()));
+
+            Assert.AreEqual(exception.CreationId, creationId);
+            Assert.AreEqual(location, exception.AdvertisementLink.AbsoluteUri);
         }
     }
 }

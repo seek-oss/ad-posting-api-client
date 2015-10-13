@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -138,17 +139,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            try
-            {
-                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
+            ResourceActionException exception = Assert.Throws<ResourceActionException>(
+                async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
                     new AdvertisementModelBuilder(MinimumFieldsInitializer)
                         .WithAdvertisementDetails("This advertisement should not exist.")
-                        .Build());
-            }
-            catch (ResourceActionException ex)
-            {
-                StringAssert.Contains("404", ex.Message);
-            }
+                        .Build()));
+
+            StringAssert.Contains("404", exception.Message);
         }
 
         [Test]
@@ -216,9 +213,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
             };
 
-            try
-            {
-                await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
+            ValidationException exception = Assert.Throws<ValidationException>(
+                async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
                     new AdvertisementModelBuilder(MinimumFieldsInitializer)
                         .WithSalaryMinimum(0)
                         .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
@@ -228,15 +224,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithTemplateItems(
                             new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
                             new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') })
-                        .Build());
+                        .Build()));
 
-                Assert.Fail($"Should throw a '{typeof(ValidationException).FullName}' exception");
-            }
-            catch (ValidationException ex)
-            {
-                Assert.IsNotNull(ex.ValidationDataItems);
-                ex.ValidationDataItems.ShouldBe(expectedValidationDataItems);
-            }
+            exception.ValidationDataItems.ShouldBeEquivalentTo(expectedValidationDataItems);
         }
     }
 }

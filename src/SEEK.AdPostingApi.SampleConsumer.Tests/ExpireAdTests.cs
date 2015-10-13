@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -193,9 +194,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
             ValidationException exception = Assert.Throws<ValidationException>(
-                async () => { await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }); });
+                async () => await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
 
-            exception.ValidationDataItems.ShouldBe(new ValidationData { Code = "InvalidState" });
+            exception.ValidationDataItems.ShouldBeEquivalentTo(new[] { new ValidationData { Code = "InvalidState", Message = "Advertisement has already expired." } });
         }
 
         [Test]
