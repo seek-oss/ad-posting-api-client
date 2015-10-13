@@ -53,7 +53,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given($"There is an advertisement with id: '{advertisementId}'")
+                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
                 .UponReceiving("Update request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -160,7 +160,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given($"There is an advertisement with id: '{advertisementId}'")
                 .UponReceiving("Update request for advertisement")
                 .With(new ProviderServiceRequest
                 {
