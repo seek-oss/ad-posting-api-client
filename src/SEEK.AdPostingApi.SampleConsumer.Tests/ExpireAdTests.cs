@@ -107,7 +107,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"There is an active advertisement with id: '{advertisementId}'")
+                .Given($"There is an active classic advertisement with minimum data and id: '{advertisementId}'")
                 .UponReceiving("An expire request for advertisement")
                 .With(
                     new ProviderServiceRequest
@@ -156,7 +156,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"There is an expired advertisement with id: '{advertisementId}'")
+                .Given($"There is an expired advertisement with minimum data and id: '{advertisementId}'")
                 .UponReceiving("An expire request for advertisement")
                 .With(
                     new ProviderServiceRequest

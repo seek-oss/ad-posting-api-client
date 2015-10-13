@@ -17,7 +17,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private readonly IOAuth2TokenClient _oauthClient;
 
         private const string AdvertisementLink = "/advertisement";
-        private const string CreationIdForAdThatAlreadyExists = "20150914-134527-00042";
         private const string CreationIdForAdWithMinimumRequiredData = "20150914-134527-00012";
         private const string CreationIdForAdWithMaximumRequiredData = "20150914-134527-00097";
 
@@ -302,15 +301,16 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public async Task PostAdWithExistingCreationId()
         {
-            const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
+            const string creationId = "Creation Id 123";
+            const string advertisementId = "66fb4361-c97c-4833-a46f-3606a703a65e";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var location = $"http://localhost{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"a job ad with creation ID '{CreationIdForAdThatAlreadyExists}' already exists")
-                .UponReceiving("a request to create a job ad")
+                .Given($"There is an active classic advertisement with minimum data and id: '{advertisementId}'")
+                .UponReceiving($"a request to create a job ad with the same creation id '{creationId}'")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -321,7 +321,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
                             {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdThatAlreadyExists).Build()
+                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()
                     }
                 )
                 .WillRespondWith(
@@ -338,12 +338,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             try
             {
-                await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdThatAlreadyExists).Build());
+                await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build());
                 Assert.Fail($"Should throw an '{typeof(AdvertisementAlreadyExistsException).FullName}' exception");
             }
             catch (AdvertisementAlreadyExistsException ex)
             {
-                Assert.AreEqual(ex.CreationId, CreationIdForAdThatAlreadyExists);
+                Assert.AreEqual(ex.CreationId, creationId);
                 Assert.AreEqual(location, ex.AdvertisementLink.AbsoluteUri);
             }
         }
