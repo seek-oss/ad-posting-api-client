@@ -70,6 +70,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Status", "Pending"}
                     },
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                        .WithoutAgentId()
                         .WithState(AdvertisementState.Pending.ToString())
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                         .WithResponseLink("self", link)

@@ -67,7 +67,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithoutAgentId()
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                        .WithVideoUrl("https://www.youtube.com/v/abc")
+                        .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                         .WithoutSeekCodes()
@@ -84,7 +84,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithoutAgentId()
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                        .WithVideoUrl("https://www.youtube.com/v/abc")
+                        .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                         .WithoutSeekCodes()
@@ -99,7 +99,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 new AdvertisementModelBuilder(AllFieldsInitializer)
                         .WithAgentId(null)
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                        .WithVideoUrl("https://www.youtube.com/v/abc")
+                        .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                         .WithSeekCodes(null)
@@ -107,7 +107,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 );
 
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$ - updated", jobAd.Properties.JobTitle);
-            Assert.AreEqual("https://www.youtube.com/v/abc", jobAd.Properties.Video.Url);
+            Assert.AreEqual("https://www.youtube.com/v/dVDk7PXNXB8", jobAd.Properties.Video.Url);
             Assert.AreEqual("http://FakeATS.com.au", jobAd.Properties.ApplicationFormUrl);
             CollectionAssert.AreEqual(new[] { "new Uzi", "new Remington Model", "new AK-47" }, jobAd.Properties.Standout.Bullets);
         }

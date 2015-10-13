@@ -72,7 +72,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private string GetDefaultVideoUrl()
         {
-            return "https://www.youtube.com/watch?v=dVDk7PXNXB8";
+            return "https://www.youtube.com/embed/dVDk7PXNXB8";
         }
 
         private VideoPosition GetDefaultVideoPosition()
@@ -87,7 +87,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private string GetDefaultApplicationFormUrl()
         {
-            return "http://applicationform/";
+            return "http://apply.com/";
         }
 
         private int GetDefaultScreenId()
