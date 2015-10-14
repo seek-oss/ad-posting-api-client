@@ -156,7 +156,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .UponReceiving("Update request for advertisement")
+                .UponReceiving("Update request for advertisement with bad data")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -174,7 +174,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithApplicationFormUrl("htp://somecompany.domain/apply")
                         .WithTemplateItems(
                             new KeyValuePair<object, object>("Template Line 1", "Template Value 1"),
-                            new KeyValuePair<object, object>("", "value2".PadRight(260, '!')))
+                            new KeyValuePair<object, object>("", "value2".PadRight(3010, '!')))
                         .Build()
                 })
                 .WillRespondWith(
@@ -223,7 +223,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithApplicationFormUrl("htp://somecompany.domain/apply")
                         .WithTemplateItems(
                             new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
-                            new TemplateItemModel { Name = "", Value = "value2".PadRight(260, '!') })
+                            new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
                         .Build()));
 
             exception.ValidationDataItems.ShouldBeEquivalentTo(expectedValidationDataItems);
