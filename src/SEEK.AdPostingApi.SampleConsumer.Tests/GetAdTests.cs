@@ -120,7 +120,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Status", "Pending"}
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                        .WithState(AdvertisementState.Pending.ToString())
+                        .WithState(AdvertisementState.Active.ToString())
+                        .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                         .WithResponseLink("self", link)
                         .WithResponseWarnings(
                             new { field = "standout.logoId", code = "missing" },
