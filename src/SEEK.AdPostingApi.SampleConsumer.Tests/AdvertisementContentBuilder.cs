@@ -271,9 +271,16 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementContentBuilder WithErrors(params object[] errors)
+        public AdvertisementContentBuilder WithResponseWarnings(params object[] warnings)
         {
-            _advertisementModel.errors = errors;
+            _advertisementModel.warnings = warnings?.Clone<object[]>();
+
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithResponseErrors(params object[] errors)
+        {
+            _advertisementModel.errors = errors?.Clone<object[]>();
 
             return this;
         }
