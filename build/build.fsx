@@ -4,6 +4,7 @@
 open System.IO
 open Fake.VSTest
 
+let branchName = getBuildParamOrDefault "branch" "master"
 let outputDir = "../out"
 let srcDir = "../src"
 let version = generateVersionNumber "../src/SEEK.AdPostingApi.Client/version.txt"
@@ -18,6 +19,7 @@ let projectDescription = "SEEK.AdPostingApi.Client"
 let packagingRoot = outputDir + "/artifacts"
 let projectSummary = "SEEK.AdPostingApi.Client"
 
+trace (sprintf "branch name set to " + branchName)
 trace (sprintf "##teamcity[setParameter name='VERSION' value='%s']" (version |> String.concat "."))
 
 Target "Clean" (fun _ ->
@@ -46,7 +48,7 @@ Target "Test" (fun _ ->
 )
 
 Target "UploadPact" (fun _ ->
-   (!! "../**/pacts/*.json") |> PublishPact version
+   (!! "../**/pacts/*.json") |> PublishPact (version, branchName)
 )
 
 Target "NuGet" (fun _ ->
@@ -75,4 +77,4 @@ Target "NuGet" (fun _ ->
    ==> "NuGet"
    ==> "UploadPact"
 
-RunTargetOrDefault "NuGet"
+RunTargetOrDefault "UploadPact"

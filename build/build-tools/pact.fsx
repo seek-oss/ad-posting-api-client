@@ -42,12 +42,13 @@ let private deserialisePact (s:string) =
 let private pactVersionFromVersion (version:string[]) = 
     version.[1..4] |> String.concat "."
 
-let PublishPact (version:string[]) pactfiles =
+let PublishPact (version:string[], branchName:string) pactfiles =
     pactfiles |>
         Seq.iter(fun file -> 
             let pactContent = File.ReadAllText(file)
             let pact = deserialisePact(pactContent)
             let url = sprintf "%s/pacts/provider/%s/consumer/%s/version/%s" pactBroker Uri.EscapeDataString(pact.provider.name) Uri.EscapeDataString(pact.consumer.name) (pactVersionFromVersion version)
+            let tagUrl = sprintf "%s/pacticipants/%s/versions/%s/tags/%s" pactBroker Uri.EscapeDataString(pact.consumer.name) (pactVersionFromVersion version) branchName
 
             let request = WebRequest.Create url
             request.ContentType <- "application/json"
@@ -62,8 +63,20 @@ let PublishPact (version:string[]) pactfiles =
                 use response = request.GetResponse() :?> HttpWebResponse
                 trace ("Uploaded pact: " + url)
             with
-                | a -> traceError "Error uploading pact file"; reraise()
+                | a -> traceError ("Error uploading pact file " + url); reraise()
             
+
+            let tagRequest = WebRequest.Create tagUrl :?> HttpWebRequest
+            tagRequest.ContentType <- "application/json"
+            tagRequest.Accept <- "application/hal+json"
+            tagRequest.Method <- "PUT"
+
+            try
+                use response = tagRequest.GetResponse() :?> HttpWebResponse
+                trace ("Tagged pact: " + tagUrl)
+            with
+                | a -> traceError ("Error tagging pact file " + tagUrl); reraise()
+
             0 |> ignore
         )
 
