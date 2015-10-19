@@ -98,8 +98,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given($"There is an advertisement with warnings and id '{advertisementId}'")
-                .UponReceiving("GET request for advertisement")
+                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .UponReceiving("GET request for advertisement with warnings")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -147,7 +147,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             PactProvider.MockService
                 .Given($"There is a failed classic advertisement with id '{advertisementId}'")
-                .UponReceiving("GET request for advertisement")
+                .UponReceiving("GET request for advertisement with errors")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
