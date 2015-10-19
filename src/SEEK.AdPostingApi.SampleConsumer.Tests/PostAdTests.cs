@@ -289,15 +289,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public async Task PostAdWithExistingCreationId()
         {
-            const string creationId = "Creation Id 123";
-            const string advertisementId = "66fb4361-c97c-4833-a46f-3606a703a65e";
+            const string creationId = "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184";
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var location = $"http://localhost{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"There is a classic advertisement with id: '{advertisementId}'")
+                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
                 .UponReceiving($"a request to create a job ad with the same creation id '{creationId}'")
                 .With(
                     new ProviderServiceRequest

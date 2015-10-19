@@ -49,7 +49,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task ExpirePendingAdvertisement()
+        public async Task ExpireAdvertisement()
         {
             var advertisementId = new Guid("8e2fde50-bc5f-4a12-9cfb-812e50500184");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -88,55 +88,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             .WithoutAgentId()
                             .WithState(AdvertisementState.Expired.ToString())
                             .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
-                            .WithResponseLink("self", link)
-                            .Build()
-                    });
-
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            AdvertisementResource jobAd = await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
-
-            Assert.AreEqual("9012", jobAd.Properties.AdvertiserId);
-        }
-
-        [Test]
-        public async Task ExpireActiveAdvertisement()
-        {
-            var advertisementId = new Guid("66fb4361-c97c-4833-a46f-3606a703a65e");
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
-
-            PactProvider.MockLinks();
-
-            PactProvider.MockService
-                .Given($"There is a classic advertisement with id: '{advertisementId}'")
-                .UponReceiving("An expire request for advertisement")
-                .With(
-                    new ProviderServiceRequest
-                    {
-                        Method = HttpVerb.Patch,
-                        Path = link,
-                        Headers = new Dictionary<string, string>
-                        {
-                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement-patch+json; charset=utf-8"}
-                        },
-                        Body = new
-                        {
-                            state = AdvertisementState.Expired.ToString()
-                        }
-                    }
-                )
-                .WillRespondWith(
-                    new ProviderServiceResponse
-                    {
-                        Status = 202,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" }
-                        },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                            .WithoutAgentId()
-                            .WithState(AdvertisementState.Expired.ToString())
                             .WithResponseLink("self", link)
                             .Build()
                     });
