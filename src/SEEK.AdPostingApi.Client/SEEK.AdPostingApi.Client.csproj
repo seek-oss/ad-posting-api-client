@@ -80,7 +80,7 @@
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\SalaryType.cs" />
     <Compile Include="Models\StandoutAdvertisement.cs" />
-    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\ProcessingStatus.cs" />
     <Compile Include="Models\Template.cs" />
     <Compile Include="Models\TemplateItemModel.cs" />
     <Compile Include="Models\ValidationData.cs" />

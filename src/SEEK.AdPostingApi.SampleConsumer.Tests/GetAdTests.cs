@@ -71,7 +71,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Headers = new Dictionary<string, string>
                     {
                         {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
-                        {"Status", "Pending"}
+                        {"Processing-Status", "Pending"}
                     },
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithoutAgentId()
@@ -87,7 +87,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var jobAd = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
 
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job title returned!");
-            Assert.AreEqual(Status.Pending, jobAd.Status);
+            Assert.AreEqual(ProcessingStatus.Pending, jobAd.ProcessingStatus);
             jobAd.Properties.Errors.ShouldAllBeEquivalentTo(new[] { new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" } });
         }
 
@@ -117,7 +117,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Headers = new Dictionary<string, string>
                     {
                         {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
-                        {"Status", "Pending"}
+                        {"Processing-Status", "Pending"}
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                         .WithState(AdvertisementState.Active.ToString())
@@ -163,14 +163,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Headers = new Dictionary<string, string>
                     {
                         {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
-                        {"Status", "Pending"}
+                        {"Processing-Status", "Pending"}
                     }
                 });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             var status = await client.GetAdvertisementStatusAsync(new Uri(PactProvider.MockServiceUri, link));
-            Assert.AreEqual(Status.Pending, status);
+            Assert.AreEqual(ProcessingStatus.Pending, status);
         }
 
         [Test]
@@ -199,14 +199,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Headers = new Dictionary<string, string>
                     {
                         {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
-                        {"Status", "Pending"}
+                        {"Processing-Status", "Pending"}
                     }
                 });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             var status = await client.GetAdvertisementStatusAsync(new Uri(PactProvider.MockServiceUri, link));
-            Assert.AreEqual(Status.Pending, status);
+            Assert.AreEqual(ProcessingStatus.Pending, status);
         }
 
         [Test]

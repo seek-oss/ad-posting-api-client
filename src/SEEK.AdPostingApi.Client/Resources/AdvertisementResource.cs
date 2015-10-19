@@ -9,7 +9,7 @@ namespace SEEK.AdPostingApi.Client.Resources
     [MediaType("application/vnd.seek.advertisement+json")]
     public class AdvertisementResource : HalResource<Advertisement>
     {
-        public Status Status => (Status)Enum.Parse(typeof(Status), this.ResponseHeaders.GetValues("Status").First());
+        public ProcessingStatus ProcessingStatus => (ProcessingStatus)Enum.Parse(typeof(ProcessingStatus), this.ResponseHeaders.GetValues("Processing-Status").First());
 
         public async Task<AdvertisementResource> SaveAsync()
         {

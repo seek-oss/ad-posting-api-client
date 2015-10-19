@@ -2,11 +2,11 @@
 
 namespace SEEK.AdPostingApi.Client.Models
 {
-    [FromHeader("Status")]
-    public enum Status
+    [FromHeader("Processing-Status")]
+    public enum ProcessingStatus
     {
-        Error,
+        Failed,
         Pending,
-        Completed,
+        Completed
     }
 }

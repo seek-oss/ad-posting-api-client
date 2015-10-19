@@ -82,9 +82,9 @@ namespace SEEK.AdPostingApi.Client
             return this.GetResourceAsync<AdvertisementResource>(uri);
         }
 
-        public Task<Status> GetAdvertisementStatusAsync(Uri uri)
+        public Task<ProcessingStatus> GetAdvertisementStatusAsync(Uri uri)
         {
-            return this.HeadResourceAsync<Status, AdvertisementResource>(uri);
+            return this.HeadResourceAsync<ProcessingStatus, AdvertisementResource>(uri);
         }
 
         public async Task<AdvertisementListResource> GetAllAdvertisementsAsync()
