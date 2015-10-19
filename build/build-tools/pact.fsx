@@ -42,13 +42,18 @@ let private deserialisePact (s:string) =
 let private pactVersionFromVersion (version:string[]) = 
     version.[1..4] |> String.concat "."
 
+let private stripChars text (chars:string) =
+    Array.fold (
+        fun (s:string) c -> s.Replace(c.ToString(),"")
+    ) text (chars.ToCharArray())
+
 let PublishPact (version:string[], branchName:string) pactfiles =
     pactfiles |>
         Seq.iter(fun file -> 
             let pactContent = File.ReadAllText(file)
             let pact = deserialisePact(pactContent)
             let url = sprintf "%s/pacts/provider/%s/consumer/%s/version/%s" pactBroker Uri.EscapeDataString(pact.provider.name) Uri.EscapeDataString(pact.consumer.name) (pactVersionFromVersion version)
-            let tagUrl = sprintf "%s/pacticipants/%s/versions/%s/tags/%s" pactBroker Uri.EscapeDataString(pact.consumer.name) (pactVersionFromVersion version) branchName
+            let tagUrl = sprintf "%s/pacticipants/%s/versions/%s/tags/%s" pactBroker Uri.EscapeDataString(pact.consumer.name) (pactVersionFromVersion version) Uri.EscapeDataString(stripChars branchName "/")
 
             let request = WebRequest.Create url
             request.ContentType <- "application/json"

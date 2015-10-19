@@ -77,4 +77,4 @@ Target "NuGet" (fun _ ->
    ==> "NuGet"
    ==> "UploadPact"
 
-RunTargetOrDefault "UploadPact"
+RunTargetOrDefault "NuGet"
