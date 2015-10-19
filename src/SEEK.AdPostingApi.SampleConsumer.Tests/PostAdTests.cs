@@ -297,7 +297,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"There is a classic advertisement with minimum data and id: '{advertisementId}'")
+                .Given($"There is a classic advertisement with id: '{advertisementId}'")
                 .UponReceiving($"a request to create a job ad with the same creation id '{creationId}'")
                 .With(
                     new ProviderServiceRequest
