@@ -86,7 +86,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                             .WithoutAgentId()
-                            .WithState(AdvertisementState.Pending.ToString())
+                            .WithState(AdvertisementState.Expired.ToString())
                             .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                             .WithResponseLink("self", link)
                             .Build()
@@ -108,7 +108,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"There is an active classic advertisement with minimum data and id: '{advertisementId}'")
+                .Given($"There is a classic advertisement with minimum data and id: '{advertisementId}'")
                 .UponReceiving("An expire request for advertisement")
                 .With(
                     new ProviderServiceRequest

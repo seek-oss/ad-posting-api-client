@@ -136,7 +136,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             {"Location", location}
                         },
                         Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                            .WithState(AdvertisementState.Pending.ToString())
+                            .WithState(AdvertisementState.Open.ToString())
                             .WithResponseLink("self", link)
                             .Build()
                     });
@@ -297,7 +297,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.MockLinks();
 
             PactProvider.MockService
-                .Given($"There is an active classic advertisement with minimum data and id: '{advertisementId}'")
+                .Given($"There is a classic advertisement with minimum data and id: '{advertisementId}'")
                 .UponReceiving($"a request to create a job ad with the same creation id '{creationId}'")
                 .With(
                     new ProviderServiceRequest

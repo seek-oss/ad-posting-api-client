@@ -2,8 +2,7 @@
 {
     public enum AdvertisementState
     {
-        Pending,
-        Active,
+        Open = 1,
         Expired
     }
 }

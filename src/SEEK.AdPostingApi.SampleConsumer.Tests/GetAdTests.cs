@@ -75,7 +75,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     },
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithoutAgentId()
-                        .WithState(AdvertisementState.Pending.ToString())
+                        .WithState(AdvertisementState.Open.ToString())
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                         .WithResponseLink("self", link)
                         .WithResponseErrors(new { code = "Unauthorised", message = "Unauthorised" })
@@ -120,7 +120,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Processing-Status", "Pending"}
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                        .WithState(AdvertisementState.Active.ToString())
+                        .WithState(AdvertisementState.Open.ToString())
                         .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                         .WithResponseLink("self", link)
                         .WithResponseWarnings(
