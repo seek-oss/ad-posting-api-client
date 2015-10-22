@@ -23,24 +23,26 @@ You can choose your own mechanism to supply the above values, like JSON file or 
 A job ad posting request may look something like this.
 
 ```c#
-            IAdPostingApiClient postingClient = new AdPostingApiClient(configuration.ClientKey, configuration.ClientSecret, configuration.Environment);
+            IAdPostingApiClient postingClient = new AdPostingApiClient("<client id>", "<client secret>", Environment.Integration);
 
             var ad = new Advertisement
             {
+                CreationId = "Sample Consumer 20151001 114732 1234567",
                 AdvertiserId = "Advertiser Id",
                 JobTitle = "A Job Title",
                 JobSummary = "Job summary of the job ad",
                 AdvertisementDetails = "Experience Required",
                 AdvertisementType = AdvertisementType.Classic,
                 WorkType = WorkType.Casual,
-                SalaryType = SalaryType.HourlyRate,
+                Salary = new Salary() { Type = SalaryType.HourlyRate,
+                                        Minimum = 20,
+                                        Maximum = 24},
                 LocationId = "1002",
                 SubclassificationId = "6227",
-                SalaryMinimum = 20,
-                SalaryMaximum = 24
+               
             };
 
-            Uri jobAdLink = await postingClient.CreateAdvertisementAsync(ad);
+            AdvertisementResource advertisement = await postingClient.CreateAdvertisementAsync(ad);
 ```
 
 ## What does the client do
@@ -48,6 +50,7 @@ Take the posting request as an example, when the "CreateAdvertisementAsync" meth
  1. It takes the OAuth 2.0 credentials (client key and client secret) to obtain an OAuth2 access token
  2. It takes the OAuth2 access token to get all the available links and identify which one to use to create a job ad
  3. It then takes the OAuth2 access token, the link (from step 2) and the job ad object to make a request to the create the job ad 
+ 4. Other operations like update, retrieve, and expire job ad are also available.
 
 ## API document
 * [SEEK OAuth 2](http://docs.oauth2seek.apiary.io/#)
