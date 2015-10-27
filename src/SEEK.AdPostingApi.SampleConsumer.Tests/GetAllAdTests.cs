@@ -231,12 +231,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             Assert.AreEqual(4, allAdvertisements.Count);
 
-            Assert.Throws<NotSupportedException>(async () => await advertisementPage.NextPageAsync());
-
-            // NOTE: See https://github.com/dennisdoomen/fluentassertions/issues/305 - ShouldBeEquivalentTo fails with objects from the System namespace.
-            //var expectedException = new NotSupportedException("There are no more results");
-            //var actualException = Assert.Throws<NotSupportedException>(async () => await advertisementPage.NextPageAsync());
-            //actualException.ShouldBeEquivalentToException(expectedException);
+            var expectedException = new NotSupportedException("There are no more results");
+            var actualException = Assert.Throws<NotSupportedException>(async () => await advertisementPage.NextPageAsync());
+            actualException.ShouldBeEquivalentToException(expectedException);
         }
     }
 }
