@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -279,10 +278,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            HttpRequestException exception = Assert.Throws<HttpRequestException>(
+            var expectedException = new AdvertisementNotFoundException();
+            var actualException = Assert.Throws<AdvertisementNotFoundException>(
                 async () => await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link)));
 
-            StringAssert.Contains("404 (Not Found)", exception.Message);
+            actualException.ShouldBeEquivalentToException(expectedException);
         }
     }
 }

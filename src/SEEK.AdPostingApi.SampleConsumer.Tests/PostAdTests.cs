@@ -6,7 +6,6 @@ using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
-using SEEK.AdPostingApi.Client.Exceptions;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -324,11 +323,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            AdvertisementAlreadyExistsException exception = Assert.Throws<AdvertisementAlreadyExistsException>(
+            var expectedException = new AdvertisementAlreadyExistsException(new Uri(location));
+            var actualException = Assert.Throws<AdvertisementAlreadyExistsException>(
                 async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()));
 
-            Assert.AreEqual(exception.CreationId, creationId);
-            Assert.AreEqual(location, exception.AdvertisementLink.AbsoluteUri);
+            actualException.ShouldBeEquivalentToException(expectedException);
         }
     }
 }

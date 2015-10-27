@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
-using SEEK.AdPostingApi.Client.Exceptions;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -139,13 +138,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            ResourceActionException exception = Assert.Throws<ResourceActionException>(
+            var expectedException = new AdvertisementNotFoundException();
+            var actualException = Assert.Throws<AdvertisementNotFoundException>(
                 async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
                     new AdvertisementModelBuilder(MinimumFieldsInitializer)
                         .WithAdvertisementDetails("This advertisement should not exist.")
                         .Build()));
 
-            StringAssert.Contains("404", exception.Message);
+            actualException.ShouldBeEquivalentToException(expectedException);
         }
 
         [Test]
@@ -163,8 +163,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Path = link,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                         .WithSalaryMinimum(0)
@@ -202,18 +202,24 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            var expectedValidationDataItems = new[]
-            {
-                new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
-                new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
-                new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
-                new ValidationData { Field = "template.items[1].name", Code = "Required" },
-                new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
-                new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
-                new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
-            };
 
-            ValidationException exception = Assert.Throws<ValidationException>(
+            var expectedException = new ValidationException(
+                HttpMethod.Put,
+                new ValidationMessage
+                {
+                    Message = "Validation Failure",
+                    Errors = new[]
+                    {
+                        new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
+                        new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                        new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
+                        new ValidationData { Field = "template.items[1].name", Code = "Required" },
+                        new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
+                        new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
+                        new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
+                    }
+                });
+            var actualException = Assert.Throws<ValidationException>(
                 async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
                     new AdvertisementModelBuilder(MinimumFieldsInitializer)
                         .WithSalaryMinimum(0)
@@ -226,7 +232,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
                         .Build()));
 
-            exception.ValidationDataItems.ShouldBeEquivalentTo(expectedValidationDataItems);
+            actualException.ShouldBeEquivalentToException(expectedException);
         }
     }
 }

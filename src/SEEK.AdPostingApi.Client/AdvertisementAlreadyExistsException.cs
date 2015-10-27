@@ -1,28 +1,22 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace SEEK.AdPostingApi.Client.Exceptions
+namespace SEEK.AdPostingApi.Client
 {
     [Serializable]
     public class AdvertisementAlreadyExistsException : Exception
     {
-        public string CreationId { get; private set; }
-
         public Uri AdvertisementLink { get; private set; }
 
-        public new ResourceActionException InnerException => base.InnerException as ResourceActionException;
-
-        public AdvertisementAlreadyExistsException(string creationId, ResourceActionException innerException)
-            : base($"Advertisement with creation Id {creationId} already exists.", innerException)
+        public AdvertisementAlreadyExistsException(Uri advertisementLink)
+            : base("Advertisement already exists.")
         {
-            CreationId = creationId;
-            AdvertisementLink = innerException.ResponseHeaders.Location;
+            AdvertisementLink = advertisementLink;
         }
 
         protected AdvertisementAlreadyExistsException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            info.AddValue(nameof(CreationId), CreationId);
             info.AddValue(nameof(AdvertisementLink), AdvertisementLink);
         }
 
@@ -30,7 +24,6 @@ namespace SEEK.AdPostingApi.Client.Exceptions
         {
             base.GetObjectData(info, context);
 
-            CreationId = info.GetString(nameof(CreationId));
             AdvertisementLink = (Uri)info.GetValue(nameof(AdvertisementLink), typeof(Uri));
         }
     }

@@ -5,7 +5,6 @@ using SEEK.AdPostingApi.Client.Resources;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SEEK.AdPostingApi.Client.Exceptions;
 using Environment = SEEK.AdPostingApi.Client.Environment;
 
 namespace SEEK.AdPostingApi.SampleConsumer

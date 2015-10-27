@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Serialization;
 using SEEK.AdPostingApi.Client.Models;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,14 +39,28 @@ namespace SEEK.AdPostingApi.Client
 
                 tokenRequest.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-                using (HttpResponseMessage result = (await _httpClient.SendAsync(tokenRequest)).EnsureSuccessStatusCode())
+                using (HttpResponseMessage response = await _httpClient.SendAsync(tokenRequest))
                 {
-                    string responseContent = await result.Content.ReadAsStringAsync();
+                    HandleBadResponse(response);
+
+                    string responseContent = await response.Content.ReadAsStringAsync();
                     var token = JsonConvert.DeserializeObject<OAuth2Token>(responseContent, _jsonSettings);
 
                     return token;
                 }
             }
+        }
+
+        private void HandleBadResponse(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode) return;
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedException("Could not get OAuth2 access token.");
+            }
+
+            response.EnsureSuccessStatusCode();
         }
 
         public string AccessToken { get; set; }

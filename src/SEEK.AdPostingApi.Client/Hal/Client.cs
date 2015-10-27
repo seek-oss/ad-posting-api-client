@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SEEK.AdPostingApi.Client.Exceptions;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
@@ -35,7 +36,7 @@ namespace SEEK.AdPostingApi.Client.Hal
 
                 using (HttpResponseMessage response = await _httpClient.SendAsync(request))
                 {
-                    response.EnsureSuccessStatusCode();
+                    await HandleBadResponse(request, response);
 
                     resource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
                     resource.ResponseHeaders = response.Headers;
@@ -51,7 +52,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 using (var response = await this._httpClient.SendAsync(request))
                 {
-                    response.EnsureSuccessStatusCode();
+                    await HandleBadResponse(request, response);
 
                     return typeof(T).GetCustomAttribute<FromHeaderAttribute>().GetValue<T>(response.Headers);
                 }
@@ -67,14 +68,9 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 using (var response = await this._httpClient.SendAsync(request))
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
+                    await HandleBadResponse(request, response);
 
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        throw new ResourceActionException(new HttpMethod("PATCH"), response.StatusCode, response.Headers, responseContent);
-                    }
-
-                    responseResource.PopulateResource(JObject.Parse(responseContent));
+                    responseResource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
                     responseResource.ResponseHeaders = response.Headers;
                 }
             }
@@ -91,12 +87,9 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 using (var response = await this._httpClient.SendAsync(request))
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        throw new ResourceActionException(HttpMethod.Put, response.StatusCode, response.Headers, responseContent);
-                    }
-                    responseResource.PopulateResource(JObject.Parse(responseContent));
+                    await HandleBadResponse(request, response);
+
+                    responseResource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
                     responseResource.ResponseHeaders = response.Headers;
                 }
                 return responseResource;
@@ -112,14 +105,9 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 using (HttpResponseMessage response = await this._httpClient.SendAsync(request))
                 {
-                    string responseContent = await response.Content.ReadAsStringAsync();
+                    await HandleBadResponse(request, response);
 
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        throw new ResourceActionException(HttpMethod.Post, response.StatusCode, response.Headers, responseContent);
-                    }
-
-                    responseResource.PopulateResource(JObject.Parse(responseContent));
+                    responseResource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
                     responseResource.ResponseHeaders = response.Headers;
                 }
 
@@ -133,6 +121,45 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 Content = new StringContent(content, Encoding.UTF8, typeof(TResource).GetMediaType("application/json"))
             };
+        }
+
+        private async Task HandleBadResponse(HttpRequestMessage request, HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode) return;
+
+            string responseContent = await response.Content.ReadAsStringAsync();
+            switch ((int)response.StatusCode)
+            {
+                case (int)HttpStatusCode.Unauthorized:
+                    throw new UnauthorizedException($"[{request.Method}] {request.RequestUri.AbsoluteUri} is not authorized.");
+                case (int)HttpStatusCode.NotFound:
+                    throw new AdvertisementNotFoundException();
+                case (int)HttpStatusCode.Conflict:
+                    throw new AdvertisementAlreadyExistsException(response.Headers.Location);
+                case 422:
+                    ValidationMessage validationMessage;
+                    if (TryDeserialize(responseContent, out validationMessage))
+                    {
+                        throw new ValidationException(request.Method, validationMessage);
+                    }
+                    break;
+            }
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        private bool TryDeserialize(string responseContent, out ValidationMessage validationMessage)
+        {
+            try
+            {
+                validationMessage = JsonConvert.DeserializeObject<ValidationMessage>(responseContent);
+            }
+            catch
+            {
+                validationMessage = null;
+            }
+
+            return validationMessage != null;
         }
     }
 }

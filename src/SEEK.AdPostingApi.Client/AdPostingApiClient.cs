@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using SEEK.AdPostingApi.Client.Exceptions;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -34,8 +32,7 @@ namespace SEEK.AdPostingApi.Client
             this._ensureInitialised = new Lazy<Task>(() => this.Initialise(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             _tokenClient = tokenClient;
             this.Initialise(
-                _httpClient =
-                    new HttpClient(new OAuthMessageHandler(tokenClient) { InnerHandler = new UnprocessableEntityHandler { InnerHandler = new MonoHttpClientWebExceptionHandler { InnerHandler = new HttpClientHandler() } } }),
+                _httpClient = new HttpClient(new OAuthMessageHandler(tokenClient)),
                 adPostingUri);
         }
 
@@ -55,25 +52,11 @@ namespace SEEK.AdPostingApi.Client
                 throw new ArgumentNullException(nameof(advertisement));
 
             await this.EnsureInitialised();
-
-            try
-            {
-                return await this._indexResource.CreateAdvertisementAsync(advertisement);
-            }
-            catch (ResourceActionException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.Conflict)
-                {
-                    throw new AdvertisementAlreadyExistsException(advertisement.CreationId, ex);
-                }
-                throw;
-            }
+            return await this._indexResource.CreateAdvertisementAsync(advertisement);
         }
 
         public async Task<AdvertisementResource> ExpireAdvertisementAsync(Uri uri, AdvertisementPatch advertisementPatch)
         {
-            await this.EnsureInitialised();
-
             return await this.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>(uri, advertisementPatch);
         }
 

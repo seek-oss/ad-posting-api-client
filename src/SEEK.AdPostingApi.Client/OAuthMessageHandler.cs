@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -11,7 +11,7 @@ namespace SEEK.AdPostingApi.Client
     {
         private readonly IOAuth2TokenClient _tokenClient;
 
-        public OAuthMessageHandler(IOAuth2TokenClient tokenClient)
+        public OAuthMessageHandler(IOAuth2TokenClient tokenClient) : base(new MonoDelegatingHandler())
         {
             _tokenClient = tokenClient;
         }
@@ -22,13 +22,12 @@ namespace SEEK.AdPostingApi.Client
 
             var res = await base.SendAsync(request, cancellationToken);
 
-            if (res.StatusCode == HttpStatusCode.Unauthorized)
+            if ((res.StatusCode == HttpStatusCode.Unauthorized) && (res.Headers.WwwAuthenticate.Any(v => v.Scheme.ToLowerInvariant() == "bearer")))
             {
                 res.Dispose();
 
-                var token = await _tokenClient.GetOAuth2TokenAsync();
+                _tokenClient.AccessToken = (await _tokenClient.GetOAuth2TokenAsync()).AccessToken;
 
-                _tokenClient.AccessToken = token.AccessToken;
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenClient.AccessToken);
 
                 res = await base.SendAsync(request, cancellationToken);

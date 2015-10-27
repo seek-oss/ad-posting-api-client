@@ -28,7 +28,9 @@ namespace SEEK.AdPostingApi.Client.Resources
         public async Task<AdvertisementListResource> NextPageAsync()
         {
             if (Eof)
+            {
                 throw new NotSupportedException("There are no more results");
+            }
 
             return await this.GetResourceAsync<AdvertisementListResource>("next");
         }

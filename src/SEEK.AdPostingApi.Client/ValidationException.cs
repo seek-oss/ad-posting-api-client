@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Runtime.Serialization;
 using SEEK.AdPostingApi.Client.Models;
 
-namespace SEEK.AdPostingApi.Client.Exceptions
+namespace SEEK.AdPostingApi.Client
 {
     public class ValidationException : Exception
     {
