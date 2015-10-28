@@ -6,6 +6,7 @@ using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -34,13 +35,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public async Task GetApiLinksWithInvalidAccessToken()
         {
-            var testOAuth2Token = new OAuth2TokenBuilder().WithAccessToken(InvalidLayer7AccessToken).Build();
-
-            using (var oauthClient = Mock.Of<IOAuth2TokenClient>())
+            using (var oauthClient = new FakeOAuth2Client())
             {
-                Mock.Get(oauthClient).Setup(c => c.GetOAuth2TokenAsync()).ReturnsAsync(testOAuth2Token).Callback(() => testOAuth2Token.AccessToken = ValidLayer7AccessTokenInvalidForApi);
-                oauthClient.AccessToken = InvalidLayer7AccessToken;
-
                 PactProvider.MockService
                     .UponReceiving("a request to retrieve API links with an invalid access token")
                     .With(new ProviderServiceRequest
@@ -82,6 +78,25 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 var actualException = Assert.Throws<UnauthorizedException>(async () => await client.GetAllAdvertisementsAsync());
 
                 actualException.ShouldBeEquivalentToException(expectedException);
+            }
+        }
+
+        public class FakeOAuth2Client : IOAuth2TokenClient
+        {
+            private bool _neverCalled = true;
+
+            public void Dispose()
+            {
+            }
+
+            public Task<OAuth2Token> GetOAuth2TokenAsync()
+            {
+                if (_neverCalled)
+                {
+                    _neverCalled = false;
+                    return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(InvalidLayer7AccessToken).Build());
+                }
+                return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(ValidLayer7AccessTokenInvalidForApi).Build());
             }
         }
     }
