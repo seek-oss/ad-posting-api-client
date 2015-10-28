@@ -3,7 +3,6 @@ using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Environment = SEEK.AdPostingApi.Client.Environment;
 
@@ -22,7 +21,8 @@ namespace SEEK.AdPostingApi.SampleConsumer
             Created,
             AlreadyExists,
             ValidationErrors,
-            Timeout
+            Timeout,
+            Unauthorized
         }
 
         private static async Task MainAsync()
@@ -39,12 +39,14 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 AdvertisementDetails = "Experience Required",
                 AdvertisementType = AdvertisementType.Classic,
                 WorkType = WorkType.Casual,
-                Salary = new Salary() { Type = SalaryType.HourlyRate,
-                                        Minimum = 20,
-                                        Maximum = 24},
+                Salary = new Salary
+                {
+                    Type = SalaryType.HourlyRate,
+                    Minimum = 20,
+                    Maximum = 24
+                },
                 LocationId = "1002",
                 SubclassificationId = "6227",
-               
             };
 
             // Example of creating the advertisement using a simple retry loop.
@@ -52,7 +54,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             var createResult = CreateResult.Unknown;
             AdvertisementResource advertisement = null;
             Uri advertisementLink = null;
-            var maxAttempts = 5;
+            var maxAttempts = 2;
             while (maxAttempts > 0)
             {
                 try
@@ -71,6 +73,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 {
                     validationDataItems = ex.ValidationDataItems;
                     createResult = CreateResult.ValidationErrors;
+                    break;
+                }
+                catch (UnauthorizedException ex)
+                {
+                    Console.WriteLine("Unauthorized exception while creating advertisement.\r\n{0}", ex.Message);
+                    createResult = CreateResult.Unauthorized;
                     break;
                 }
                 catch (Exception ex)
