@@ -28,7 +28,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             this._oauthClient = Mock.Of<IOAuth2TokenClient>(
                 c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
-            this._oauthClient.AccessToken = "b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e";
         }
 
         public void Dispose()
