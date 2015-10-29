@@ -127,7 +127,6 @@ namespace SEEK.AdPostingApi.Client.Hal
         {
             if (response.IsSuccessStatusCode) return;
 
-            string responseContent = await response.Content.ReadAsStringAsync();
             switch ((int)response.StatusCode)
             {
                 case (int)HttpStatusCode.Unauthorized:
@@ -138,6 +137,7 @@ namespace SEEK.AdPostingApi.Client.Hal
                     throw new AdvertisementAlreadyExistsException(response.Headers.Location);
                 case 422:
                     ValidationMessage validationMessage;
+                    string responseContent = await response.Content.ReadAsStringAsync();
                     if (TryDeserialize(responseContent, out validationMessage))
                     {
                         throw new ValidationException(request.Method, validationMessage);

@@ -32,7 +32,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             // An example advertisement with a unique creation ID that ensures multiple create retries will not create duplicate advertisements.
             var ad = new Advertisement
             {
-                CreationId = "Sample Consumer 20151001 114732 1234567",
+                CreationId = "Sample Consumer 20151029 150132 1234567",
                 AdvertiserId = "Advertiser Id",
                 JobTitle = "A Job Title",
                 JobSummary = "Job summary of the job ad",
@@ -119,6 +119,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     Console.WriteLine("Expired job advertisement.");
                     Console.WriteLine(JsonConvert.SerializeObject(expiredAdvertisementContent, Formatting.Indented));
                     break;
+
                 case CreateResult.ValidationErrors:
                     // There were validation errors; show the errors.
                     Console.WriteLine("Advertisement creation failed. Validation errors:");
@@ -129,9 +130,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
                         counter++;
                     }
                     break;
+
                 case CreateResult.Timeout:
                     Console.WriteLine("Job not created. Maximum attempts reached.");
                     break;
+
                 default:
                     Console.WriteLine($"Job not created. Unexpected createResult {createResult}.");
                     break;

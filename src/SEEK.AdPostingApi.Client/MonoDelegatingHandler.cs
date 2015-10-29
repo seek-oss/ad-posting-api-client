@@ -10,13 +10,10 @@ namespace SEEK.AdPostingApi.Client
     /// <summary>
     /// Sometimes Mono does not get the response content in time and throws a WebException instead of
     /// returning the HttpResponseMessage for 400 responses in particular.
-    /// 
+    ///
     /// This delegating handler is a workaround to throw a ResourceActionException instead which allows
     /// access to the response headers and content e.g. to deserialize the ValidationDataDictionary
     /// in the BadRequestHandler.
-    /// 
-    /// For more info on the Mono HttpClient.SendAsync behaviour, see Martin Booth who can direct you
-    /// to the Mono code which is the root cause of this behaviour.
     /// </summary>
     public class MonoDelegatingHandler : DelegatingHandler
     {
