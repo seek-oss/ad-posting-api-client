@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SEEK.AdPostingApi.Client.Models;
+using SEEK.AdPostingApi.Client.Resources;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using SEEK.AdPostingApi.Client.Models;
-using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.Client
 {
@@ -11,7 +11,7 @@ namespace SEEK.AdPostingApi.Client
     {
         private readonly IOAuth2TokenClient _tokenClient;
         private IndexResource _indexResource;
-        private readonly Lazy<Task> _ensureInitialised;
+        private readonly Lazy<Task> _ensureIndexResourceInitialised;
         private readonly HttpClient _httpClient;
 
         public AdPostingApiClient(string id, string secret)
@@ -29,19 +29,19 @@ namespace SEEK.AdPostingApi.Client
 
         internal AdPostingApiClient(Uri adPostingUri, IOAuth2TokenClient tokenClient)
         {
-            this._ensureInitialised = new Lazy<Task>(() => this.Initialise(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
+            this._ensureIndexResourceInitialised = new Lazy<Task>(() => this.InitialiseIndexResource(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             _tokenClient = tokenClient;
             this.Initialise(
                 _httpClient = new HttpClient(new OAuthMessageHandler(tokenClient)),
                 adPostingUri);
         }
 
-        private Task EnsureInitialised()
+        private Task EnsureIndexResourceInitialised()
         {
-            return this._ensureInitialised.Value;
+            return this._ensureIndexResourceInitialised.Value;
         }
 
-        private async Task Initialise(Uri adPostingUri)
+        private async Task InitialiseIndexResource(Uri adPostingUri)
         {
             _indexResource = await this.GetResourceAsync<IndexResource>(adPostingUri);
         }
@@ -51,7 +51,7 @@ namespace SEEK.AdPostingApi.Client
             if (advertisement == null)
                 throw new ArgumentNullException(nameof(advertisement));
 
-            await this.EnsureInitialised();
+            await this.EnsureIndexResourceInitialised();
             return await this._indexResource.CreateAdvertisementAsync(advertisement);
         }
 
@@ -72,7 +72,7 @@ namespace SEEK.AdPostingApi.Client
 
         public async Task<AdvertisementListResource> GetAllAdvertisementsAsync()
         {
-            await this.EnsureInitialised();
+            await this.EnsureIndexResourceInitialised();
             return await _indexResource.GetAllAdvertisements();
         }
 
