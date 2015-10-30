@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -48,9 +48,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         public async Task GetExistingAdvertisement()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
-
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             PactProvider.MockService
                 .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
                 .UponReceiving("GET request for advertisement")
@@ -77,6 +78,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithState(AdvertisementState.Open.ToString())
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                         .WithResponseLink("self", link)
+                        .WithResponseLink("view", viewRenderedAdvertisementLink)
                         .Build()
                 });
 
@@ -94,6 +96,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             PactProvider.MockService
                 .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
@@ -121,6 +124,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithState(AdvertisementState.Open.ToString())
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                         .WithResponseLink("self", link)
+                        .WithResponseLink("view", viewRenderedAdvertisementLink)
                         .WithResponseWarnings(
                             new { field = "standout.logoId", code = "missing" },
                             new { field = "standout.bullets", code = "missing" })
@@ -142,7 +146,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string advertisementId = "448b8474-6165-4eed-a5b5-d2bb52e471ef";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
-
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             PactProvider.MockService
                 .Given($"There is a failed classic advertisement with id '{advertisementId}'")
                 .UponReceiving("GET request for advertisement with errors")
@@ -168,6 +172,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithoutAgentId()
                         .WithState(AdvertisementState.Open.ToString())
                         .WithResponseLink("self", link)
+                        .WithResponseLink("view", viewRenderedAdvertisementLink)
                         .WithResponseErrors(new { code = "Unauthorised", message = "Unauthorised" })
                         .Build()
                 });

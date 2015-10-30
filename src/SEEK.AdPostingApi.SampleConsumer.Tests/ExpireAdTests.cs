@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -51,6 +51,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var advertisementId = new Guid("8e2fde50-bc5f-4a12-9cfb-812e50500184");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             PactProvider.MockService
                 .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
@@ -84,6 +85,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             .WithState(AdvertisementState.Expired.ToString())
                             .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                             .WithResponseLink("self", link)
+                            .WithResponseLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 

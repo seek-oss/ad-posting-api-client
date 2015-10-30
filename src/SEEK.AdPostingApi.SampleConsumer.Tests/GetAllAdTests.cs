@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -127,6 +127,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                         self = new
                                         {
                                             href = "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
+                                        },
+                                        view = new
+                                        {
+                                            href = "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc/view"
                                         }
                                     }
                                 },
@@ -140,6 +144,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                         self = new
                                         {
                                             href = "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
+                                        },
+                                        view = new
+                                        {
+                                            href = "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0/view"
                                         }
                                     }
                                 }
@@ -192,6 +200,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                         self = new
                                         {
                                             href = "/advertisement/" + advertisementId2
+                                        },
+                                        view = new
+                                        {
+                                              href = "/advertisement/" + advertisementId2 + "/view"
                                         }
                                     }
                                 },
@@ -205,6 +217,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                         self = new
                                         {
                                             href = "/advertisement/" + advertisementId1
+                                        },
+                                          view = new
+                                        {
+                                              href = "/advertisement/" + advertisementId1 + "/view"
                                         }
                                     }
                                 }

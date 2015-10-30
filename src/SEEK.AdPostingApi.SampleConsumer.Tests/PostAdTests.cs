@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -53,6 +53,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             var location = $"http://localhost{link}";
 
             PactProvider.MockLinks();
@@ -85,6 +86,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithResponseLink("self", link)
+                            .WithResponseLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
@@ -103,6 +105,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             var location = $"http://localhost{link}";
 
             PactProvider.MockLinks();
@@ -136,6 +139,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
                             .WithResponseLink("self", link)
+                            .WithResponseLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
