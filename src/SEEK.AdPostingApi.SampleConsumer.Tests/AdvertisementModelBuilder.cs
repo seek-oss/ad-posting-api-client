@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SEEK.AdPostingApi.Client.Models;
+﻿using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -113,7 +112,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithVideoPosition(VideoPosition? videoPosition)
+        public AdvertisementModelBuilder WithVideoPosition(VideoPosition videoPosition)
         {
             _advertisementModel.Video = _advertisementModel.Video ?? new Video();
             _advertisementModel.Video.Position = videoPosition;
