@@ -60,6 +60,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 try
                 {
                     advertisement = await postingClient.CreateAdvertisementAsync(ad);
+                    advertisementLink = advertisement.Uri;
                     createResult = CreateResult.Created;
                     break;
                 }
