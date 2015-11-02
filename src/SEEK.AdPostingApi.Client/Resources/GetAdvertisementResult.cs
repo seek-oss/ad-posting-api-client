@@ -8,7 +8,7 @@ namespace SEEK.AdPostingApi.Client.Resources
     {
         public GetAdvertisementResult(AdvertisementResource resource)
         {
-            AdvertisementResource = resource;
+            this.AdvertisementResource = resource;
         }
 
         public AdvertisementResource AdvertisementResource { get; }
