@@ -14,6 +14,7 @@ namespace SEEK.AdPostingApi.Client.Hal
     public class Client
     {
         private HttpClient _httpClient;
+
         protected Uri BaseUri { get; set; }
         private SerializerSettings _serializerSettings;
 
@@ -78,12 +79,12 @@ namespace SEEK.AdPostingApi.Client.Hal
             return responseResource;
         }
 
-        protected async Task<T> PutResourceAsync<T, TResource>(Uri uri, TResource resource) where T : HalResource, new()
+        protected async Task<TResource> PutResourceAsync<TResource, T>(Uri uri, T resource) where TResource : HalResource, new()
         {
-            var responseResource = new T();
+            var responseResource = new TResource();
             var content = JsonConvert.SerializeObject(resource, _serializerSettings);
 
-            using (var request = this.CreateRequest<T>(uri, HttpMethod.Put, content))
+            using (var request = this.CreateRequest<TResource>(uri, HttpMethod.Put, content))
             {
                 using (var response = await this._httpClient.SendAsync(request))
                 {

@@ -59,6 +59,7 @@
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="EnvironmentUrlAttribute.cs" />
     <Compile Include="AdvertisementAlreadyExistsException.cs" />
+    <Compile Include="Resources\GetAdvertisementResult.cs" />
     <Compile Include="UnauthorizedException.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="Hal\Client.cs" />

@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
-using System;
-using System.Threading.Tasks;
 using Environment = SEEK.AdPostingApi.Client.Environment;
 
 namespace SEEK.AdPostingApi.SampleConsumer
@@ -102,19 +102,18 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     Console.WriteLine($"Advertisement Link: {advertisementLink}");
 
                     // Use the returned advertisement link to get the advertisement.
-                    AdvertisementResource content = await postingClient.GetAdvertisementAsync(advertisementLink);
-                    Console.WriteLine(JsonConvert.SerializeObject(content, Formatting.Indented));
+                    AdvertisementResource advertisementResource = (await postingClient.GetAdvertisementAsync(advertisementLink)).AdvertisementResource;
+                    Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
 
                     // Update the advertisement.
-                    content.Properties.JobTitle = "New job title";
-                    await content.SaveAsync();
+                    advertisementResource.Properties.JobTitle = "New job title";
+                    advertisementResource = await advertisementResource.SaveAsync();
 
-                    AdvertisementResource newContent = await postingClient.GetAdvertisementAsync(advertisementLink);
                     Console.WriteLine();
                     Console.WriteLine("Updated job advertisement.");
-                    Console.WriteLine(JsonConvert.SerializeObject(newContent, Formatting.Indented));
+                    Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
 
-                    var expiredAdvertisementContent = await newContent.ExpireAsync();
+                    var expiredAdvertisementContent = await advertisementResource.ExpireAsync();
                     Console.WriteLine();
                     Console.WriteLine("Expired job advertisement.");
                     Console.WriteLine(JsonConvert.SerializeObject(expiredAdvertisementContent, Formatting.Indented));

@@ -82,10 +82,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            var jobAd = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
+            var result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
 
-            Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job title returned!");
-            Assert.AreEqual(ProcessingStatus.Pending, jobAd.ProcessingStatus);
+            Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", result.AdvertisementResource.Properties.JobTitle, "Wrong job title returned!");
+            Assert.AreEqual(ProcessingStatus.Pending, result.ProcessingStatus);
         }
 
         [Test]
@@ -129,7 +129,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            AdvertisementResource jobAd = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
+            GetAdvertisementResult result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
+            AdvertisementResource jobAd = result.AdvertisementResource;
 
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job title returned!");
             jobAd.Properties.Warnings.ShouldAllBeEquivalentTo(
@@ -174,10 +175,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            AdvertisementResource jobAd = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
+            GetAdvertisementResult result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
+            AdvertisementResource jobAd = result.AdvertisementResource;
 
             Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job title returned!");
-            Assert.AreEqual(ProcessingStatus.Failed, jobAd.ProcessingStatus);
+            Assert.AreEqual(ProcessingStatus.Failed, result.ProcessingStatus);
             jobAd.Properties.Errors.ShouldAllBeEquivalentTo(
                 new[] { new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" } });
         }

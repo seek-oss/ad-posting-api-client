@@ -1,9 +1,9 @@
-﻿using SEEK.AdPostingApi.Client.Models;
-using SEEK.AdPostingApi.Client.Resources;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using SEEK.AdPostingApi.Client.Models;
+using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.Client
 {
@@ -60,14 +60,14 @@ namespace SEEK.AdPostingApi.Client
             return await this.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>(uri, advertisementPatch);
         }
 
-        public Task<AdvertisementResource> GetAdvertisementAsync(Uri uri)
+        public async Task<GetAdvertisementResult> GetAdvertisementAsync(Uri uri)
         {
-            return this.GetResourceAsync<AdvertisementResource>(uri);
+            return new GetAdvertisementResult(await this.GetResourceAsync<AdvertisementResource>(uri));
         }
 
-        public Task<ProcessingStatus> GetAdvertisementStatusAsync(Uri uri)
+        public async Task<ProcessingStatus> GetAdvertisementStatusAsync(Uri uri)
         {
-            return this.HeadResourceAsync<ProcessingStatus, AdvertisementResource>(uri);
+            return await this.HeadResourceAsync<ProcessingStatus, AdvertisementResource>(uri);
         }
 
         public async Task<AdvertisementListResource> GetAllAdvertisementsAsync()
@@ -76,12 +76,12 @@ namespace SEEK.AdPostingApi.Client
             return await _indexResource.GetAllAdvertisements();
         }
 
-        public Task<AdvertisementResource> UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)
+        public async Task<AdvertisementResource> UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)
         {
             if (advertisement == null)
                 throw new ArgumentNullException(nameof(advertisement));
 
-            return this.PutResourceAsync<AdvertisementResource, Advertisement>(uri, advertisement);
+            return await this.PutResourceAsync<AdvertisementResource, Advertisement>(uri, advertisement);
         }
 
         public void Dispose()

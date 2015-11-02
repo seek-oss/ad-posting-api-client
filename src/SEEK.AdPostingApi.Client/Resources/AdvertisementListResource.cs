@@ -32,7 +32,7 @@ namespace SEEK.AdPostingApi.Client.Resources
                 throw new NotSupportedException("There are no more results");
             }
 
-            return await this.GetResourceAsync<AdvertisementListResource>("next");
+            return await this.GetResourceAsync<AdvertisementListResource>(this.GenerateLink("next"));
         }
 
         public bool Eof => (this.Links == null) || !this.Links.ContainsKey("next");

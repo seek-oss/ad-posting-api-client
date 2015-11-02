@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Reflection;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -45,44 +44,11 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
-        protected Task<TResource> PatchResourceAsync<TResource, T>(string relation, object parameters, T resource) where TResource : HalResource, new()
+        protected Uri GenerateLink(string relation, object parameters = null)
         {
-            return this.PatchResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
+            return new Uri(this.BaseUri, this.Links[relation].Resolve(parameters));
         }
 
-        protected Task<TResource> PostResourceAsync<TResource, T>(string relation, object parameters, T resource) where TResource : HalResource, new()
-        {
-            return this.PostResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
-        }
-
-        protected Task<TResource> PostResourceAsync<TResource, T>(string relation, T resource) where TResource : HalResource, new()
-        {
-            return this.PostResourceAsync<TResource, T>(relation, null, resource);
-        }
-
-        protected Task<TResource> PutResourceAsync<TResource, T>(string relation, object parameters, T resource) where TResource : HalResource, new()
-        {
-            return this.PutResourceAsync<TResource, T>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)), resource);
-        }
-
-        protected Task<TResource> PutResourceAsync<TResource>(string relation, TResource resource) where TResource : HalResource, new()
-        {
-            return this.PutResourceAsync<TResource, TResource>(relation, null, resource);
-        }
-
-        protected Task<TResource> GetResourceAsync<TResource>(string relation, object parameters) where TResource : HalResource, new()
-        {
-            return this.GetResourceAsync<TResource>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)));
-        }
-
-        protected Task<TResource> GetResourceAsync<TResource>(string relation) where TResource : HalResource, new()
-        {
-            return this.GetResourceAsync<TResource>(relation, null);
-        }
-
-        protected Task<T> HeadResourceAsync<T, TResource>(string relation, object parameters)
-        {
-            return this.HeadResourceAsync<T, TResource>(new Uri(this.BaseUri, this.Links[relation].Resolve(parameters)));
-        }
+        public Uri Uri => this.GenerateLink("self");
     }
 }

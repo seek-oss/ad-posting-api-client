@@ -8,12 +8,12 @@ namespace SEEK.AdPostingApi.Client.Resources
     {
         public Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
         {
-            return this.PostResourceAsync<AdvertisementResource, Advertisement>("advertisements", advertisement);
+            return this.PostResourceAsync<AdvertisementResource, Advertisement>(this.GenerateLink("advertisements"), advertisement);
         }
 
         public Task<AdvertisementListResource> GetAllAdvertisements()
         {
-            return this.GetResourceAsync<AdvertisementListResource>("advertisement");
+            return this.GetResourceAsync<AdvertisementListResource>(this.GenerateLink("advertisement"));
         }
     }
 }
