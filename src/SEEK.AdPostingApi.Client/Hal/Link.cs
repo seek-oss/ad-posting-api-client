@@ -9,11 +9,11 @@ namespace SEEK.AdPostingApi.Client.Hal
 
         public bool Templated { get; set; }
 
-        private readonly Lazy<UriTemplate> uriTemplate;
+        private readonly Lazy<UriTemplate> _uriTemplate;
 
         public Link()
         {
-            this.uriTemplate = new Lazy<UriTemplate>(() => new UriTemplate(this.Href));
+            this._uriTemplate = new Lazy<UriTemplate>(() => new UriTemplate(this.Href));
         }
 
         public string Resolve(object parameters)
@@ -21,7 +21,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             if (!Templated)
                 return this.Href;
 
-            return uriTemplate.Value
+            return _uriTemplate.Value
                 .AddParameters(parameters)
                 .Resolve();
         }

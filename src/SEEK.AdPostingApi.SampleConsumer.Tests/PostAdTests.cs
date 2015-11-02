@@ -56,7 +56,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             var location = $"http://localhost{link}";
 
-            PactProvider.MockLinks();
+            PactProvider.RegisterIndexPageInteractions();
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad with minimum required data")
@@ -108,7 +108,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             var location = $"http://localhost{link}";
 
-            PactProvider.MockLinks();
+            PactProvider.RegisterIndexPageInteractions();
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad with maximum required data")
@@ -158,7 +158,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.MockLinks();
+            PactProvider.RegisterIndexPageInteractions();
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad with bad data")
@@ -245,7 +245,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.MockLinks();
+            PactProvider.RegisterIndexPageInteractions();
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad without a creation id")
@@ -296,7 +296,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var location = $"http://localhost{AdvertisementLink}/{advertisementId}";
 
-            PactProvider.MockLinks();
+            PactProvider.RegisterIndexPageInteractions();
 
             PactProvider.MockService
                 .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")

@@ -6,16 +6,16 @@ using SEEK.AdPostingApi.Client.Hal;
 
 namespace SEEK.AdPostingApi.Client.Resources
 {
-    public class AdvertisementListResource : HalResource, IEnumerable<EmbeddedAdvertisementResource>
+    public class AdvertisementSummaryPageResource : HalResource, IEnumerable<AdvertisementSummaryResource>
     {
-        internal AdvertisementListEmbeddedResources Embedded { get; set; }
-
-        internal class AdvertisementListEmbeddedResources
+        private class EmbeddedResourceList
         {
-            public IEnumerable<EmbeddedAdvertisementResource> Advertisements { get; set; }
+            public IEnumerable<AdvertisementSummaryResource> Advertisements { get; set; }
         }
 
-        public IEnumerator<EmbeddedAdvertisementResource> GetEnumerator()
+        private EmbeddedResourceList Embedded { get; set; }
+
+        public IEnumerator<AdvertisementSummaryResource> GetEnumerator()
         {
             return this.Embedded.Advertisements.GetEnumerator();
         }
@@ -25,14 +25,14 @@ namespace SEEK.AdPostingApi.Client.Resources
             return this.Embedded.Advertisements.GetEnumerator();
         }
 
-        public async Task<AdvertisementListResource> NextPageAsync()
+        public async Task<AdvertisementSummaryPageResource> NextPageAsync()
         {
             if (Eof)
             {
                 throw new NotSupportedException("There are no more results");
             }
 
-            return await this.GetResourceAsync<AdvertisementListResource>(this.GenerateLink("next"));
+            return await this.GetResourceAsync<AdvertisementSummaryPageResource>(this.GenerateLink("next"));
         }
 
         public bool Eof => (this.Links == null) || !this.Links.ContainsKey("next");

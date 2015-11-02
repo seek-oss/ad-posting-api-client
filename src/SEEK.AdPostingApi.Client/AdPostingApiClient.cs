@@ -30,10 +30,10 @@ namespace SEEK.AdPostingApi.Client
         internal AdPostingApiClient(Uri adPostingUri, IOAuth2TokenClient tokenClient)
         {
             this._ensureIndexResourceInitialised = new Lazy<Task>(() => this.InitialiseIndexResource(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
-            _tokenClient = tokenClient;
-            this.Initialise(
-                _httpClient = new HttpClient(new OAuthMessageHandler(tokenClient)),
-                adPostingUri);
+            this._tokenClient = tokenClient;
+            this._httpClient = new HttpClient(new OAuthMessageHandler(tokenClient));
+
+            this.Initialise(_httpClient, adPostingUri);
         }
 
         private Task EnsureIndexResourceInitialised()
@@ -52,6 +52,7 @@ namespace SEEK.AdPostingApi.Client
                 throw new ArgumentNullException(nameof(advertisement));
 
             await this.EnsureIndexResourceInitialised();
+
             return await this._indexResource.CreateAdvertisementAsync(advertisement);
         }
 
@@ -70,9 +71,10 @@ namespace SEEK.AdPostingApi.Client
             return await this.HeadResourceAsync<ProcessingStatus, AdvertisementResource>(uri);
         }
 
-        public async Task<AdvertisementListResource> GetAllAdvertisementsAsync()
+        public async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsAsync()
         {
             await this.EnsureIndexResourceInitialised();
+
             return await _indexResource.GetAllAdvertisements();
         }
 

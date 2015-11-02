@@ -95,9 +95,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AdvertisementResource.cs" />
     <Compile Include="OAuth2TokenClient.cs" />
-    <Compile Include="Models\EmbeddedAdvertisement.cs" />
-    <Compile Include="Resources\EmbeddedAdvertisementResource.cs" />
-    <Compile Include="Resources\AdvertisementListResource.cs" />
+    <Compile Include="Models\AdvertisementSummary.cs" />
+    <Compile Include="Resources\AdvertisementSummaryResource.cs" />
+    <Compile Include="Resources\AdvertisementSummaryPageResource.cs" />
     <Compile Include="Resources\IndexResource.cs" />
     <Compile Include="SerializerSettings.cs" />
   </ItemGroup>

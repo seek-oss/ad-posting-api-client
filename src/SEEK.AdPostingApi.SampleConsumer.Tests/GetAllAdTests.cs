@@ -43,14 +43,16 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         public async Task GetAllAdvertisementsWithNoAdvertisementReturns()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            PactProvider.MockLinks();
+
+            PactProvider.RegisterIndexPageInteractions();
+
             PactProvider.MockService
                 .Given("There are no advertisements")
                 .UponReceiving("GET request for all advertisements")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/advertisement/",
+                    Path = "/advertisement",
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -68,7 +70,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     {
                         _embedded = new
                         {
-                            advertisements = new EmbeddedAdvertisement[] { }
+                            advertisements = new AdvertisementSummary[] { }
                         }
                     }
                 });
@@ -77,7 +79,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var advertisements = await client.GetAllAdvertisementsAsync();
 
-            Assert.AreEqual(0, advertisements.Count());
+            Assert.IsEmpty(advertisements);
         }
 
         [Test]
@@ -89,7 +91,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string nextLink = "/advertisement?beforeId=" + advertisementJobId2;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.MockLinks();
+            PactProvider.RegisterIndexPageInteractions();
 
             PactProvider.MockService
                 .Given("A page size of 2, and there are 2 pages worth of data")
@@ -97,7 +99,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/advertisement/",
+                    Path = "/advertisement",
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
@@ -231,23 +233,24 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            var allAdvertisements = new List<EmbeddedAdvertisementResource>();
-            var advertisementPage = await client.GetAllAdvertisementsAsync();
+            var allAdvertisements = new List<AdvertisementSummaryResource>();
+            AdvertisementSummaryPageResource pageResource = await client.GetAllAdvertisementsAsync();
 
-            Assert.AreEqual(2, advertisementPage.Count());
+            Assert.AreEqual(2, pageResource.Count());
 
-            allAdvertisements.AddRange(advertisementPage);
+            allAdvertisements.AddRange(pageResource);
 
-            while (!advertisementPage.Eof)
+            while (!pageResource.Eof)
             {
-                advertisementPage = await advertisementPage.NextPageAsync();
-                allAdvertisements.AddRange(advertisementPage);
+                pageResource = await pageResource.NextPageAsync();
+                allAdvertisements.AddRange(pageResource);
             }
 
             Assert.AreEqual(4, allAdvertisements.Count);
 
+            var actualException = Assert.Throws<NotSupportedException>(async () => await pageResource.NextPageAsync());
             var expectedException = new NotSupportedException("There are no more results");
-            var actualException = Assert.Throws<NotSupportedException>(async () => await advertisementPage.NextPageAsync());
+
             actualException.ShouldBeEquivalentToException(expectedException);
         }
     }

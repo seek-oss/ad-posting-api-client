@@ -20,13 +20,16 @@ namespace SEEK.AdPostingApi.Client.Hal
         {
             throw new NotImplementedException();
         }
+
         public override bool CanWrite => false;
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var obj = (HalResource)Activator.CreateInstance(objectType);
+
             obj.Initialise(this._httpClient, this._baseUri);
             obj.PopulateResource(JToken.ReadFrom(reader));
+
             return obj;
         }
 

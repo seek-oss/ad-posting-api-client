@@ -47,11 +47,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactBuilder.Build();
         }
 
-        public static void MockLinks()
+        public static void RegisterIndexPageInteractions()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             const string advertisementLink = "/advertisement";
+
             MockService
                 .UponReceiving("a request to retrieve API links")
                 .With(new ProviderServiceRequest

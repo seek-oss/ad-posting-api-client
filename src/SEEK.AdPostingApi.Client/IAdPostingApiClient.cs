@@ -13,7 +13,7 @@ namespace SEEK.AdPostingApi.Client
 
         Task<ProcessingStatus> GetAdvertisementStatusAsync(Uri uri);
 
-        Task<AdvertisementListResource> GetAllAdvertisementsAsync();
+        Task<AdvertisementSummaryPageResource> GetAllAdvertisementsAsync();
 
         Task<AdvertisementResource> ExpireAdvertisementAsync(Uri uri, AdvertisementPatch advertisementPatch);
 
