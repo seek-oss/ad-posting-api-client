@@ -14,9 +14,9 @@ namespace SEEK.AdPostingApi.Client.Hal
     public class Client
     {
         private HttpClient _httpClient;
+        private SerializerSettings _serializerSettings;
 
         protected Uri BaseUri { get; set; }
-        private SerializerSettings _serializerSettings;
 
         protected internal void Initialise(HttpClient client, Uri uri)
         {
@@ -25,98 +25,80 @@ namespace SEEK.AdPostingApi.Client.Hal
             this._serializerSettings = new SerializerSettings { Converters = { new HalResourceConverter(this._httpClient, this.BaseUri) } };
         }
 
-        protected async Task<TResource> GetResourceAsync<TResource>(Uri uri) where TResource : HalResource, new()
+        protected async Task<TResponseResource> GetResourceAsync<TResponseResource>(Uri uri) where TResponseResource : HalResource, new()
         {
-            var resource = new TResource();
-
-            resource.Initialise(this._httpClient, uri);
-
-            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri))
+            using (HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, uri))
             {
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(typeof(TResource).GetMediaType("application/hal+json")));
+                httpRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(typeof(TResponseResource).GetMediaType("application/hal+json")));
 
-                using (HttpResponseMessage response = await _httpClient.SendAsync(request))
+                using (HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest))
                 {
-                    await HandleBadResponse(request, response);
+                    await HandleBadResponse(httpRequest, httpResponse);
 
-                    resource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
-                    resource.ResponseHeaders = response.Headers;
-                }
-            }
-
-            return resource;
-        }
-
-        protected async Task<T> HeadResourceAsync<T, TResource>(Uri uri)
-        {
-            using (var request = new HttpRequestMessage(HttpMethod.Head, uri) { Headers = { Accept = { new MediaTypeWithQualityHeaderValue(typeof(TResource).GetMediaType("application/hal+json")) } } })
-            {
-                using (var response = await this._httpClient.SendAsync(request))
-                {
-                    await HandleBadResponse(request, response);
-
-                    return typeof(T).GetCustomAttribute<FromHeaderAttribute>().GetValue<T>(response.Headers);
+                    return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
                 }
             }
         }
 
-        protected async Task<TResource> PatchResourceAsync<TResource, T>(Uri uri, T resource) where TResource : HalResource, new()
+        protected async Task<TResponseResource> HeadResourceAsync<TResponseResource, TRequest>(Uri uri)
         {
-            var responseResource = new TResource();
-            var content = JsonConvert.SerializeObject(resource, _serializerSettings);
-
-            using (var request = this.CreateRequest<T>(uri, new HttpMethod("PATCH"), content))
+            using (HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Head, uri) { Headers = { Accept = { new MediaTypeWithQualityHeaderValue(typeof(TRequest).GetMediaType("application/hal+json")) } } })
             {
-                using (var response = await this._httpClient.SendAsync(request))
+                using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
-                    await HandleBadResponse(request, response);
+                    await HandleBadResponse(httpRequest, httpResponse);
 
-                    responseResource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
-                    responseResource.ResponseHeaders = response.Headers;
+                    return typeof(TResponseResource).GetCustomAttribute<FromHeaderAttribute>().GetValue<TResponseResource>(httpResponse.Headers);
                 }
-            }
-
-            return responseResource;
-        }
-
-        protected async Task<TResource> PutResourceAsync<TResource, T>(Uri uri, T resource) where TResource : HalResource, new()
-        {
-            var responseResource = new TResource();
-            var content = JsonConvert.SerializeObject(resource, _serializerSettings);
-
-            using (var request = this.CreateRequest<TResource>(uri, HttpMethod.Put, content))
-            {
-                using (var response = await this._httpClient.SendAsync(request))
-                {
-                    await HandleBadResponse(request, response);
-
-                    responseResource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
-                    responseResource.ResponseHeaders = response.Headers;
-                }
-                return responseResource;
             }
         }
 
-        protected async Task<TResource> PostResourceAsync<TResource, T>(Uri uri, T resource) where TResource : HalResource, new()
+        protected async Task<TResponseResource> PatchResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest request) where TResponseResource : HalResource, new()
         {
-            var responseResource = new TResource();
-            var content = JsonConvert.SerializeObject(resource, _serializerSettings);
+            string content = JsonConvert.SerializeObject(request, _serializerSettings);
 
-            using (HttpRequestMessage request = this.CreateRequest<T>(uri, HttpMethod.Post, content))
+            using (HttpRequestMessage httpRequest = this.CreateHttpRequest<TRequest>(uri, new HttpMethod("PATCH"), content))
             {
-                using (HttpResponseMessage response = await this._httpClient.SendAsync(request))
+                using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
-                    await HandleBadResponse(request, response);
+                    await HandleBadResponse(httpRequest, httpResponse);
 
-                    responseResource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
-                    responseResource.ResponseHeaders = response.Headers;
+                    return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
                 }
-
-                return responseResource;
             }
         }
 
-        private HttpRequestMessage CreateRequest<TResource>(Uri uri, HttpMethod method, string content)
+        protected async Task<TResponseResource> PutResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest request) where TResponseResource : HalResource, new()
+        {
+            string content = JsonConvert.SerializeObject(request, _serializerSettings);
+
+            using (var httpRequest = this.CreateHttpRequest<TResponseResource>(uri, HttpMethod.Put, content))
+            {
+                using (var httpResponse = await this._httpClient.SendAsync(httpRequest))
+                {
+                    await HandleBadResponse(httpRequest, httpResponse);
+
+                    return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
+                }
+            }
+        }
+
+        protected async Task<TResponseResource> PostResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest requestResource) where TResponseResource : HalResource, new()
+        {
+            string content = JsonConvert.SerializeObject(requestResource, _serializerSettings);
+
+            using (HttpRequestMessage httpRequest = this.CreateHttpRequest<TRequest>(uri, HttpMethod.Post, content))
+            {
+                using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
+                {
+                    await HandleBadResponse(httpRequest, httpResponse);
+
+                    return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
+                }
+            }
+        }
+
+        private HttpRequestMessage CreateHttpRequest<TResource>(Uri uri, HttpMethod method, string content)
         {
             return new HttpRequestMessage(method, uri)
             {
@@ -124,29 +106,41 @@ namespace SEEK.AdPostingApi.Client.Hal
             };
         }
 
-        private async Task HandleBadResponse(HttpRequestMessage request, HttpResponseMessage response)
+        private async Task<TResponseResource> CreateResponseResource<TResponseResource>(Uri uri, HttpResponseMessage response) where TResponseResource : HalResource, new()
         {
-            if (response.IsSuccessStatusCode) return;
+            var resource = new TResponseResource();
 
-            switch ((int)response.StatusCode)
+            resource.Initialise(this._httpClient, uri);
+            resource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
+            resource.ResponseHeaders = response.Headers;
+
+            return resource;
+        }
+
+        private async Task HandleBadResponse(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse)
+        {
+            switch ((int)httpResponse.StatusCode)
             {
                 case (int)HttpStatusCode.Unauthorized:
-                    throw new UnauthorizedException($"[{request.Method}] {request.RequestUri.AbsoluteUri} is not authorized.");
+                    throw new UnauthorizedException($"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
                 case (int)HttpStatusCode.NotFound:
                     throw new AdvertisementNotFoundException();
                 case (int)HttpStatusCode.Conflict:
-                    throw new AdvertisementAlreadyExistsException(response.Headers.Location);
+                    throw new AdvertisementAlreadyExistsException(httpResponse.Headers.Location);
                 case 422:
                     ValidationMessage validationMessage;
-                    string responseContent = await response.Content.ReadAsStringAsync();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync();
+
                     if (TryDeserialize(responseContent, out validationMessage))
                     {
-                        throw new ValidationException(request.Method, validationMessage);
+                        throw new ValidationException(httpRequest.Method, validationMessage);
                     }
                     break;
-            }
 
-            response.EnsureSuccessStatusCode();
+                default:
+                    httpResponse.EnsureSuccessStatusCode();
+                    break;
+            }
         }
 
         private bool TryDeserialize(string responseContent, out ValidationMessage validationMessage)
