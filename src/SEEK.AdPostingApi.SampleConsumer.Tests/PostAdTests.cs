@@ -175,9 +175,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
                             .WithoutAdvertiserId()
+                            .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                             .WithSalaryMinimum(0)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
                             .WithVideoPosition(VideoPosition.Below.ToString())
+                            .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                             .WithApplicationEmail("someone(at)some.domain")
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
                             .WithTemplateItems(
@@ -204,6 +206,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 new { field = "salary.minimum", code = "ValueOutOfRange" },
                                 new { field = "template.items[1].name", code = "Required" },
                                 new { field = "template.items[1].value", code = "MaxLengthExceeded" },
+                                new { field = "standout.bullets[1]", code = "MaxLengthExceeded" },
                                 new { field = "video.url", code = "MaxLengthExceeded" },
                                 new { field = "video.url", code = "RegexPatternNotMatched" }
                             }
@@ -219,6 +222,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
                 new ValidationData { Field = "template.items[1].name", Code = "Required" },
                 new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
+                new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
                 new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
                 new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
             };
@@ -227,9 +231,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
                     .WithRequestCreationId("20150914-134527-00109")
                     .WithAdvertiserId(null)
+                    .WithAdvertisementType(AdvertisementType.StandOut)
                     .WithSalaryMinimum(0)
                     .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
                     .WithVideoPosition(VideoPosition.Below)
+                    .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                     .WithApplicationEmail("someone(at)some.domain")
                     .WithApplicationFormUrl("htp://somecompany.domain/apply")
                     .WithTemplateItems(
