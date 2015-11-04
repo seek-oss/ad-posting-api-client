@@ -157,10 +157,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         _links = new
                         {
-                            next = new
-                            {
-                                href = nextLink
-                            }
+                            self = new { href = "/advertisement" },
+                            next = new { href = nextLink }
                         }
                     }
                 });
@@ -205,7 +203,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                         },
                                         view = new
                                         {
-                                              href = "/advertisement/" + advertisementId2 + "/view"
+                                            href = "/advertisement/" + advertisementId2 + "/view"
                                         }
                                     }
                                 },
@@ -220,13 +218,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                         {
                                             href = "/advertisement/" + advertisementId1
                                         },
-                                          view = new
+                                        view = new
                                         {
-                                              href = "/advertisement/" + advertisementId1 + "/view"
+                                            href = "/advertisement/" + advertisementId1 + "/view"
                                         }
                                     }
                                 }
                             }
+                        },
+                        _links = new
+                        {
+                            self = new { href = nextLink }
                         }
                     }
                 });
