@@ -205,9 +205,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 new { field = "applicationEmail", code = "InvalidEmailAddress" },
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
                                 new { field = "salary.minimum", code = "ValueOutOfRange" },
+                                new { field = "standout.bullets[1]", code = "MaxLengthExceeded" },
                                 new { field = "template.items[1].name", code = "Required" },
                                 new { field = "template.items[1].value", code = "MaxLengthExceeded" },
-                                new { field = "standout.bullets[1]", code = "MaxLengthExceeded" },
                                 new { field = "video.url", code = "MaxLengthExceeded" },
                                 new { field = "video.url", code = "RegexPatternNotMatched" }
                             }
@@ -226,9 +226,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
                         new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
                         new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
+                        new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "template.items[1].name", Code = "Required" },
                         new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
-                        new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
                     }
