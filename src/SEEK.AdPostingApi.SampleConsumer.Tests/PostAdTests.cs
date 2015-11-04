@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -169,8 +169,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Path = AdvertisementLink,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
@@ -197,7 +197,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new
                         {
                             message = "Validation Failure",
-                            errors = new[] {
+                            errors = new[]
+                            {
                                 new { field = "advertiserId", code = "Required" },
                                 new { field = "applicationEmail", code = "InvalidEmailAddress" },
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
@@ -211,17 +212,23 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            var expectedValidationDataItems = new[]
-            {
-                new ValidationData { Field = "advertiserId", Code = "Required" },
-                new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
-                new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
-                new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
-                new ValidationData { Field = "template.items[1].name", Code = "Required" },
-                new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
-                new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
-                new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
-            };
+            var expectedException = new ValidationException(
+                HttpMethod.Post,
+                new ValidationMessage
+                {
+                    Message = "Validation Failure",
+                    Errors = new[]
+                    {
+                        new ValidationData { Field = "advertiserId", Code = "Required" },
+                        new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
+                        new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                        new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
+                        new ValidationData { Field = "template.items[1].name", Code = "Required" },
+                        new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
+                        new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
+                        new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
+                    }
+                });
 
             ValidationException exception = Assert.Throws<ValidationException>(
                 async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
@@ -237,7 +244,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
                     .Build()));
 
-            exception.ValidationDataItems.ShouldBeEquivalentTo(expectedValidationDataItems);
+            exception.ShouldBeEquivalentToException(expectedException);
         }
 
         [Test]
@@ -285,7 +292,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             ValidationException exception = Assert.Throws<ValidationException>(
                 async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).Build()));
 
-            exception.ValidationDataItems.ShouldBeEquivalentTo(new[] { new ValidationData { Field = "creationId", Code = "Required" } });
+            exception.ShouldBeEquivalentToException(
+                new ValidationException(
+                    HttpMethod.Post,
+                    new ValidationMessage
+                    {
+                        Message = "Validation Failure",
+                        Errors = new[]
+                        {
+                            new ValidationData { Field = "creationId", Code = "Required" }
+                        }
+                    }));
         }
 
         [Test]
