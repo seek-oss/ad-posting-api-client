@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -93,23 +94,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer)
+                .WithAgentId(null)
+                .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
+                .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
+                .WithApplicationFormUrl("http://FakeATS.com.au")
+                .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
+                .WithSeekCodes(null)
+                .Build();
+            AdvertisementResource result = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel);
 
-            AdvertisementResource jobAd = await client.UpdateAdvertisementAsync(
-                new Uri(PactProvider.MockServiceUri, link),
-                new AdvertisementModelBuilder(AllFieldsInitializer)
-                        .WithAgentId(null)
-                        .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                        .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
-                        .WithApplicationFormUrl("http://FakeATS.com.au")
-                        .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
-                        .WithSeekCodes(null)
-                        .Build()
-                );
-
-            Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$ - updated", jobAd.Properties.JobTitle);
-            Assert.AreEqual("https://www.youtube.com/v/dVDk7PXNXB8", jobAd.Properties.Video.Url);
-            Assert.AreEqual("http://FakeATS.com.au", jobAd.Properties.ApplicationFormUrl);
-            CollectionAssert.AreEqual(new[] { "new Uzi", "new Remington Model", "new AK-47" }, jobAd.Properties.Standout.Bullets);
+            result.Properties.ShouldBeEquivalentTo(requestModel);
+            StringAssert.EndsWith(link, result.Uri.ToString());
+            Assert.AreEqual(link, result.Links["self"].Href);
+            Assert.AreEqual(viewRenderedAdvertisementLink, result.Links["view"].Href);
         }
 
         [Test]

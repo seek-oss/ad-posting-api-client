@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -90,9 +91,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            AdvertisementResource jobAd = await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
+            AdvertisementResource result = await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
 
-            Assert.AreEqual("9012", jobAd.Properties.AdvertiserId);
+            var expectedAdvertisement = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId(null).Build();
+            result.Properties.ShouldBeEquivalentTo(expectedAdvertisement);
+            StringAssert.EndsWith(link, result.Uri.ToString());
+            Assert.AreEqual(link, result.Links["self"].Href);
+            Assert.AreEqual(viewRenderedAdvertisementLink, result.Links["view"].Href);
         }
 
         [Test]

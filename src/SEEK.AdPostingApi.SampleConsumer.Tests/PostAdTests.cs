@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -92,11 +93,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
             var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
-            AdvertisementResource jobAd = await client.CreateAdvertisementAsync(requestModel);
+            AdvertisementResource result = await client.CreateAdvertisementAsync(requestModel);
 
-            Assert.AreEqual(link, jobAd.Links["self"].Href);
-            Assert.IsNull(jobAd.Properties.CreationId);
-            Assert.AreEqual(requestModel.AdvertiserId, jobAd.Properties.AdvertiserId);
+            result.Properties.ShouldBeEquivalentTo(requestModel, options => options.Excluding(s => s.CreationId));
+            StringAssert.EndsWith(link, result.Uri.ToString());
+            Assert.AreEqual(link, result.Links["self"].Href);
+            Assert.AreEqual(viewRenderedAdvertisementLink, result.Links["view"].Href);
         }
 
         [Test]
@@ -146,11 +148,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMaximumRequiredData).Build();
-            AdvertisementResource jobAd = await client.CreateAdvertisementAsync(requestModel);
+            AdvertisementResource result = await client.CreateAdvertisementAsync(requestModel);
 
-            Assert.AreEqual(link, jobAd.Links["self"].Href);
-            Assert.IsNull(jobAd.Properties.CreationId);
-            Assert.AreEqual(requestModel.AdvertiserId, jobAd.Properties.AdvertiserId);
+            result.Properties.ShouldBeEquivalentTo(requestModel, options => options.Excluding(s => s.CreationId));
+            StringAssert.EndsWith(link, result.Uri.ToString());
+            Assert.AreEqual(link, result.Links["self"].Href);
+            Assert.AreEqual(viewRenderedAdvertisementLink, result.Links["view"].Href);
         }
 
         [Test]
