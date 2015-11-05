@@ -56,12 +56,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
                     },
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                        .WithoutAgentId()
+                        .WithAgentId(null)
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                         .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
-                        .WithoutSeekCodes()
+                        .WithSeekCodes(null)
                         .Build()
                 })
                 .WillRespondWith(
@@ -73,12 +73,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"}
                     },
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                        .WithoutAgentId()
+                        .WithAgentId(null)
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                         .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
-                        .WithoutSeekCodes()
+                        .WithSeekCodes(null)
                         .WithResponseLink("self", link)
                         .WithResponseLink("view", viewRenderedAdvertisementLink)
                         .Build()

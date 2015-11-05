@@ -68,7 +68,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" }
                         },
                         Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                            .WithoutAgentId()
+                            .WithAgentId(null)
                             .WithState(AdvertisementState.Expired.ToString())
                             .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                             .WithResponseLink("self", link)

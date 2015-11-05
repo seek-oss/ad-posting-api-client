@@ -45,7 +45,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     Minimum = 20,
                     Maximum = 24
                 },
-                LocationId = "1002",
+                Location = new Location
+                {
+                    Country = LocationCountry.AU,
+                    Suburb = "Melbourne",
+                    PostCode = "3000"
+                },
                 SubclassificationId = "6227",
             };
 

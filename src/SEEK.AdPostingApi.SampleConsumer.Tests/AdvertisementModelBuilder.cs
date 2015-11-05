@@ -60,9 +60,35 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithLocationId(string locationId)
+        public AdvertisementModelBuilder WithLocationCountry(LocationCountry locationCountry)
         {
-            this._advertisementModel.LocationId = locationId;
+            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
+
+            _advertisementModel.Location.Country = locationCountry;
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithLocationSuburb(string locationSuburb)
+        {
+            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
+
+            _advertisementModel.Location.Suburb = locationSuburb;
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithLocationPostCode(string locationPostCode)
+        {
+            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
+
+            _advertisementModel.Location.PostCode = locationPostCode;
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithLocationOptions(params LocationOptionTypes[] locationOptions)
+        {
+            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
+
+            _advertisementModel.Location.Options = locationOptions?.Clone<LocationOptionTypes[]>();
             return this;
         }
 
