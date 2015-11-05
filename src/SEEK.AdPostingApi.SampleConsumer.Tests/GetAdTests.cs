@@ -86,8 +86,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
 
-            Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", result.AdvertisementResource.Properties.JobTitle, "Wrong job title returned!");
             Assert.AreEqual(ProcessingStatus.Pending, result.ProcessingStatus);
+            StringAssert.EndsWith(link, result.AdvertisementResource.Uri.ToString());
+            var expectedAdvertisement = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId(null).Build();
+            result.AdvertisementResource.Properties.ShouldBeEquivalentTo(expectedAdvertisement);
         }
 
         [Test]
@@ -136,7 +138,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             GetAdvertisementResult result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
             AdvertisementResource jobAd = result.AdvertisementResource;
 
-            Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job title returned!");
+            Assert.AreEqual(ProcessingStatus.Pending, result.ProcessingStatus);
+            StringAssert.EndsWith(link, result.AdvertisementResource.Uri.ToString());
+            var expectedAdvertisement = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId(null).Build();
+            result.AdvertisementResource.Properties.ShouldBeEquivalentTo(expectedAdvertisement, options => options.Excluding(s => s.Warnings));
+
             jobAd.Properties.Warnings.ShouldAllBeEquivalentTo(
                 new[] { new ValidationData { Field = "standout.logoId", Code = "missing" }, new ValidationData { Field = "standout.bullets", Code = "missing" } });
         }
@@ -181,10 +187,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
             GetAdvertisementResult result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
-            AdvertisementResource jobAd = result.AdvertisementResource;
 
-            Assert.AreEqual("Exciting Senior Developer role in a great CBD location. Great $$$", jobAd.Properties.JobTitle, "Wrong job title returned!");
             Assert.AreEqual(ProcessingStatus.Failed, result.ProcessingStatus);
+            StringAssert.EndsWith(link, result.AdvertisementResource.Uri.ToString());
+            var expectedAdvertisement = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithAgentId(null).Build();
+            result.AdvertisementResource.Properties.ShouldBeEquivalentTo(expectedAdvertisement, options => options.Excluding(s => s.Errors));
+
+            AdvertisementResource jobAd = result.AdvertisementResource;
             jobAd.Properties.Errors.ShouldAllBeEquivalentTo(
                 new[] { new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" } });
         }
@@ -226,6 +235,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
+        [Ignore("Duplicated test?")]
         public async Task GetExistingAdvertisementStatusUsingUri()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
