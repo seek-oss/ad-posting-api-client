@@ -8,6 +8,6 @@
 
         public string PostCode { get; set; }
 
-        public LocationOptionTypes[] Options { get; set; }
+        public LocationOptions[] Options { get; set; }
     }
 }

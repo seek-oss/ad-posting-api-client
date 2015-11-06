@@ -84,11 +84,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithLocationOptions(params LocationOptionTypes[] locationOptions)
+        public AdvertisementModelBuilder WithLocationOptions(params LocationOptions[] locationOptions)
         {
             _advertisementModel.Location = _advertisementModel.Location ?? new Location();
 
-            _advertisementModel.Location.Options = locationOptions?.Clone<LocationOptionTypes[]>();
+            _advertisementModel.Location.Options = locationOptions?.Clone<LocationOptions[]>();
             return this;
         }
 
@@ -216,7 +216,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         public Advertisement Build()
         {
-            return this._advertisementModel;
+            return this._advertisementModel.Clone();
         }
     }
 }

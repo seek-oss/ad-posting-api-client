@@ -1,6 +1,6 @@
 ﻿namespace SEEK.AdPostingApi.Client.Models
 {
-    public enum LocationOptionTypes
+    public enum LocationOptions
     {
         UseLegacyLocationArea
     }

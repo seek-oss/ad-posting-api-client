@@ -26,6 +26,10 @@ let private deserialiseVersion (s:string) =
     let stream = new MemoryStream(byteArray)
     json.ReadObject(stream) :?> Version
 
+let private removeBranchPrefix (branchName:string) =
+    let slashIndex = branchName.LastIndexOf('/')
+
+    if slashIndex = -1 then branchName else branchName.Substring(slashIndex + 1)
 
 let private getBuildVarsLocal _ =
     let isGitRepository = Directory.Exists("../.git")
@@ -34,14 +38,9 @@ let private getBuildVarsLocal _ =
                                     | None -> false
 
     let gitHash = if isGitRepository && gitInstalled then Information.getCurrentSHA1(".").[0..6] else "xxxxxxx"
-    let branch = if isGitRepository && gitInstalled then Information.getBranchName(".") else "unknown"
+    let branch = removeBranchPrefix (if isGitRepository && gitInstalled then Information.getBranchName(".") else "unknown")
 
     { branch = branch; gitHash = gitHash }
-
-let private removeBranchPrefix (branchName:string) =
-    let slashIndex = branchName.LastIndexOf('/')
-
-    if slashIndex = -1 then branchName else branchName.Substring(slashIndex + 1)
 
 let private getBuildVarsTeamcity _ =
     if environVar "SEEK_TEAMCITY_VCSROOT_URL" = null || environVar "SEEK_TEAMCITY_VCSROOT_BRANCH" = null then failwith "One of the required variables (SEEK_TEAMCITY_VCSROOT_URL, SEEK_TEAMCITY_VCSROOT_BRANCH) is not defined. Did you forget to attach 'Template: Build | Upload v2' template? There is a jive page containing how to migrate builds. https://seek.jiveon.com/docs/DOC-9633"
