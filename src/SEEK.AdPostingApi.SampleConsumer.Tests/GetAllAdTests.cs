@@ -7,7 +7,6 @@ using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
-using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -17,12 +16,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
     public class GetAllAdTests : IDisposable
     {
         private readonly IOAuth2TokenClient _oauthClient;
+
         private IBuilderInitializer SummaryFieldsInitializer => new SummaryFieldsInitializer();
 
         public GetAllAdTests()
         {
-            this._oauthClient = Mock.Of<IOAuth2TokenClient>(
-                c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
+            this._oauthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
         public void Dispose()
@@ -80,7 +79,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            var advertisements = await client.GetAllAdvertisementsAsync();
+            AdvertisementSummaryPageResource advertisements = await client.GetAllAdvertisementsAsync();
 
             Assert.IsEmpty(advertisements);
         }
@@ -97,7 +96,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private void AssertAdvertisementLinks(string advertisementId, AdvertisementSummaryResource advertisementSummaryResult)
         {
-            StringAssert.EndsWith(GenerateSelfLink(advertisementId), advertisementSummaryResult.Uri.ToString());
+            StringAssert.EndsWith(GenerateSelfLink(advertisementId), advertisementSummaryResult.GetUri().ToString());
             Assert.AreEqual(GenerateSelfLink(advertisementId), advertisementSummaryResult.Links["self"].Href);
             Assert.AreEqual(GenerateViewLink(advertisementId), advertisementSummaryResult.Links["view"].Href);
         }
@@ -167,7 +166,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                     .WithJobReference("JOB1236")
                                     .WithResponseLink("self", GenerateSelfLink(advertisementId3))
                                     .WithResponseLink("view", GenerateViewLink(advertisementId3))
-                                    .Build()                         
+                                    .Build()
                             }
                         },
                         _links = new
@@ -232,8 +231,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var allAdvertisements = new List<AdvertisementSummaryResource>();
             AdvertisementSummaryPageResource pageResource = await client.GetAllAdvertisementsAsync();
-            
-            StringAssert.EndsWith(selfLink, pageResource.Uri.ToString());
+
+            StringAssert.EndsWith(selfLink, pageResource.GetUri().ToString());
             Assert.AreEqual(2, pageResource.Count());
 
             var expectedAdvertisement4 = new AdvertisementModelBuilder(SummaryFieldsInitializer)
@@ -256,7 +255,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
 
             Assert.AreEqual(4, allAdvertisements.Count);
-            StringAssert.EndsWith(nextLink, pageResource.Uri.ToString());
+            StringAssert.EndsWith(nextLink, pageResource.GetUri().ToString());
 
             var expectedAdvertisement2 = new AdvertisementModelBuilder(SummaryFieldsInitializer)
                 .WithAdvertiserId("0002")

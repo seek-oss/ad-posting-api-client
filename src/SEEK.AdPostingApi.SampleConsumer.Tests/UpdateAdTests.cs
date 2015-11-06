@@ -7,6 +7,7 @@ using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
+using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -24,8 +25,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         public UpdateAdTests()
         {
-            this._oauthClient = Mock.Of<IOAuth2TokenClient>(
-                c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
+            this._oauthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
         public void Dispose()
@@ -49,9 +49,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         public async Task UpdateExistingAdvertisement()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+
             PactProvider.MockService
                 .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
                 .UponReceiving("Update request for advertisement")
@@ -102,18 +104,31 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                 .WithSeekCodes(null)
                 .Build();
+
             AdvertisementResource result = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel);
 
-            result.Properties.ShouldBeEquivalentTo(requestModel);
-            StringAssert.EndsWith(link, result.Uri.ToString());
-            Assert.AreEqual(link, result.Links["self"].Href);
-            Assert.AreEqual(viewRenderedAdvertisementLink, result.Links["view"].Href);
+            var expectedResult = new AdvertisementResource
+            {
+                Links = new Dictionary<string, Link>
+                {
+                    { "self", new Link { Href = link } },
+                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
+                },
+                Properties = requestModel,
+                ResponseHeaders = new HttpResponseMessage().Headers
+            };
+
+            expectedResult.ResponseHeaders.Add("Date", result.ResponseHeaders.GetValues("Date"));
+            expectedResult.ResponseHeaders.Add("Server", result.ResponseHeaders.GetValues("Server"));
+
+            result.ShouldBeEquivalentTo(expectedResult);
         }
 
         [Test]
         public async Task UpdateNonExistentAdvertisement()
         {
             const string advertisementId = "9b650105-7434-473f-8293-4e23b7e0e064";
+
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
@@ -125,8 +140,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Path = link,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                         .WithAdvertisementDetails("This advertisement should not exist.")
@@ -136,12 +151,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            var expectedException = new AdvertisementNotFoundException();
             var actualException = Assert.Throws<AdvertisementNotFoundException>(
                 async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
                     new AdvertisementModelBuilder(MinimumFieldsInitializer)
                         .WithAdvertisementDetails("This advertisement should not exist.")
                         .Build()));
+            var expectedException = new AdvertisementNotFoundException();
 
             actualException.ShouldBeEquivalentToException(expectedException);
         }
@@ -150,6 +165,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         public async Task UpdateWithBadAdvertisementData()
         {
             const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
+
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
@@ -204,6 +220,21 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
+            var actualException = Assert.Throws<ValidationException>(
+                async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
+                    new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                        .WithAdvertisementType(AdvertisementType.StandOut)
+                        .WithSalaryMinimum(0)
+                        .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
+                        .WithVideoPosition(VideoPosition.Below)
+                        .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
+                        .WithApplicationEmail("someone(at)some.domain")
+                        .WithApplicationFormUrl("htp://somecompany.domain/apply")
+                        .WithTemplateItems(
+                            new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
+                            new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
+                        .Build()));
+
             var expectedException = new ValidationException(
                 HttpMethod.Put,
                 new ValidationMessage
@@ -221,20 +252,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
                     }
                 });
-            var actualException = Assert.Throws<ValidationException>(
-                async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
-                    new AdvertisementModelBuilder(MinimumFieldsInitializer)
-                        .WithAdvertisementType(AdvertisementType.StandOut)
-                        .WithSalaryMinimum(0)
-                        .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
-                        .WithVideoPosition(VideoPosition.Below)
-                        .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
-                        .WithApplicationEmail("someone(at)some.domain")
-                        .WithApplicationFormUrl("htp://somecompany.domain/apply")
-                        .WithTemplateItems(
-                            new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
-                            new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
-                        .Build()));
 
             actualException.ShouldBeEquivalentToException(expectedException);
         }

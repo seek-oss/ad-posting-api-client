@@ -34,50 +34,53 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public async Task GetApiLinksWithInvalidAccessToken()
         {
+            PactProvider.MockService
+                .UponReceiving("a request to retrieve API links with an invalid access token")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = "/",
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + InvalidLayer7AccessToken},
+                        {"Accept", "application/hal+json"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = (int)HttpStatusCode.Unauthorized,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"WWW-Authenticate", "Bearer error=\"Invalid request\""}
+                    }
+                });
+
+            PactProvider.MockService
+                .UponReceiving(
+                    "a request to retrieve API links with a valid access token that is not authorised for use with the Ad Posting API")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = "/",
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + ValidLayer7AccessTokenInvalidForApi},
+                        {"Accept", "application/hal+json"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse { Status = (int)HttpStatusCode.Unauthorized });
+
+            UnauthorizedException actualException, expectedException;
+
             using (var oauthClient = new FakeOAuth2Client())
             {
-                PactProvider.MockService
-                    .UponReceiving("a request to retrieve API links with an invalid access token")
-                    .With(new ProviderServiceRequest
-                    {
-                        Method = HttpVerb.Get,
-                        Path = "/",
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Authorization", "Bearer " + InvalidLayer7AccessToken },
-                            { "Accept", "application/hal+json" }
-                        }
-                    })
-                    .WillRespondWith(new ProviderServiceResponse
-                    {
-                        Status = (int)HttpStatusCode.Unauthorized,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "WWW-Authenticate", "Bearer error=\"Invalid request\"" }
-                        }
-                    });
-
-                PactProvider.MockService
-                    .UponReceiving("a request to retrieve API links with a valid access token that is not authorised for use with the Ad Posting API")
-                    .With(new ProviderServiceRequest
-                    {
-                        Method = HttpVerb.Get,
-                        Path = "/",
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Authorization", "Bearer " + ValidLayer7AccessTokenInvalidForApi },
-                            { "Accept", "application/hal+json" }
-                        }
-                    })
-                    .WillRespondWith(new ProviderServiceResponse { Status = (int)HttpStatusCode.Unauthorized });
-
                 var client = new AdPostingApiClient(PactProvider.MockServiceUri, oauthClient);
 
-                var expectedException = new UnauthorizedException($"[GET] {PactProvider.MockServiceUri} is not authorized.");
-                var actualException = Assert.Throws<UnauthorizedException>(async () => await client.GetAllAdvertisementsAsync());
-
-                actualException.ShouldBeEquivalentToException(expectedException);
+                expectedException = new UnauthorizedException($"[GET] {PactProvider.MockServiceUri} is not authorized.");
+                actualException = Assert.Throws<UnauthorizedException>(async () => await client.GetAllAdvertisementsAsync());
             }
+
+            actualException.ShouldBeEquivalentToException(expectedException);
         }
 
         public class FakeOAuth2Client : IOAuth2TokenClient
@@ -93,8 +96,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 if (_neverCalled)
                 {
                     _neverCalled = false;
+
                     return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(InvalidLayer7AccessToken).Build());
                 }
+
                 return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(ValidLayer7AccessTokenInvalidForApi).Build());
             }
         }

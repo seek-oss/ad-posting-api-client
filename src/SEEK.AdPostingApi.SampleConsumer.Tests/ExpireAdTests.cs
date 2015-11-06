@@ -7,6 +7,7 @@ using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
+using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -19,14 +20,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private const string AdvertisementLink = "/advertisement";
 
-        private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
-
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 
         public ExpireAdTests()
         {
-            this._oauthClient = Mock.Of<IOAuth2TokenClient>(
-                c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
+            this._oauthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
         public void Dispose()
@@ -91,13 +89,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            AdvertisementResource result = await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
+            AdvertisementResource result = await client.ExpireAdvertisementAsync(
+                new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
 
-            var expectedAdvertisement = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId(null).Build();
-            result.Properties.ShouldBeEquivalentTo(expectedAdvertisement);
-            StringAssert.EndsWith(link, result.Uri.ToString());
-            Assert.AreEqual(link, result.Links["self"].Href);
-            Assert.AreEqual(viewRenderedAdvertisementLink, result.Links["view"].Href);
+            var expectedResult = new AdvertisementResource
+            {
+                Properties = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId(null).Build(),
+                Links = new Dictionary<string, Link> { { "self", new Link { Href = link } }, { "view", new Link { Href = viewRenderedAdvertisementLink } } },
+                ResponseHeaders = new HttpResponseMessage().Headers
+            };
+
+            expectedResult.ResponseHeaders.Add("Date", result.ResponseHeaders.GetValues("Date"));
+            expectedResult.ResponseHeaders.Add("Server", result.ResponseHeaders.GetValues("Server"));
+
+            result.ShouldBeEquivalentTo(expectedResult);
         }
 
         [Test]
@@ -147,13 +152,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var expectedException = new ValidationException(
                 new HttpMethod("PATCH"),
-                new ValidationMessage()
+                new ValidationMessage
                 {
                     Message = "Validation Failure",
                     Errors = new[] { new ValidationData { Code = "InvalidState", Message = "Advertisement has already expired." } }
                 });
             var actualException = Assert.Throws<ValidationException>(
-                async () => await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
+                async () => await client.ExpireAdvertisementAsync(
+                    new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
 
             actualException.ShouldBeEquivalentToException(expectedException);
         }

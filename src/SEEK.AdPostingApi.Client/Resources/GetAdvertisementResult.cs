@@ -13,6 +13,7 @@ namespace SEEK.AdPostingApi.Client.Resources
 
         public AdvertisementResource AdvertisementResource { get; }
 
-        public ProcessingStatus ProcessingStatus => (ProcessingStatus)Enum.Parse(typeof(ProcessingStatus), this.AdvertisementResource.ResponseHeaders.GetValues("Processing-Status").First());
+        public ProcessingStatus ProcessingStatus =>
+            (ProcessingStatus)Enum.Parse(typeof(ProcessingStatus), this.AdvertisementResource.ResponseHeaders.GetValues("Processing-Status").First());
     }
 }

@@ -194,6 +194,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
+        public AdvertisementModelBuilder WithWarnings(ValidationData[] warnings)
+        {
+            _advertisementModel.Warnings = warnings.Clone<ValidationData[]>();
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithErrors(AdvertisementError[] errors)
+        {
+            _advertisementModel.Errors = errors.Clone<AdvertisementError[]>();
+
+            return this;
+        }
+
         public Advertisement Build()
         {
             return _advertisementModel;

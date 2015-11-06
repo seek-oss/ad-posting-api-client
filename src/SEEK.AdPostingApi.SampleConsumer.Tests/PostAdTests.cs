@@ -7,6 +7,7 @@ using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
+using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -27,8 +28,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         public PostAdTests()
         {
-            this._oauthClient = Mock.Of<IOAuth2TokenClient>(
-                c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
+            this._oauthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
         }
 
         public void Dispose()
@@ -68,8 +68,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Path = AdvertisementLink,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -82,8 +82,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
-                            {"Location", location}
+                            { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
+                            { "Location", location }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithResponseLink("self", link)
@@ -95,10 +95,22 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
             AdvertisementResource result = await client.CreateAdvertisementAsync(requestModel);
 
-            result.Properties.ShouldBeEquivalentTo(requestModel, options => options.Excluding(s => s.CreationId));
-            StringAssert.EndsWith(link, result.Uri.ToString());
-            Assert.AreEqual(link, result.Links["self"].Href);
-            Assert.AreEqual(viewRenderedAdvertisementLink, result.Links["view"].Href);
+            var expectedResult = new AdvertisementResource
+            {
+                Links = new Dictionary<string, Link>
+                {
+                    { "self", new Link { Href = link } },
+                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
+                },
+                Properties = new AdvertisementModelBuilder(MinimumFieldsInitializer).Build(),
+                ResponseHeaders = new HttpResponseMessage().Headers
+            };
+
+            expectedResult.ResponseHeaders.Add("Date", result.ResponseHeaders.GetValues("Date"));
+            expectedResult.ResponseHeaders.Add("Server", result.ResponseHeaders.GetValues("Server"));
+            expectedResult.ResponseHeaders.Add("Location", location);
+
+            result.ShouldBeEquivalentTo(expectedResult);
         }
 
         [Test]
@@ -135,8 +147,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
-                            {"Location", location}
+                            { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
+                            { "Location", location }
                         },
                         Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
@@ -150,14 +162,26 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMaximumRequiredData).Build();
             AdvertisementResource result = await client.CreateAdvertisementAsync(requestModel);
 
-            result.Properties.ShouldBeEquivalentTo(requestModel, options => options.Excluding(s => s.CreationId));
-            StringAssert.EndsWith(link, result.Uri.ToString());
-            Assert.AreEqual(link, result.Links["self"].Href);
-            Assert.AreEqual(viewRenderedAdvertisementLink, result.Links["view"].Href);
+            var expectedResult = new AdvertisementResource
+            {
+                Links = new Dictionary<string, Link>
+                {
+                    { "self", new Link { Href = link } },
+                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
+                },
+                Properties = new AdvertisementModelBuilder(AllFieldsInitializer).Build(),
+                ResponseHeaders = new HttpResponseMessage().Headers
+            };
+
+            expectedResult.ResponseHeaders.Add("Date", result.ResponseHeaders.GetValues("Date"));
+            expectedResult.ResponseHeaders.Add("Server", result.ResponseHeaders.GetValues("Server"));
+            expectedResult.ResponseHeaders.Add("Location", location);
+
+            result.ShouldBeEquivalentTo(expectedResult);
         }
 
         [Test]
-        public async Task PostAdWithWrongData()
+        public void PostAdWithWrongData()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
@@ -172,8 +196,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Path = AdvertisementLink,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
@@ -218,6 +242,23 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+
+            ValidationException exception = Assert.Throws<ValidationException>(
+                async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                    .WithRequestCreationId("20150914-134527-00109")
+                    .WithAdvertiserId(null)
+                    .WithAdvertisementType(AdvertisementType.StandOut)
+                    .WithSalaryMinimum(0)
+                    .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
+                    .WithVideoPosition(VideoPosition.Below)
+                    .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
+                    .WithApplicationEmail("someone(at)some.domain")
+                    .WithApplicationFormUrl("htp://somecompany.domain/apply")
+                    .WithTemplateItems(
+                        new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
+                        new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
+                    .Build()));
+
             var expectedException = new ValidationException(
                 HttpMethod.Post,
                 new ValidationMessage
@@ -236,22 +277,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
                     }
                 });
-
-            ValidationException exception = Assert.Throws<ValidationException>(
-                async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
-                    .WithRequestCreationId("20150914-134527-00109")
-                    .WithAdvertiserId(null)
-                    .WithAdvertisementType(AdvertisementType.StandOut)
-                    .WithSalaryMinimum(0)
-                    .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
-                    .WithVideoPosition(VideoPosition.Below)
-                    .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
-                    .WithApplicationEmail("someone(at)some.domain")
-                    .WithApplicationFormUrl("htp://somecompany.domain/apply")
-                    .WithTemplateItems(
-                        new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
-                        new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
-                    .Build()));
 
             exception.ShouldBeEquivalentToException(expectedException);
         }
@@ -272,8 +297,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Path = AdvertisementLink,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer).Build()
                     }
@@ -307,10 +332,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ValidationMessage
                     {
                         Message = "Validation Failure",
-                        Errors = new[]
-                        {
-                            new ValidationData { Field = "creationId", Code = "Required" }
-                        }
+                        Errors = new[] { new ValidationData { Field = "creationId", Code = "Required" } }
                     }));
         }
 
@@ -334,8 +356,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Path = AdvertisementLink,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()
                     }
@@ -344,17 +366,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ProviderServiceResponse
                     {
                         Status = 409,
-                        Headers = new Dictionary<string, string>
-                        {
-                            {"Location", location}
-                        }
+                        Headers = new Dictionary<string, string> { { "Location", location } }
                     });
 
             var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
 
-            var expectedException = new AdvertisementAlreadyExistsException(new Uri(location));
-            var actualException = Assert.Throws<AdvertisementAlreadyExistsException>(
+            AdvertisementAlreadyExistsException actualException = Assert.Throws<AdvertisementAlreadyExistsException>(
                 async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()));
+
+            var expectedException = new AdvertisementAlreadyExistsException(new Uri(location));
 
             actualException.ShouldBeEquivalentToException(expectedException);
         }

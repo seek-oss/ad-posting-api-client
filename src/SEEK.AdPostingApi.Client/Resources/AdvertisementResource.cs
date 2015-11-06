@@ -9,12 +9,12 @@ namespace SEEK.AdPostingApi.Client.Resources
     {
         public async Task<AdvertisementResource> SaveAsync()
         {
-            return await this.PutResourceAsync<AdvertisementResource, Advertisement>(this.Uri, this.Properties);
+            return await this.PutResourceAsync<AdvertisementResource, Advertisement>(this.GetUri(), this.Properties);
         }
 
         public async Task<AdvertisementResource> ExpireAsync()
         {
-            return await this.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>(this.Uri, new AdvertisementPatch { State = AdvertisementState.Expired });
+            return await this.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>(this.GetUri(), new AdvertisementPatch { State = AdvertisementState.Expired });
         }
     }
 }

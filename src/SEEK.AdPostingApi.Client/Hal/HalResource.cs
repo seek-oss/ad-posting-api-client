@@ -9,7 +9,7 @@ namespace SEEK.AdPostingApi.Client.Hal
 {
     public class HalResource<TProperties> : HalResource where TProperties : new()
     {
-        public TProperties Properties { get; private set; }
+        public TProperties Properties { get; internal set; }
 
         internal override void PopulateResource(JToken content)
         {
@@ -22,9 +22,9 @@ namespace SEEK.AdPostingApi.Client.Hal
 
     public class HalResource : Client
     {
-        public Dictionary<string, Link> Links { get; private set; }
+        public Dictionary<string, Link> Links { get; internal set; }
 
-        public HttpResponseHeaders ResponseHeaders { get; set; }
+        public HttpResponseHeaders ResponseHeaders { get; internal set; }
 
         internal virtual void PopulateResource(JToken content)
         {
@@ -49,6 +49,9 @@ namespace SEEK.AdPostingApi.Client.Hal
             return new Uri(this.BaseUri, this.Links[relation].Resolve(parameters));
         }
 
-        public Uri Uri => this.GenerateLink("self");
+        public Uri GetUri()
+        {
+            return this.GenerateLink("self");
+        }
     }
 }

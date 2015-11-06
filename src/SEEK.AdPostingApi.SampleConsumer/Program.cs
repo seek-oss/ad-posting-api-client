@@ -12,7 +12,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
     {
         public static void Main(string[] args)
         {
-            Task.Run(() => MainAsync()).Wait();
+            Task.Run(MainAsync).Wait();
         }
 
         private enum CreateResult
@@ -52,15 +52,15 @@ namespace SEEK.AdPostingApi.SampleConsumer
             // Example of creating the advertisement using a simple retry loop.
             ValidationData[] validationDataItems = null;
             var createResult = CreateResult.Unknown;
-            AdvertisementResource advertisement = null;
             Uri advertisementLink = null;
             var maxAttempts = 2;
             while (maxAttempts > 0)
             {
                 try
                 {
-                    advertisement = await postingClient.CreateAdvertisementAsync(ad);
-                    advertisementLink = advertisement.Uri;
+                    var advertisement = await postingClient.CreateAdvertisementAsync(ad);
+
+                    advertisementLink = advertisement.GetUri();
                     createResult = CreateResult.Created;
                     break;
                 }
