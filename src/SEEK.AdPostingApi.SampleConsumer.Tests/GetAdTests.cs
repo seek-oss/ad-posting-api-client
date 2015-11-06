@@ -235,43 +235,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        [Ignore("Duplicated test?")]
-        public async Task GetExistingAdvertisementStatusUsingUri()
-        {
-            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
-            var oAuth2Token = new OAuth2TokenBuilder().Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
-
-            PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
-                .UponReceiving("HEAD request for advertisement")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Head,
-                    Path = link,
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Accept", "application/vnd.seek.advertisement+json"}
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"},
-                        {"Processing-Status", "Pending"}
-                    }
-                });
-
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-
-            var status = await client.GetAdvertisementStatusAsync(new Uri(PactProvider.MockServiceUri, link));
-            Assert.AreEqual(ProcessingStatus.Pending, status);
-        }
-
-        [Test]
         public async Task GetNonExistentAdvertisement()
         {
             const string advertisementId = "9b650105-7434-473f-8293-4e23b7e0e064";
