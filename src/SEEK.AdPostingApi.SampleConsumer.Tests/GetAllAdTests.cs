@@ -114,7 +114,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        [Explicit("Known issue with populating AdvertisementSummary object")]
+        [Ignore("Known issue with populating AdvertisementSummary object")]
         public async Task GetAllAdvertisementsByFollowingNextLink()
         {
             const string advertisementId1 = "fa6939b5-c91f-4f6a-9600-1ea74963fbb2";
