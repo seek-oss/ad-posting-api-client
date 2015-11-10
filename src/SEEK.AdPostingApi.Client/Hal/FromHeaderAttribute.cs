@@ -2,6 +2,7 @@
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
+    [AttributeUsage(AttributeTargets.Property)]
     public class FromHeaderAttribute : Attribute
     {
         public FromHeaderAttribute(string header)
