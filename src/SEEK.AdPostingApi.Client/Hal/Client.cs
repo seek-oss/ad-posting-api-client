@@ -123,20 +123,30 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 case (int)HttpStatusCode.Unauthorized:
                     throw new UnauthorizedException($"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
+
+                case (int)HttpStatusCode.Forbidden:
+                    JToken token = JToken.Parse(await httpResponse.Content.ReadAsStringAsync());
+
+                    throw new UnauthorizedException(token["message"].ToString());
+
                 case (int)HttpStatusCode.NotFound:
                     throw new AdvertisementNotFoundException();
+
                 case (int)HttpStatusCode.Conflict:
                     throw new AdvertisementAlreadyExistsException(httpResponse.Headers.Location);
+
                 case 422:
-                    ValidationMessage validationMessage;
-                    string responseContent = await httpResponse.Content.ReadAsStringAsync();
-
-                    if (TryDeserialize(responseContent, out validationMessage))
                     {
-                        throw new ValidationException(httpRequest.Method, validationMessage);
-                    }
-                    break;
+                        ValidationMessage validationMessage;
+                        string responseContent = await httpResponse.Content.ReadAsStringAsync();
 
+                        if (TryDeserialize(responseContent, out validationMessage))
+                        {
+                            throw new ValidationException(httpRequest.Method, validationMessage);
+                        }
+
+                        break;
+                    }
                 default:
                     httpResponse.EnsureSuccessStatusCode();
                     break;

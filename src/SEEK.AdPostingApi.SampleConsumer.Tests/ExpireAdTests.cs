@@ -14,23 +14,11 @@ using SEEK.AdPostingApi.Client.Resources;
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
     [TestFixture]
-    public class ExpireAdTests : IDisposable
+    public class ExpireAdTests
     {
-        private readonly IOAuth2TokenClient _oauthClient;
-
         private const string AdvertisementLink = "/advertisement";
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
-
-        public ExpireAdTests()
-        {
-            this._oauthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
-        }
-
-        public void Dispose()
-        {
-            this._oauthClient.Dispose();
-        }
 
         [SetUp]
         public void TestInitialize()
@@ -88,9 +76,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             .Build()
                     });
 
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            AdvertisementResource result = await client.ExpireAdvertisementAsync(
-                new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                result = await client.ExpireAdvertisementAsync(
+                    new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
+            }
 
             var expectedResult = new AdvertisementResource
             {
@@ -148,7 +140,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         }
                     });
 
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+            ValidationException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<ValidationException>(
+                    async () => await client.ExpireAdvertisementAsync(
+                        new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
+            }
 
             var expectedException = new ValidationException(
                 new HttpMethod("PATCH"),
@@ -157,9 +156,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Message = "Validation Failure",
                     Errors = new[] { new ValidationData { Code = "InvalidState", Message = "Advertisement has already expired." } }
                 });
-            var actualException = Assert.Throws<ValidationException>(
-                async () => await client.ExpireAdvertisementAsync(
-                    new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
 
             actualException.ShouldBeEquivalentToException(expectedException);
         }
@@ -195,12 +191,72 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Status = 404
                     });
 
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-            var expectedException = new AdvertisementNotFoundException();
-            var actualException = Assert.Throws<AdvertisementNotFoundException>(
-                async () => await client.ExpireAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
+            AdvertisementNotFoundException actualException;
 
-            actualException.ShouldBeEquivalentToException(expectedException);
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<AdvertisementNotFoundException>(
+                    async () => await client.ExpireAdvertisementAsync(
+                        new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
+            }
+
+            actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException());
+        }
+
+        [Test]
+        public async Task ExpireAdvertisementNotPermitted()
+        {
+            var advertisementId = new Guid("8e2fde50-bc5f-4a12-9cfb-812e50500184");
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken("ca11ab1e-c0de-b10b-f001-f00db0bb1e").Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+
+            PactProvider.MockService
+                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .UponReceiving("An unauthorised expire request for an advertisement")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Patch,
+                        Path = link,
+                        Headers = new Dictionary<string, string>
+                        {
+                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                            {"Content-Type", "application/vnd.seek.advertisement-patch+json; charset=utf-8"}
+                        },
+                        Body = new
+                        {
+                            state = AdvertisementState.Expired.ToString()
+                        }
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/json; charset=utf-8" }
+                        },
+                        Body = new { message = "Operation not permitted on advertisement with advertiser id: '9012'" }
+                    });
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<UnauthorizedException>(
+                    async () => await client.ExpireAdvertisementAsync(
+                        new Uri(PactProvider.MockServiceUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
+            }
+
+            actualException.ShouldBeEquivalentToException(new UnauthorizedException("Operation not permitted on advertisement with advertiser id: '9012'"));
+        }
+
+        private AdPostingApiClient GetClient(OAuth2Token token)
+        {
+            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
+
+            return new AdPostingApiClient(PactProvider.MockServiceUri, oAuthClient);
         }
     }
 }
