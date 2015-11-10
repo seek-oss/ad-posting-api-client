@@ -8,7 +8,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         public OAuth2TokenBuilder()
         {
-            this.WithAccessToken("b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e");
+            this.WithAccessToken(AccessTokens.ValidAccessToken);
         }
 
         public OAuth2TokenBuilder WithAccessToken(string accessToken)

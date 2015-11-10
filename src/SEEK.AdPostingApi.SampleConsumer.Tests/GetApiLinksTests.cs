@@ -25,7 +25,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public void GetApiLinksWithInvalidAccessToken()
+        public async Task GetApiLinksWithInvalidAccessTokenTriggersTokenRenewal()
         {
             PactProvider.MockService
                 .UponReceiving("a request to retrieve API links with an invalid access token")
@@ -48,34 +48,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     }
                 });
 
-            PactProvider.MockService
-                .UponReceiving(
-                    "a request to retrieve API links with a valid access token that is not authorised for use with the Ad Posting API")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = "/",
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Authorization", "Bearer " + AccessTokens.ValidAccessToken_InvalidForApi},
-                        {"Accept", "application/hal+json"}
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse { Status = (int)HttpStatusCode.Unauthorized });
-
-            UnauthorizedException actualException;
+            PactProvider.RegisterIndexPageInteractions(new OAuth2TokenBuilder().Build());
 
             using (FakeOAuth2Client fakeOAuth2Client = new FakeOAuth2Client())
             {
                 using (var client = new AdPostingApiClient(PactProvider.MockServiceUri, fakeOAuth2Client))
                 {
-                    actualException =
-                        Assert.Throws<UnauthorizedException>(async () => await client.GetAllAdvertisementsAsync());
+                    await client.InitialiseIndexResource(PactProvider.MockServiceUri);
                 }
             }
-
-            actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException($"[GET] {PactProvider.MockServiceUri} is not authorized."));
         }
 
         [Test]
@@ -141,7 +122,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(AccessTokens.InvalidAccessToken).Build());
             }
 
-            return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_InvalidForApi).Build());
+            return Task.FromResult(new OAuth2TokenBuilder().Build());
         }
     }
 }

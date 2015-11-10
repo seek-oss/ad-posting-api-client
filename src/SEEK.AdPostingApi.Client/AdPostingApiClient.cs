@@ -41,7 +41,7 @@ namespace SEEK.AdPostingApi.Client
             return this._ensureIndexResourceInitialised.Value;
         }
 
-        private async Task InitialiseIndexResource(Uri adPostingUri)
+        internal async Task InitialiseIndexResource(Uri adPostingUri)
         {
             _indexResource = await this.GetResourceAsync<IndexResource>(adPostingUri);
         }
