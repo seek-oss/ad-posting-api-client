@@ -125,7 +125,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task UpdateNonExistentAdvertisement()
+        public void UpdateNonExistentAdvertisement()
         {
             const string advertisementId = "9b650105-7434-473f-8293-4e23b7e0e064";
 
@@ -162,7 +162,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task UpdateWithBadAdvertisementData()
+        public void UpdateWithBadAdvertisementData()
         {
             const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
 

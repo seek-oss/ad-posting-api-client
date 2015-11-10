@@ -72,7 +72,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             const string advertisementId = "9b650105-7434-473f-8293-4e23b7e0e064";
 
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_InvalidForAdvertiserId).Build();
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
@@ -108,7 +108,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_InvalidForAdvertiserId).Build();
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService

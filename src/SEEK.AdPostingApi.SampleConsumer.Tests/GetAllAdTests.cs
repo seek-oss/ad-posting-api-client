@@ -13,21 +13,9 @@ using SEEK.AdPostingApi.Client.Resources;
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
     [TestFixture]
-    public class GetAllAdTests : IDisposable
+    public class GetAllAdTests
     {
-        private readonly IOAuth2TokenClient _oauthClient;
-
         private IBuilderInitializer SummaryFieldsInitializer => new SummaryFieldsInitializer();
-
-        public GetAllAdTests()
-        {
-            this._oauthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(new OAuth2TokenBuilder().Build()));
-        }
-
-        public void Dispose()
-        {
-            this._oauthClient.Dispose();
-        }
 
         [SetUp]
         public void TestInitialize()
@@ -46,7 +34,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions();
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
             PactProvider.MockService
                 .Given("There are no advertisements")
@@ -77,39 +65,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     }
                 });
 
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
+            AdvertisementSummaryPageResource advertisements;
 
-            AdvertisementSummaryPageResource advertisements = await client.GetAllAdvertisementsAsync();
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                advertisements = await client.GetAllAdvertisementsAsync();
+            }
 
             Assert.IsEmpty(advertisements);
-        }
-
-        private string GenerateSelfLink(string advertisementId)
-        {
-            return "/advertisement/" + advertisementId;
-        }
-
-        private string GenerateViewLink(string advertisementId)
-        {
-            return "/advertisement/" + advertisementId + "/view";
-        }
-
-        private void AssertAdvertisementLinks(string advertisementId, AdvertisementSummaryResource advertisementSummaryResult)
-        {
-            StringAssert.EndsWith(GenerateSelfLink(advertisementId), advertisementSummaryResult.GetUri().ToString());
-            Assert.AreEqual(GenerateSelfLink(advertisementId), advertisementSummaryResult.Links["self"].Href);
-            Assert.AreEqual(GenerateViewLink(advertisementId), advertisementSummaryResult.Links["view"].Href);
-        }
-
-        private void AssertAdvertisementSummaryAndLinks(AdvertisementModelBuilder expectedAdFirst, AdvertisementModelBuilder expectedAdSecond, AdvertisementSummaryPageResource advertisementSummaryPage, string advertisementIdFirst, string advertisementIdSecond)
-        {
-            var advertisementSummaryResult = advertisementSummaryPage.GetEnumerator().Current;
-            advertisementSummaryResult.Properties.ShouldBeEquivalentTo(expectedAdFirst);
-            AssertAdvertisementLinks(advertisementIdFirst, advertisementSummaryResult);
-            advertisementSummaryPage.GetEnumerator().MoveNext();
-            advertisementSummaryResult = advertisementSummaryPage.GetEnumerator().Current;
-            advertisementSummaryResult.Properties.ShouldBeEquivalentTo(expectedAdSecond);
-            AssertAdvertisementLinks(advertisementIdSecond, advertisementSummaryResult);
         }
 
         [Test]
@@ -125,7 +88,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string selfLink = "/advertisement";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions();
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
             PactProvider.MockService
                 .Given("A page size of 2, and there are 2 pages worth of data")
@@ -227,10 +190,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     }
                 });
 
-            var client = new AdPostingApiClient(PactProvider.MockServiceUri, _oauthClient);
-
             var allAdvertisements = new List<AdvertisementSummaryResource>();
-            AdvertisementSummaryPageResource pageResource = await client.GetAllAdvertisementsAsync();
+            AdvertisementSummaryPageResource pageResource;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                pageResource = await client.GetAllAdvertisementsAsync();
+            }
 
             StringAssert.EndsWith(selfLink, pageResource.GetUri().ToString());
             Assert.AreEqual(2, pageResource.Count());
@@ -272,6 +238,41 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var expectedException = new NotSupportedException("There are no more results");
 
             actualException.ShouldBeEquivalentToException(expectedException);
+        }
+
+        private AdPostingApiClient GetClient(OAuth2Token token)
+        {
+            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
+
+            return new AdPostingApiClient(PactProvider.MockServiceUri, oAuthClient);
+        }
+
+        private string GenerateSelfLink(string advertisementId)
+        {
+            return "/advertisement/" + advertisementId;
+        }
+
+        private string GenerateViewLink(string advertisementId)
+        {
+            return "/advertisement/" + advertisementId + "/view";
+        }
+
+        private void AssertAdvertisementLinks(string advertisementId, AdvertisementSummaryResource advertisementSummaryResult)
+        {
+            StringAssert.EndsWith(GenerateSelfLink(advertisementId), advertisementSummaryResult.GetUri().ToString());
+            Assert.AreEqual(GenerateSelfLink(advertisementId), advertisementSummaryResult.Links["self"].Href);
+            Assert.AreEqual(GenerateViewLink(advertisementId), advertisementSummaryResult.Links["view"].Href);
+        }
+
+        private void AssertAdvertisementSummaryAndLinks(AdvertisementModelBuilder expectedAdFirst, AdvertisementModelBuilder expectedAdSecond, AdvertisementSummaryPageResource advertisementSummaryPage, string advertisementIdFirst, string advertisementIdSecond)
+        {
+            var advertisementSummaryResult = advertisementSummaryPage.GetEnumerator().Current;
+            advertisementSummaryResult.Properties.ShouldBeEquivalentTo(expectedAdFirst);
+            AssertAdvertisementLinks(advertisementIdFirst, advertisementSummaryResult);
+            advertisementSummaryPage.GetEnumerator().MoveNext();
+            advertisementSummaryResult = advertisementSummaryPage.GetEnumerator().Current;
+            advertisementSummaryResult.Properties.ShouldBeEquivalentTo(expectedAdSecond);
+            AssertAdvertisementLinks(advertisementIdSecond, advertisementSummaryResult);
         }
     }
 }

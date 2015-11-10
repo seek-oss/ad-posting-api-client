@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
@@ -62,38 +63,85 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 })
                 .WillRespondWith(new ProviderServiceResponse { Status = (int)HttpStatusCode.Unauthorized });
 
-            UnauthorizedException actualException, expectedException;
+            UnauthorizedException actualException;
 
-            using (var oauthClient = new FakeOAuth2Client())
+            using (FakeOAuth2Client fakeOAuth2Client = new FakeOAuth2Client())
             {
-                var client = new AdPostingApiClient(PactProvider.MockServiceUri, oauthClient);
+                using (var client = new AdPostingApiClient(PactProvider.MockServiceUri, fakeOAuth2Client))
+                {
+                    actualException =
+                        Assert.Throws<UnauthorizedException>(async () => await client.GetAllAdvertisementsAsync());
+                }
+            }
 
-                expectedException = new UnauthorizedException($"[GET] {PactProvider.MockServiceUri} is not authorized.");
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException($"[GET] {PactProvider.MockServiceUri} is not authorized."));
+        }
+
+        [Test]
+        public void GetApiLinksNotPermitted()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
+
+            PactProvider.MockService
+                .UponReceiving("unauthorised request to retrieve API links")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = "/",
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + AccessTokens.ValidAccessToken_Disabled},
+                        {"Accept", "application/hal+json"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = (int)HttpStatusCode.Forbidden,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = new { message = "No operations are permitted with supplied access token" }
+                });
+
+            UnauthorizedException actualException;
+
+            using (var client = this.GetClient(oAuth2Token))
+            {
                 actualException = Assert.Throws<UnauthorizedException>(async () => await client.GetAllAdvertisementsAsync());
             }
 
-            actualException.ShouldBeEquivalentToException(expectedException);
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException("No operations are permitted with supplied access token"));
         }
 
-        public class FakeOAuth2Client : IOAuth2TokenClient
+        private AdPostingApiClient GetClient(OAuth2Token token)
         {
-            private bool _neverCalled = true;
+            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
 
-            public void Dispose()
+            return new AdPostingApiClient(PactProvider.MockServiceUri, oAuthClient);
+        }
+    }
+
+    public class FakeOAuth2Client : IOAuth2TokenClient
+    {
+        private bool _neverCalled = true;
+
+        public void Dispose()
+        {
+        }
+
+        public Task<OAuth2Token> GetOAuth2TokenAsync()
+        {
+            if (_neverCalled)
             {
+                _neverCalled = false;
+
+                return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(AccessTokens.InvalidAccessToken).Build());
             }
 
-            public Task<OAuth2Token> GetOAuth2TokenAsync()
-            {
-                if (_neverCalled)
-                {
-                    _neverCalled = false;
-
-                    return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(AccessTokens.InvalidAccessToken).Build());
-                }
-
-                return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_InvalidForApi).Build());
-            }
+            return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_InvalidForApi).Build());
         }
     }
 }

@@ -47,22 +47,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactBuilder.Build();
         }
 
-        public static void RegisterIndexPageInteractions()
+        public static void RegisterIndexPageInteractions(OAuth2Token token)
         {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
             const string advertisementLink = "/advertisement";
 
             MockService
-                .UponReceiving("a request to retrieve API links")
+                .UponReceiving($"a request to retrieve API links with Bearer {token.AccessToken}")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Accept", "application/hal+json"},
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        { "Accept", "application/hal+json" },
+                        { "Authorization", $"Bearer {token.AccessToken}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -70,7 +68,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", "application/hal+json; charset=utf-8"}
+                        { "Content-Type", "application/hal+json; charset=utf-8" }
                     },
                     Body = new
                     {

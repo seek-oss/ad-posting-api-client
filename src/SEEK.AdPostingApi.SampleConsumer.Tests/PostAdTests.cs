@@ -57,7 +57,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             var location = $"http://localhost{link}";
 
-            PactProvider.RegisterIndexPageInteractions();
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad with minimum required data")
@@ -122,7 +122,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             var location = $"http://localhost{link}";
 
-            PactProvider.RegisterIndexPageInteractions();
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad with maximum required data")
@@ -185,7 +185,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions();
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad with bad data")
@@ -282,11 +282,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task PostAdWithNoCreationId()
+        public void PostAdWithNoCreationId()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions();
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
             PactProvider.MockService
                 .UponReceiving("a request to create a job ad without a creation id")
@@ -337,14 +337,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task PostAdWithExistingCreationId()
+        public void PostAdWithExistingCreationId()
         {
             const string creationId = "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184";
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var location = $"http://localhost{AdvertisementLink}/{advertisementId}";
 
-            PactProvider.RegisterIndexPageInteractions();
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
             PactProvider.MockService
                 .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")

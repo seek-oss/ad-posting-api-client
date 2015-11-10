@@ -25,7 +25,7 @@ namespace SEEK.AdPostingApi.Client
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", currentOAuth2AccessToken.AccessToken);
             var res = await base.SendAsync(request, cancellationToken);
 
-            if ((res.StatusCode == HttpStatusCode.Unauthorized) && (res.Headers.WwwAuthenticate.Any(v => v.Scheme.ToLowerInvariant() == "bearer")))
+            if ((res.StatusCode == HttpStatusCode.Unauthorized) && res.Headers.WwwAuthenticate.Any(v => v.Scheme.ToLowerInvariant() == "bearer"))
             {
                 res.Dispose();
 
@@ -38,9 +38,9 @@ namespace SEEK.AdPostingApi.Client
 
         private async Task<OAuth2Token> GetOAuth2TokenAsync(OAuth2Token currentOAuth2Token)
         {
-            if (currentOAuth2Token != _oAuth2Token) return _oAuth2Token;
-
-            return _oAuth2Token = await _tokenClient.GetOAuth2TokenAsync();
+            return currentOAuth2Token == this._oAuth2Token
+                ? (this._oAuth2Token = await this._tokenClient.GetOAuth2TokenAsync())
+                : this._oAuth2Token;
         }
     }
 }
