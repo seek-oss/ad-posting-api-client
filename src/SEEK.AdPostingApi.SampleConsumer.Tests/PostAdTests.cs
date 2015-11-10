@@ -386,55 +386,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             actualException.ShouldBeEquivalentToException(expectedException);
         }
 
-        [Test]
-        public void PostAdNotPermitted()
-        {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
-
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
-
-            PactProvider.MockService
-                .UponReceiving("an unauthorised request to create a job ad")
-                .With(
-                    new ProviderServiceRequest
-                    {
-                        Method = HttpVerb.Post,
-                        Path = AdvertisementLink,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
-                        },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
-                            .Build()
-                    }
-                )
-                .WillRespondWith(
-                    new ProviderServiceResponse
-                    {
-                        Status = 403,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Content-Type", "application/json; charset=utf-8" }
-                        },
-                        Body = new { message = "Operation not permitted on advertisement with advertiser id: '9012'" }
-                    });
-
-            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
-
-            UnauthorizedException actualException;
-
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
-            {
-                actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.CreateAdvertisementAsync(requestModel));
-            }
-
-            actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException("Operation not permitted on advertisement with advertiser id: '9012'"));
-        }
-
         private AdPostingApiClient GetClient(OAuth2Token token)
         {
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
