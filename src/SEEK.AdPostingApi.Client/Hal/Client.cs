@@ -125,7 +125,14 @@ namespace SEEK.AdPostingApi.Client.Hal
                     throw new UnauthorizedException($"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
 
                 case (int)HttpStatusCode.Forbidden:
-                    JToken token = JToken.Parse(await httpResponse.Content.ReadAsStringAsync());
+                    string content = await httpResponse.Content.ReadAsStringAsync();
+
+                    if (string.IsNullOrEmpty(content))
+                    {
+                        throw new UnauthorizedException($"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
+                    }
+
+                    JToken token = JToken.Parse(content);
 
                     throw new UnauthorizedException(token["message"].ToString());
 

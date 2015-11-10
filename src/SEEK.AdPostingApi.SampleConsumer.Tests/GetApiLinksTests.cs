@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -10,12 +9,8 @@ using SEEK.AdPostingApi.Client.Models;
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
     [TestFixture]
-    public class GetApiLinksTests : IDisposable
+    public class GetApiLinksTests
     {
-        public void Dispose()
-        {
-        }
-
         [SetUp]
         public void TestInitialize()
         {
@@ -28,11 +23,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.VerifyInteractions();
         }
 
-        private const string InvalidLayer7AccessToken = "ca11ab1e-c0de-b10b-feed-faceb0bb1e";
-        private const string ValidLayer7AccessTokenInvalidForApi = "ca11ab1e-c0de-b10b-feed-f00db0bb1e";
-
         [Test]
-        public async Task GetApiLinksWithInvalidAccessToken()
+        public void GetApiLinksWithInvalidAccessToken()
         {
             PactProvider.MockService
                 .UponReceiving("a request to retrieve API links with an invalid access token")
@@ -42,7 +34,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + InvalidLayer7AccessToken},
+                        {"Authorization", "Bearer " + AccessTokens.InvalidAccessToken},
                         {"Accept", "application/hal+json"}
                     }
                 })
@@ -64,7 +56,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + ValidLayer7AccessTokenInvalidForApi},
+                        {"Authorization", "Bearer " + AccessTokens.ValidAccessToken_InvalidForApi},
                         {"Accept", "application/hal+json"}
                     }
                 })
@@ -97,10 +89,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 {
                     _neverCalled = false;
 
-                    return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(InvalidLayer7AccessToken).Build());
+                    return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(AccessTokens.InvalidAccessToken).Build());
                 }
 
-                return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(ValidLayer7AccessTokenInvalidForApi).Build());
+                return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_InvalidForApi).Build());
             }
         }
     }

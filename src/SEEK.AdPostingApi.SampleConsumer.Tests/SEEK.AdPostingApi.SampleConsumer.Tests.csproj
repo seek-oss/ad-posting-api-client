@@ -101,11 +101,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessTokens.cs" />
     <Compile Include="AdvertisementContentBuilder.cs" />
     <Compile Include="AdvertisementModelBuilder.cs" />
     <Compile Include="AllFieldsInitializer.cs" />
     <Compile Include="FluentAssertionsExtensions.cs" />
     <Compile Include="ExpireAdTests.cs" />
+    <Compile Include="GetAdStatusTests.cs" />
     <Compile Include="GetAllAdTests.cs" />
     <Compile Include="GetAdTests.cs" />
     <Compile Include="GetApiLinksTests.cs" />
