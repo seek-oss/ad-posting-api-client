@@ -118,6 +118,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     Console.WriteLine();
                     Console.WriteLine("Expired job advertisement.");
                     Console.WriteLine(JsonConvert.SerializeObject(expiredAdvertisementContent, Formatting.Indented));
+
+                    var advertisementList = await postingClient.GetAllAdvertisementsAsync();
+                    Console.WriteLine();
+                    Console.WriteLine("Retrieve all job advertisement.");
+                    Console.WriteLine(JsonConvert.SerializeObject(advertisementList, Formatting.Indented));
                     break;
 
                 case CreateResult.ValidationErrors:
