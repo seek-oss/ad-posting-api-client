@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -11,23 +10,20 @@ using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
-    public class Client
+    public class Client : IDisposable
     {
-        private HttpClient _httpClient;
-        private SerializerSettings _serializerSettings;
+        private readonly HttpClient _httpClient;
+        private readonly SerializerSettings _serializerSettings;
 
-        protected Uri BaseUri { get; set; }
-
-        protected internal void Initialise(HttpClient client, Uri uri)
+        public Client(HttpClient client)
         {
             this._httpClient = client;
-            this.BaseUri = uri;
-            this._serializerSettings = new SerializerSettings { Converters = { new HalResourceConverter(this._httpClient, this.BaseUri) } };
+            this._serializerSettings = new SerializerSettings();
         }
 
-        protected async Task<TResponseResource> GetResourceAsync<TResponseResource>(Uri uri) where TResponseResource : HalResource, new()
+        public async Task<TResponseResource> GetResourceAsync<TResponseResource>(Uri uri) where TResponseResource : IResource, new()
         {
-            using (HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, uri))
+            using (var httpRequest = new HttpRequestMessage(HttpMethod.Get, uri))
             {
                 httpRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(typeof(TResponseResource).GetMediaType("application/hal+json")));
 
@@ -40,22 +36,22 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
-        protected async Task<TResponseResource> HeadResourceAsync<TResponseResource, TRequest>(Uri uri)
+        public async Task<HttpResponseHeaders> HeadResourceAsync<TRequest>(Uri uri)
         {
-            using (HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Head, uri) { Headers = { Accept = { new MediaTypeWithQualityHeaderValue(typeof(TRequest).GetMediaType("application/hal+json")) } } })
+            using (var httpRequest = new HttpRequestMessage(HttpMethod.Head, uri) { Headers = { Accept = { new MediaTypeWithQualityHeaderValue(typeof(TRequest).GetMediaType("application/hal+json")) } } })
             {
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
                     await HandleBadResponse(httpRequest, httpResponse);
 
-                    return typeof(TResponseResource).GetCustomAttribute<FromHeaderAttribute>().GetValue<TResponseResource>(httpResponse.Headers);
+                    return httpResponse.Headers;
                 }
             }
         }
 
-        protected async Task<TResponseResource> PatchResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest request) where TResponseResource : HalResource, new()
+        public async Task<TResponseResource> PatchResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest request) where TResponseResource : IResource, new()
         {
-            string content = JsonConvert.SerializeObject(request, _serializerSettings);
+            string content = JsonConvert.SerializeObject(request, this._serializerSettings);
 
             using (HttpRequestMessage httpRequest = this.CreateHttpRequest<TRequest>(uri, new HttpMethod("PATCH"), content))
             {
@@ -68,9 +64,9 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
-        protected async Task<TResponseResource> PutResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest request) where TResponseResource : HalResource, new()
+        public async Task<TResponseResource> PutResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest request) where TResponseResource : IResource, new()
         {
-            string content = JsonConvert.SerializeObject(request, _serializerSettings);
+            string content = JsonConvert.SerializeObject(request, this._serializerSettings);
 
             using (var httpRequest = this.CreateHttpRequest<TResponseResource>(uri, HttpMethod.Put, content))
             {
@@ -83,9 +79,9 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
-        protected async Task<TResponseResource> PostResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest requestResource) where TResponseResource : HalResource, new()
+        public async Task<TResponseResource> PostResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest requestResource) where TResponseResource : IResource, new()
         {
-            string content = JsonConvert.SerializeObject(requestResource, _serializerSettings);
+            string content = JsonConvert.SerializeObject(requestResource, this._serializerSettings);
 
             using (HttpRequestMessage httpRequest = this.CreateHttpRequest<TRequest>(uri, HttpMethod.Post, content))
             {
@@ -98,6 +94,11 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
+        public void Dispose()
+        {
+            this._httpClient.Dispose();
+        }
+
         private HttpRequestMessage CreateHttpRequest<TResource>(Uri uri, HttpMethod method, string content)
         {
             return new HttpRequestMessage(method, uri)
@@ -106,15 +107,9 @@ namespace SEEK.AdPostingApi.Client.Hal
             };
         }
 
-        private async Task<TResponseResource> CreateResponseResource<TResponseResource>(Uri uri, HttpResponseMessage response) where TResponseResource : HalResource, new()
+        private async Task<TResponseResource> CreateResponseResource<TResponseResource>(Uri uri, HttpResponseMessage response) where TResponseResource : IResource, new()
         {
-            var resource = new TResponseResource();
-
-            resource.Initialise(this._httpClient, uri);
-            resource.PopulateResource(JObject.Parse(await response.Content.ReadAsStringAsync()));
-            resource.ResponseHeaders = response.Headers;
-
-            return resource;
+            return JsonConvert.DeserializeObject<TResponseResource>(await response.Content.ReadAsStringAsync(), new ResourceConverter(this, uri, response.Headers));
         }
 
         private async Task HandleBadResponse(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse)
@@ -143,17 +138,16 @@ namespace SEEK.AdPostingApi.Client.Hal
                     throw new AdvertisementAlreadyExistsException(httpResponse.Headers.Location);
 
                 case 422:
+                    ValidationMessage validationMessage;
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync();
+
+                    if (TryDeserialize(responseContent, out validationMessage))
                     {
-                        ValidationMessage validationMessage;
-                        string responseContent = await httpResponse.Content.ReadAsStringAsync();
-
-                        if (TryDeserialize(responseContent, out validationMessage))
-                        {
-                            throw new ValidationException(httpRequest.Method, validationMessage);
-                        }
-
-                        break;
+                        throw new ValidationException(httpRequest.Method, validationMessage);
                     }
+
+                    break;
+
                 default:
                     httpResponse.EnsureSuccessStatusCode();
                     break;

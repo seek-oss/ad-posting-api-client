@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using SEEK.AdPostingApi.Client.Models;
@@ -7,19 +9,14 @@ using SEEK.AdPostingApi.Client.Resources;
 
 namespace SEEK.AdPostingApi.Client
 {
-    public class AdPostingApiClient : Hal.Client, IAdPostingApiClient
+    public class AdPostingApiClient : IAdPostingApiClient
     {
         private readonly IOAuth2TokenClient _tokenClient;
         private IndexResource _indexResource;
         private readonly Lazy<Task> _ensureIndexResourceInitialised;
-        private readonly HttpClient _httpClient;
+        private readonly Hal.Client _client;
 
-        public AdPostingApiClient(string id, string secret)
-            : this(id, secret, Environment.Production)
-        {
-        }
-
-        public AdPostingApiClient(string id, string secret, Environment env) : this(id, secret, env.GetAttribute<EnvironmentUrlAttribute>().Uri)
+        public AdPostingApiClient(string id, string secret, Environment env = Environment.Production) : this(id, secret, env.GetAttribute<EnvironmentUrlAttribute>().Uri)
         {
         }
 
@@ -31,9 +28,7 @@ namespace SEEK.AdPostingApi.Client
         {
             this._ensureIndexResourceInitialised = new Lazy<Task>(() => this.InitialiseIndexResource(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             this._tokenClient = tokenClient;
-            this._httpClient = new HttpClient(new OAuthMessageHandler(tokenClient));
-
-            this.Initialise(_httpClient, adPostingUri);
+            this._client = new Hal.Client(new HttpClient(new OAuthMessageHandler(tokenClient)));
         }
 
         private Task EnsureIndexResourceInitialised()
@@ -43,13 +38,15 @@ namespace SEEK.AdPostingApi.Client
 
         internal async Task InitialiseIndexResource(Uri adPostingUri)
         {
-            _indexResource = await this.GetResourceAsync<IndexResource>(adPostingUri);
+            _indexResource = await this._client.GetResourceAsync<IndexResource>(adPostingUri);
         }
 
         public async Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
         {
             if (advertisement == null)
+            {
                 throw new ArgumentNullException(nameof(advertisement));
+            }
 
             await this.EnsureIndexResourceInitialised();
 
@@ -58,17 +55,19 @@ namespace SEEK.AdPostingApi.Client
 
         public async Task<AdvertisementResource> ExpireAdvertisementAsync(Uri uri, AdvertisementPatch advertisementPatch)
         {
-            return await this.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>(uri, advertisementPatch);
+            return await this._client.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>(uri, advertisementPatch);
         }
 
-        public async Task<GetAdvertisementResult> GetAdvertisementAsync(Uri uri)
+        public async Task<AdvertisementResource> GetAdvertisementAsync(Uri uri)
         {
-            return new GetAdvertisementResult(await this.GetResourceAsync<AdvertisementResource>(uri));
+            return await this._client.GetResourceAsync<AdvertisementResource>(uri);
         }
 
         public async Task<ProcessingStatus> GetAdvertisementStatusAsync(Uri uri)
         {
-            return await this.HeadResourceAsync<ProcessingStatus, AdvertisementResource>(uri);
+            HttpResponseHeaders httpResponseHeaders = await this._client.HeadResourceAsync<AdvertisementResource>(uri);
+
+            return (ProcessingStatus)Enum.Parse(typeof(ProcessingStatus), httpResponseHeaders.GetValues("Processing-Status").Single());
         }
 
         public async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsAsync()
@@ -83,13 +82,13 @@ namespace SEEK.AdPostingApi.Client
             if (advertisement == null)
                 throw new ArgumentNullException(nameof(advertisement));
 
-            return await this.PutResourceAsync<AdvertisementResource, Advertisement>(uri, advertisement);
+            return await this._client.PutResourceAsync<AdvertisementResource, Advertisement>(uri, advertisement);
         }
 
         public void Dispose()
         {
-            _tokenClient.Dispose();
-            _httpClient.Dispose();
+            this._tokenClient.Dispose();
+            this._client.Dispose();
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
+using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -58,10 +59,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     },
                     Body = new
                     {
-                        _embedded = new
-                        {
-                            advertisements = new AdvertisementSummary[] { }
-                        }
+                        _embedded = new { advertisements = new AdvertisementSummary[] { } },
+                        _links = new { self = new { href = "/advertisement" } }
                     }
                 });
 
@@ -72,15 +71,18 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 advertisements = await client.GetAllAdvertisementsAsync();
             }
 
-            Assert.IsEmpty(advertisements);
+            AdvertisementSummaryPageResource expectedAdvertisements = new AdvertisementSummaryPageResource
+            {
+                Links = new Links(PactProvider.MockServiceUri) { { "self", new Link { Href = "/advertisement" } } },
+                AdvertisementSummaries = new List<AdvertisementSummaryResource>()
+            };
+
+            advertisements.ShouldBeEquivalentTo(expectedAdvertisements);
         }
 
         [Test]
-        [Ignore("Known issue with populating AdvertisementSummary object")]
-        public async Task GetAllAdvertisementsByFollowingNextLink()
+        public async Task GetAllAdvertisementsFirstPage()
         {
-            const string advertisementId1 = "fa6939b5-c91f-4f6a-9600-1ea74963fbb2";
-            const string advertisementId2 = "e6e31b9c-3c2c-4b85-b17f-babbf7da972b";
             const string advertisementId3 = "7bbe4318-fd3b-4d26-8384-d41489ff1dd0";
             const string advertisementId4 = "9141cf19-b8d7-4380-9e3f-3b5c22783bdc";
             const string advertisementJobId2 = "4";
@@ -140,6 +142,58 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     }
                 });
 
+            AdvertisementSummaryPageResource pageResource;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                pageResource = await client.GetAllAdvertisementsAsync();
+            }
+
+            AdvertisementSummaryPageResource expectedPageResource = new AdvertisementSummaryPageResource
+            {
+                AdvertisementSummaries = new List<AdvertisementSummaryResource>
+                {
+                    new AdvertisementSummaryResource
+                    {
+                        AdvertiserId = "0004",
+                        JobReference = "JOB12347",
+                        JobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
+                        Links = new Links(PactProvider.MockServiceUri)
+                        {
+                            { "self", new Link { Href = $"/advertisement/{advertisementId4}" } },
+                            { "view", new Link { Href = $"/advertisement/{advertisementId4}/view" } }
+                        }
+                    },
+                    new AdvertisementSummaryResource
+                    {
+                        AdvertiserId = "0003",
+                        JobReference = "JOB1236",
+                        JobTitle = "Exciting Developer role in a great CBD location. Great $$",
+                        Links = new Links(PactProvider.MockServiceUri)
+                        {
+                            { "self", new Link { Href = $"/advertisement/{advertisementId3}" } },
+                            { "view", new Link { Href = $"/advertisement/{advertisementId3}/view" } }
+                        }
+                    }
+                },
+                Links = new Links(PactProvider.MockServiceUri)
+                {
+                    { "self", new Link { Href = "/advertisement" } },
+                    { "next", new Link { Href = "/advertisement?beforeId=4"} }
+                }
+            };
+
+            pageResource.ShouldBeEquivalentTo(expectedPageResource);
+        }
+
+        [Test]
+        public async Task GetAllAdvertisementsNextPage()
+        {
+            const string advertisementId1 = "fa6939b5-c91f-4f6a-9600-1ea74963fbb2";
+            const string advertisementId2 = "e6e31b9c-3c2c-4b85-b17f-babbf7da972b";
+            const string advertisementJobId2 = "4";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
             PactProvider.MockService
                 .Given("A page size of 2, and there are 2 pages worth of data")
                 .UponReceiving("GET request for second page of data")
@@ -169,7 +223,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             {
                                 new AdvertisementContentBuilder(SummaryFieldsInitializer)
                                     .WithAdvertiserId("0002")
-                                    .WithJobTitle("More Exciting Senior Developer role in a great CBD location. Great $$$")
+                                    .WithJobTitle(
+                                        "More Exciting Senior Developer role in a great CBD location. Great $$$")
                                     .WithJobReference("JOB12345")
                                     .WithResponseLink("self", GenerateSelfLink(advertisementId2))
                                     .WithResponseLink("view", GenerateViewLink(advertisementId2))
@@ -185,54 +240,76 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         _links = new
                         {
-                            self = new { href = nextLink }
+                            self = new { href = $"/advertisement?beforeId={advertisementJobId2}" }
                         }
                     }
                 });
 
-            var allAdvertisements = new List<AdvertisementSummaryResource>();
-            AdvertisementSummaryPageResource pageResource;
-
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            AdvertisementSummaryPageResource pageResource = new AdvertisementSummaryPageResource
             {
-                pageResource = await client.GetAllAdvertisementsAsync();
+                Links = new Links(PactProvider.MockServiceUri)
+                {
+                    {"self", new Link {Href = "/advertisement"}},
+                    {"next", new Link {Href = $"/advertisement?beforeId={advertisementJobId2}"}}
+                }
+            };
+
+            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(oAuth2Token));
+            AdvertisementSummaryPageResource nextPageResource;
+
+            using (var client = new Client.Hal.Client(new HttpClient(new OAuthMessageHandler(oAuthClient))))
+            {
+                pageResource.Initialise(client);
+
+                nextPageResource = await pageResource.NextPageAsync();
             }
 
-            StringAssert.EndsWith(selfLink, pageResource.GetUri().ToString());
-            Assert.AreEqual(2, pageResource.Count());
-
-            var expectedAdvertisement4 = new AdvertisementModelBuilder(SummaryFieldsInitializer)
-                .WithAdvertiserId("0004")
-                .WithJobTitle("More Exciting Senior Developer role in a great CBD location. Great $$$")
-                .WithJobReference("JOB12347");
-            var expectedAdvertisement3 = new AdvertisementModelBuilder(SummaryFieldsInitializer)
-                .WithAdvertiserId("0003")
-                .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
-                .WithJobReference("JOB1236");
-
-            AssertAdvertisementSummaryAndLinks(expectedAdvertisement4, expectedAdvertisement3, pageResource, advertisementId4, advertisementId3);
-
-            allAdvertisements.AddRange(pageResource);
-
-            while (!pageResource.Eof)
+            AdvertisementSummaryPageResource expectedNextPageResource = new AdvertisementSummaryPageResource
             {
-                pageResource = await pageResource.NextPageAsync();
-                allAdvertisements.AddRange(pageResource);
-            }
+                AdvertisementSummaries = new List<AdvertisementSummaryResource>
+                {
+                    new AdvertisementSummaryResource
+                    {
+                        AdvertiserId = "0002",
+                        JobReference = "JOB12345",
+                        JobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
+                        Links = new Links(PactProvider.MockServiceUri)
+                        {
+                            {"self", new Link {Href = $"/advertisement/{advertisementId2}"}},
+                            {"view", new Link {Href = $"/advertisement/{advertisementId2}/view"}}
+                        }
+                    },
+                    new AdvertisementSummaryResource
+                    {
+                        AdvertiserId = "0001",
+                        JobReference = "JOB1234",
+                        JobTitle = "Exciting Developer role in a great CBD location. Great $$",
+                        Links = new Links(PactProvider.MockServiceUri)
+                        {
+                            {"self", new Link {Href = $"/advertisement/{advertisementId1}"}},
+                            {"view", new Link {Href = $"/advertisement/{advertisementId1}/view"}}
+                        }
+                    }
+                },
+                Links = new Links(PactProvider.MockServiceUri)
+                {
+                    {"self", new Link {Href = $"/advertisement?beforeId={advertisementJobId2}"}}
+                }
+            };
 
-            Assert.AreEqual(4, allAdvertisements.Count);
-            StringAssert.EndsWith(nextLink, pageResource.GetUri().ToString());
+            nextPageResource.ShouldBeEquivalentTo(expectedNextPageResource);
+        }
 
-            var expectedAdvertisement2 = new AdvertisementModelBuilder(SummaryFieldsInitializer)
-                .WithAdvertiserId("0002")
-                .WithJobTitle("More Exciting Senior Developer role in a great CBD location. Great $$$")
-                .WithJobReference("JOB12345");
-            var expectedAdvertisement1 = new AdvertisementModelBuilder(SummaryFieldsInitializer)
-                .WithAdvertiserId("0001")
-                .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
-                .WithJobReference("JOB1234");
-
-            AssertAdvertisementSummaryAndLinks(expectedAdvertisement2, expectedAdvertisement1, pageResource, advertisementId2, advertisementId1);
+        [Test]
+        public void GetAllAdvertisementsNoNextPage()
+        {
+            AdvertisementSummaryPageResource pageResource = new AdvertisementSummaryPageResource
+            {
+                Links = new Links(PactProvider.MockServiceUri)
+                {
+                    { "self", new Link { Href = "/advertisement" } }
+                }
+            };
 
             var actualException = Assert.Throws<NotSupportedException>(async () => await pageResource.NextPageAsync());
             var expectedException = new NotSupportedException("There are no more results");
@@ -255,24 +332,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private string GenerateViewLink(string advertisementId)
         {
             return "/advertisement/" + advertisementId + "/view";
-        }
-
-        private void AssertAdvertisementLinks(string advertisementId, AdvertisementSummaryResource advertisementSummaryResult)
-        {
-            StringAssert.EndsWith(GenerateSelfLink(advertisementId), advertisementSummaryResult.GetUri().ToString());
-            Assert.AreEqual(GenerateSelfLink(advertisementId), advertisementSummaryResult.Links["self"].Href);
-            Assert.AreEqual(GenerateViewLink(advertisementId), advertisementSummaryResult.Links["view"].Href);
-        }
-
-        private void AssertAdvertisementSummaryAndLinks(AdvertisementModelBuilder expectedAdFirst, AdvertisementModelBuilder expectedAdSecond, AdvertisementSummaryPageResource advertisementSummaryPage, string advertisementIdFirst, string advertisementIdSecond)
-        {
-            var advertisementSummaryResult = advertisementSummaryPage.GetEnumerator().Current;
-            advertisementSummaryResult.Properties.ShouldBeEquivalentTo(expectedAdFirst);
-            AssertAdvertisementLinks(advertisementIdFirst, advertisementSummaryResult);
-            advertisementSummaryPage.GetEnumerator().MoveNext();
-            advertisementSummaryResult = advertisementSummaryPage.GetEnumerator().Current;
-            advertisementSummaryResult.Properties.ShouldBeEquivalentTo(expectedAdSecond);
-            AssertAdvertisementLinks(advertisementIdSecond, advertisementSummaryResult);
         }
     }
 }

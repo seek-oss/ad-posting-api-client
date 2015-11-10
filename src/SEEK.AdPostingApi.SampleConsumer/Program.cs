@@ -60,7 +60,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 {
                     var advertisement = await postingClient.CreateAdvertisementAsync(ad);
 
-                    advertisementLink = advertisement.GetUri();
+                    advertisementLink = advertisement.Uri;
                     createResult = CreateResult.Created;
                     break;
                 }
@@ -103,11 +103,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     Console.WriteLine($"Advertisement Link: {advertisementLink}");
 
                     // Use the returned advertisement link to get the advertisement.
-                    AdvertisementResource advertisementResource = (await postingClient.GetAdvertisementAsync(advertisementLink)).AdvertisementResource;
+                    AdvertisementResource advertisementResource = await postingClient.GetAdvertisementAsync(advertisementLink);
                     Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
 
                     // Update the advertisement.
-                    advertisementResource.Properties.JobTitle = "New job title";
+                    advertisementResource.JobTitle = "New job title";
                     advertisementResource = await advertisementResource.SaveAsync();
 
                     Console.WriteLine();

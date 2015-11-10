@@ -84,7 +84,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .Build()
                 });
 
-            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer)
+            AdvertisementResource expectedResult = new AdvertisementResource();
+
+            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult)
                 .WithAgentId(null)
                 .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                 .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
@@ -97,22 +99,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             using (AdPostingApiClient client = this.GetClient(oAuth2Token))
             {
-                result = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel);
+                result = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), expectedResult);
             }
 
-            var expectedResult = new AdvertisementResource
+            expectedResult.Links = new Links(PactProvider.MockServiceUri)
             {
-                Links = new Dictionary<string, Link>
-                {
-                    { "self", new Link { Href = link } },
-                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                },
-                Properties = requestModel,
-                ResponseHeaders = new HttpResponseMessage().Headers
+                { "self", new Link { Href = link } },
+                { "view", new Link { Href = viewRenderedAdvertisementLink } }
             };
-
-            expectedResult.ResponseHeaders.Add("Date", result.ResponseHeaders.GetValues("Date"));
-            expectedResult.ResponseHeaders.Add("Server", result.ResponseHeaders.GetValues("Server"));
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
