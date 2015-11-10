@@ -345,7 +345,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             const string creationId = "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184";
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var location = $"http://localhost{AdvertisementLink}/{advertisementId}";
 
             PactProvider.RegisterIndexPageInteractions(oAuth2Token);
@@ -389,9 +389,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public void PostAdNotPermitted()
         {
-            const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
