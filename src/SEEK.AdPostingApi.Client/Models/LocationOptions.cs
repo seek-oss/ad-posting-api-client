@@ -2,6 +2,6 @@
 {
     public enum LocationOptions
     {
-        UseLegacyLocationArea
+        UseLegacyLocationArea = 1
     }
 }

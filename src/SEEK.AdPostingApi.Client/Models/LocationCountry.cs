@@ -2,7 +2,7 @@
 {
     public enum LocationCountry
     {
-        AU,
+        AU = 1,
         NZ
     }
 }
