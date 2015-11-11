@@ -1,40 +1,39 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SEEK.AdPostingApi.Client.Hal;
 
 namespace SEEK.AdPostingApi.Client.Resources
 {
-    public class AdvertisementSummaryPageResource : HalResource, IEnumerable<AdvertisementSummaryResource>
+    public class AdvertisementSummaryPageResource : IResource
     {
-        private class EmbeddedResourceList
+        private Hal.Client _client;
+
+        public void Initialise(Hal.Client client)
         {
-            public IEnumerable<AdvertisementSummaryResource> Advertisements { get; set; }
+            this._client = client;
         }
 
-        private EmbeddedResourceList Embedded { get; set; }
+        [JsonIgnore]
+        public Uri Uri => this.Links.GenerateLink("self");
 
-        public IEnumerator<AdvertisementSummaryResource> GetEnumerator()
-        {
-            return this.Embedded.Advertisements.GetEnumerator();
-        }
+        [JsonIgnore]
+        public Links Links { get; set; }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.Embedded.Advertisements.GetEnumerator();
-        }
+        [Embedded(Rel = "advertisements")]
+        public IList<AdvertisementSummaryResource> AdvertisementSummaries { get; set; }
 
         public async Task<AdvertisementSummaryPageResource> NextPageAsync()
         {
-            if (Eof)
+            if (this.Eof)
             {
                 throw new NotSupportedException("There are no more results");
             }
 
-            return await this.GetResourceAsync<AdvertisementSummaryPageResource>(this.GenerateLink("next"));
+            return await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(this.Links.GenerateLink("next"));
         }
 
-        public bool Eof => (this.Links == null) || !this.Links.ContainsKey("next");
+        public bool Eof => (this.Links == null || !this.Links.ContainsKey("next"));
     }
 }

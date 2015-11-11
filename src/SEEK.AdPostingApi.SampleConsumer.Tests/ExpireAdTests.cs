@@ -86,13 +86,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var expectedResult = new AdvertisementResource
             {
-                Properties = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId(null).Build(),
-                Links = new Dictionary<string, Link> { { "self", new Link { Href = link } }, { "view", new Link { Href = viewRenderedAdvertisementLink } } },
-                ResponseHeaders = new HttpResponseMessage().Headers
+                Links = new Links(PactProvider.MockServiceUri)
+                {
+                    { "self", new Link { Href = link } },
+                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
+                }
             };
 
-            expectedResult.ResponseHeaders.Add("Date", result.ResponseHeaders.GetValues("Date"));
-            expectedResult.ResponseHeaders.Add("Server", result.ResponseHeaders.GetValues("Server"));
+            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).WithAgentId(null).Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }

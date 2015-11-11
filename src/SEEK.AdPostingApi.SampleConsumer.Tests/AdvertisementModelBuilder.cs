@@ -4,213 +4,193 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
     public class AdvertisementModelBuilder
     {
-        private readonly Advertisement _advertisementModel = new Advertisement();
+        private readonly Advertisement _advertisementModel;
 
-        public AdvertisementModelBuilder(IBuilderInitializer initializer = null)
+        public AdvertisementModelBuilder(IBuilderInitializer initializer = null, Advertisement advertisement = null)
         {
+            this._advertisementModel = advertisement ?? new Advertisement();
             initializer?.Initialize(this);
         }
 
         public AdvertisementModelBuilder WithAgentId(string agentId)
         {
-            _advertisementModel.AgentId = agentId;
+            this._advertisementModel.AgentId = agentId;
             return this;
         }
 
         public AdvertisementModelBuilder WithAdvertiserId(string advertiserId)
         {
-            _advertisementModel.AdvertiserId = advertiserId;
+            this._advertisementModel.AdvertiserId = advertiserId;
             return this;
         }
 
         public AdvertisementModelBuilder WithRequestCreationId(string creationId)
         {
-            _advertisementModel.CreationId = creationId;
+            this._advertisementModel.CreationId = creationId;
             return this;
         }
 
         public AdvertisementModelBuilder WithJobTitle(string jobTitle)
         {
-            _advertisementModel.JobTitle = jobTitle;
+            this._advertisementModel.JobTitle = jobTitle;
             return this;
         }
 
         public AdvertisementModelBuilder WithJobSummary(string jobSummary)
         {
-            _advertisementModel.JobSummary = jobSummary;
+            this._advertisementModel.JobSummary = jobSummary;
             return this;
         }
 
         public AdvertisementModelBuilder WithAdvertisementDetails(string advertisementDetails)
         {
-            _advertisementModel.AdvertisementDetails = advertisementDetails;
+            this._advertisementModel.AdvertisementDetails = advertisementDetails;
             return this;
         }
 
         public AdvertisementModelBuilder WithAdvertisementType(AdvertisementType advertisementType)
         {
-            _advertisementModel.AdvertisementType = advertisementType;
+            this._advertisementModel.AdvertisementType = advertisementType;
             return this;
         }
 
         public AdvertisementModelBuilder WithWorkType(WorkType workType)
         {
-            _advertisementModel.WorkType = workType;
+            this._advertisementModel.WorkType = workType;
             return this;
         }
 
         public AdvertisementModelBuilder WithLocationId(string locationId)
         {
-            _advertisementModel.LocationId = locationId;
+            this._advertisementModel.LocationId = locationId;
             return this;
         }
 
         public AdvertisementModelBuilder WithSubclassificationId(string subclassificationId)
         {
-            _advertisementModel.SubclassificationId = subclassificationId;
+            this._advertisementModel.SubclassificationId = subclassificationId;
             return this;
         }
 
         public AdvertisementModelBuilder WithSalaryType(SalaryType salaryType)
         {
-            _advertisementModel.Salary = _advertisementModel.Salary ?? new Salary();
-            _advertisementModel.Salary.Type = salaryType;
+            this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
+            this._advertisementModel.Salary.Type = salaryType;
             return this;
         }
 
         public AdvertisementModelBuilder WithSalaryMinimum(int minimum)
         {
-            _advertisementModel.Salary = _advertisementModel.Salary ?? new Salary();
-            _advertisementModel.Salary.Minimum = minimum;
+            this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
+            this._advertisementModel.Salary.Minimum = minimum;
             return this;
         }
 
         public AdvertisementModelBuilder WithSalaryMaximum(int maximum)
         {
-            _advertisementModel.Salary = _advertisementModel.Salary ?? new Salary();
-            _advertisementModel.Salary.Maximum = maximum;
+            this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
+            this._advertisementModel.Salary.Maximum = maximum;
             return this;
         }
 
         public AdvertisementModelBuilder WithSalaryDetails(string details)
         {
-            _advertisementModel.Salary = _advertisementModel.Salary ?? new Salary();
-            _advertisementModel.Salary.Details = details;
+            this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
+            this._advertisementModel.Salary.Details = details;
             return this;
         }
 
         public AdvertisementModelBuilder WithContactDetails(string contactDetails)
         {
-            _advertisementModel.ContactDetails = contactDetails;
+            this._advertisementModel.ContactDetails = contactDetails;
             return this;
         }
 
         public AdvertisementModelBuilder WithVideoUrl(string url)
         {
-            _advertisementModel.Video = _advertisementModel.Video ?? new Video();
-            _advertisementModel.Video.Url = url;
+            this._advertisementModel.Video = this._advertisementModel.Video ?? new Video();
+            this._advertisementModel.Video.Url = url;
             return this;
         }
 
         public AdvertisementModelBuilder WithVideoPosition(VideoPosition videoPosition)
         {
-            _advertisementModel.Video = _advertisementModel.Video ?? new Video();
-            _advertisementModel.Video.Position = videoPosition;
+            this._advertisementModel.Video = this._advertisementModel.Video ?? new Video();
+            this._advertisementModel.Video.Position = videoPosition;
             return this;
         }
 
         public AdvertisementModelBuilder WithApplicationEmail(string applicationEmail)
         {
-            _advertisementModel.ApplicationEmail = applicationEmail;
+            this._advertisementModel.ApplicationEmail = applicationEmail;
             return this;
         }
 
         public AdvertisementModelBuilder WithApplicationFormUrl(string applicationFormUrl)
         {
-            _advertisementModel.ApplicationFormUrl = applicationFormUrl;
+            this._advertisementModel.ApplicationFormUrl = applicationFormUrl;
             return this;
         }
 
         public AdvertisementModelBuilder WithScreenId(int? screenId)
         {
-            _advertisementModel.ScreenId = screenId;
+            this._advertisementModel.ScreenId = screenId;
             return this;
         }
 
         public AdvertisementModelBuilder WithJobReference(string jobReference)
         {
-            _advertisementModel.JobReference = jobReference;
+            this._advertisementModel.JobReference = jobReference;
             return this;
         }
 
         public AdvertisementModelBuilder WithTemplateId(int? id)
         {
-            _advertisementModel.Template = _advertisementModel.Template ?? new Template();
+            this._advertisementModel.Template = this._advertisementModel.Template ?? new Template();
 
-            _advertisementModel.Template.Id = id;
+            this._advertisementModel.Template.Id = id;
             return this;
         }
 
         public AdvertisementModelBuilder WithTemplateItems(params TemplateItemModel[] templateItems)
         {
-            _advertisementModel.Template = _advertisementModel.Template ?? new Template();
+            this._advertisementModel.Template = this._advertisementModel.Template ?? new Template();
 
-            _advertisementModel.Template.Items = templateItems?.Clone<TemplateItemModel[]>();
+            this._advertisementModel.Template.Items = templateItems?.Clone<TemplateItemModel[]>();
             return this;
         }
 
         public AdvertisementModelBuilder WithStandoutLogoId(int? logoId)
         {
-            _advertisementModel.Standout = _advertisementModel.Standout ?? new StandoutAdvertisement();
+            this._advertisementModel.Standout = this._advertisementModel.Standout ?? new StandoutAdvertisement();
 
-            _advertisementModel.Standout.LogoId = logoId;
+            this._advertisementModel.Standout.LogoId = logoId;
             return this;
         }
 
         public AdvertisementModelBuilder WithStandoutBullets(params string[] bullets)
         {
-            _advertisementModel.Standout = _advertisementModel.Standout ?? new StandoutAdvertisement();
+            this._advertisementModel.Standout = this._advertisementModel.Standout ?? new StandoutAdvertisement();
 
-            _advertisementModel.Standout.Bullets = bullets?.Clone<string[]>();
+            this._advertisementModel.Standout.Bullets = bullets?.Clone<string[]>();
             return this;
         }
 
         public AdvertisementModelBuilder WithSeekCodes(params string[] seekCodes)
         {
-            _advertisementModel.SeekCodes = seekCodes?.Clone<string[]>();
+            this._advertisementModel.SeekCodes = seekCodes?.Clone<string[]>();
             return this;
         }
 
         public AdvertisementModelBuilder WithAdditionalProperties(params AdditionalPropertyType[] additionalPropertyTypes)
         {
-            _advertisementModel.AdditionalProperties = additionalPropertyTypes.Clone<AdditionalPropertyType[]>();
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithState(AdvertisementState state)
-        {
-            _advertisementModel.State = state;
-
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithWarnings(ValidationData[] warnings)
-        {
-            _advertisementModel.Warnings = warnings.Clone<ValidationData[]>();
-
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithErrors(AdvertisementError[] errors)
-        {
-            _advertisementModel.Errors = errors.Clone<AdvertisementError[]>();
-
+            this._advertisementModel.AdditionalProperties = additionalPropertyTypes.Clone<AdditionalPropertyType[]>();
             return this;
         }
 
         public Advertisement Build()
         {
-            return _advertisementModel;
+            return this._advertisementModel;
         }
     }
 }

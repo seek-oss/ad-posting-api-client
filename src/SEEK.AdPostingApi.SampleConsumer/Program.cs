@@ -60,7 +60,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 {
                     var advertisement = await postingClient.CreateAdvertisementAsync(ad);
 
-                    advertisementLink = advertisement.GetUri();
+                    advertisementLink = advertisement.Uri;
                     createResult = CreateResult.Created;
                     break;
                 }
@@ -103,21 +103,26 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     Console.WriteLine($"Advertisement Link: {advertisementLink}");
 
                     // Use the returned advertisement link to get the advertisement.
-                    AdvertisementResource advertisementResource = (await postingClient.GetAdvertisementAsync(advertisementLink)).AdvertisementResource;
+                    AdvertisementResource advertisementResource = await postingClient.GetAdvertisementAsync(advertisementLink);
                     Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
 
                     // Update the advertisement.
-                    advertisementResource.Properties.JobTitle = "New job title";
+                    advertisementResource.JobTitle = "New job title";
                     advertisementResource = await advertisementResource.SaveAsync();
 
                     Console.WriteLine();
-                    Console.WriteLine("Updated job advertisement.");
+                    Console.WriteLine("Updated advertisement.");
                     Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
 
                     var expiredAdvertisementContent = await advertisementResource.ExpireAsync();
                     Console.WriteLine();
-                    Console.WriteLine("Expired job advertisement.");
+                    Console.WriteLine("Expired advertisement.");
                     Console.WriteLine(JsonConvert.SerializeObject(expiredAdvertisementContent, Formatting.Indented));
+
+                    var advertisementList = await postingClient.GetAllAdvertisementsAsync();
+                    Console.WriteLine();
+                    Console.WriteLine("Retrieve all advertisements.");
+                    Console.WriteLine(JsonConvert.SerializeObject(advertisementList, Formatting.Indented));
                     break;
 
                 case CreateResult.ValidationErrors:
@@ -132,11 +137,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     break;
 
                 case CreateResult.Timeout:
-                    Console.WriteLine("Job not created. Maximum attempts reached.");
+                    Console.WriteLine("Advertisement not created. Maximum attempts reached.");
                     break;
 
                 default:
-                    Console.WriteLine($"Job not created. Unexpected createResult {createResult}.");
+                    Console.WriteLine($"Advertisement not created. Unexpected createResult {createResult}.");
                     break;
             }
 

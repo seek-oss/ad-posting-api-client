@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -73,28 +72,24 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .Build()
                 });
 
-            GetAdvertisementResult result;
+            AdvertisementResource result;
 
             using (AdPostingApiClient client = this.GetClient(oAuth2Token))
             {
                 result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
             }
 
-            var expectedResult = new GetAdvertisementResult(
-                new AdvertisementResource
+            var expectedResult = new AdvertisementResource
+            {
+                Links = new Links(PactProvider.MockServiceUri)
                 {
-                    Links = new Dictionary<string, Link>
-                    {
-                        { "self", new Link { Href = link } },
-                        { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                    },
-                    Properties = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId(null).Build(),
-                    ResponseHeaders = new HttpResponseMessage().Headers
-                });
+                    { "self", new Link { Href = link } },
+                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
+                },
+                ProcessingStatus = ProcessingStatus.Pending
+            };
 
-            expectedResult.AdvertisementResource.ResponseHeaders.Add("Processing-Status", "Pending");
-            expectedResult.AdvertisementResource.ResponseHeaders.Add("Date", result.AdvertisementResource.ResponseHeaders.GetValues("Date"));
-            expectedResult.AdvertisementResource.ResponseHeaders.Add("Server", result.AdvertisementResource.ResponseHeaders.GetValues("Server"));
+            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).WithAgentId(null).Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
@@ -141,29 +136,33 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .Build()
                 });
 
-            GetAdvertisementResult result;
+            AdvertisementResource result;
 
             using (AdPostingApiClient client = this.GetClient(oAuth2Token))
             {
                 result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
             }
 
-            ValidationData[] expectedWarnings = { new ValidationData { Field = "standout.logoId", Code = "missing" }, new ValidationData { Field = "standout.bullets", Code = "missing" } };
-            var expectedResult = new GetAdvertisementResult(
-                new AdvertisementResource
-                {
-                    Links = new Dictionary<string, Link>
-                    {
-                        { "self", new Link { Href = link } },
-                        { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                    },
-                    Properties = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId(null).WithWarnings(expectedWarnings).Build(),
-                    ResponseHeaders = new HttpResponseMessage().Headers
-                });
+            ValidationData[] expectedWarnings =
+            {
+                new ValidationData { Field = "standout.logoId", Code = "missing" },
+                new ValidationData { Field = "standout.bullets", Code = "missing" }
+            };
 
-            expectedResult.AdvertisementResource.ResponseHeaders.Add("Processing-Status", "Pending");
-            expectedResult.AdvertisementResource.ResponseHeaders.Add("Date", result.AdvertisementResource.ResponseHeaders.GetValues("Date"));
-            expectedResult.AdvertisementResource.ResponseHeaders.Add("Server", result.AdvertisementResource.ResponseHeaders.GetValues("Server"));
+            var expectedResult = new AdvertisementResource
+            {
+                Links = new Links(PactProvider.MockServiceUri)
+                {
+                    { "self", new Link { Href = link } },
+                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
+                },
+                Warnings = expectedWarnings,
+                ProcessingStatus = ProcessingStatus.Pending
+            };
+
+            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).WithAgentId(null).Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
         }
 
         [Test]
@@ -205,7 +204,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .Build()
                 });
 
-            GetAdvertisementResult result;
+            AdvertisementResource result;
 
             using (AdPostingApiClient client = this.GetClient(oAuth2Token))
             {
@@ -213,21 +212,20 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
 
             AdvertisementError[] expectedErrors = { new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" } };
-            var expectedResult = new GetAdvertisementResult(
-                new AdvertisementResource
+            var expectedResult = new AdvertisementResource
+            {
+                Links = new Links(PactProvider.MockServiceUri)
                 {
-                    Links = new Dictionary<string, Link>
-                    {
-                        { "self", new Link { Href = link } },
-                        { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                    },
-                    Properties = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithAgentId(null).WithErrors(expectedErrors).Build(),
-                    ResponseHeaders = new HttpResponseMessage().Headers
-                });
+                    { "self", new Link { Href = link } },
+                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
+                },
+                Errors = expectedErrors,
+                ProcessingStatus = ProcessingStatus.Failed
+            };
 
-            expectedResult.AdvertisementResource.ResponseHeaders.Add("Processing-Status", "Failed");
-            expectedResult.AdvertisementResource.ResponseHeaders.Add("Date", result.AdvertisementResource.ResponseHeaders.GetValues("Date"));
-            expectedResult.AdvertisementResource.ResponseHeaders.Add("Server", result.AdvertisementResource.ResponseHeaders.GetValues("Server"));
+            new AdvertisementModelBuilder(MinimumFieldsInitializer, expectedResult).WithAgentId(null).Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
         }
 
         [Test]

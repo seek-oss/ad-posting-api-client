@@ -1,5 +1,4 @@
-﻿using System;
-using Tavis.UriTemplates;
+﻿using Tavis.UriTemplates;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
@@ -9,19 +8,14 @@ namespace SEEK.AdPostingApi.Client.Hal
 
         public bool Templated { get; set; }
 
-        private readonly Lazy<UriTemplate> _uriTemplate;
-
-        public Link()
-        {
-            this._uriTemplate = new Lazy<UriTemplate>(() => new UriTemplate(this.Href));
-        }
-
         public string Resolve(object parameters)
         {
-            if (!Templated)
+            if (!this.Templated)
+            {
                 return this.Href;
+            }
 
-            return _uriTemplate.Value
+            return new UriTemplate(this.Href)
                 .AddParameters(parameters)
                 .Resolve();
         }

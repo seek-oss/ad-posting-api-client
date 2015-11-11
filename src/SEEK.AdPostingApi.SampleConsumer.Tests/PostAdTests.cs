@@ -90,18 +90,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var expectedResult = new AdvertisementResource
             {
-                Links = new Dictionary<string, Link>
+                Links = new Links(PactProvider.MockServiceUri)
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                },
-                Properties = new AdvertisementModelBuilder(MinimumFieldsInitializer).Build(),
-                ResponseHeaders = new HttpResponseMessage().Headers
+                }
             };
 
-            expectedResult.ResponseHeaders.Add("Date", result.ResponseHeaders.GetValues("Date"));
-            expectedResult.ResponseHeaders.Add("Server", result.ResponseHeaders.GetValues("Server"));
-            expectedResult.ResponseHeaders.Add("Location", location);
+            new AdvertisementModelBuilder(MinimumFieldsInitializer, expectedResult).Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
@@ -161,18 +157,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var expectedResult = new AdvertisementResource
             {
-                Links = new Dictionary<string, Link>
+                Links = new Links(PactProvider.MockServiceUri)
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
                 },
-                Properties = new AdvertisementModelBuilder(AllFieldsInitializer).Build(),
-                ResponseHeaders = new HttpResponseMessage().Headers
             };
 
-            expectedResult.ResponseHeaders.Add("Date", result.ResponseHeaders.GetValues("Date"));
-            expectedResult.ResponseHeaders.Add("Server", result.ResponseHeaders.GetValues("Server"));
-            expectedResult.ResponseHeaders.Add("Location", location);
+            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }

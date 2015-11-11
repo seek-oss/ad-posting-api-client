@@ -9,7 +9,7 @@ namespace SEEK.AdPostingApi.Client
     {
         Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement);
 
-        Task<GetAdvertisementResult> GetAdvertisementAsync(Uri uri);
+        Task<AdvertisementResource> GetAdvertisementAsync(Uri uri);
 
         Task<ProcessingStatus> GetAdvertisementStatusAsync(Uri uri);
 
