@@ -24,27 +24,34 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
         }
 
-        public AdvertisementContentBuilder WithAgentId(object agentId)
+        private bool PropertyExists(dynamic model, string propertyName)
         {
-            _advertisementModel.agentId = agentId;
-            return this;
+            return ((IDictionary<string, object>)model).ContainsKey(propertyName);
         }
 
-        public AdvertisementContentBuilder WithoutAgentId()
+        public AdvertisementContentBuilder WithAgentId(object agentId)
         {
-            TryRemoveProperty(_advertisementModel, "agentId");
+            if (agentId == null)
+            {
+                TryRemoveProperty(_advertisementModel, "agentId");
+            }
+            else
+            {
+                _advertisementModel.agentId = agentId;
+            }
             return this;
         }
 
         public AdvertisementContentBuilder WithAdvertiserId(object advertiserId)
         {
-            _advertisementModel.advertiserId = advertiserId;
-            return this;
-        }
-
-        public AdvertisementContentBuilder WithoutAdvertiserId()
-        {
-            TryRemoveProperty(_advertisementModel, "advertiserId");
+            if (advertiserId == null)
+            {
+                TryRemoveProperty(_advertisementModel, "advertiserId");
+            }
+            else
+            {
+                _advertisementModel.advertiserId = advertiserId;
+            }
             return this;
         }
 
@@ -84,9 +91,53 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementContentBuilder WithLocationId(object locationId)
+        private void EnsureLocationPropertyExists()
         {
-            _advertisementModel.locationId = locationId;
+            if (!((IDictionary<string, object>)_advertisementModel).ContainsKey("location"))
+            {
+                _advertisementModel.location = new ExpandoObject();
+            }
+        }
+
+        public AdvertisementContentBuilder WithLocationCountry(object locationCountry)
+        {
+            EnsureLocationPropertyExists();
+
+            _advertisementModel.location.country = locationCountry;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithLocationSuburb(object locationSuburb)
+        {
+            EnsureLocationPropertyExists();
+
+            _advertisementModel.location.suburb = locationSuburb;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithLocationPostCode(object locationPostCode)
+        {
+            EnsureLocationPropertyExists();
+
+            _advertisementModel.location.postCode = locationPostCode;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithLocationOptions(params object[] locationOptions)
+        {
+            if (locationOptions == null)
+            {
+                if (PropertyExists(_advertisementModel, "location") && PropertyExists(_advertisementModel.location, "options"))
+                {
+                    TryRemoveProperty(_advertisementModel.location, "options");
+                }
+            }
+            else
+            {
+                EnsureLocationPropertyExists();
+
+                _advertisementModel.location.options = locationOptions?.Clone<object[]>();
+            }
             return this;
         }
 
@@ -234,13 +285,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         public AdvertisementContentBuilder WithSeekCodes(params object[] seekCodes)
         {
-            _advertisementModel.seekCodes = seekCodes?.Clone();
-            return this;
-        }
-
-        public AdvertisementContentBuilder WithoutSeekCodes()
-        {
-            TryRemoveProperty(_advertisementModel, "seekCodes");
+            if (seekCodes == null)
+            {
+                TryRemoveProperty(_advertisementModel, "seekCodes");
+            }
+            else
+            {
+                _advertisementModel.seekCodes = seekCodes?.Clone();
+            }
             return this;
         }
 

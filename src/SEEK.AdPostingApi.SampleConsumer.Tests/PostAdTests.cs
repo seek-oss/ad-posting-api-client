@@ -190,7 +190,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
-                            .WithoutAdvertiserId()
+                            .WithAdvertiserId(null)
                             .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                             .WithSalaryMinimum(0)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))

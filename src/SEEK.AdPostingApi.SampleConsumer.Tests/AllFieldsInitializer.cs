@@ -25,7 +25,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithJobReference(GetDefaultJobReference())
                 .WithTemplateId(GetDefaultTemplateId())
                 .WithTemplateItems(
-                    new KeyValuePair<object, object>(GetDefaultTemplateItemName(1) , GetDefaultTemplateItemValue(1)),
+                    new KeyValuePair<object, object>(GetDefaultTemplateItemName(1), GetDefaultTemplateItemValue(1)),
                     new KeyValuePair<object, object>(GetDefaultTemplateItemName(2), GetDefaultTemplateItemValue(2)))
                 .WithStandoutLogoId(GetDefaultLogoId())
                 .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
@@ -60,7 +60,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private string GetDefaultAgentId()
         {
-            return "agentA";
+            return "385";
         }
 
         private string GetDefaultSalaryDetails()
@@ -129,10 +129,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             {
                 case 1:
                     return "Uzi";
+
                 case 2:
                     return "Remington Model";
+
                 case 3:
                     return "AK-47";
+
                 default:
                     return $"Standout bullet {itemNumber}";
             }

@@ -64,7 +64,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         { "Processing-Status", "Pending" }
                     },
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                        .WithoutAgentId()
+                        .WithAgentId(null)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                         .WithResponseLink("self", link)
@@ -125,7 +125,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         { "Processing-Status", "Pending" }
                     },
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                        .WithoutAgentId()
+                        .WithAgentId(null)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
                         .WithResponseLink("self", link)
@@ -196,7 +196,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         { "Processing-Status", "Failed" }
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                        .WithoutAgentId()
+                        .WithAgentId(null)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithResponseLink("self", link)
                         .WithResponseLink("view", viewRenderedAdvertisementLink)

@@ -10,7 +10,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAdvertiserId(GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic.ToString())
                 .WithJobTitle(GetDefaultJobTitle())
-                .WithLocationId(GetDefaultLocationId())
+                .WithLocationCountry(GetDefaultLocationCountry().ToString())
+                .WithLocationSuburb(GetDefaultLocationSuburb())
+                .WithLocationPostCode(GetDefaultLocationPostCode())
+                .WithLocationOptions(null)
                 .WithSubclassificationId(GetDefaultSubclassificationId())
                 .WithWorkType(GetDefaultWorkType().ToString())
                 .WithSalaryType(GetDefaultSalaryType().ToString())
@@ -26,7 +29,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAdvertiserId(GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic)
                 .WithJobTitle(GetDefaultJobTitle())
-                .WithLocationId(GetDefaultLocationId())
+                .WithLocationCountry(GetDefaultLocationCountry())
+                .WithLocationSuburb(GetDefaultLocationSuburb())
+                .WithLocationPostCode(GetDefaultLocationPostCode())
+                .WithLocationOptions(null)
                 .WithSubclassificationId(GetDefaultSubclassificationId())
                 .WithWorkType(GetDefaultWorkType())
                 .WithSalaryType(GetDefaultSalaryType())
@@ -56,9 +62,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return "Exciting, do I need to say more?";
         }
 
-        private string GetDefaultLocationId()
+        private LocationCountry GetDefaultLocationCountry()
         {
-            return "378";
+            return LocationCountry.AU;
+        }
+
+        private string GetDefaultLocationSuburb()
+        {
+            return "Melbourne";
+        }
+
+        private string GetDefaultLocationPostCode()
+        {
+            return "3000";
         }
 
         private string GetDefaultSubclassificationId()
