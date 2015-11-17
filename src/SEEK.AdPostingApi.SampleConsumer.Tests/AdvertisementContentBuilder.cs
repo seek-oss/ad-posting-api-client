@@ -107,11 +107,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementContentBuilder WithLocationSuburb(object locationSuburb)
+        public AdvertisementContentBuilder WithLocationState(object locationState)
         {
             EnsureLocationPropertyExists();
 
-            _advertisementModel.location.suburb = locationSuburb;
+            _advertisementModel.location.state = locationState;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithLocationCity(object locationCity)
+        {
+            EnsureLocationPropertyExists();
+
+            _advertisementModel.location.city = locationCity;
             return this;
         }
 

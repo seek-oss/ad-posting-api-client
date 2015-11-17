@@ -11,7 +11,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAdvertisementType(AdvertisementType.Classic.ToString())
                 .WithJobTitle(GetDefaultJobTitle())
                 .WithLocationCountry(GetDefaultLocationCountry().ToString())
-                .WithLocationSuburb(GetDefaultLocationSuburb())
+                .WithLocationState(GetDefaultLocationState())
+                .WithLocationCity(GetDefaultLocationCity())
                 .WithLocationPostCode(GetDefaultLocationPostCode())
                 .WithLocationOptions(null)
                 .WithSubclassificationId(GetDefaultSubclassificationId())
@@ -30,7 +31,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAdvertisementType(AdvertisementType.Classic)
                 .WithJobTitle(GetDefaultJobTitle())
                 .WithLocationCountry(GetDefaultLocationCountry())
-                .WithLocationSuburb(GetDefaultLocationSuburb())
+                .WithLocationState(GetDefaultLocationState())
+                .WithLocationCity(GetDefaultLocationCity())
                 .WithLocationPostCode(GetDefaultLocationPostCode())
                 .WithLocationOptions(null)
                 .WithSubclassificationId(GetDefaultSubclassificationId())
@@ -67,7 +69,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return LocationCountry.AU;
         }
 
-        private string GetDefaultLocationSuburb()
+        private string GetDefaultLocationState()
+        {
+            return "VIC";
+        }
+
+        private string GetDefaultLocationCity()
         {
             return "Melbourne";
         }

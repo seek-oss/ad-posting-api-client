@@ -68,11 +68,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithLocationSuburb(string locationSuburb)
+        public AdvertisementModelBuilder WithLocationState(string locationState)
         {
             _advertisementModel.Location = _advertisementModel.Location ?? new Location();
 
-            _advertisementModel.Location.Suburb = locationSuburb;
+            _advertisementModel.Location.State = locationState;
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithLocationCity(string locationCity)
+        {
+            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
+
+            _advertisementModel.Location.City = locationCity;
             return this;
         }
 
