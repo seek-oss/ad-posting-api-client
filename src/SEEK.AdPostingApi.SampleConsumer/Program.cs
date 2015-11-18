@@ -47,7 +47,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 },
                 Location = new Location
                 {
-                    Country = LocationCountry.AU,
+                    Country = "Australia",
                     City = "Melbourne",
                     State = "VIC",
                     PostCode = "3000"

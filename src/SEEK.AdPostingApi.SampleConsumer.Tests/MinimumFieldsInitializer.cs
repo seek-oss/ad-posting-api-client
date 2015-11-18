@@ -10,7 +10,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAdvertiserId(GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic.ToString())
                 .WithJobTitle(GetDefaultJobTitle())
-                .WithLocationCountry(GetDefaultLocationCountry().ToString())
+                .WithLocationCountry(GetDefaultLocationCountry())
                 .WithLocationState(GetDefaultLocationState())
                 .WithLocationCity(GetDefaultLocationCity())
                 .WithLocationPostCode(GetDefaultLocationPostCode())
@@ -64,9 +64,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return "Exciting, do I need to say more?";
         }
 
-        private LocationCountry GetDefaultLocationCountry()
+        private string GetDefaultLocationCountry()
         {
-            return LocationCountry.AU;
+            return "Australia";
         }
 
         private string GetDefaultLocationState()

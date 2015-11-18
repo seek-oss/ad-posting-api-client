@@ -63,7 +63,6 @@
     <Compile Include="Hal\IResource.cs" />
     <Compile Include="Hal\Links.cs" />
     <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\LocationCountry.cs" />
     <Compile Include="Models\LocationOptions.cs" />
     <Compile Include="UnauthorizedException.cs" />
     <Compile Include="ValidationException.cs" />

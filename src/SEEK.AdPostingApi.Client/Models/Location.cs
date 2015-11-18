@@ -2,7 +2,7 @@
 {
     public class Location
     {
-        public LocationCountry Country { get; set; }
+        public string Country { get; set; }
 
         public string State { get; set; }
 

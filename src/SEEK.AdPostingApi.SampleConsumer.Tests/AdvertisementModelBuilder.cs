@@ -60,7 +60,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithLocationCountry(LocationCountry locationCountry)
+        public AdvertisementModelBuilder WithLocationCountry(string locationCountry)
         {
             _advertisementModel.Location = _advertisementModel.Location ?? new Location();
 
