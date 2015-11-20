@@ -47,8 +47,9 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 },
                 Location = new Location
                 {
-                    Country = LocationCountry.AU,
-                    Suburb = "Melbourne",
+                    Country = "Australia",
+                    City = "Melbourne",
+                    State = "VIC",
                     PostCode = "3000"
                 },
                 SubclassificationId = "6227",

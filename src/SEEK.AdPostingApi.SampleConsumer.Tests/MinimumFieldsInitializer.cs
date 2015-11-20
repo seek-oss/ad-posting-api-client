@@ -10,8 +10,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAdvertiserId(GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic.ToString())
                 .WithJobTitle(GetDefaultJobTitle())
-                .WithLocationCountry(GetDefaultLocationCountry().ToString())
-                .WithLocationSuburb(GetDefaultLocationSuburb())
+                .WithLocationCountry(GetDefaultLocationCountry())
+                .WithLocationState(GetDefaultLocationState())
+                .WithLocationCity(GetDefaultLocationCity())
                 .WithLocationPostCode(GetDefaultLocationPostCode())
                 .WithLocationOptions(null)
                 .WithSubclassificationId(GetDefaultSubclassificationId())
@@ -30,7 +31,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAdvertisementType(AdvertisementType.Classic)
                 .WithJobTitle(GetDefaultJobTitle())
                 .WithLocationCountry(GetDefaultLocationCountry())
-                .WithLocationSuburb(GetDefaultLocationSuburb())
+                .WithLocationState(GetDefaultLocationState())
+                .WithLocationCity(GetDefaultLocationCity())
                 .WithLocationPostCode(GetDefaultLocationPostCode())
                 .WithLocationOptions(null)
                 .WithSubclassificationId(GetDefaultSubclassificationId())
@@ -62,12 +64,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return "Exciting, do I need to say more?";
         }
 
-        private LocationCountry GetDefaultLocationCountry()
+        private string GetDefaultLocationCountry()
         {
-            return LocationCountry.AU;
+            return "Australia";
         }
 
-        private string GetDefaultLocationSuburb()
+        private string GetDefaultLocationState()
+        {
+            return "VIC";
+        }
+
+        private string GetDefaultLocationCity()
         {
             return "Melbourne";
         }
