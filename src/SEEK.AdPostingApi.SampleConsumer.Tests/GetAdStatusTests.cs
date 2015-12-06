@@ -104,6 +104,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
+        [Ignore("To be implemented")]
         public void GetExistingAdvertisementNotPermitted()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";

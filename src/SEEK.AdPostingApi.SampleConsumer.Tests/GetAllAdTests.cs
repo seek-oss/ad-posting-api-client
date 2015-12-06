@@ -119,14 +119,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             advertisements = new[]
                             {
                                 new AdvertisementContentBuilder(SummaryFieldsInitializer)
-                                    .WithAdvertiserId("0004")
+                                    .WithAdvertiserId("678")
                                     .WithJobTitle("More Exciting Senior Developer role in a great CBD location. Great $$$")
                                     .WithJobReference("JOB12347")
                                     .WithResponseLink("self", GenerateSelfLink(advertisementId4))
                                     .WithResponseLink("view", GenerateViewLink(advertisementId4))
                                     .Build(),
                                 new AdvertisementContentBuilder(SummaryFieldsInitializer)
-                                    .WithAdvertiserId("0003")
+                                    .WithAdvertiserId("456")
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
                                     .WithJobReference("JOB1236")
                                     .WithResponseLink("self", GenerateSelfLink(advertisementId3))
@@ -155,7 +155,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 {
                     new AdvertisementSummaryResource
                     {
-                        AdvertiserId = "0004",
+                        AdvertiserId = "678",
                         JobReference = "JOB12347",
                         JobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
                         Links = new Links(PactProvider.MockServiceUri)
@@ -166,7 +166,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     },
                     new AdvertisementSummaryResource
                     {
-                        AdvertiserId = "0003",
+                        AdvertiserId = "456",
                         JobReference = "JOB1236",
                         JobTitle = "Exciting Developer role in a great CBD location. Great $$",
                         Links = new Links(PactProvider.MockServiceUri)
@@ -222,7 +222,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             advertisements = new[]
                             {
                                 new AdvertisementContentBuilder(SummaryFieldsInitializer)
-                                    .WithAdvertiserId("0002")
+                                    .WithAdvertiserId("345")
                                     .WithJobTitle(
                                         "More Exciting Senior Developer role in a great CBD location. Great $$$")
                                     .WithJobReference("JOB12345")
@@ -230,7 +230,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                     .WithResponseLink("view", GenerateViewLink(advertisementId2))
                                     .Build(),
                                 new AdvertisementContentBuilder(SummaryFieldsInitializer)
-                                    .WithAdvertiserId("0001")
+                                    .WithAdvertiserId("123")
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
                                     .WithJobReference("JOB1234")
                                     .WithResponseLink("self", GenerateSelfLink(advertisementId1))
@@ -270,7 +270,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 {
                     new AdvertisementSummaryResource
                     {
-                        AdvertiserId = "0002",
+                        AdvertiserId = "345",
                         JobReference = "JOB12345",
                         JobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
                         Links = new Links(PactProvider.MockServiceUri)
@@ -281,7 +281,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     },
                     new AdvertisementSummaryResource
                     {
-                        AdvertiserId = "0001",
+                        AdvertiserId = "123",
                         JobReference = "JOB1234",
                         JobTitle = "Exciting Developer role in a great CBD location. Great $$",
                         Links = new Links(PactProvider.MockServiceUri)
