@@ -62,7 +62,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public void GetApiLinksNotPermitted()
         {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_InvalidService).Build();
 
             PactProvider.MockService
                 .UponReceiving("unauthorised request to retrieve API links")
