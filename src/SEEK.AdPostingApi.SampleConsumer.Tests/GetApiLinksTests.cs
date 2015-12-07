@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
@@ -50,58 +49,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             PactProvider.RegisterIndexPageInteractions(new OAuth2TokenBuilder().Build());
 
-            using (FakeOAuth2Client fakeOAuth2Client = new FakeOAuth2Client())
+            using (var fakeOAuth2Client = new FakeOAuth2Client())
             {
                 using (var client = new AdPostingApiClient(PactProvider.MockServiceUri, fakeOAuth2Client))
                 {
                     await client.InitialiseIndexResource(PactProvider.MockServiceUri);
                 }
             }
-        }
-
-        [Test]
-        public void GetApiLinksNotPermitted()
-        {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
-
-            PactProvider.MockService
-                .UponReceiving("unauthorised request to retrieve API links")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = "/",
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Authorization", "Bearer " + AccessTokens.ValidAccessToken_Disabled},
-                        {"Accept", "application/hal+json"}
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = (int)HttpStatusCode.Forbidden,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", "application/json; charset=utf-8" }
-                    },
-                    Body = new { message = "No operations are permitted with supplied access token" }
-                });
-
-            UnauthorizedException actualException;
-
-            using (var client = this.GetClient(oAuth2Token))
-            {
-                actualException = Assert.Throws<UnauthorizedException>(async () => await client.GetAllAdvertisementsAsync());
-            }
-
-            actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException("No operations are permitted with supplied access token"));
-        }
-
-        private AdPostingApiClient GetClient(OAuth2Token token)
-        {
-            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
-
-            return new AdPostingApiClient(PactProvider.MockServiceUri, oAuthClient);
         }
     }
 
