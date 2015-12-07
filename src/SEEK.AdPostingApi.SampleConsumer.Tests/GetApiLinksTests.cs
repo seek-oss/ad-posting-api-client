@@ -72,7 +72,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + AccessTokens.ValidAccessToken_Disabled}
+                        {"Authorization", "Bearer " + AccessTokens.ValidAccessToken_InvalidService}
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
