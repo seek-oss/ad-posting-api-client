@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client
 {
@@ -15,6 +16,10 @@ namespace SEEK.AdPostingApi.Client
 
         public UnauthorizedException(string message, Exception innerException) : base(message, innerException)
         {
+        }
+
+        public UnauthorizedException(ForbiddenMessage forbiddenMessage)
+        {            
         }
 
         protected UnauthorizedException(SerializationInfo info, StreamingContext context) : base(info, context)

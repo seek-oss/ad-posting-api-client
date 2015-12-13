@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Xml.Xsl;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -376,6 +377,74 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var expectedException = new AdvertisementAlreadyExistsException(new Uri(location));
 
             actualException.ShouldBeEquivalentToException(expectedException);
+        }
+
+        [Test]
+        public async Task PostAdWithANonIntegerAdvertiserName()
+        {
+            //const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
+            var oAuth2Token = new OAuth2TokenBuilder().Build();
+            //var link = $"{AdvertisementLink}/{advertisementId}";
+            //var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+
+            PactProvider.MockService
+                .UponReceiving("a request to create a job ad with a non integer advertiser name")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .WithAdvertiserId("1234ABC")
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Forbidden",
+                            errors = new[]
+                            {
+                                new { code = "InvalidValue" }
+                            }
+                        }
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).WithAdvertiserId("1234ABC").Build();
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<UnauthorizedException>(
+                    async () => await client.CreateAdvertisementAsync(requestModel));
+            }
+
+            //var expectedResult = new UnauthorizedException("");
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new [] { new ForbiddenMessageData { Code = "InvalidValue" }  }
+                    }
+                    ));
         }
 
         private AdPostingApiClient GetClient(OAuth2Token token)

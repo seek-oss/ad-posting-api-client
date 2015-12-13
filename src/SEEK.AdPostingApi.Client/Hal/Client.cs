@@ -127,9 +127,17 @@ namespace SEEK.AdPostingApi.Client.Hal
                         throw new UnauthorizedException($"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
                     }
 
-                    JToken token = JToken.Parse(content);
+                    //JToken token = JToken.Parse(content);
 
-                    throw new UnauthorizedException(token["message"].ToString());
+                    //throw new UnauthorizedException(token["message"].ToString());
+
+                    ForbiddenMessage forbiddenMessage;
+
+                    if (TryDeserializeForbiddenMessage(content, out forbiddenMessage))
+                    {
+                        throw new UnauthorizedException(forbiddenMessage);
+                    }
+                    break;
 
                 case (int)HttpStatusCode.NotFound:
                     throw new AdvertisementNotFoundException();
@@ -167,5 +175,20 @@ namespace SEEK.AdPostingApi.Client.Hal
 
             return validationMessage != null;
         }
+
+        private bool TryDeserializeForbiddenMessage(string responseContent, out ForbiddenMessage forbiddenMessage)
+        {
+            try
+            {
+                forbiddenMessage = JsonConvert.DeserializeObject<ForbiddenMessage>(responseContent);
+            }
+            catch
+            {
+                forbiddenMessage = null;
+            }
+
+            return forbiddenMessage != null;
+        }
+
     }
 }
