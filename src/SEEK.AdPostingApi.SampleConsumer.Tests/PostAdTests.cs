@@ -382,10 +382,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public async Task PostAdWithANonIntegerAdvertiserName()
         {
-            //const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
             var oAuth2Token = new OAuth2TokenBuilder().Build();
-            //var link = $"{AdvertisementLink}/{advertisementId}";
-            //var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
@@ -435,14 +432,200 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     async () => await client.CreateAdvertisementAsync(requestModel));
             }
 
-            //var expectedResult = new UnauthorizedException("");
-
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
                     new ForbiddenMessage
                     {
                         Message = "Forbidden",
                         Errors = new [] { new ForbiddenMessageData { Code = "InvalidValue" }  }
+                    }
+                    ));
+        }
+
+        [Test]
+        public async Task PostAgentAdWithEmptyAgentId()
+        {
+            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAgentAccessToken).Build();
+
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+
+            PactProvider.MockService
+                .UponReceiving("a request to create an agent job where the agent id is not supplied")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .WithAgentId("")
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Forbidden",
+                            errors = new[]
+                            {
+                                new { code = "Required" }
+                            }
+                        }
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).WithAgentId("").Build();
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<UnauthorizedException>(
+                    async () => await client.CreateAdvertisementAsync(requestModel));
+            }
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "Required" } }
+                    }
+                    ));
+        }
+
+        [Test]
+        public async Task PostAdWithArchivedThirdPartyUploader()
+        {
+            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ArchivedThirdPartyUploader).Build();
+
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+
+            PactProvider.MockService
+                .UponReceiving("a request to create a job with an archived third party uploader")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Forbidden",
+                            errors = new[]
+                            {
+                                new { code = "AccountError" }
+                            }
+                        }
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<UnauthorizedException>(
+                    async () => await client.CreateAdvertisementAsync(requestModel));
+            }
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "AccountError" } }
+                    }
+                    ));
+        }
+
+        [Test]
+        public async Task PostAdWhereAdvertiserNotRelatedToThirdPartyUploader()
+        {
+            var oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+
+            PactProvider.MockService
+                .UponReceiving("a request to create a job for an advertiser not related to the third party uploader")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .WithAdvertiserId("999888777")
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Forbidden",
+                            errors = new[]
+                            {
+                                new { code = "RelationshipError" }
+                            }
+                        }
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).WithAdvertiserId("999888777").Build();
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<UnauthorizedException>(
+                    async () => await client.CreateAdvertisementAsync(requestModel));
+            }
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "RelationshipError" } }
                     }
                     ));
         }
