@@ -2,6 +2,6 @@
 {
     public enum LocationOptions
     {
-        UseLegacyLocationArea = 1
+        HideCity = 1
     }
 }
