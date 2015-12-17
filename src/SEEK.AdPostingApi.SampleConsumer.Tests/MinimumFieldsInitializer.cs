@@ -71,7 +71,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private string GetDefaultLocationState()
         {
-            return "VIC";
+            return null;
         }
 
         private string GetDefaultLocationCity()

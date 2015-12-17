@@ -109,25 +109,55 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         public AdvertisementContentBuilder WithLocationState(object locationState)
         {
-            EnsureLocationPropertyExists();
+            if (locationState == null)
+            {
+                if (PropertyExists(_advertisementModel, "location"))
+                {
+                    TryRemoveProperty(_advertisementModel.location, "state");
+                }
+            }
+            else
+            {
+                EnsureLocationPropertyExists();
 
-            _advertisementModel.location.state = locationState;
+                _advertisementModel.location.state = locationState;
+            }
             return this;
         }
 
         public AdvertisementContentBuilder WithLocationCity(object locationCity)
         {
-            EnsureLocationPropertyExists();
+            if (locationCity == null)
+            {
+                if (PropertyExists(_advertisementModel, "location"))
+                {
+                    TryRemoveProperty(_advertisementModel.location, "city");
+                }
+            }
+            else
+            {
+                EnsureLocationPropertyExists();
 
-            _advertisementModel.location.city = locationCity;
+                _advertisementModel.location.city = locationCity;
+            }
             return this;
         }
 
         public AdvertisementContentBuilder WithLocationPostCode(object locationPostCode)
         {
-            EnsureLocationPropertyExists();
+            if (locationPostCode == null)
+            {
+                if (PropertyExists(_advertisementModel, "location"))
+                {
+                    TryRemoveProperty(_advertisementModel.location, "postCode");
+                }
+            }
+            else
+            {
+                EnsureLocationPropertyExists();
 
-            _advertisementModel.location.postCode = locationPostCode;
+                _advertisementModel.location.postCode = locationPostCode;
+            }
             return this;
         }
 
@@ -135,7 +165,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             if (locationOptions == null)
             {
-                if (PropertyExists(_advertisementModel, "location") && PropertyExists(_advertisementModel.location, "options"))
+                if (PropertyExists(_advertisementModel, "location"))
                 {
                     TryRemoveProperty(_advertisementModel.location, "options");
                 }
