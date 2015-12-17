@@ -86,7 +86,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private string GetDefaultSubclassificationId()
         {
-            return "734";
+            return "AerospaceEngineering";
         }
 
         private WorkType GetDefaultWorkType()
