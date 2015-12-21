@@ -17,6 +17,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
     public class UpdateAdTests
     {
         private const string AdvertisementLink = "/advertisement";
+        private const string AdvertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
         private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
 
@@ -37,14 +38,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public async Task UpdateExistingAdvertisement()
         {
-            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
-
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
-            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
                 .UponReceiving("Update request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -294,6 +293,253 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException("Operation not permitted on advertisement with advertiser id: '9012'"));
+        }
+
+        [Test]
+        public async Task UpdateAdWithADifferentAdvertiserToTheOneOwningTheJob()
+        {
+            var oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+
+            PactProvider.MockService
+                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
+                .UponReceiving("a request to update a job ad with a different advertiser from the one owning the job")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Put,
+                        Path = link,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                            .WithAdvertiserId("99887766")
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Forbidden",
+                            errors = new[]
+                            {
+                                new { code = "InvalidValue" }
+                            }
+                        }
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer)
+                .WithAdvertiserId("99887766")
+                .Build();
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<UnauthorizedException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),requestModel));
+            }
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "InvalidValue" } }
+                    }
+                    ));
+        }
+
+        [Test]
+        public async Task UpdateAdWithArchivedThirdPartyUploader()
+        {
+            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ArchivedThirdPartyUploader).Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+
+            PactProvider.MockService
+                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
+                .UponReceiving("a request to update a job with an archived third party uploader")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Put,
+                        Path = link,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(AllFieldsInitializer).Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Forbidden",
+                            errors = new[]
+                            {
+                                new { code = "AccountError" }
+                            }
+                        }
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).Build();
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<UnauthorizedException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
+            }
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "AccountError" } }
+                    }
+                    ));
+        }
+
+        [Test]
+        public async Task UpdateAdWhereAdvertiserNotRelatedToThirdPartyUploader()
+        {
+            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+
+            PactProvider.MockService
+                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
+                .UponReceiving("a request to update a job for an advertiser not related to the third party uploader")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Put,
+                        Path = link,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Forbidden",
+                            errors = new[]
+                            {
+                                new { code = "RelationshipError" }
+                            }
+                        }
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).Build();
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<UnauthorizedException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
+            }
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "RelationshipError" } }
+                    }
+                    ));
+        }
+
+        [Test]
+        public async Task UpdateAgentAdWithEmptyAgentId()
+        {
+            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAgentAccessToken).Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+
+            PactProvider.MockService
+                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
+                .UponReceiving("a request to update an agent job where the agent id is not supplied")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Put,
+                        Path = link,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                            .WithAgentId("")
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Forbidden",
+                            errors = new[]
+                            {
+                                new { code = "Required" }
+                            }
+                        }
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId("").Build();
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<UnauthorizedException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
+            }
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "Required" } }
+                    }
+                    ));
         }
 
         private AdPostingApiClient GetClient(OAuth2Token token)
