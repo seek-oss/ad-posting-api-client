@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Xml.Xsl;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
@@ -162,7 +161,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                },
+                }
             };
 
             new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).Build();
@@ -344,7 +343,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving($"a request to create a job ad with the same creation id '{creationId}'")
                 .With(
                     new ProviderServiceRequest
@@ -380,7 +379,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task PostAdWithANonIntegerAdvertiserName()
+        public void PostAdWithANonIntegerAdvertiserName()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
 
@@ -437,13 +436,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new ForbiddenMessage
                     {
                         Message = "Forbidden",
-                        Errors = new [] { new ForbiddenMessageData { Code = "InvalidValue" }  }
+                        Errors = new[] { new ForbiddenMessageData { Code = "InvalidValue" } }
                     }
                     ));
         }
 
         [Test]
-        public async Task PostAgentAdWithEmptyAgentId()
+        public void PostAgentAdWithEmptyAgentId()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAgentAccessToken).Build();
 
@@ -506,7 +505,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task PostAdWithArchivedThirdPartyUploader()
+        public void PostAdWithArchivedThirdPartyUploader()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ArchivedThirdPartyUploader).Build();
 
@@ -568,7 +567,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task PostAdWhereAdvertiserNotRelatedToThirdPartyUploader()
+        public void PostAdWhereAdvertiserNotRelatedToThirdPartyUploader()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
 

@@ -35,7 +35,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("HEAD request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -113,7 +113,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("Unauthorised HEAD request for advertisement")
                 .With(new ProviderServiceRequest
                 {

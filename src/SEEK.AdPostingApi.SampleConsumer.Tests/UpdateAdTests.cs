@@ -43,7 +43,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("Update request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -257,7 +257,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("Unauthorised update request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -296,13 +296,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task UpdateAdWithADifferentAdvertiserToTheOneOwningTheJob()
+        public void UpdateAdWithADifferentAdvertiserToTheOneOwningTheJob()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("a request to update a job ad with a different advertiser from the one owning the job")
                 .With(
                     new ProviderServiceRequest
@@ -346,7 +346,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             using (AdPostingApiClient client = this.GetClient(oAuth2Token))
             {
                 actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),requestModel));
+                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
             }
 
             actualException.ShouldBeEquivalentToException(
@@ -360,13 +360,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task UpdateAdWithArchivedThirdPartyUploader()
+        public void UpdateAdWithArchivedThirdPartyUploader()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ArchivedThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("a request to update a job with an archived third party uploader")
                 .With(
                     new ProviderServiceRequest
@@ -420,13 +420,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task UpdateAdWhereAdvertiserNotRelatedToThirdPartyUploader()
+        public void UpdateAdWhereAdvertiserNotRelatedToThirdPartyUploader()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("a request to update a job for an advertiser not related to the third party uploader")
                 .With(
                     new ProviderServiceRequest
@@ -481,13 +481,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public async Task UpdateAgentAdWithEmptyAgentId()
+        public void UpdateAgentAdWithEmptyAgentId()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAgentAccessToken).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{AdvertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("a request to update an agent job where the agent id is not supplied")
                 .With(
                     new ProviderServiceRequest

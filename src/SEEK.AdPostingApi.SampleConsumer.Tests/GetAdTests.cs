@@ -43,7 +43,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("GET request for advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -104,7 +104,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("GET request for advertisement with warnings")
                 .With(new ProviderServiceRequest
                 {
@@ -175,7 +175,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             PactProvider.MockService
-                .Given($"There is a failed classic advertisement with id '{advertisementId}'")
+                .Given("There is a failed classic advertisement")
                 .UponReceiving("GET request for advertisement with errors")
                 .With(new ProviderServiceRequest
                 {
@@ -271,7 +271,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             PactProvider.MockService
-                .Given($"There is a pending standout advertisement with maximum data and id '{advertisementId}'")
+                .Given("There is a pending standout advertisement")
                 .UponReceiving("Unauthorised GET request for advertisement")
                 .With(new ProviderServiceRequest
                 {
