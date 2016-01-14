@@ -191,6 +191,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
                             .WithAdvertiserId(null)
+                            .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
                             .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                             .WithSalaryMinimum(0)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
@@ -217,6 +218,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             message = "Validation Failure",
                             errors = new[]
                             {
+                                new { field = "advertisementDetails", code = "InvalidFormat" },
                                 new { field = "advertiserId", code = "Required" },
                                 new { field = "applicationEmail", code = "InvalidEmailAddress" },
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
@@ -239,6 +241,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
                             .WithAdvertiserId(null)
+                            .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
                             .WithAdvertisementType(AdvertisementType.StandOut)
                             .WithSalaryMinimum(0)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
@@ -259,6 +262,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Message = "Validation Failure",
                     Errors = new[]
                     {
+                        new ValidationData { Field = "advertisementDetails", Code = "InvalidFormat" },
                         new ValidationData { Field = "advertiserId", Code = "Required" },
                         new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
                         new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
