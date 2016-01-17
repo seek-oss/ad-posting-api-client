@@ -169,7 +169,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                        .WithSalaryMinimum(0)
+                        .WithSalaryMinimum(0.0)
                         .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                         .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
                         .WithVideoPosition(VideoPosition.Below.ToString())

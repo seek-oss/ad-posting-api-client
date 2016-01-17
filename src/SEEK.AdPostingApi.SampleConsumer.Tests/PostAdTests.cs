@@ -193,7 +193,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             .WithAdvertiserId(null)
                             .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
                             .WithAdvertisementType(AdvertisementType.StandOut.ToString())
-                            .WithSalaryMinimum(0)
+                            .WithSalaryMinimum(0.0)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
                             .WithVideoPosition(VideoPosition.Below.ToString())
                             .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")

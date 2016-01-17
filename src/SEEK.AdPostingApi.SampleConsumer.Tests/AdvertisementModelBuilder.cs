@@ -113,14 +113,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithSalaryMinimum(int minimum)
+        public AdvertisementModelBuilder WithSalaryMinimum(decimal minimum)
         {
             this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
             this._advertisementModel.Salary.Minimum = minimum;
             return this;
         }
 
-        public AdvertisementModelBuilder WithSalaryMaximum(int maximum)
+        public AdvertisementModelBuilder WithSalaryMaximum(decimal maximum)
         {
             this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
             this._advertisementModel.Salary.Maximum = maximum;

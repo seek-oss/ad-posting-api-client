@@ -10,9 +10,9 @@ namespace SEEK.AdPostingApi.Client.Models
     {
         public SalaryType Type { get; set; }
 
-        public int Minimum { get; set; }
+        public decimal Minimum { get; set; }
 
-        public int Maximum { get; set; }
+        public decimal Maximum { get; set; }
 
         public string Details { get; set; }
     }

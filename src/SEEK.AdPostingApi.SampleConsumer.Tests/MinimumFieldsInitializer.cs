@@ -99,14 +99,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return SalaryType.AnnualPackage;
         }
 
-        private int GetDefaultSalaryMinimum()
+        private decimal GetDefaultSalaryMinimum()
         {
             return 100000;
         }
 
-        private int GetDefaultSalaryMaximum()
+        private decimal GetDefaultSalaryMaximum()
         {
-            return 200000;
+            return 119999;
         }
     }
 }
