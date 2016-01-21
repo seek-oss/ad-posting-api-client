@@ -169,7 +169,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
-    
+
         [Test]
         public void PostAdWithWrongData()
         {
@@ -637,7 +637,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         [Test]
         public void PostAdWithDuplicateTemplateCustomFieldNames()
         {
-
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             PactProvider.RegisterIndexPageInteractions(oAuth2Token);
@@ -709,9 +708,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 });
 
             exception.ShouldBeEquivalentToException(expectedException);
-
         }
-        
+
         private AdPostingApiClient GetClient(OAuth2Token token)
         {
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
