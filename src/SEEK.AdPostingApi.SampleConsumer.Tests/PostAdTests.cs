@@ -19,7 +19,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private const string AdvertisementLink = "/advertisement";
         private const string CreationIdForAdWithMinimumRequiredData = "20150914-134527-00012";
         private const string CreationIdForAdWithMaximumRequiredData = "20150914-134527-00097";
-        private const string CreationIdForAdWithDuplicateTemplateCustomFields = "20160120-162020-00000";
 
         private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
 
@@ -202,7 +201,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
                             .WithTemplateItems(
                                 new KeyValuePair<object, object>("Template Line 1", "Template Value 1"),
-                                new KeyValuePair<object, object>("", "value2".PadRight(3010, '!')))
+                                new KeyValuePair<object, object>("", "value2".PadRight(3010, '!')),
+                                new KeyValuePair<object, object>("FieldNameA", "Template Value a"),
+                                new KeyValuePair<object, object>("FieldNameB", "Template Value b"),
+                                new KeyValuePair<object, object>("FieldNameA", "Template Value c"))
                             .Build()
                     }
                 )
@@ -227,6 +229,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 new { field = "standout.bullets[1]", code = "MaxLengthExceeded" },
                                 new { field = "template.items[1].name", code = "Required" },
                                 new { field = "template.items[1].value", code = "MaxLengthExceeded" },
+                                new { field = "template.items[2]", code = "AlreadySpecified" },
+                                new { field = "template.items[4]", code = "AlreadySpecified" },
                                 new { field = "video.url", code = "MaxLengthExceeded" },
                                 new { field = "video.url", code = "RegexPatternNotMatched" }
                             }
@@ -252,7 +256,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
                             .WithTemplateItems(
                                 new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
-                                new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
+                                new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') },
+                                new TemplateItemModel { Name = "FieldNameA", Value = "Template Value a" },
+                                new TemplateItemModel { Name = "FieldNameB", Value = "Template Value b" },
+                                new TemplateItemModel { Name = "FieldNameA", Value = "Template Value c" })
                             .Build()));
             }
 
@@ -271,6 +278,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "template.items[1].name", Code = "Required" },
                         new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
+                        new ValidationData { Field = "template.items[2]", Code = "AlreadySpecified" },
+                        new ValidationData { Field = "template.items[4]", Code = "AlreadySpecified" },
                         new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
                     }
@@ -634,84 +643,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
-        [Test]
-        public void PostAdWithDuplicateTemplateCustomFieldNames()
-        {
-
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
-
-            PactProvider.MockService
-                .UponReceiving("a request to create a job ad with duplicated names for template custom fields")
-                .With(
-                    new ProviderServiceRequest
-                    {
-                        Method = HttpVerb.Post,
-                        Path = AdvertisementLink,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
-                        },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                            .WithRequestCreationId(CreationIdForAdWithDuplicateTemplateCustomFields)
-                            .WithTemplateItems(
-                                new KeyValuePair<object, object>("FieldNameA", "Template Value 1"),
-                                new KeyValuePair<object, object>("FieldNameB", "Template Value 2"),
-                                new KeyValuePair<object, object>("FieldNameA", "Template Value 3"))
-                            .Build()
-                    }
-                )
-                .WillRespondWith(
-                    new ProviderServiceResponse
-                    {
-                        Status = 422,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
-                        },
-                        Body = new
-                        {
-                            message = "Validation Failure",
-                            errors = new[]
-                            {
-                                new { field = "template.items[0]", code = "AlreadySpecified" },
-                                new { field = "template.items[2]", code = "AlreadySpecified" }
-                            }
-                        }
-                    });
-            ValidationException exception;
-
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
-            {
-                exception = Assert.Throws<ValidationException>(
-                    async () =>
-                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
-                            .WithRequestCreationId(CreationIdForAdWithDuplicateTemplateCustomFields)
-                            .WithTemplateItems(
-                                new TemplateItemModel { Name = "FieldNameA", Value = "Template Value 1" },
-                                new TemplateItemModel { Name = "FieldNameB", Value = "Template Value 2" },
-                                new TemplateItemModel { Name = "FieldNameA", Value = "Template Value 3" })
-                            .Build()));
-            }
-
-            var expectedException = new ValidationException(
-                HttpMethod.Post,
-                new ValidationMessage
-                {
-                    Message = "Validation Failure",
-                    Errors = new[]
-                    {
-                        new ValidationData { Field = "template.items[0]", Code = "AlreadySpecified" },
-                        new ValidationData { Field = "template.items[2]", Code = "AlreadySpecified" }
-                    }
-                });
-
-            exception.ShouldBeEquivalentToException(expectedException);
-
-        }
-        
         private AdPostingApiClient GetClient(OAuth2Token token)
         {
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
