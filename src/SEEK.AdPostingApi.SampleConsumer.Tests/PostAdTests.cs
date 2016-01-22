@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -10,6 +6,10 @@ using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -200,6 +200,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                             .WithApplicationEmail("someone(at)some.domain")
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
+                            .WithEndApplicationUrl("htp://someothercompany.domain/apply")
                             .WithTemplateItems(
                                 new KeyValuePair<object, object>("Template Line 1", "Template Value 1"),
                                 new KeyValuePair<object, object>("", "value2".PadRight(3010, '!')))
@@ -223,6 +224,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                                 new { field = "advertiserId", code = "Required" },
                                 new { field = "applicationEmail", code = "InvalidEmailAddress" },
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
+                                new { field = "endApplicationUrl", code = "InvalidUrl" },
                                 new { field = "salary.minimum", code = "ValueOutOfRange" },
                                 new { field = "standout.bullets[1]", code = "MaxLengthExceeded" },
                                 new { field = "template.items[1].name", code = "Required" },
@@ -250,6 +252,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                             .WithApplicationEmail("someone(at)some.domain")
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
+                            .WithEndApplicationUrl("htp://someothercompany.domain/apply")
                             .WithTemplateItems(
                                 new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
                                 new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
@@ -267,6 +270,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         new ValidationData { Field = "advertiserId", Code = "Required" },
                         new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
                         new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                        new ValidationData { Field = "endApplicationUrl", Code = "InvalidUrl" },
                         new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
                         new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "template.items[1].name", Code = "Required" },

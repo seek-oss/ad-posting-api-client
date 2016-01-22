@@ -31,6 +31,8 @@ namespace SEEK.AdPostingApi.Client.Models
 
         public string ApplicationFormUrl { get; set; }
 
+        public string EndApplicationUrl { get; set; }
+
         public int? ScreenId { get; set; }
 
         public string JobReference { get; set; }
