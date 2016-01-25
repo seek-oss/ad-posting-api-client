@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
@@ -6,10 +10,6 @@ using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -59,6 +59,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                         .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
+                        .WithEndApplicationUrl("http://endform.com/updated")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                         .WithSeekCodes(null)
                         .Build()
@@ -76,7 +77,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                         .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
-                        .WithEndApplicationUrl("http://endform.com/")
+                        .WithEndApplicationUrl("http://endform.com/updated")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                         .WithSeekCodes(null)
                         .WithResponseLink("self", link)
@@ -91,6 +92,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                 .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                 .WithApplicationFormUrl("http://FakeATS.com.au")
+                .WithEndApplicationUrl("http://endform.com/updated")
                 .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                 .WithSeekCodes(null)
                 .Build();
