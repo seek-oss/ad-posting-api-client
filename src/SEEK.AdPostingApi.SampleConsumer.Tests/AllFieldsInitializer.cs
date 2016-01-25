@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SEEK.AdPostingApi.Client.Models;
+using System.Collections.Generic;
 using System.Linq;
-using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -21,6 +21,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithVideoPosition(GetDefaultVideoPosition().ToString())
                 .WithApplicationEmail(GetDefaultApplicationEmail())
                 .WithApplicationFormUrl(GetDefaultApplicationFormUrl())
+                .WithEndApplicationUrl(GetDefaultEndApplicationUrl())
                 .WithScreenId(GetDefaultScreenId())
                 .WithJobReference(GetDefaultJobReference())
                 .WithTemplateId(GetDefaultTemplateId())
@@ -46,6 +47,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithVideoPosition(GetDefaultVideoPosition())
                 .WithApplicationEmail(GetDefaultApplicationEmail())
                 .WithApplicationFormUrl(GetDefaultApplicationFormUrl())
+                .WithEndApplicationUrl(GetDefaultEndApplicationUrl())
                 .WithScreenId(GetDefaultScreenId())
                 .WithJobReference(GetDefaultJobReference())
                 .WithTemplateId(GetDefaultTemplateId())
@@ -91,6 +93,11 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         private string GetDefaultApplicationFormUrl()
         {
             return "http://apply.com/";
+        }
+
+        private string GetDefaultEndApplicationUrl()
+        {
+            return "http://endform.com/";
         }
 
         private int GetDefaultScreenId()

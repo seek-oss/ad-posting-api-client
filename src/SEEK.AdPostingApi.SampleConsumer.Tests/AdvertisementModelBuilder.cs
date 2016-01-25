@@ -166,6 +166,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
+        public AdvertisementModelBuilder WithEndApplicationUrl(string endApplicationUrl)
+        {
+            this._advertisementModel.EndApplicationUrl = endApplicationUrl;
+            return this;
+        }
+
         public AdvertisementModelBuilder WithScreenId(int? screenId)
         {
             this._advertisementModel.ScreenId = screenId;

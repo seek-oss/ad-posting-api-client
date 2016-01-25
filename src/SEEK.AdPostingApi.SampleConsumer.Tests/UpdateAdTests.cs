@@ -59,6 +59,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                         .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
+                        .WithEndApplicationUrl("http://endform.com/updated")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                         .WithSeekCodes(null)
                         .Build()
@@ -76,6 +77,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                         .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
+                        .WithEndApplicationUrl("http://endform.com/updated")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                         .WithSeekCodes(null)
                         .WithResponseLink("self", link)
@@ -90,6 +92,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                 .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                 .WithApplicationFormUrl("http://FakeATS.com.au")
+                .WithEndApplicationUrl("http://endform.com/updated")
                 .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
                 .WithSeekCodes(null)
                 .Build();
