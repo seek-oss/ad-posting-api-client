@@ -134,9 +134,24 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithContactDetails(string contactDetails)
+        public AdvertisementModelBuilder WithContactName(string contactName)
         {
-            this._advertisementModel.ContactDetails = contactDetails;
+            this._advertisementModel.Contact = this._advertisementModel.Contact ?? new Contact();
+            this._advertisementModel.Contact.Name = contactName;
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithContactPhone(string contactPhone)
+        {
+            this._advertisementModel.Contact = this._advertisementModel.Contact ?? new Contact();
+            this._advertisementModel.Contact.Phone = contactPhone;
+            return this;
+        }
+
+        public AdvertisementModelBuilder WithContactEmail(string contactEmail)
+        {
+            this._advertisementModel.Contact = this._advertisementModel.Contact ?? new Contact();
+            this._advertisementModel.Contact.Email = contactEmail;
             return this;
         }
 
