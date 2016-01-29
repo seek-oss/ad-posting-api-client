@@ -229,24 +229,24 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
         }
 
-        public AdvertisementContentBuilder WithContactName(string contactName)
+        public AdvertisementContentBuilder WithContactName(object contactName)
         {
             EnsureContactPropertyExists();
-            this._advertisementModel.Contact.Name = contactName;
+            this._advertisementModel.contact.name = contactName;
             return this;
         }
 
-        public AdvertisementContentBuilder WithContactPhone(string contactPhone)
+        public AdvertisementContentBuilder WithContactPhone(object contactPhone)
         {
             EnsureContactPropertyExists();
-            this._advertisementModel.Contact.Phone = contactPhone;
+            this._advertisementModel.contact.phone = contactPhone;
             return this;
         }
 
-        public AdvertisementContentBuilder WithContactEmail(string contactEmail)
+        public AdvertisementContentBuilder WithContactEmail(object contactEmail)
         {
             EnsureContactPropertyExists();
-            this._advertisementModel.Contact.Email = contactEmail;
+            this._advertisementModel.contact.email = contactEmail;
             return this;
         }
 
