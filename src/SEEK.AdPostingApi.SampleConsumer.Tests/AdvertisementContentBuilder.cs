@@ -221,9 +221,32 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementContentBuilder WithContactDetails(object contactDetails)
+        private void EnsureContactPropertyExists()
         {
-            _advertisementModel.contactDetails = contactDetails;
+            if (!((IDictionary<string, object>)_advertisementModel).ContainsKey("contact"))
+            {
+                _advertisementModel.contact = new ExpandoObject();
+            }
+        }
+
+        public AdvertisementContentBuilder WithContactName(object contactName)
+        {
+            EnsureContactPropertyExists();
+            this._advertisementModel.contact.name = contactName;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithContactPhone(object contactPhone)
+        {
+            EnsureContactPropertyExists();
+            this._advertisementModel.contact.phone = contactPhone;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithContactEmail(object contactEmail)
+        {
+            EnsureContactPropertyExists();
+            this._advertisementModel.contact.email = contactEmail;
             return this;
         }
 

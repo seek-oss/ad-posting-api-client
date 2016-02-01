@@ -25,8 +25,6 @@ namespace SEEK.AdPostingApi.Client.Models
 
         public string AdvertisementDetails { get; set; }
 
-        public string ContactDetails { get; set; }
-
         public string ApplicationEmail { get; set; }
 
         public string ApplicationFormUrl { get; set; }
@@ -40,6 +38,8 @@ namespace SEEK.AdPostingApi.Client.Models
         public string[] SeekCodes { get; set; }
 
         public Salary Salary { get; set; }
+
+        public Contact Contact { get; set; }
 
         public Template Template { get; set; }
 

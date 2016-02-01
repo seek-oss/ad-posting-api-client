@@ -1,6 +1,6 @@
-﻿using SEEK.AdPostingApi.Client.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
@@ -16,7 +16,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAgentId(GetDefaultAgentId())
                 .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                 .WithSalaryDetails(GetDefaultSalaryDetails())
-                .WithContactDetails(GetDefaultContactDetails())
+                .WithContactName(GetDefaultContactName())
+                .WithContactEmail(GetDefaultContactEmail())
+                .WithContactPhone(GetDefaultContactPhone())
                 .WithVideoUrl(GetDefaultVideoUrl())
                 .WithVideoPosition(GetDefaultVideoPosition().ToString())
                 .WithApplicationEmail(GetDefaultApplicationEmail())
@@ -42,7 +44,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithAgentId(GetDefaultAgentId())
                 .WithAdvertisementType(AdvertisementType.StandOut)
                 .WithSalaryDetails(GetDefaultSalaryDetails())
-                .WithContactDetails(GetDefaultContactDetails())
+                .WithContactName(GetDefaultContactName())
+                .WithContactEmail(GetDefaultContactEmail())
+                .WithContactPhone(GetDefaultContactPhone())
                 .WithVideoUrl(GetDefaultVideoUrl())
                 .WithVideoPosition(GetDefaultVideoPosition())
                 .WithApplicationEmail(GetDefaultApplicationEmail())
@@ -70,9 +74,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return "We will pay you";
         }
 
-        private string GetDefaultContactDetails()
+        private string GetDefaultContactName()
         {
-            return "Call me";
+            return "Contact name";
+        }
+
+        private string GetDefaultContactPhone()
+        {
+            return "+1 (123) 456 7889";
+        }
+
+        private string GetDefaultContactEmail()
+        {
+            return "qwert@asdf.com";
         }
 
         private string GetDefaultVideoUrl()
