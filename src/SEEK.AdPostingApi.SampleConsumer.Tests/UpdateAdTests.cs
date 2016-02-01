@@ -545,6 +545,70 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
+        [Test]
+        public void UpdateStandoutJobToClassic()
+        {
+            var oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+
+            PactProvider.MockService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("a request to update a standout job to classic")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Put,
+                        Path = link,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                            .WithAdvertisementType(AdvertisementType.Classic.ToString())
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 422,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Validation Failure",
+                            errors = new[]
+                            {
+                                new { field = "advertisementType", code = "ChangeNotAllowed" }
+                            }
+                        }
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithAdvertisementType(AdvertisementType.Classic).Build();
+
+            ValidationException actualException;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                actualException = Assert.Throws<ValidationException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
+            }
+
+            var expectedException = new ValidationException(
+                HttpMethod.Put,
+                new ValidationMessage
+                {
+                        Message = "Validation Failure",
+                        Errors = new[] { new ValidationData { Field = "advertisementType", Code = "ChangeNotAllowed" } }
+                }
+            );
+
+            actualException.ShouldBeEquivalentToException(expectedException);
+        }
+
         private AdPostingApiClient GetClient(OAuth2Token token)
         {
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
