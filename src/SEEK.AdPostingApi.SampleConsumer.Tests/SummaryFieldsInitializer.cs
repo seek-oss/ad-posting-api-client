@@ -22,7 +22,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private string GetDefaultAdvertiserId()
         {
-            return "9012";
+            return "1";
         }
 
         private string GetDefaultJobTitle()

@@ -601,8 +601,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 HttpMethod.Put,
                 new ValidationMessage
                 {
-                        Message = "Validation Failure",
-                        Errors = new[] { new ValidationData { Field = "advertisementType", Code = "ChangeNotAllowed" } }
+                    Message = "Validation Failure",
+                    Errors = new[] { new ValidationData { Field = "advertisementType", Code = "ChangeNotAllowed" } }
                 }
             );
 

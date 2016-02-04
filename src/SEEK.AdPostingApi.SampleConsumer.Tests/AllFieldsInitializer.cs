@@ -116,7 +116,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private int GetDefaultScreenId()
         {
-            return 20;
+            return 1;
         }
 
         private string GetDefaultJobReference()
@@ -126,7 +126,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private int GetDefaultTemplateId()
         {
-            return 99;
+            return 1;
         }
 
         private string GetDefaultTemplateItemName(int itemNumber)
@@ -141,7 +141,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private int GetDefaultLogoId()
         {
-            return 333;
+            return 1;
         }
 
         private string GetDefaultStandoutBullet(int itemNumber)
