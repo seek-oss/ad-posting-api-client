@@ -28,18 +28,25 @@ A job ad posting request may look something like this.
             var ad = new Advertisement
             {
                 CreationId = "Sample Consumer 20151001 114732 1234567",
-                AdvertiserId = "Advertiser Id",
+                AdvertiserId = "AdvertiserId",
                 JobTitle = "A Job Title",
                 JobSummary = "Job summary of the job ad",
                 AdvertisementDetails = "Experience Required",
                 AdvertisementType = AdvertisementType.Classic,
                 WorkType = WorkType.Casual,
-                Salary = new Salary() { Type = SalaryType.HourlyRate,
-                                        Minimum = 20,
-                                        Maximum = 24},
-                LocationId = "1002",
-                SubclassificationId = "6227",
-               
+                Salary = new Salary
+                {
+                    Type = SalaryType.HourlyRate,
+                    Minimum = 20,
+                    Maximum = 24
+                },
+                Location = new Location
+                {
+                    Country = "Australia",
+                    City = "Melbourne",
+                    PostCode = "3000"
+                },
+                SubclassificationId = "AccountingOther"
             };
 
             AdvertisementResource advertisement = await postingClient.CreateAdvertisementAsync(ad);
