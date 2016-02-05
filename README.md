@@ -54,4 +54,4 @@ Take the posting request as an example, when the "CreateAdvertisementAsync" meth
 
 ## API document
 * [SEEK OAuth 2](http://docs.oauth2seek.apiary.io/#)
-* [Job Ad Posting API](http://docs.jobadposting.apiary.io/#)
+* [Job Ad Posting API](http://docs.adposting.apiary.io/#)
