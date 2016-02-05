@@ -14,7 +14,7 @@
     <tags>SEEK API</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="6.0.0.0" />
-	  <dependency id="Tavis.UriTemplates" version="0.6.3" />
+	  <dependency id="Tavis.UriTemplates" version="0.6.4" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System" targetFramework="" />
