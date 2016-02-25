@@ -66,7 +66,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithAgentId(null)
                         .WithState(AdvertisementState.Open.ToString())
-                        .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
+                        .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
                         .WithResponseLink("self", link)
                         .WithResponseLink("view", viewRenderedAdvertisementLink)
                         .Build()
@@ -127,9 +127,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithAgentId(null)
                         .WithState(AdvertisementState.Open.ToString())
-                        .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
-                        .WithResponseLink("self", link)
-                        .WithResponseLink("view", viewRenderedAdvertisementLink)
+                        .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
                         .WithResponseWarnings(
                             new { field = "standout.logoId", code = "missing" },
                             new { field = "standout.bullets", code = "missing" })

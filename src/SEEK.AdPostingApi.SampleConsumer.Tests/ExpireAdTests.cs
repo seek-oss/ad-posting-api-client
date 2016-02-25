@@ -70,7 +70,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                             .WithAgentId(null)
                             .WithState(AdvertisementState.Expired.ToString())
-                            .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString())
+                            .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
                             .WithResponseLink("self", link)
                             .WithResponseLink("view", viewRenderedAdvertisementLink)
                             .Build()
