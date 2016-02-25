@@ -174,7 +174,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private AdditionalPropertyType[] GetDefaultAdditionalProperties()
         {
-            return new[] { AdditionalPropertyType.ResidentsOnly };
+            return new[] { AdditionalPropertyType.ResidentsOnly, AdditionalPropertyType.Graduate };
         }
 
         private object[] GetDefaultAdditionalPropertiesAsObjects()
