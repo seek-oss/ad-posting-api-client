@@ -127,6 +127,8 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithAgentId(null)
                         .WithState(AdvertisementState.Open.ToString())
+                        .WithResponseLink("self", link)
+                        .WithResponseLink("view", viewRenderedAdvertisementLink)
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
                         .WithResponseWarnings(
                             new { field = "standout.logoId", code = "missing" },
