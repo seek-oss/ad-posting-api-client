@@ -350,19 +350,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementContentBuilder WithSeekCodes(params object[] seekCodes)
-        {
-            if (seekCodes == null)
-            {
-                TryRemoveProperty(_advertisementModel, "seekCodes");
-            }
-            else
-            {
-                _advertisementModel.seekCodes = seekCodes?.Clone();
-            }
-            return this;
-        }
-
         public AdvertisementContentBuilder WithAdditionalProperties(params object[] additionalPropertyTypes)
         {
             _advertisementModel.additionalProperties = additionalPropertyTypes?.Clone<object[]>();

@@ -231,12 +231,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithSeekCodes(params string[] seekCodes)
-        {
-            this._advertisementModel.SeekCodes = seekCodes?.Clone<string[]>();
-            return this;
-        }
-
         public AdvertisementModelBuilder WithAdditionalProperties(params AdditionalPropertyType[] additionalPropertyTypes)
         {
             this._advertisementModel.AdditionalProperties = additionalPropertyTypes.Clone<AdditionalPropertyType[]>();
