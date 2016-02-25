@@ -2,6 +2,7 @@
 {
     public enum AdditionalPropertyType
     {
-        ResidentsOnly = 1
+        ResidentsOnly = 1,
+        Graduate
     }
 }
