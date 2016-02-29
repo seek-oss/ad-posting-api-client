@@ -32,7 +32,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new KeyValuePair<object, object>(GetDefaultTemplateItemName(2), GetDefaultTemplateItemValue(2)))
                 .WithStandoutLogoId(GetDefaultLogoId())
                 .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
-                .WithSeekCodes(GetDefaultSeekCodesAsObjects())
                 .WithAdditionalProperties(GetDefaultAdditionalPropertiesAsObjects());
         }
 
@@ -60,7 +59,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     new TemplateItemModel { Name = GetDefaultTemplateItemName(2), Value = GetDefaultTemplateItemValue(2) })
                 .WithStandoutLogoId(GetDefaultLogoId())
                 .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
-                .WithSeekCodes(GetDefaultSeekCodes())
                 .WithAdditionalProperties(GetDefaultAdditionalProperties());
         }
 
@@ -160,16 +158,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 default:
                     return $"Standout bullet {itemNumber}";
             }
-        }
-
-        private string[] GetDefaultSeekCodes()
-        {
-            return new[] { "SK010001Z", "SK010010z", "SK0101OOZ", "SK910101A" };
-        }
-
-        private object[] GetDefaultSeekCodesAsObjects()
-        {
-            return GetDefaultSeekCodes().ToArray<object>();
         }
 
         private AdditionalPropertyType[] GetDefaultAdditionalProperties()

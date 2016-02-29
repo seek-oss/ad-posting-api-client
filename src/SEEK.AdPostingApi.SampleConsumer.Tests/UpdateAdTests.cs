@@ -61,7 +61,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithEndApplicationUrl("http://endform.com/updated")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
-                        .WithSeekCodes(null)
                         .Build()
                 })
                 .WillRespondWith(
@@ -79,7 +78,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithEndApplicationUrl("http://endform.com/updated")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
-                        .WithSeekCodes(null)
                         .WithResponseLink("self", link)
                         .WithResponseLink("view", viewRenderedAdvertisementLink)
                         .Build()
@@ -94,7 +92,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                 .WithApplicationFormUrl("http://FakeATS.com.au")
                 .WithEndApplicationUrl("http://endform.com/updated")
                 .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
-                .WithSeekCodes(null)
                 .Build();
 
             AdvertisementResource result;
