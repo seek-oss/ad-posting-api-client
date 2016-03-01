@@ -192,7 +192,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
                             .WithAdvertiserId(null)
-                            .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
                             .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                             .WithSalaryMinimum(0.0)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
@@ -219,7 +218,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             message = "Validation Failure",
                             errors = new[]
                             {
-                                new { field = "advertisementDetails", code = "InvalidFormat" },
                                 new { field = "advertiserId", code = "Required" },
                                 new { field = "applicationEmail", code = "InvalidEmailAddress" },
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
@@ -242,7 +240,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
                             .WithAdvertiserId(null)
-                            .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
                             .WithAdvertisementType(AdvertisementType.StandOut)
                             .WithSalaryMinimum(0)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
@@ -263,7 +260,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     Message = "Validation Failure",
                     Errors = new[]
                     {
-                        new ValidationData { Field = "advertisementDetails", Code = "InvalidFormat" },
                         new ValidationData { Field = "advertiserId", Code = "Required" },
                         new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
                         new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
@@ -273,6 +269,75 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
+                    }
+                });
+
+            exception.ShouldBeEquivalentToException(expectedException);
+        }
+
+        [Test]
+        public void PostAdWithInvalidAdvertisementDetails()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+
+            PactProvider.MockService
+                .UponReceiving("a request to create a job ad with invalid advertisement details")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                            .WithRequestCreationId("20150914-134527-00109")
+                            .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 422,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Validation Failure",
+                            errors = new[]
+                            {
+                                new { field = "advertisementDetails", code = "InvalidFormat" }
+                            }
+                        }
+                    });
+
+            ValidationException exception;
+
+            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            {
+                exception = Assert.Throws<ValidationException>(
+                    async () =>
+                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                            .WithRequestCreationId("20150914-134527-00109")
+                            .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
+                            .Build()));
+            }
+
+            var expectedException = new ValidationException(
+                HttpMethod.Post,
+                new ValidationMessage
+                {
+                    Message = "Validation Failure",
+                    Errors = new[]
+                    {
+                        new ValidationData { Field = "advertisementDetails", Code = "InvalidFormat" }
                     }
                 });
 
