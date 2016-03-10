@@ -332,7 +332,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                             message = "Forbidden",
                             errors = new[]
                             {
-                                new { code = "InvalidValue" }
+                                new { code = "RelationshipError" }
                             }
                         }
                     });
