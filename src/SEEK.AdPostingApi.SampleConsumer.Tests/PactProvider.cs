@@ -87,5 +87,42 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     }
                 });
         }
+
+        public static void RegisterIndexPageInteractionsForArchivedAccount(OAuth2Token token)
+        {
+            const string advertisementLink = "/advertisement";
+
+            PactProvider.MockService
+                .UponReceiving($"a request to retrieve API links with Bearer {token}")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = "/",
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Accept", "application/hal+json"},
+                        {"Authorization", $"Bearer {token.AccessToken}"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Content-Type", "application/hal+json; charset=utf-8"}
+                    },
+                    Body = new
+                    {
+                        _links = new
+                        {
+                            advertisement = new
+                            {
+                                href = advertisementLink + "/{advertisementId}",
+                                templated = true
+                            }
+                        }
+                    }
+                });
+        }
     }
 }

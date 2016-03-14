@@ -579,8 +579,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ArchivedThirdPartyUploader).Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
-
             PactProvider.MockService
                 .UponReceiving("a request to create a job with an archived third party uploader")
                 .With(
@@ -623,7 +621,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             using (AdPostingApiClient client = this.GetClient(oAuth2Token))
             {
                 actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.CreateAdvertisementAsync(requestModel));
+                    async () => await client.CreateAdvertisementAsync(requestModel, new Uri(PactProvider.MockServiceUri, AdvertisementLink)));
             }
 
             actualException.ShouldBeEquivalentToException(
