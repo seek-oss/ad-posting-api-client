@@ -90,18 +90,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             actualException.ShouldBeEquivalentToException(new UnauthorizedException($"[GET] {PactProvider.MockServiceUri} is not authorized."));
         }
 
-        [Test]
-        public async Task GetAdvertisementslinkNotReturnedToArchivedAccount()
-        {
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ArchivedThirdPartyUploader).Build();
-            PactProvider.RegisterIndexPageInteractionsForArchivedAccount(oAuth2Token);
-
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
-            {
-                await client.InitialiseIndexResource(PactProvider.MockServiceUri);
-            }
-        }
-
         private AdPostingApiClient GetClient(OAuth2Token token)
         {
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));

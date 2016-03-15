@@ -575,12 +575,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         }
 
         [Test]
-        public void PostAdWithArchivedThirdPartyUploader()
+        public void PostAdWithDisabledThirdPartyUploader()
         {
-            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ArchivedThirdPartyUploader).Build();
+            var oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
 
             PactProvider.MockService
-                .UponReceiving("a request to create a job with an archived third party uploader")
+                .Given("The third party uploader account is disabled")
+                .UponReceiving("a request to create a job with a disabled third party uploader")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -621,7 +624,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             using (AdPostingApiClient client = this.GetClient(oAuth2Token))
             {
                 actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.CreateAdvertisementAsync(requestModel, new Uri(PactProvider.MockServiceUri, AdvertisementLink)));
+                    async () => await client.CreateAdvertisementAsync(requestModel));
             }
 
             actualException.ShouldBeEquivalentToException(
