@@ -169,7 +169,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                        .WithSalaryMinimum(0.0)
+                        .WithSalaryMinimum(-1.0)
                         .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                         .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
                         .WithVideoPosition(VideoPosition.Below.ToString())
@@ -214,7 +214,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
                         new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithAdvertisementType(AdvertisementType.StandOut)
-                            .WithSalaryMinimum(0)
+                            .WithSalaryMinimum(-1)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
                             .WithVideoPosition(VideoPosition.Below)
                             .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
