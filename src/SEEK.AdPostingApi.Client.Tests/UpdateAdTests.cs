@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
@@ -244,53 +243,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(expectedException);
         }
 
-        [Fact(Skip = "To be implemented")]
-        public async Task UpdateExistingAdvertisementNotPermitted()
-        {
-            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
-
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
-
-            this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("Unauthorised update request for advertisement")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Put,
-                    Path = link,
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
-                    },
-                    Body = new AdvertisementContentBuilder(AllFieldsInitializer).Build()
-                })
-                .WillRespondWith(
-                    new ProviderServiceResponse
-                    {
-                        Status = 403,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Content-Type", "application/json; charset=utf-8" }
-                        },
-                        Body = new { message = "Operation not permitted on advertisement with advertiser id: '9012'" }
-                    });
-
-            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).Build();
-
-            UnauthorizedException actualException;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
-            }
-
-            actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException("Operation not permitted on advertisement with advertiser id: '9012'"));
-        }
-
         [Fact]
         public async Task UpdateAdWithADifferentAdvertiserToTheOneOwningTheJob()
         {
@@ -356,14 +308,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task UpdateAdWithArchivedThirdPartyUploader()
+        public async Task UpdateAdWithDisabledThirdPartyUploader()
         {
-            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ArchivedThirdPartyUploader).Build();
+            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to update a job with an archived third party uploader")
+                .UponReceiving("a request to update a job with a disabled third party uploader")
                 .With(
                     new ProviderServiceRequest
                     {
