@@ -6,7 +6,7 @@ using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using Xunit;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
     [Collection(AdPostingApiCollection.Name)]
     public class GetAdStatusTests : IDisposable

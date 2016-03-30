@@ -10,7 +10,7 @@ using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 using Xunit;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
     [Collection(AdPostingApiCollection.Name)]
     public class UpdateAdTests : IDisposable

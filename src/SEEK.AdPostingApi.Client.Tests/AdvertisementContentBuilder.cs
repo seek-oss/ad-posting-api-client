@@ -2,7 +2,7 @@
 using System.Dynamic;
 using System.Linq;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
     public class AdvertisementContentBuilder
     {

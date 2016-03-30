@@ -4,7 +4,7 @@ using System.Reflection;
 using FluentAssertions;
 using FluentAssertions.Equivalency;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
     public static class FluentAssertionsExtensions
     {

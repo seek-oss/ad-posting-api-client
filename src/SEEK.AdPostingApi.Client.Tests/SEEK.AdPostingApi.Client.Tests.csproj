@@ -8,8 +8,8 @@
     <ProjectGuid>{593C2601-29C7-4E37-B58A-1BBA33CF6AC8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SEEK.AdPostingApi.SampleConsumer.Tests</RootNamespace>
-    <AssemblyName>SEEK.AdPostingApi.SampleConsumer.Tests</AssemblyName>
+    <RootNamespace>SEEK.AdPostingApi.Client.Tests</RootNamespace>
+    <AssemblyName>SEEK.AdPostingApi.Client.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

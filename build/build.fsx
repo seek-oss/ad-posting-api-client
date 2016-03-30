@@ -9,8 +9,8 @@ let branchName = getBuildParamOrDefault "branch" "master"
 let outputDir = "../out"
 let srcDir = "../src"
 let version = generateVersionNumber "../src/SEEK.AdPostingApi.Client/version.txt"
-let solutionDir = srcDir + "/SEEK.AdPostingApi.SampleConsumer.sln"
-let testDir = srcDir + "/SEEK.AdPostingApi.SampleConsumer.Tests"
+let solutionDir = srcDir + "/SEEK.AdPostingApi.Client.sln"
+let testDir = srcDir + "/SEEK.AdPostingApi.Client.Tests"
 let clientDir = srcDir + "/SEEK.AdPostingApi.Client"
 let nugetVersion = generateNugetVersion
 let packagingRoot = outputDir + "/artifacts"
@@ -38,7 +38,7 @@ Target "Build" (fun _ ->
 )
 
 Target "Test" (fun _ ->
-   !! (testDir + "/bin/**/SEEK.AdPostingApi.SampleConsumer.Tests.dll")
+   !! (testDir + "/bin/**/*.Tests.dll")
       |> VSTest (fun p -> { p with TestAdapterPath = "../src/packages/xunit.runner.visualstudio.2.1.0/build/_common/" })
 )
 
