@@ -27,7 +27,6 @@ Target "RestorePackages" (fun _ ->
      |> RestoreMSSolutionPackages (fun p ->
          { p with
              ToolPath = nugetPath
-             Sources = "https://api.nuget.org/v3/index.json" :: p.Sources
              OutputPath = srcDir + "/packages"
              Retries = 4 })
 )
