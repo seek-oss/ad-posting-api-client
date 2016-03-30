@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.SampleCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.Client", "SEEK.AdPostingApi.Client\SEEK.AdPostingApi.Client.csproj", "{CCBCFA40-1BB1-4A7D-9539-03B54C6719F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.SampleConsumer.Tests", "SEEK.AdPostingApi.SampleConsumer.Tests\SEEK.AdPostingApi.SampleConsumer.Tests.csproj", "{593C2601-29C7-4E37-B58A-1BBA33CF6AC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.Client.Tests", "SEEK.AdPostingApi.Client.Tests\SEEK.AdPostingApi.Client.Tests.csproj", "{593C2601-29C7-4E37-B58A-1BBA33CF6AC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
