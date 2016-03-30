@@ -9,7 +9,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         public AdPostingApiPactService()
         {
             this.PactBuilder = new PactBuilder(new PactConfig { PactDir = "../../pact", LogDir = "../../pact" })
-                .ServiceConsumer("Ad Posting API Sample Consumer")
+                .ServiceConsumer("Ad Posting API Client")
                 .HasPactWith("Ad Posting API");
 
             this.MockProviderService = this.PactBuilder.MockService(this.MockServerPort);
