@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Moq;
-using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using Xunit;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
-    [TestFixture]
-    public class PostAdTests
+    [Collection(AdPostingApiCollection.Name)]
+    public class PostAdTests : IDisposable
     {
         private const string AdvertisementLink = "/advertisement";
         private const string CreationIdForAdWithMinimumRequiredData = "20150914-134527-00012";
@@ -25,19 +24,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 
-        [SetUp]
-        public void TestInitialize()
+        public PostAdTests(AdPostingApiPactService adPostingApiPactService)
         {
-            PactProvider.ClearInteractions();
+            this.Fixture = new AdPostingApiFixture(adPostingApiPactService);
         }
 
-        [TearDown]
-        public void TestCleanup()
+        public void Dispose()
         {
-            PactProvider.VerifyInteractions();
+            this.Fixture.Dispose();
         }
 
-        [Test]
+        [Fact]
         public async Task PostAdWithMinimumRequiredData()
         {
             const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
@@ -46,9 +43,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             var location = $"http://localhost{link}";
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to create a job ad with minimum required data")
                 .With(
                     new ProviderServiceRequest
@@ -84,14 +81,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementResource result;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 result = await client.CreateAdvertisementAsync(requestModel);
             }
 
             var expectedResult = new AdvertisementResource
             {
-                Links = new Links(PactProvider.MockServiceUri)
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
@@ -103,7 +100,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [Test]
+        [Fact]
         public async Task PostAdWithMaximumData()
         {
             const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
@@ -112,9 +109,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             var location = $"http://localhost{link}";
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to create a job ad with maximum required data")
                 .With(
                     new ProviderServiceRequest
@@ -151,14 +148,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementResource result;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 result = await client.CreateAdvertisementAsync(requestModel);
             }
 
             var expectedResult = new AdvertisementResource
             {
-                Links = new Links(PactProvider.MockServiceUri)
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
@@ -170,14 +167,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [Test]
-        public void PostAdWithWrongData()
+        [Fact]
+        public async Task PostAdWithWrongData()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to create a job ad with bad data")
                 .With(
                     new ProviderServiceRequest
@@ -233,9 +230,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             ValidationException exception;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                exception = Assert.Throws<ValidationException>(
+                exception = await Assert.ThrowsAsync<ValidationException>(
                     async () =>
                         await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
@@ -275,14 +272,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             exception.ShouldBeEquivalentToException(expectedException);
         }
 
-        [Test]
-        public void PostAdWithInvalidAdvertisementDetails()
+        [Fact]
+        public async Task PostAdWithInvalidAdvertisementDetails()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to create a job ad with invalid advertisement details")
                 .With(
                     new ProviderServiceRequest
@@ -320,9 +317,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             ValidationException exception;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                exception = Assert.Throws<ValidationException>(
+                exception = await Assert.ThrowsAsync<ValidationException>(
                     async () =>
                         await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
@@ -344,14 +341,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             exception.ShouldBeEquivalentToException(expectedException);
         }
 
-        [Test]
-        public void PostAdWithNoCreationId()
+        [Fact]
+        public async Task PostAdWithNoCreationId()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to create a job ad without a creation id")
                 .With(
                     new ProviderServiceRequest
@@ -386,9 +383,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             ValidationException exception;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                exception = Assert.Throws<ValidationException>(
+                exception = await Assert.ThrowsAsync<ValidationException>(
                     async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).Build()));
             }
 
@@ -402,17 +399,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     }));
         }
 
-        [Test]
-        public void PostAdWithExistingCreationId()
+        [Fact]
+        public async Task PostAdWithExistingCreationId()
         {
             const string creationId = "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184";
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var location = $"http://localhost{AdvertisementLink}/{advertisementId}";
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving($"a request to create a job ad with the same creation id '{creationId}'")
                 .With(
@@ -437,9 +434,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementAlreadyExistsException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<AdvertisementAlreadyExistsException>(
+                actualException = await Assert.ThrowsAsync<AdvertisementAlreadyExistsException>(
                     async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()));
             }
 
@@ -448,14 +445,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             actualException.ShouldBeEquivalentToException(expectedException);
         }
 
-        [Test]
-        public void PostAdWithANonIntegerAdvertiserName()
+        [Fact]
+        public async Task PostAdWithANonIntegerAdvertiserName()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to create a job ad with a non integer advertiser name")
                 .With(
                     new ProviderServiceRequest
@@ -495,9 +492,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
                     async () => await client.CreateAdvertisementAsync(requestModel));
             }
 
@@ -511,14 +508,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
-        [Test]
-        public void PostAgentAdWithEmptyAgentId()
+        [Fact]
+        public async Task PostAgentAdWithEmptyAgentId()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAgentAccessToken).Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to create an agent job where the agent id is not supplied")
                 .With(
                     new ProviderServiceRequest
@@ -558,9 +555,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
                     async () => await client.CreateAdvertisementAsync(requestModel));
             }
 
@@ -574,14 +571,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
-        [Test]
-        public void PostAdWithDisabledThirdPartyUploader()
+        [Fact]
+        public async Task PostAdWithDisabledThirdPartyUploader()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("The third party uploader account is disabled")
                 .UponReceiving("a request to create a job with a disabled third party uploader")
                 .With(
@@ -621,9 +618,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
                     async () => await client.CreateAdvertisementAsync(requestModel));
             }
 
@@ -637,14 +634,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
-        [Test]
-        public void PostAdWhereAdvertiserNotRelatedToThirdPartyUploader()
+        [Fact]
+        public async Task PostAdWhereAdvertiserNotRelatedToThirdPartyUploader()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to create a job for an advertiser not related to the third party uploader")
                 .With(
                     new ProviderServiceRequest
@@ -684,9 +681,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
                     async () => await client.CreateAdvertisementAsync(requestModel));
             }
 
@@ -700,14 +697,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
-        [Test]
-        public void PostAdWithDuplicateTemplateCustomFieldNames()
+        [Fact]
+        public async Task PostAdWithDuplicateTemplateCustomFieldNames()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to create a job ad with duplicated names for template custom fields")
                 .With(
                     new ProviderServiceRequest
@@ -748,9 +745,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     });
             ValidationException exception;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                exception = Assert.Throws<ValidationException>(
+                exception = await Assert.ThrowsAsync<ValidationException>(
                     async () =>
                         await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithDuplicateTemplateCustomFields)
@@ -776,11 +773,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             exception.ShouldBeEquivalentToException(expectedException);
         }
 
-        private AdPostingApiClient GetClient(OAuth2Token token)
-        {
-            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
-
-            return new AdPostingApiClient(PactProvider.MockServiceUri, oAuthClient);
-        }
+        private AdPostingApiFixture Fixture { get; }
     }
 }

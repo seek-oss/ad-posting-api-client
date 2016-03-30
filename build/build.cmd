@@ -1,6 +1,6 @@
 @echo off
 
-if not exist ".\packages\FAKE\tools\Fake.exe" ".nuget\NuGet.exe" "Install" "FAKE" "-OutputDirectory" "packages" "-ExcludeVersion"
+if not exist ".\packages\FAKE\tools\Fake.exe" ..\.nuget\NuGet.exe Install FAKE -OutputDirectory packages -ExcludeVersion
 
-".\packages\FAKE\tools\Fake.exe" build.fsx %*
+".\packages\FAKE\tools\Fake.exe" build.fsx %* --nocache
 exit /b %errorlevel%

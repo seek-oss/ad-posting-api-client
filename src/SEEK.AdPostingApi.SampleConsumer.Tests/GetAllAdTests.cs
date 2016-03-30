@@ -4,40 +4,38 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using Xunit;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
-    [TestFixture]
-    public class GetAllAdTests
+    [Collection(AdPostingApiCollection.Name)]
+    public class GetAllAdTests : IDisposable
     {
         private IBuilderInitializer SummaryFieldsInitializer => new SummaryFieldsInitializer();
 
-        [SetUp]
-        public void TestInitialize()
+        public GetAllAdTests(AdPostingApiPactService adPostingApiPactService)
         {
-            PactProvider.ClearInteractions();
+            this.Fixture = new AdPostingApiFixture(adPostingApiPactService);
         }
 
-        [TearDown]
-        public void TestCleanup()
+        public void Dispose()
         {
-            PactProvider.VerifyInteractions();
+            this.Fixture.Dispose();
         }
 
-        [Test]
+        [Fact]
         public async Task GetAllAdvertisementsWithNoAdvertisementReturns()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There are no advertisements")
                 .UponReceiving("GET request for all advertisements")
                 .With(new ProviderServiceRequest
@@ -66,21 +64,21 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementSummaryPageResource advertisements;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 advertisements = await client.GetAllAdvertisementsAsync();
             }
 
             AdvertisementSummaryPageResource expectedAdvertisements = new AdvertisementSummaryPageResource
             {
-                Links = new Links(PactProvider.MockServiceUri) { { "self", new Link { Href = "/advertisement" } } },
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/advertisement" } } },
                 AdvertisementSummaries = new List<AdvertisementSummaryResource>()
             };
 
             advertisements.ShouldBeEquivalentTo(expectedAdvertisements);
         }
 
-        [Test]
+        [Fact]
         public async Task GetAllAdvertisementsFirstPage()
         {
             const string advertisementId3 = "7bbe4318-fd3b-4d26-8384-d41489ff1dd0";
@@ -90,9 +88,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string selfLink = "/advertisement";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.RegisterIndexPageInteractions(oAuth2Token);
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("A page size of 2, and there are 2 pages worth of data")
                 .UponReceiving("GET request for first page of data")
                 .With(new ProviderServiceRequest
@@ -144,7 +142,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementSummaryPageResource pageResource;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 pageResource = await client.GetAllAdvertisementsAsync();
             }
@@ -158,7 +156,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         AdvertiserId = "678",
                         JobReference = "JOB12347",
                         JobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
-                        Links = new Links(PactProvider.MockServiceUri)
+                        Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                         {
                             { "self", new Link { Href = $"/advertisement/{advertisementId4}" } },
                             { "view", new Link { Href = $"/advertisement/{advertisementId4}/view" } }
@@ -169,14 +167,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         AdvertiserId = "456",
                         JobReference = "JOB1236",
                         JobTitle = "Exciting Developer role in a great CBD location. Great $$",
-                        Links = new Links(PactProvider.MockServiceUri)
+                        Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                         {
                             { "self", new Link { Href = $"/advertisement/{advertisementId3}" } },
                             { "view", new Link { Href = $"/advertisement/{advertisementId3}/view" } }
                         }
                     }
                 },
-                Links = new Links(PactProvider.MockServiceUri)
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     { "self", new Link { Href = "/advertisement" } },
                     { "next", new Link { Href = "/advertisement?beforeId=4"} }
@@ -186,7 +184,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             pageResource.ShouldBeEquivalentTo(expectedPageResource);
         }
 
-        [Test]
+        [Fact]
         public async Task GetAllAdvertisementsNextPage()
         {
             const string advertisementId1 = "fa6939b5-c91f-4f6a-9600-1ea74963fbb2";
@@ -194,7 +192,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             const string advertisementJobId2 = "4";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("A page size of 2, and there are 2 pages worth of data")
                 .UponReceiving("GET request for second page of data")
                 .With(new ProviderServiceRequest
@@ -247,7 +245,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementSummaryPageResource pageResource = new AdvertisementSummaryPageResource
             {
-                Links = new Links(PactProvider.MockServiceUri)
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     {"self", new Link {Href = "/advertisement"}},
                     {"next", new Link {Href = $"/advertisement?beforeId={advertisementJobId2}"}}
@@ -273,7 +271,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         AdvertiserId = "345",
                         JobReference = "JOB12345",
                         JobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
-                        Links = new Links(PactProvider.MockServiceUri)
+                        Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                         {
                             {"self", new Link {Href = $"/advertisement/{advertisementId2}"}},
                             {"view", new Link {Href = $"/advertisement/{advertisementId2}/view"}}
@@ -284,14 +282,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                         AdvertiserId = "123",
                         JobReference = "JOB1234",
                         JobTitle = "Exciting Developer role in a great CBD location. Great $$",
-                        Links = new Links(PactProvider.MockServiceUri)
+                        Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                         {
                             {"self", new Link {Href = $"/advertisement/{advertisementId1}"}},
                             {"view", new Link {Href = $"/advertisement/{advertisementId1}/view"}}
                         }
                     }
                 },
-                Links = new Links(PactProvider.MockServiceUri)
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     {"self", new Link {Href = $"/advertisement?beforeId={advertisementJobId2}"}}
                 }
@@ -300,28 +298,21 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             nextPageResource.ShouldBeEquivalentTo(expectedNextPageResource);
         }
 
-        [Test]
-        public void GetAllAdvertisementsNoNextPage()
+        [Fact]
+        public async Task GetAllAdvertisementsNoNextPage()
         {
             AdvertisementSummaryPageResource pageResource = new AdvertisementSummaryPageResource
             {
-                Links = new Links(PactProvider.MockServiceUri)
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     { "self", new Link { Href = "/advertisement" } }
                 }
             };
 
-            var actualException = Assert.Throws<NotSupportedException>(async () => await pageResource.NextPageAsync());
+            var actualException = await Assert.ThrowsAsync<NotSupportedException>(async () => await pageResource.NextPageAsync());
             var expectedException = new NotSupportedException("There are no more results");
 
             actualException.ShouldBeEquivalentToException(expectedException);
-        }
-
-        private AdPostingApiClient GetClient(OAuth2Token token)
-        {
-            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
-
-            return new AdPostingApiClient(PactProvider.MockServiceUri, oAuthClient);
         }
 
         private string GenerateSelfLink(string advertisementId)
@@ -333,5 +324,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
         {
             return "/advertisement/" + advertisementId + "/view";
         }
+
+        private AdPostingApiFixture Fixture { get; }
     }
 }

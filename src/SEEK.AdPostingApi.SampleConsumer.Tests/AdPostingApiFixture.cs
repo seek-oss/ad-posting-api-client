@@ -1,57 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
-using PactNet;
+using System.Threading.Tasks;
+using FluentAssertions;
+using Moq;
 using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
+using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.SampleConsumer.Tests
 {
-    public static class PactProvider
+    public class AdPostingApiFixture : IDisposable
     {
-        private const int MockProviderServicePort = 8893;
-
-        private static readonly IPactBuilder PactBuilder;
-
-        static PactProvider()
+        static AdPostingApiFixture()
         {
-            PactBuilder = new PactBuilder(
-                new PactConfig
-                {
-                    PactDir = "../../pacts/",
-                    LogDir = "../../logs/"
-                })
-                .ServiceConsumer("Ad Posting API Sample Consumer")
-                .HasPactWith("Ad Posting API");
-
-            MockService = PactBuilder.MockService(MockProviderServicePort);
-            MockServiceUri = new Uri("http://localhost:" + MockProviderServicePort);
+            // See https://github.com/dennisdoomen/fluentassertions/issues/305 - ShouldBeEquivalentTo fails with objects from the System namespace.
+            // Due to this, we need to change the IsValueType predicate so that it does not assume System.Exception and derivatives of it in the System namespace are value types.
+            AssertionOptions.IsValueType = type => (type.Namespace == typeof(int).Namespace) && !(type == typeof(Exception) || type.IsSubclassOf(typeof(Exception)));
         }
 
-        public static IMockProviderService MockService { get; }
-
-        public static Uri MockServiceUri { get; private set; }
-
-        public static void ClearInteractions()
+        public AdPostingApiFixture(AdPostingApiPactService adPostingApiPactService)
         {
-            MockService.ClearInteractions();
+            this.AdPostingApiService = adPostingApiPactService.MockProviderService;
+            this.AdPostingApiService.ClearInteractions();
+            this.AdPostingApiServiceBaseUri = adPostingApiPactService.MockProviderServiceBaseUri;
         }
 
-        public static void VerifyInteractions()
+        public IMockProviderService AdPostingApiService { get; }
+
+        public Uri AdPostingApiServiceBaseUri { get; }
+
+        public void Dispose()
         {
-            MockService.VerifyInteractions();
+            this.AdPostingApiService.VerifyInteractions();
         }
 
-        public static void AssemblyCleanup()
+        public AdPostingApiClient GetClient(OAuth2Token token)
         {
-            PactBuilder.Build();
+            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
+
+            return new AdPostingApiClient(this.AdPostingApiServiceBaseUri, oAuthClient);
         }
 
-        public static void RegisterIndexPageInteractions(OAuth2Token token)
+        public void RegisterIndexPageInteractions(OAuth2Token token)
         {
             const string advertisementLink = "/advertisement";
 
-            MockService
+            this.AdPostingApiService
                 .UponReceiving($"a request to retrieve API links with Bearer {token.AccessToken}")
                 .With(new ProviderServiceRequest
                 {

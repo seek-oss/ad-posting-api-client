@@ -4,6 +4,7 @@
 open System.IO
 open Fake.VSTest
 
+let nugetPath = findNuget (".." @@ ".nuget")
 let branchName = getBuildParamOrDefault "branch" "master"
 let outputDir = "../out"
 let srcDir = "../src"
@@ -12,12 +13,7 @@ let solutionDir = srcDir + "/SEEK.AdPostingApi.SampleConsumer.sln"
 let testDir = srcDir + "/SEEK.AdPostingApi.SampleConsumer.Tests"
 let clientDir = srcDir + "/SEEK.AdPostingApi.Client"
 let nugetVersion = generateNugetVersion
-
-let authors = ["SEEK"]
-let projectName = "SEEK.AdPostingApi.Client"
-let projectDescription = "SEEK.AdPostingApi.Client"
 let packagingRoot = outputDir + "/artifacts"
-let projectSummary = "SEEK.AdPostingApi.Client"
 
 trace (sprintf "branch name set to " + branchName)
 trace (sprintf "##teamcity[setParameter name='VERSION' value='%s']" (version |> String.concat "."))
@@ -30,10 +26,11 @@ Target "RestorePackages" (fun _ ->
      solutionDir
      |> RestoreMSSolutionPackages (fun p ->
          { p with
-             Sources = "https://www.nuget.org/api/v2/" :: p.Sources
+             ToolPath = nugetPath
+             Sources = "https://api.nuget.org/v3/index.json" :: p.Sources
              OutputPath = srcDir + "/packages"
              Retries = 4 })
- )
+)
  
 Target "Build" (fun _ ->
     !! solutionDir
@@ -42,13 +39,12 @@ Target "Build" (fun _ ->
 )
 
 Target "Test" (fun _ ->
-   !! (testDir + @"/bin/**/SEEK.AdPostingApi.SampleConsumer.Tests.dll") 
-      |> NUnit (fun p -> { p with Domain = NUnitDomainModel.NoDomainModel
-                                  ToolPath = "../src/packages/NUnit.Runners.2.6.4/tools" })
+   !! (testDir + "/bin/**/SEEK.AdPostingApi.SampleConsumer.Tests.dll")
+      |> VSTest (fun p -> { p with TestAdapterPath = "../src/packages/xunit.runner.visualstudio.2.1.0/build/_common/" })
 )
 
 Target "UploadPact" (fun _ ->
-   (!! "../**/pacts/*.json") |> PublishPact (version, branchName)
+   (!! "../**/pact/*.json") |> PublishPact (version, branchName)
 )
 
 Target "NuGet" (fun _ ->
@@ -56,16 +52,11 @@ Target "NuGet" (fun _ ->
 
     NuGet (fun p -> 
         {p with
-            Authors = authors
-            Project = projectName
-            Description = projectDescription                               
+            ToolPath = nugetPath
             OutputPath = packagingRoot
-            Summary = projectSummary
             WorkingDir = clientDir
             Version = nugetVersion
-            Files = [
-                (@"bin/Release/SEEK.AdPostingApi.Client.dll", Some "lib/net45", None)
-            ]
+            Files = [ (@"bin/Release/SEEK.AdPostingApi.Client.dll", Some "lib/net452", None) ]
             Publish = false }) 
             (srcDir + "/SEEK.AdPostingApi.Client/SEEK.AdPostingApi.Client.nuspec")
 )
