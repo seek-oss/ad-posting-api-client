@@ -2,14 +2,8 @@
 {
     public class Location
     {
-        public string Country { get; set; }
+        public string Id { get; set; }
 
-        public string State { get; set; }
-
-        public string City { get; set; }
-
-        public string PostCode { get; set; }
-
-        public LocationOptions[] Options { get; set; }
+        public string AreaId { get; set; }
     }
 }

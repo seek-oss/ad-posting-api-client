@@ -60,7 +60,6 @@
     <Compile Include="Models\ForbiddenMessage.cs" />
     <Compile Include="Models\ForbiddenMessageData.cs" />
     <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\LocationOptions.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="UnauthorizedException.cs" />
     <Compile Include="ValidationException.cs" />

@@ -10,11 +10,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithAdvertiserId(GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic.ToString())
                 .WithJobTitle(GetDefaultJobTitle())
-                .WithLocationCountry(GetDefaultLocationCountry())
-                .WithLocationState(GetDefaultLocationState())
-                .WithLocationCity(GetDefaultLocationCity())
-                .WithLocationPostCode(GetDefaultLocationPostCode())
-                .WithLocationOptions(null)
+                .WithLocationId(this.GetDefaultLocationId())
+                .WithLocationAreaId(this.GetDefaultLocationAreaId())
                 .WithSubclassificationId(GetDefaultSubclassificationId())
                 .WithWorkType(GetDefaultWorkType().ToString())
                 .WithSalaryType(GetDefaultSalaryType().ToString())
@@ -30,11 +27,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithAdvertiserId(GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic)
                 .WithJobTitle(GetDefaultJobTitle())
-                .WithLocationCountry(GetDefaultLocationCountry())
-                .WithLocationState(GetDefaultLocationState())
-                .WithLocationCity(GetDefaultLocationCity())
-                .WithLocationPostCode(GetDefaultLocationPostCode())
-                .WithLocationOptions(null)
+                .WithLocationId(this.GetDefaultLocationId())
+                .WithLocationAreaId(this.GetDefaultLocationAreaId())
                 .WithSubclassificationId(GetDefaultSubclassificationId())
                 .WithWorkType(GetDefaultWorkType())
                 .WithSalaryType(GetDefaultSalaryType())
@@ -64,24 +58,14 @@ namespace SEEK.AdPostingApi.Client.Tests
             return "Exciting, do I need to say more?";
         }
 
-        private string GetDefaultLocationCountry()
+        private string GetDefaultLocationId()
         {
-            return "Australia";
+            return "EuropeRussia";
         }
 
-        private string GetDefaultLocationState()
+        private string GetDefaultLocationAreaId()
         {
-            return null;
-        }
-
-        private string GetDefaultLocationCity()
-        {
-            return "Melbourne";
-        }
-
-        private string GetDefaultLocationPostCode()
-        {
-            return "3000";
+            return "RussiaEasternEurope";
         }
 
         private string GetDefaultSubclassificationId()
