@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Moq;
-using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using Xunit;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
-    [TestFixture]
-    public class UpdateAdTests
+    [Collection(AdPostingApiCollection.Name)]
+    public class UpdateAdTests : IDisposable
     {
         private const string AdvertisementLink = "/advertisement";
         private const string AdvertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
@@ -23,26 +21,24 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 
-        [SetUp]
-        public void TestInitialize()
+        public UpdateAdTests(AdPostingApiPactService adPostingApiPactService)
         {
-            PactProvider.ClearInteractions();
+            this.Fixture = new AdPostingApiFixture(adPostingApiPactService);
         }
 
-        [TearDown]
-        public void TestCleanup()
+        public void Dispose()
         {
-            PactProvider.VerifyInteractions();
+            this.Fixture.Dispose();
         }
 
-        [Test]
+        [Fact]
         public async Task UpdateExistingAdvertisement()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("Update request for advertisement")
                 .With(new ProviderServiceRequest
@@ -96,12 +92,12 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementResource result;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                result = await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), expectedResult);
+                result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), expectedResult);
             }
 
-            expectedResult.Links = new Links(PactProvider.MockServiceUri)
+            expectedResult.Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
             {
                 { "self", new Link { Href = link } },
                 { "view", new Link { Href = viewRenderedAdvertisementLink } }
@@ -110,15 +106,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [Test]
-        public void UpdateNonExistentAdvertisement()
+        [Fact]
+        public async Task UpdateNonExistentAdvertisement()
         {
             const string advertisementId = "9b650105-7434-473f-8293-4e23b7e0e064";
 
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("Update request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -137,10 +133,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementNotFoundException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<AdvertisementNotFoundException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
+                actualException = await Assert.ThrowsAsync<AdvertisementNotFoundException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link),
                         new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithAdvertisementDetails("This advertisement should not exist.")
                             .Build()));
@@ -149,15 +145,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException());
         }
 
-        [Test]
-        public void UpdateWithBadAdvertisementData()
+        [Fact]
+        public async Task UpdateWithBadAdvertisementData()
         {
             const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
 
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("Update request for advertisement with bad data")
                 .With(new ProviderServiceRequest
                 {
@@ -208,10 +204,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             ValidationException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<ValidationException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link),
+                actualException = await Assert.ThrowsAsync<ValidationException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link),
                         new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithAdvertisementType(AdvertisementType.StandOut)
                             .WithSalaryMinimum(-1)
@@ -247,61 +243,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             actualException.ShouldBeEquivalentToException(expectedException);
         }
 
-        [Test]
-        [Ignore("To be implemented")]
-        public void UpdateExistingAdvertisementNotPermitted()
-        {
-            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
-
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
-
-            PactProvider.MockService
-                .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("Unauthorised update request for advertisement")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Put,
-                    Path = link,
-                    Headers = new Dictionary<string, string>
-                    {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8"}
-                    },
-                    Body = new AdvertisementContentBuilder(AllFieldsInitializer).Build()
-                })
-                .WillRespondWith(
-                    new ProviderServiceResponse
-                    {
-                        Status = 403,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Content-Type", "application/json; charset=utf-8" }
-                        },
-                        Body = new { message = "Operation not permitted on advertisement with advertiser id: '9012'" }
-                    });
-
-            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).Build();
-
-            UnauthorizedException actualException;
-
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
-            {
-                actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
-            }
-
-            actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException("Operation not permitted on advertisement with advertiser id: '9012'"));
-        }
-
-        [Test]
-        public void UpdateAdWithADifferentAdvertiserToTheOneOwningTheJob()
+        [Fact]
+        public async Task UpdateAdWithADifferentAdvertiserToTheOneOwningTheJob()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("a request to update a job ad with a different advertiser from the one owning the job")
                 .With(
@@ -343,10 +291,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
             }
 
             actualException.ShouldBeEquivalentToException(
@@ -359,15 +307,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
-        [Test]
-        public void UpdateAdWithArchivedThirdPartyUploader()
+        [Fact]
+        public async Task UpdateAdWithDisabledThirdPartyUploader()
         {
-            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ArchivedThirdPartyUploader).Build();
+            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to update a job with an archived third party uploader")
+                .UponReceiving("a request to update a job with a disabled third party uploader")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -403,10 +351,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
             }
 
             actualException.ShouldBeEquivalentToException(
@@ -419,13 +367,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
-        [Test]
-        public void UpdateAdWhereAdvertiserNotRelatedToThirdPartyUploader()
+        [Fact]
+        public async Task UpdateAdWhereAdvertiserNotRelatedToThirdPartyUploader()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("a request to update a job for an advertiser not related to the third party uploader")
                 .With(
@@ -464,10 +412,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
             }
 
             actualException.ShouldBeEquivalentToException(
@@ -480,13 +428,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
-        [Test]
-        public void UpdateAgentAdWithEmptyAgentId()
+        [Fact]
+        public async Task UpdateAgentAdWithEmptyAgentId()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAgentAccessToken).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("a request to update an agent job where the agent id is not supplied")
                 .With(
@@ -526,10 +474,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
             }
 
             actualException.ShouldBeEquivalentToException(
@@ -542,13 +490,13 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     ));
         }
 
-        [Test]
-        public void UpdateStandoutJobToClassic()
+        [Fact]
+        public async Task UpdateStandoutJobToClassic()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("a request to update a standout job to classic")
                 .With(
@@ -588,10 +536,10 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             ValidationException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<ValidationException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link), requestModel));
+                actualException = await Assert.ThrowsAsync<ValidationException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
             }
 
             var expectedException = new ValidationException(
@@ -606,11 +554,6 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             actualException.ShouldBeEquivalentToException(expectedException);
         }
 
-        private AdPostingApiClient GetClient(OAuth2Token token)
-        {
-            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
-
-            return new AdPostingApiClient(PactProvider.MockServiceUri, oAuthClient);
-        }
+        private AdPostingApiFixture Fixture { get; }
     }
 }

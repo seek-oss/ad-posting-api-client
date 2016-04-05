@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Moq;
-using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using Xunit;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
-    [TestFixture]
-    public class GetAdTests
+    [Collection(AdPostingApiCollection.Name)]
+    public class GetAdTests : IDisposable
     {
         private const string AdvertisementLink = "/advertisement";
 
@@ -21,19 +20,17 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 
-        [SetUp]
-        public void TestInitialize()
+        public GetAdTests(AdPostingApiPactService adPostingApiPactService)
         {
-            PactProvider.ClearInteractions();
+            this.Fixture = new AdPostingApiFixture(adPostingApiPactService);
         }
 
-        [TearDown]
-        public void TestCleanup()
+        public void Dispose()
         {
-            PactProvider.VerifyInteractions();
+            this.Fixture.Dispose();
         }
 
-        [Test]
+        [Fact]
         public async Task GetExistingAdvertisement()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
@@ -42,7 +39,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("GET request for advertisement")
                 .With(new ProviderServiceRequest
@@ -74,14 +71,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementResource result;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
+                result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
             var expectedResult = new AdvertisementResource
             {
-                Links = new Links(PactProvider.MockServiceUri)
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
@@ -94,7 +91,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [Test]
+        [Fact]
         public async Task GetExistingAdvertisementWithWarnings()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
@@ -103,7 +100,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("GET request for advertisement with warnings")
                 .With(new ProviderServiceRequest
@@ -138,9 +135,9 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementResource result;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
+                result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
             ValidationData[] expectedWarnings =
@@ -151,7 +148,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             var expectedResult = new AdvertisementResource
             {
-                Links = new Links(PactProvider.MockServiceUri)
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
@@ -165,7 +162,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [Test]
+        [Fact]
         public async Task GetExistingAdvertisementWithErrors()
         {
             const string advertisementId = "448b8474-6165-4eed-a5b5-d2bb52e471ef";
@@ -174,7 +171,7 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a failed classic advertisement")
                 .UponReceiving("GET request for advertisement with errors")
                 .With(new ProviderServiceRequest
@@ -206,15 +203,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementResource result;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                result = await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link));
+                result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
             AdvertisementError[] expectedErrors = { new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" } };
             var expectedResult = new AdvertisementResource
             {
-                Links = new Links(PactProvider.MockServiceUri)
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
@@ -228,14 +225,14 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [Test]
-        public void GetNonExistentAdvertisement()
+        [Fact]
+        public async Task GetNonExistentAdvertisement()
         {
             const string advertisementId = "9b650105-7434-473f-8293-4e23b7e0e064";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("GET request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -251,26 +248,25 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             AdvertisementNotFoundException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 actualException =
-                    Assert.Throws<AdvertisementNotFoundException>(
-                        async () => await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link)));
+                    await Assert.ThrowsAsync<AdvertisementNotFoundException>(
+                        async () => await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
             actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException());
         }
 
-        [Test]
-        [Ignore("To be implemented")]
-        public void GetExistingAdvertisementNotPermitted()
+        [Fact(Skip = "To be implemented")]
+        public async Task GetExistingAdvertisementNotPermitted()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement")
                 .UponReceiving("Unauthorised GET request for advertisement")
                 .With(new ProviderServiceRequest
@@ -295,20 +291,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (AdPostingApiClient client = this.GetClient(oAuth2Token))
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(
-                    async () => await client.GetAdvertisementAsync(new Uri(PactProvider.MockServiceUri, link)));
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
+                    async () => await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
             actualException.ShouldBeEquivalentToException(new UnauthorizedException("Operation not permitted on advertisement with advertiser id: '9012'"));
         }
 
-        private AdPostingApiClient GetClient(OAuth2Token token)
-        {
-            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
-
-            return new AdPostingApiClient(PactProvider.MockServiceUri, oAuthClient);
-        }
+        private AdPostingApiFixture Fixture { get; }
     }
 }

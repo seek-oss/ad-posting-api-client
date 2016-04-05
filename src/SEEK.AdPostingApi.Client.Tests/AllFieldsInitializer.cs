@@ -2,7 +2,7 @@
 using System.Linq;
 using SEEK.AdPostingApi.Client.Models;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
     public class AllFieldsInitializer : IBuilderInitializer
     {

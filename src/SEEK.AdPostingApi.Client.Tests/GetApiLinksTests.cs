@@ -1,33 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Moq;
-using NUnit.Framework;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
+using Xunit;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
-    [TestFixture]
-    public class GetApiLinksTests
+    [Collection(AdPostingApiCollection.Name)]
+    public class GetApiLinksTests : IDisposable
     {
-        [SetUp]
-        public void TestInitialize()
+        public GetApiLinksTests(AdPostingApiPactService adPostingApiPactService)
         {
-            PactProvider.ClearInteractions();
+            this.Fixture = new AdPostingApiFixture(adPostingApiPactService);
         }
 
-        [TearDown]
-        public void TestCleanup()
+        public void Dispose()
         {
-            PactProvider.VerifyInteractions();
+            this.Fixture.Dispose();
         }
 
-        [Test]
+        [Fact]
         public async Task GetApiLinksWithInvalidAccessTokenTriggersTokenRenewal()
         {
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("a request to retrieve API links with an invalid access token")
                 .With(new ProviderServiceRequest
                 {
@@ -48,23 +46,23 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
                     }
                 });
 
-            PactProvider.RegisterIndexPageInteractions(new OAuth2TokenBuilder().Build());
+            this.Fixture.RegisterIndexPageInteractions(new OAuth2TokenBuilder().Build());
 
             using (var fakeOAuth2Client = new FakeOAuth2Client())
             {
-                using (var client = new AdPostingApiClient(PactProvider.MockServiceUri, fakeOAuth2Client))
+                using (var client = new AdPostingApiClient(this.Fixture.AdPostingApiServiceBaseUri, fakeOAuth2Client))
                 {
-                    await client.InitialiseIndexResource(PactProvider.MockServiceUri);
+                    await client.InitialiseIndexResource(this.Fixture.AdPostingApiServiceBaseUri);
                 }
             }
         }
 
-        [Test]
-        public void GetApiLinksNotPermitted()
+        [Fact]
+        public async Task GetApiLinksNotPermitted()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_InvalidService).Build();
 
-            PactProvider.MockService
+            this.Fixture.AdPostingApiService
                 .UponReceiving("unauthorised request to retrieve API links")
                 .With(new ProviderServiceRequest
                 {
@@ -82,20 +80,15 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
 
             UnauthorizedException actualException;
 
-            using (var client = this.GetClient(oAuth2Token))
+            using (var client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = Assert.Throws<UnauthorizedException>(async () => await client.InitialiseIndexResource(PactProvider.MockServiceUri));
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(async () => await client.InitialiseIndexResource(this.Fixture.AdPostingApiServiceBaseUri));
             }
 
-            actualException.ShouldBeEquivalentToException(new UnauthorizedException($"[GET] {PactProvider.MockServiceUri} is not authorized."));
+            actualException.ShouldBeEquivalentToException(new UnauthorizedException($"[GET] {this.Fixture.AdPostingApiServiceBaseUri} is not authorized."));
         }
 
-        private AdPostingApiClient GetClient(OAuth2Token token)
-        {
-            var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
-
-            return new AdPostingApiClient(PactProvider.MockServiceUri, oAuthClient);
-        }
+        private AdPostingApiFixture Fixture { get; }
     }
 
     public class FakeOAuth2Client : IOAuth2TokenClient

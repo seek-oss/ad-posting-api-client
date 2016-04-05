@@ -1,7 +1,7 @@
 ﻿using System.Dynamic;
 using Newtonsoft.Json;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
     public static class ObjectExtensions
     {

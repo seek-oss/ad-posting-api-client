@@ -47,12 +47,10 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 },
                 Location = new Location
                 {
-                    Country = "Australia",
-                    City = "Melbourne",
-                    State = "VIC",
-                    PostCode = "3000"
+                    Id = "Melbourne",
+                    AreaId = "MelbourneNorthernSuburbs"
                 },
-                SubclassificationId = "6227",
+                SubclassificationId = "6227"
             };
 
             // Example of creating the advertisement using a simple retry loop.

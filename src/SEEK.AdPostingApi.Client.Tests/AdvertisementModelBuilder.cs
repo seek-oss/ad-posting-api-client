@@ -1,6 +1,6 @@
 ﻿using SEEK.AdPostingApi.Client.Models;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
     public class AdvertisementModelBuilder
     {
@@ -60,43 +60,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             return this;
         }
 
-        public AdvertisementModelBuilder WithLocationCountry(string locationCountry)
+        public AdvertisementModelBuilder WithLocationId(string locationId)
         {
             _advertisementModel.Location = _advertisementModel.Location ?? new Location();
 
-            _advertisementModel.Location.Country = locationCountry;
+            _advertisementModel.Location.Id = locationId;
             return this;
         }
 
-        public AdvertisementModelBuilder WithLocationState(string locationState)
+        public AdvertisementModelBuilder WithLocationAreaId(string areaId)
         {
             _advertisementModel.Location = _advertisementModel.Location ?? new Location();
 
-            _advertisementModel.Location.State = locationState;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithLocationCity(string locationCity)
-        {
-            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
-
-            _advertisementModel.Location.City = locationCity;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithLocationPostCode(string locationPostCode)
-        {
-            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
-
-            _advertisementModel.Location.PostCode = locationPostCode;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithLocationOptions(params LocationOptions[] locationOptions)
-        {
-            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
-
-            _advertisementModel.Location.Options = locationOptions?.Clone<LocationOptions[]>();
+            _advertisementModel.Location.AreaId = areaId;
             return this;
         }
 

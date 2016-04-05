@@ -2,7 +2,7 @@
 using System.Dynamic;
 using System.Linq;
 
-namespace SEEK.AdPostingApi.SampleConsumer.Tests
+namespace SEEK.AdPostingApi.Client.Tests
 {
     public class AdvertisementContentBuilder
     {
@@ -99,83 +99,19 @@ namespace SEEK.AdPostingApi.SampleConsumer.Tests
             }
         }
 
-        public AdvertisementContentBuilder WithLocationCountry(object locationCountry)
+        public AdvertisementContentBuilder WithLocationId(object locationId)
         {
             EnsureLocationPropertyExists();
 
-            _advertisementModel.location.country = locationCountry;
+            _advertisementModel.location.id = locationId;
             return this;
         }
 
-        public AdvertisementContentBuilder WithLocationState(object locationState)
+        public AdvertisementContentBuilder WithLocationAreaId(object areaId)
         {
-            if (locationState == null)
-            {
-                if (PropertyExists(_advertisementModel, "location"))
-                {
-                    TryRemoveProperty(_advertisementModel.location, "state");
-                }
-            }
-            else
-            {
-                EnsureLocationPropertyExists();
+            EnsureLocationPropertyExists();
 
-                _advertisementModel.location.state = locationState;
-            }
-            return this;
-        }
-
-        public AdvertisementContentBuilder WithLocationCity(object locationCity)
-        {
-            if (locationCity == null)
-            {
-                if (PropertyExists(_advertisementModel, "location"))
-                {
-                    TryRemoveProperty(_advertisementModel.location, "city");
-                }
-            }
-            else
-            {
-                EnsureLocationPropertyExists();
-
-                _advertisementModel.location.city = locationCity;
-            }
-            return this;
-        }
-
-        public AdvertisementContentBuilder WithLocationPostCode(object locationPostCode)
-        {
-            if (locationPostCode == null)
-            {
-                if (PropertyExists(_advertisementModel, "location"))
-                {
-                    TryRemoveProperty(_advertisementModel.location, "postCode");
-                }
-            }
-            else
-            {
-                EnsureLocationPropertyExists();
-
-                _advertisementModel.location.postCode = locationPostCode;
-            }
-            return this;
-        }
-
-        public AdvertisementContentBuilder WithLocationOptions(params object[] locationOptions)
-        {
-            if (locationOptions == null)
-            {
-                if (PropertyExists(_advertisementModel, "location"))
-                {
-                    TryRemoveProperty(_advertisementModel.location, "options");
-                }
-            }
-            else
-            {
-                EnsureLocationPropertyExists();
-
-                _advertisementModel.location.options = locationOptions?.Clone<object[]>();
-            }
+            _advertisementModel.location.areaId = areaId;
             return this;
         }
 
