@@ -2,7 +2,7 @@
 This is a .Net version of SEEK's Job Ad Posting API Client. It composes of the following three projects:
 * SEEK.AdPostingApi.Client: the source code of the client
 * SEEK.AdPostingApi.SampleConsumer: the sample code using the client to make requests against Ad Posting API
-* SEEK.AdPostingApi.SampleConsumer.Tests: the pact tests for Ad Posting API using the client
+* SEEK.AdPostingApi.Client.Tests: the pact tests for Ad Posting API using the client
 
 
 ## Build your consumer
@@ -42,11 +42,10 @@ A job ad posting request may look something like this.
                 },
                 Location = new Location
                 {
-                    Country = "Australia",
-                    City = "Melbourne",
-                    PostCode = "3000"
+                    Id = "Melbourne",
+                    AreaId = "MelbourneNorthernSuburbs"
                 },
-                SubclassificationId = "AccountingOther"
+                SubclassificationId = "AerospaceEngineering"
             };
 
             AdvertisementResource advertisement = await postingClient.CreateAdvertisementAsync(ad);

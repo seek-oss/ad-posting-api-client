@@ -32,7 +32,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             // An example advertisement with a unique creation ID that ensures multiple create retries will not create duplicate advertisements.
             var ad = new Advertisement
             {
-                CreationId = "Sample Consumer 20151029 150132 1234567",
+                CreationId = "Sample Consumer 2575274f-7526-455d-a2a3-32447e40733d",
                 AdvertiserId = "Advertiser Id",
                 JobTitle = "A Job Title",
                 JobSummary = "Job summary of the job ad",
@@ -50,7 +50,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     Id = "Melbourne",
                     AreaId = "MelbourneNorthernSuburbs"
                 },
-                SubclassificationId = "6227"
+                SubclassificationId = "AerospaceEngineering"
             };
 
             // Example of creating the advertisement using a simple retry loop.
