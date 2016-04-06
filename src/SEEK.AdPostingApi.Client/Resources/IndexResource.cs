@@ -26,9 +26,13 @@ namespace SEEK.AdPostingApi.Client.Resources
             return this._client.PostResourceAsync<AdvertisementResource, Advertisement>(this.Links.GenerateLink("advertisements"), advertisement);
         }
 
-        public Task<AdvertisementSummaryPageResource> GetAllAdvertisements()
+        public Task<AdvertisementSummaryPageResource> GetAllAdvertisements(string advertiserIdentifier)
         {
-            return this._client.GetResourceAsync<AdvertisementSummaryPageResource>(this.Links.GenerateLink("advertisements"));
+            if (advertiserIdentifier == "")
+            {
+                return this._client.GetResourceAsync<AdvertisementSummaryPageResource>(this.Links.GenerateLink("advertisements"));
+            }
+            return this._client.GetResourceAsync<AdvertisementSummaryPageResource>(this.Links.GenerateLink("advertisements", new { advertiserId = advertiserIdentifier }));
         }
     }
 }

@@ -315,6 +315,115 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(expectedException);
         }
 
+        [Fact]
+        public async Task GetAllAdvertisementsByAdvertiser()
+        {
+            const string advertiser = "456";
+            const string advertisementId1 = "7bbe4318-fd3b-4d26-8384-d41489ff1dd0";
+            const string advertisementId2 = "9141cf19-b8d7-4380-9e3f-3b5c22783bdc";
+            //const string advertisementJobId2 = "2";
+            //const string nextLink = "/advertisement?beforeId=" + advertisementJobId2;
+            const string queryString = "advertiserId=" + advertiser;
+            const string selfLink = "/advertisement?" + queryString;
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.Fixture.AdPostingApiService
+                .Given("A page size of 2, and there are 2 advertisements belong to a advertiser")
+                .UponReceiving("GET request for advertisements belong to the advertiser")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = "/advertisement",
+                    Query = queryString,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Accept", "application/hal+json"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Content-Type", "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"}
+                    },
+                    Body = new
+                    {
+                        _embedded = new
+                        {
+                            advertisements = new[]
+                            {
+                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                    .WithAdvertiserId(advertiser)
+                                    .WithJobTitle("More Exciting Senior Developer role in a great CBD location. Great $$$")
+                                    .WithJobReference("JOB12347")
+                                    .WithResponseLink("self", GenerateSelfLink(advertisementId2))
+                                    .WithResponseLink("view", GenerateViewLink(advertisementId2))
+                                    .Build(),
+                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                    .WithAdvertiserId(advertiser)
+                                    .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
+                                    .WithJobReference("JOB1236")
+                                    .WithResponseLink("self", GenerateSelfLink(advertisementId1))
+                                    .WithResponseLink("view", GenerateViewLink(advertisementId1))
+                                    .Build()
+                            }
+                        },
+                        _links = new
+                        {
+                            self = new { href = selfLink }//,
+                            //next = new { href = nextLink }
+                        }
+                    }
+                });
+
+            AdvertisementSummaryPageResource pageResource;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                pageResource = await client.GetAllAdvertisementsAsync(advertiser);
+            }
+
+            AdvertisementSummaryPageResource expectedPageResource = new AdvertisementSummaryPageResource
+            {
+                AdvertisementSummaries = new List<AdvertisementSummaryResource>
+                {
+                    new AdvertisementSummaryResource
+                    {
+                        AdvertiserId = advertiser,
+                        JobReference = "JOB12347",
+                        JobTitle = "More Exciting Senior Developer role in a great CBD location. Great $$$",
+                        Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
+                        {
+                            { "self", new Link { Href = $"/advertisement/{advertisementId2}" } },
+                            { "view", new Link { Href = $"/advertisement/{advertisementId2}/view" } }
+                        }
+                    },
+                    new AdvertisementSummaryResource
+                    {
+                        AdvertiserId = advertiser,
+                        JobReference = "JOB1236",
+                        JobTitle = "Exciting Developer role in a great CBD location. Great $$",
+                        Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
+                        {
+                            { "self", new Link { Href = $"/advertisement/{advertisementId1}" } },
+                            { "view", new Link { Href = $"/advertisement/{advertisementId1}/view" } }
+                        }
+                    }
+                },
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
+                {
+                    { "self", new Link { Href = selfLink } }//,
+                    //{ "next", new Link { Href = "/advertisement?beforeId=4"} }
+                }
+            };
+
+            pageResource.ShouldBeEquivalentTo(expectedPageResource);
+        }
+
         private string GenerateSelfLink(string advertisementId)
         {
             return "/advertisement/" + advertisementId;

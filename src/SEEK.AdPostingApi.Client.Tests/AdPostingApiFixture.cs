@@ -71,7 +71,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             advertisements = new
                             {
-                                href = advertisementLink
+                                href = advertisementLink + "{?advertiserId}",
+                                templated = true
                             },
                             advertisement = new
                             {
