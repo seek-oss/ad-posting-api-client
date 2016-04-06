@@ -104,6 +104,7 @@
     <Compile Include="AdPostingApiFixture.cs" />
     <Compile Include="AdvertisementContentBuilder.cs" />
     <Compile Include="AdvertisementModelBuilder.cs" />
+    <Compile Include="AdvertisementSummaryContentBuilder.cs" />
     <Compile Include="AllFieldsInitializer.cs" />
     <Compile Include="FluentAssertionsExtensions.cs" />
     <Compile Include="ExpireAdTests.cs" />
@@ -118,7 +119,6 @@
     <Compile Include="AdPostingApiPactService.cs" />
     <Compile Include="PostAdTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SummaryFieldsInitializer.cs" />
     <Compile Include="UpdateAdTests.cs" />
   </ItemGroup>
   <ItemGroup>

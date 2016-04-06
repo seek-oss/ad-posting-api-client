@@ -12,15 +12,28 @@ namespace SEEK.AdPostingApi.Client.Tests
             initializer?.Initialize(this);
         }
 
+        private void CreateOrRemoveThirdPartiesModel(string advertiserId, string agentId)
+        {
+            if (advertiserId == null && agentId == null)
+            {
+                this._advertisementModel.ThirdParties = null;
+                return;
+            }
+
+            this._advertisementModel.ThirdParties = this._advertisementModel.ThirdParties ?? new ThirdPartiesModel();
+            this._advertisementModel.ThirdParties.AdvertiserId = advertiserId;
+            this._advertisementModel.ThirdParties.AgentId = agentId;
+        }
+
         public AdvertisementModelBuilder WithAgentId(string agentId)
         {
-            this._advertisementModel.AgentId = agentId;
+            CreateOrRemoveThirdPartiesModel(this._advertisementModel.ThirdParties?.AdvertiserId, agentId);
             return this;
         }
 
         public AdvertisementModelBuilder WithAdvertiserId(string advertiserId)
         {
-            this._advertisementModel.AdvertiserId = advertiserId;
+            CreateOrRemoveThirdPartiesModel(advertiserId, this._advertisementModel.ThirdParties?.AgentId);
             return this;
         }
 

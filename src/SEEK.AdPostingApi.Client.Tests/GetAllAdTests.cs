@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
@@ -16,8 +15,6 @@ namespace SEEK.AdPostingApi.Client.Tests
     [Collection(AdPostingApiCollection.Name)]
     public class GetAllAdTests : IDisposable
     {
-        private IBuilderInitializer SummaryFieldsInitializer => new SummaryFieldsInitializer();
-
         public GetAllAdTests(AdPostingApiPactService adPostingApiPactService)
         {
             this.Fixture = new AdPostingApiFixture(adPostingApiPactService);
@@ -116,14 +113,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             advertisements = new[]
                             {
-                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId("678")
                                     .WithJobTitle("More Exciting Senior Developer role in a great CBD location. Great $$$")
                                     .WithJobReference("JOB12347")
                                     .WithResponseLink("self", GenerateSelfLink(advertisementId4))
                                     .WithResponseLink("view", GenerateViewLink(advertisementId4))
                                     .Build(),
-                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId("456")
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
                                     .WithJobReference("JOB1236")
@@ -219,7 +216,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             advertisements = new[]
                             {
-                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId("345")
                                     .WithJobTitle(
                                         "More Exciting Senior Developer role in a great CBD location. Great $$$")
@@ -227,7 +224,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithResponseLink("self", GenerateSelfLink(advertisementId2))
                                     .WithResponseLink("view", GenerateViewLink(advertisementId2))
                                     .Build(),
-                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId("123")
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
                                     .WithJobReference("JOB1234")
