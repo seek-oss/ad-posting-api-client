@@ -429,14 +429,15 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task UpdateAgentAdWithEmptyAgentId()
+        public async Task UpdateAgentAdWithAgentId()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAgentAccessToken).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
+            var agentId = "641";
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to update an agent job where the agent id is not supplied")
+                .UponReceiving("a request to update an agent job where the agent id is supplied")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -448,46 +449,50 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
                         },
                         Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                            .WithAgentId("")
+                            .WithAgentId(agentId)
                             .Build()
                     }
                 )
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 403,
+                        Status = 422,
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
                         },
                         Body = new
                         {
-                            message = "Forbidden",
+                            message = "Validation Failure",
                             errors = new[]
                             {
-                                new { code = "Required" }
+                                new { field = "thirdParties.agentId", code = "InvalidValue" }
                             }
                         }
                     });
 
-            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId("").Build();
+            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId(agentId).Build();
 
-            UnauthorizedException actualException;
+            ValidationException actualException;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
+                actualException = await Assert.ThrowsAsync<ValidationException>(
                     async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
             }
 
-            actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException(
-                    new ForbiddenMessage
+            var expectedException = new ValidationException(
+                HttpMethod.Put,
+                new ValidationMessage
+                {
+                    Message = "Validation Failure",
+                    Errors = new[]
                     {
-                        Message = "Forbidden",
-                        Errors = new[] { new ForbiddenMessageData { Code = "Required" } }
+                        new ValidationData {Field = "thirdParties.agentId", Code = "InvalidValue"}
                     }
-                    ));
+                });
+
+            actualException.ShouldBeEquivalentToException(expectedException);
         }
 
         [Fact]
