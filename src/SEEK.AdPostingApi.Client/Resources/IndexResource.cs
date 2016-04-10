@@ -21,18 +21,18 @@ namespace SEEK.AdPostingApi.Client.Resources
         [JsonIgnore]
         public Links Links { get; set; }
 
-        public Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
+        public async Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
         {
-            return this._client.PostResourceAsync<AdvertisementResource, Advertisement>(this.Links.GenerateLink("advertisements"), advertisement);
+            return await this._client.PostResourceAsync<AdvertisementResource, Advertisement>(this.Links.GenerateLink("advertisements"), advertisement);
         }
 
-        public Task<AdvertisementSummaryPageResource> GetAllAdvertisements(string advertiserIdentifier)
+        public async Task<AdvertisementSummaryPageResource> GetAllAdvertisements(string advertiserIdentifier = null)
         {
-            if (advertiserIdentifier == "")
-            {
-                return this._client.GetResourceAsync<AdvertisementSummaryPageResource>(this.Links.GenerateLink("advertisements"));
-            }
-            return this._client.GetResourceAsync<AdvertisementSummaryPageResource>(this.Links.GenerateLink("advertisements", new { advertiserId = advertiserIdentifier }));
+            return string.IsNullOrWhiteSpace(advertiserIdentifier)
+                ? await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(
+                    this.Links.GenerateLink("advertisements"))
+                : await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(
+                    this.Links.GenerateLink("advertisements", new { advertiserId = advertiserIdentifier }));
         }
     }
 }
