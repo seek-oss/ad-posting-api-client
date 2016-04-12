@@ -429,68 +429,6 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task UpdateAgentAdWithEmptyAgentId()
-        {
-            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAgentAccessToken).Build();
-            var link = $"{AdvertisementLink}/{AdvertisementId}";
-
-            this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to update an agent job where the agent id is not supplied")
-                .With(
-                    new ProviderServiceRequest
-                    {
-                        Method = HttpVerb.Put,
-                        Path = link,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
-                        },
-                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                            .WithAgentId("")
-                            .Build()
-                    }
-                )
-                .WillRespondWith(
-                    new ProviderServiceResponse
-                    {
-                        Status = 403,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
-                        },
-                        Body = new
-                        {
-                            message = "Forbidden",
-                            errors = new[]
-                            {
-                                new { code = "Required" }
-                            }
-                        }
-                    });
-
-            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).WithAgentId("").Build();
-
-            UnauthorizedException actualException;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
-                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
-            }
-
-            actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException(
-                    new ForbiddenMessage
-                    {
-                        Message = "Forbidden",
-                        Errors = new[] { new ForbiddenMessageData { Code = "Required" } }
-                    }
-                    ));
-        }
-
-        [Fact]
         public async Task UpdateStandoutJobToClassic()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
