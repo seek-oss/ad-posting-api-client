@@ -29,29 +29,59 @@ namespace SEEK.AdPostingApi.Client.Tests
             return ((IDictionary<string, object>)model).ContainsKey(propertyName);
         }
 
-        public AdvertisementContentBuilder WithAgentId(object agentId)
+        private void CreateOrRemoveThirdParties(object advertiserId, object agentId)
         {
-            if (agentId == null)
+            if (advertiserId == null && agentId == null)
             {
-                TryRemoveProperty(_advertisementModel, "agentId");
+                TryRemoveProperty(this._advertisementModel, "thirdParties");
+                return;
+            }
+
+            if (!PropertyExists(this._advertisementModel, "thirdParties"))
+            {
+                this._advertisementModel.thirdParties = new ExpandoObject();
+            }
+
+            if (advertiserId == null)
+            {
+                TryRemoveProperty(this._advertisementModel.thirdParties, "advertiserId");
             }
             else
             {
-                _advertisementModel.agentId = agentId;
+                this._advertisementModel.thirdParties.advertiserId = advertiserId;
             }
+
+            if (agentId == null)
+            {
+                TryRemoveProperty(this._advertisementModel.thirdParties, "agentId");
+            }
+            else
+            {
+                this._advertisementModel.thirdParties.agentId = agentId;
+            }
+        }
+
+        public AdvertisementContentBuilder WithAgentId(object agentId)
+        {
+            object advertiserId = PropertyExists(this._advertisementModel, "thirdParties") &&
+                                  PropertyExists(this._advertisementModel.thirdParties, "advertiserId")
+                ? this._advertisementModel.thirdParties.advertiserId
+                : null;
+
+            CreateOrRemoveThirdParties(advertiserId, agentId);
+
             return this;
         }
 
         public AdvertisementContentBuilder WithAdvertiserId(object advertiserId)
         {
-            if (advertiserId == null)
-            {
-                TryRemoveProperty(_advertisementModel, "advertiserId");
-            }
-            else
-            {
-                _advertisementModel.advertiserId = advertiserId;
-            }
+            object agentId = PropertyExists(this._advertisementModel, "thirdParties") &&
+                                  PropertyExists(this._advertisementModel.thirdParties, "agentId")
+                ? this._advertisementModel.thirdParties.agentId
+                : null;
+
+            CreateOrRemoveThirdParties(advertiserId, agentId);
+
             return this;
         }
 

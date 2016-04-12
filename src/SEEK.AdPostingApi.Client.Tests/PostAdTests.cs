@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
@@ -188,7 +187,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
-                            .WithAdvertiserId(null)
                             .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                             .WithSalaryMinimum(-1.0)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
@@ -215,7 +213,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                             message = "Validation Failure",
                             errors = new[]
                             {
-                                new { field = "advertiserId", code = "Required" },
                                 new { field = "applicationEmail", code = "InvalidEmailAddress" },
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
                                 new { field = "salary.minimum", code = "ValueOutOfRange" },
@@ -236,7 +233,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                     async () =>
                         await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
-                            .WithAdvertiserId(null)
                             .WithAdvertisementType(AdvertisementType.StandOut)
                             .WithSalaryMinimum(-1)
                             .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
@@ -257,7 +253,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Message = "Validation Failure",
                     Errors = new[]
                     {
-                        new ValidationData { Field = "advertiserId", Code = "Required" },
                         new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
                         new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
                         new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
@@ -504,69 +499,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         Message = "Forbidden",
                         Errors = new[] { new ForbiddenMessageData { Code = "InvalidValue" } }
-                    }
-                    ));
-        }
-
-        [Fact]
-        public async Task PostAgentAdWithEmptyAgentId()
-        {
-            var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAgentAccessToken).Build();
-
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
-
-            this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create an agent job where the agent id is not supplied")
-                .With(
-                    new ProviderServiceRequest
-                    {
-                        Method = HttpVerb.Post,
-                        Path = AdvertisementLink,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
-                        },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
-                            .WithAgentId("")
-                            .Build()
-                    }
-                )
-                .WillRespondWith(
-                    new ProviderServiceResponse
-                    {
-                        Status = 403,
-                        Headers = new Dictionary<string, string>
-                        {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
-                        },
-                        Body = new
-                        {
-                            message = "Forbidden",
-                            errors = new[]
-                            {
-                                new { code = "Required" }
-                            }
-                        }
-                    });
-
-            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).WithAgentId("").Build();
-
-            UnauthorizedException actualException;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
-                    async () => await client.CreateAdvertisementAsync(requestModel));
-            }
-
-            actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException(
-                    new ForbiddenMessage
-                    {
-                        Message = "Forbidden",
-                        Errors = new[] { new ForbiddenMessageData { Code = "Required" } }
                     }
                     ));
         }
