@@ -28,7 +28,7 @@ A job ad posting request may look something like this.
             var ad = new Advertisement
             {
                 CreationId = "Sample Consumer 20151001 114732 1234567",
-                AdvertiserId = "AdvertiserId",
+                ThirdParties = new ThirdPartiesModel { AdvertiserId = "Advertiser Id" },
                 JobTitle = "A Job Title",
                 JobSummary = "Job summary of the job ad",
                 AdvertisementDetails = "Experience Required",
