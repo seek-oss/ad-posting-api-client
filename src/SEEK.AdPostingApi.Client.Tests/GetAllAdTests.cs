@@ -252,7 +252,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(oAuth2Token));
             AdvertisementSummaryPageResource nextPageResource;
 
-            using (var client = new Client.Hal.Client(new HttpClient(new OAuthMessageHandler(oAuthClient))))
+            using (var client = new Hal.Client(new HttpClient(new OAuthMessageHandler(oAuthClient))))
             {
                 pageResource.Initialise(client);
 
@@ -353,14 +353,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             advertisements = new[]
                             {
-                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId(advertiser)
                                     .WithJobTitle("More Exciting Senior Tester role in a great CBD location. Great $$$")
                                     .WithJobReference("JOB4444")
                                     .WithResponseLink("self", GenerateSelfLink(advertisementId4))
                                     .WithResponseLink("view", GenerateViewLink(advertisementId4))
                                     .Build(),
-                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId(advertiser)
                                     .WithJobTitle("More Exciting Senior Developer role in a great CBD location. Great $$$")
                                     .WithJobReference("JOB3333")
@@ -459,7 +459,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             advertisements = new[]
                             {
-                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId(advertiserId)
                                     .WithJobTitle(
                                         "Exciting tester role in a great CBD location. Great $$")
@@ -467,7 +467,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithResponseLink("self", GenerateSelfLink(advertisementId2))
                                     .WithResponseLink("view", GenerateViewLink(advertisementId2))
                                     .Build(),
-                                new AdvertisementContentBuilder(SummaryFieldsInitializer)
+                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId(advertiserId)
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
                                     .WithJobReference("JOB1111")
@@ -495,7 +495,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(oAuth2Token));
             AdvertisementSummaryPageResource nextPageResource;
 
-            using (var client = new Client.Hal.Client(new HttpClient(new OAuthMessageHandler(oAuthClient))))
+            using (var client = new Hal.Client(new HttpClient(new OAuthMessageHandler(oAuthClient))))
             {
                 pageResource.Initialise(client);
 

@@ -5,7 +5,6 @@ using FluentAssertions;
 using Moq;
 using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Tests
