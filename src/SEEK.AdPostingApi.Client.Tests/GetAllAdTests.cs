@@ -647,12 +647,11 @@ namespace SEEK.AdPostingApi.Client.Tests
         {
             var advertiserId = "874392";
             string queryString = "advertiserId=" + advertiserId;
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .Given("The advertiser account doesn't have relationship to any uploader")
                 .UponReceiving("GET request to retrieve all advertisements for the advertiser not related to uploader")
                 .With(new ProviderServiceRequest
                 {
