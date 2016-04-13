@@ -95,7 +95,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .Given("A page size of 3, and there are more than 1 page worth of data")
+                .Given("A page size of 3 with more than 1 page of data")
                 .UponReceiving("GET request for first page of data")
                 .With(new ProviderServiceRequest
                 {
@@ -216,7 +216,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.AdPostingApiService
-                .Given("A page size of 3, and there are more than 1 page worth of data")
+                .Given("A page size of 3 with more than 1 page of data")
                 .UponReceiving("GET request for the last page of data")
                 .With(new ProviderServiceRequest
                 {
@@ -377,7 +377,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .Given("A page size of 3, and there are more than 1 page worth of data")
+                .Given("A page size of 3 with more than 1 page of data")
                 .UponReceiving("GET request for the first page of advertisements belong to the advertiser")
                 .With(new ProviderServiceRequest
                 {
@@ -500,7 +500,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.AdPostingApiService
-                .Given("A page size of 3, and there are more than 1 page worth of data")
+                .Given("A page size of 3 with more than 1 page of data")
                 .UponReceiving("GET request for the second page of advertisements belong to the advertiser")
                 .With(new ProviderServiceRequest
                 {
