@@ -4,13 +4,12 @@ using Newtonsoft.Json;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
-using Environment = SEEK.AdPostingApi.Client.Environment;
 
 namespace SEEK.AdPostingApi.SampleConsumer
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             Task.Run(MainAsync).Wait();
         }
@@ -27,7 +26,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
         private static async Task MainAsync()
         {
-            IAdPostingApiClient postingClient = new AdPostingApiClient("<client id>", "<client secret>", Environment.Integration);
+            IAdPostingApiClient postingClient = new AdPostingApiClient("<client id>", "<client secret>", Client.Environment.Integration);
 
             // An example advertisement with a unique creation ID that ensures multiple create retries will not create duplicate advertisements.
             var ad = new Advertisement
