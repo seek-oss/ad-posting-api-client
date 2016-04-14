@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Hal
@@ -185,6 +184,5 @@ namespace SEEK.AdPostingApi.Client.Hal
 
             return forbiddenMessage != null;
         }
-
     }
 }

@@ -2,7 +2,8 @@
 {
     public class AdvertisementError
     {
-        public string Code;
-        public string Message;
+        public string Code { get; set; }
+
+        public string Message { get; set; }
     }
 }
