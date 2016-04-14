@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using Xunit;
 
@@ -100,8 +99,8 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException());
         }
 
-        [Fact(Skip = "To be implemented")]
-        public async Task GetExistingAdvertisementNotPermitted()
+        [Fact]
+        public async Task GetAdvertisementStatusWithDisabledThirdPartyUploader()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -110,7 +109,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("Unauthorised HEAD request for advertisement")
+                .UponReceiving("HEAD request for an advertisement with a disabled third party uploader")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Head,
@@ -125,6 +124,41 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     Status = 403
                 });
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
+                    async () => await client.GetAdvertisementStatusAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
+            }
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException($"[HEAD] {this.Fixture.AdPostingApiServiceBaseUri}advertisement/{advertisementId} is not authorized."));
+        }
+
+        [Fact]
+        public async Task GetAdvertisementStatusWhereAdvertiserNotRelatedToThirdPartyUploader()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("HEAD request for an advertisement of an advertiser not related to the third party uploader")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Head,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", "application/vnd.seek.advertisement+json" }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse { Status = 403 });
 
             UnauthorizedException actualException;
 
