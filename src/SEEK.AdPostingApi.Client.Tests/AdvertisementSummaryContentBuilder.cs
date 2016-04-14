@@ -26,11 +26,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
         }
 
-        private bool PropertyExists(dynamic model, string propertyName)
-        {
-            return ((IDictionary<string, object>)model).ContainsKey(propertyName);
-        }
-
         public AdvertisementSummaryContentBuilder WithAdvertiserId(object advertiserId)
         {
             if (advertiserId == null)

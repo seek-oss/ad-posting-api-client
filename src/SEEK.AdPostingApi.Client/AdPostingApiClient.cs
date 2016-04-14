@@ -70,11 +70,11 @@ namespace SEEK.AdPostingApi.Client
             return (ProcessingStatus)Enum.Parse(typeof(ProcessingStatus), httpResponseHeaders.GetValues("Processing-Status").Single());
         }
 
-        public async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsAsync()
+        public async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsAsync(string advertiserId = null)
         {
             await this.EnsureIndexResourceInitialised();
 
-            return await _indexResource.GetAllAdvertisements();
+            return await _indexResource.GetAllAdvertisements(advertiserId);
         }
 
         public async Task<AdvertisementResource> UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)
