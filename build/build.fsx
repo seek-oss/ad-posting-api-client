@@ -12,7 +12,7 @@ let version = generateVersionNumber "../src/SEEK.AdPostingApi.Client/version.txt
 let solutionDir = srcDir + "/SEEK.AdPostingApi.Client.sln"
 let testDir = srcDir + "/SEEK.AdPostingApi.Client.Tests"
 let clientDir = srcDir + "/SEEK.AdPostingApi.Client"
-let nugetVersion = generateNugetVersion
+let nugetVersion = environVarOrDefault "NugetVersion" generateNugetVersion
 let packagingRoot = outputDir + "/artifacts"
 
 trace (sprintf "branch name set to " + branchName)
