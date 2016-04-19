@@ -257,8 +257,8 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException());
         }
 
-        [Fact(Skip = "To be implemented")]
-        public async Task GetExistingAdvertisementNotPermitted()
+        [Fact]
+        public async Task GetAdvertisementWithDisabledThirdPartyUploader()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -266,8 +266,8 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement")
-                .UponReceiving("Unauthorised GET request for advertisement")
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("GET request for an advertisement with a disabled third party uploader")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -282,10 +282,17 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     Status = 403,
                     Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                    Body = new
                     {
-                        { "Content-Type", "application/json; charset=utf-8" }
-                    },
-                    Body = new { message = "Operation not permitted on advertisement with advertiser id: '9012'" }
+                        message = "Forbidden",
+                        errors = new[]
+                            {
+                                new { code = "AccountError" }
+                            }
+                    }
                 });
 
             UnauthorizedException actualException;
@@ -296,7 +303,68 @@ namespace SEEK.AdPostingApi.Client.Tests
                     async () => await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
-            actualException.ShouldBeEquivalentToException(new UnauthorizedException("Operation not permitted on advertisement with advertiser id: '9012'"));
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "AccountError" } }
+                    }));
+        }
+
+        [Fact]
+        public async Task GetAdvertisementWhereAdvertiserNotRelatedToThirdPartyUploader()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("GET request for an advertisement of an advertiser not related to the third party uploader")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", "application/vnd.seek.advertisement+json" }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 403,
+                    Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                    Body = new
+                    {
+                        message = "Forbidden",
+                        errors = new[]
+                            {
+                                new { code = "RelationshipError" }
+                            }
+                    }
+                });
+
+            UnauthorizedException actualException;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
+                    async () => await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
+            }
+
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "RelationshipError" } }
+                    }));
         }
 
         private AdPostingApiFixture Fixture { get; }
