@@ -243,6 +243,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(expectedException);
         }
 
+        [Fact]
         public async Task UpdateWithInvalidSalaryData()
         {
             const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
