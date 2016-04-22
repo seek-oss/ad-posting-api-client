@@ -268,6 +268,77 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
+        public async Task PostAdWithInvalidSalaryData()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.Fixture.AdPostingApiService
+                .UponReceiving("a request to create a job ad with invalid salary data")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                        },
+                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .WithSalaryMinimum(2.0)
+                            .WithSalaryMaximum(1.0)
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 422,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Validation Failure",
+                            errors = new[]
+                            {
+                                new { field = "salary.maximum", code = "InvalidValue" }
+                            }
+                        }
+                    });
+
+            ValidationException exception;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                exception = await Assert.ThrowsAsync<ValidationException>(
+                    async () =>
+                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .WithSalaryMinimum(2)
+                            .WithSalaryMaximum(1)
+                            .Build()));
+            }
+
+            var expectedException = new ValidationException(
+                HttpMethod.Post,
+                new ValidationMessage
+                {
+                    Message = "Validation Failure",
+                    Errors = new[]
+                    {
+                        new ValidationData { Field = "salary.maximum", Code = "InvalidValue" }
+                    }
+                });
+
+            exception.ShouldBeEquivalentToException(expectedException);
+        }
+
+        [Fact]
         public async Task PostAdWithInvalidAdvertisementDetails()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
