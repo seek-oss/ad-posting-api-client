@@ -166,15 +166,15 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                         .WithSalaryMinimum(-1.0)
+                        .WithVideoUrl("htp://www.youtube.com/v/abc")
                         .WithAdvertisementType(AdvertisementType.StandOut.ToString())
-                        .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
                         .WithVideoPosition(VideoPosition.Below.ToString())
                         .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                         .WithApplicationEmail("someone(at)some.domain")
                         .WithApplicationFormUrl("htp://somecompany.domain/apply")
                         .WithTemplateItems(
                             new KeyValuePair<object, object>("Template Line 1", "Template Value 1"),
-                            new KeyValuePair<object, object>("", "value2".PadRight(3010, '!')))
+                            new KeyValuePair<object, object>("", "value2"))
                         .Build()
                 })
                 .WillRespondWith(
@@ -195,8 +195,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                                 new { field = "salary.minimum", code = "ValueOutOfRange" },
                                 new { field = "standout.bullets[1]", code = "MaxLengthExceeded" },
                                 new { field = "template.items[1].name", code = "Required" },
-                                new { field = "template.items[1].value", code = "MaxLengthExceeded" },
-                                new { field = "video.url", code = "MaxLengthExceeded" },
                                 new { field = "video.url", code = "RegexPatternNotMatched" }
                             }
                         }
@@ -211,14 +209,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                         new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithAdvertisementType(AdvertisementType.StandOut)
                             .WithSalaryMinimum(-1)
-                            .WithVideoUrl("htp://www.youtube.com/v/abc".PadRight(260, '!'))
+                            .WithVideoUrl("htp://www.youtube.com/v/abc")
                             .WithVideoPosition(VideoPosition.Below)
                             .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                             .WithApplicationEmail("someone(at)some.domain")
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
                             .WithTemplateItems(
                                 new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
-                                new TemplateItemModel { Name = "", Value = "value2".PadRight(3010, '!') })
+                                new TemplateItemModel { Name = "", Value = "value2" })
                             .Build()));
             }
 
@@ -234,9 +232,75 @@ namespace SEEK.AdPostingApi.Client.Tests
                         new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
                         new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "template.items[1].name", Code = "Required" },
-                        new ValidationData { Field = "template.items[1].value", Code = "MaxLengthExceeded" },
-                        new ValidationData { Field = "video.url", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
+                    }
+                });
+
+            actualException.ShouldBeEquivalentToException(expectedException);
+        }
+
+        [Fact]
+        public async Task UpdateWithInvalidSalaryData()
+        {
+            const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
+
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+
+            this.Fixture.AdPostingApiService
+                .UponReceiving("Update request for advertisement with invalid salary data")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                    },
+                    Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        .WithSalaryMinimum(2.0)
+                        .WithSalaryMaximum(1.0)
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 422,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Validation Failure",
+                            errors = new[]
+                            {
+                                new { field = "salary.maximum", code = "InvalidValue" }
+                            }
+                        }
+                    });
+
+            ValidationException actualException;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                actualException = await Assert.ThrowsAsync<ValidationException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link),
+                        new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                            .WithSalaryMinimum(2)
+                            .WithSalaryMaximum(1)
+                            .Build()));
+            }
+
+            var expectedException = new ValidationException(
+                HttpMethod.Put,
+                new ValidationMessage
+                {
+                    Message = "Validation Failure",
+                    Errors = new[]
+                    {
+                        new ValidationData { Field = "salary.maximum", Code = "InvalidValue" }
                     }
                 });
 
