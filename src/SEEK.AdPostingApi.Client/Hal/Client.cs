@@ -20,6 +20,11 @@ namespace SEEK.AdPostingApi.Client.Hal
             this._serializerSettings = new SerializerSettings();
         }
 
+        public void Dispose()
+        {
+            this._httpClient.Dispose();
+        }
+
         public async Task<TResponseResource> GetResourceAsync<TResponseResource>(Uri uri) where TResponseResource : IResource, new()
         {
             using (var httpRequest = new HttpRequestMessage(HttpMethod.Get, uri))
@@ -63,21 +68,6 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
-        public async Task<TResponseResource> PutResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest request) where TResponseResource : IResource, new()
-        {
-            string content = JsonConvert.SerializeObject(request, this._serializerSettings);
-
-            using (var httpRequest = this.CreateHttpRequest<TResponseResource>(uri, HttpMethod.Put, content))
-            {
-                using (var httpResponse = await this._httpClient.SendAsync(httpRequest))
-                {
-                    await HandleBadResponse(httpRequest, httpResponse);
-
-                    return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
-                }
-            }
-        }
-
         public async Task<TResponseResource> PostResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest requestResource) where TResponseResource : IResource, new()
         {
             string content = JsonConvert.SerializeObject(requestResource, this._serializerSettings);
@@ -93,17 +83,30 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
-        public void Dispose()
+        public async Task<TResponseResource> PutResourceAsync<TResponseResource, TRequest>(Uri uri, TRequest request) where TResponseResource : IResource, new()
         {
-            this._httpClient.Dispose();
+            string content = JsonConvert.SerializeObject(request, this._serializerSettings);
+
+            using (var httpRequest = this.CreateHttpRequest<TResponseResource>(uri, HttpMethod.Put, content))
+            {
+                using (var httpResponse = await this._httpClient.SendAsync(httpRequest))
+                {
+                    await HandleBadResponse(httpRequest, httpResponse);
+
+                    return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
+                }
+            }
         }
 
         private HttpRequestMessage CreateHttpRequest<TResource>(Uri uri, HttpMethod method, string content)
         {
-            return new HttpRequestMessage(method, uri)
-            {
-                Content = new StringContent(content, Encoding.UTF8, typeof(TResource).GetMediaType("application/json"))
-            };
+            var encoding = Encoding.UTF8;
+            var stringContent = new StringContent(content, encoding);
+
+            stringContent.Headers.ContentType = MediaTypeHeaderValue.Parse(typeof(TResource).GetMediaType("application/json"));
+            stringContent.Headers.ContentType.CharSet = encoding.WebName;
+
+            return new HttpRequestMessage(method, uri) { Content = stringContent };
         }
 
         private async Task<TResponseResource> CreateResponseResource<TResponseResource>(Uri uri, HttpResponseMessage response) where TResponseResource : IResource, new()

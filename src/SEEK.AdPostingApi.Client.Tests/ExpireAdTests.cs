@@ -15,6 +15,8 @@ namespace SEEK.AdPostingApi.Client.Tests
     public class ExpireAdTests : IDisposable
     {
         private const string AdvertisementLink = "/advertisement";
+        private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
+        private const string PatchContentType = "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8";
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 
@@ -47,11 +49,16 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement-patch+json; charset=utf-8"}
+                            {"Content-Type", PatchContentType}
                         },
-                        Body = new
+                        Body = new[]
                         {
-                            state = AdvertisementState.Expired.ToString()
+                            new
+                            {
+                                op = "replace",
+                                path = "state",
+                                value = AdvertisementState.Expired.ToString()
+                            }
                         }
                     }
                 )
@@ -76,8 +83,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                result = await client.ExpireAdvertisementAsync(
-                    new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), new AdvertisementPatch { State = AdvertisementState.Expired });
+                result = await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
             var expectedResult = new AdvertisementResource
@@ -112,11 +118,16 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement-patch+json; charset=utf-8"}
+                            {"Content-Type", PatchContentType}
                         },
-                        Body = new
+                        Body = new[]
                         {
-                            state = AdvertisementState.Expired.ToString()
+                            new
+                            {
+                                op = "replace",
+                                path = "state",
+                                value = AdvertisementState.Expired.ToString()
+                            }
                         }
                     }
                 )
@@ -126,7 +137,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -142,8 +153,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 actualException = await Assert.ThrowsAsync<ValidationException>(
-                    async () => await client.ExpireAdvertisementAsync(
-                        new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
+                    async () => await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
             var expectedException = new ValidationException(
@@ -174,11 +184,16 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement-patch+json; charset=utf-8"}
+                            {"Content-Type", PatchContentType}
                         },
-                        Body = new
+                        Body = new[]
                         {
-                            state = AdvertisementState.Expired.ToString()
+                            new
+                            {
+                                op = "replace",
+                                path = "state",
+                                value = AdvertisementState.Expired.ToString()
+                            }
                         }
                     }
                 )
@@ -193,8 +208,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 actualException = await Assert.ThrowsAsync<AdvertisementNotFoundException>(
-                    async () => await client.ExpireAdvertisementAsync(
-                        new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
+                    async () => await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
             actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException());
@@ -218,11 +232,16 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement-patch+json; charset=utf-8"}
+                            {"Content-Type", PatchContentType}
                         },
-                        Body = new
+                        Body = new[]
                         {
-                            state = AdvertisementState.Expired.ToString()
+                            new
+                            {
+                                op = "replace",
+                                path = "state",
+                                value = AdvertisementState.Expired.ToString()
+                            }
                         }
                     }
                 )
@@ -232,7 +251,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -249,8 +268,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 actualException = await Assert.ThrowsAsync<UnauthorizedException>(
-                    async () => await client.ExpireAdvertisementAsync(
-                        new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
+                    async () => await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
             actualException.ShouldBeEquivalentToException(
@@ -280,11 +298,16 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", "application/vnd.seek.advertisement-patch+json; charset=utf-8"}
+                            {"Content-Type", PatchContentType}
                         },
-                        Body = new
+                        Body = new[]
                         {
-                            state = AdvertisementState.Expired.ToString()
+                            new
+                            {
+                                op = "replace",
+                                path = "state",
+                                value = AdvertisementState.Expired.ToString()
+                            }
                         }
                     }
                 )
@@ -294,7 +317,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -311,8 +334,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 actualException = await Assert.ThrowsAsync<UnauthorizedException>(
-                    async () => await client.ExpireAdvertisementAsync(
-                        new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), new AdvertisementPatch { State = AdvertisementState.Expired }));
+                    async () => await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
             actualException.ShouldBeEquivalentToException(
