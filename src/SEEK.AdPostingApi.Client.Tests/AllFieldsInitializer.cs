@@ -26,6 +26,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithEndApplicationUrl(GetDefaultEndApplicationUrl())
                 .WithScreenId(GetDefaultScreenId())
                 .WithJobReference(GetDefaultJobReference())
+                .WithAgentJobReference(GetDefaultAgentJobReference())
                 .WithTemplateId(GetDefaultTemplateId())
                 .WithTemplateItems(
                     new KeyValuePair<object, object>(GetDefaultTemplateItemName(1), GetDefaultTemplateItemValue(1)),
@@ -53,6 +54,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithEndApplicationUrl(GetDefaultEndApplicationUrl())
                 .WithScreenId(GetDefaultScreenId())
                 .WithJobReference(GetDefaultJobReference())
+                .WithAgentJobReference(GetDefaultAgentJobReference())
                 .WithTemplateId(GetDefaultTemplateId())
                 .WithTemplateItems(
                     new TemplateItemModel { Name = GetDefaultTemplateItemName(1), Value = GetDefaultTemplateItemValue(1) },
@@ -120,6 +122,11 @@ namespace SEEK.AdPostingApi.Client.Tests
         private string GetDefaultJobReference()
         {
             return "JOB1234";
+        }
+
+        private string GetDefaultAgentJobReference()
+        {
+            return "AGENTJOB1234";
         }
 
         private int GetDefaultTemplateId()

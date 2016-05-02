@@ -308,6 +308,72 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
+        public async Task UpdateAdWithAgentJobReferenceWhenCallerisNotAgent()
+        {
+            const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
+
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+
+            this.Fixture.AdPostingApiService
+                .UponReceiving("Update request for advertisement adding agent job reference when caller is not agent")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                    },
+                    Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                       .WithAgentJobReference("AGENTREF123")
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 422,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                        },
+                        Body = new
+                        {
+                            message = "Validation Failure",
+                            errors = new[]
+                            {
+                                new { field = "agentJobReference", code = "InvalidValue" }
+                            }
+                        }
+                    });
+
+            ValidationException actualException;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                actualException = await Assert.ThrowsAsync<ValidationException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link),
+                        new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                            .WithAgentJobReference("AGENTREF123")
+                            .Build()));
+            }
+
+            var expectedException = new ValidationException(
+                HttpMethod.Put,
+                new ValidationMessage
+                {
+                    Message = "Validation Failure",
+                    Errors = new[]
+                    {
+                        new ValidationData { Field = "agentJobReference", Code = "InvalidValue" }
+                    }
+                });
+
+            actualException.ShouldBeEquivalentToException(expectedException);
+        }
+
+        [Fact]
         public async Task UpdateAdWithADifferentAdvertiserToTheOneOwningTheJob()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
