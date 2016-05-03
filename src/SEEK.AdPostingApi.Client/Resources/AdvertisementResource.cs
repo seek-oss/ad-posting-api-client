@@ -26,7 +26,7 @@ namespace SEEK.AdPostingApi.Client.Resources
         [FromHeader("Processing-Status")]
         public ProcessingStatus ProcessingStatus { get; set; }
 
-        public AdvertisementState State { get; internal set; }
+        public AdvertisementState State { get; set; }
 
         public AdvertisementError[] Errors { get; set; }
 

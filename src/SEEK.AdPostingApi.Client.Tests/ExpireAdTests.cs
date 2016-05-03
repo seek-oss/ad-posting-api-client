@@ -92,7 +92,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                }
+                },
+                State = AdvertisementState.Expired
             };
 
             new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).WithAgentId(null).Build();

@@ -158,7 +158,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                }
+                },
+                State = AdvertisementState.Open
             };
 
             new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).Build();
