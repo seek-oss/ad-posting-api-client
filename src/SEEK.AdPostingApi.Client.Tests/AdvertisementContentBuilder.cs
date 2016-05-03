@@ -270,7 +270,14 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithAgentJobReference(object agentJobReference)
         {
-            _advertisementModel.agentJobReference = agentJobReference;
+            if (string.IsNullOrWhiteSpace((string)agentJobReference))
+            {
+                TryRemoveProperty(this._advertisementModel, "agentJobReference");
+            }
+            else
+            {
+                _advertisementModel.agentJobReference = agentJobReference;
+            }
             return this;
         }
 

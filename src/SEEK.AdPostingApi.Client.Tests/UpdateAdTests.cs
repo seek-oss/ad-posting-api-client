@@ -52,6 +52,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithAgentId(null)
+                        .WithAgentJobReference(null)
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                         .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
@@ -69,6 +70,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithAgentId(null)
+                        .WithAgentJobReference(null)
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                         .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
@@ -83,6 +85,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult)
                 .WithAgentId(null)
+                .WithAgentJobReference(null)
                 .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                 .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                 .WithApplicationFormUrl("http://FakeATS.com.au")
