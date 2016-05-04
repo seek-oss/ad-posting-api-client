@@ -313,12 +313,11 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task UpdateAdWithAgentJobReferenceWhenCallerisNotAgent()
         {
-            const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
-
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("Update request for advertisement adding agent job reference when caller is not agent")
                 .With(new ProviderServiceRequest
                 {
