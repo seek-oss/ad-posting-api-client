@@ -15,7 +15,7 @@ namespace SEEK.AdPostingApi.Client
 
         Task<AdvertisementSummaryPageResource> GetAllAdvertisementsAsync(string advertiserId = null);
 
-        Task<AdvertisementResource> ExpireAdvertisementAsync(Uri uri, AdvertisementPatch advertisementPatch);
+        Task<AdvertisementResource> ExpireAdvertisementAsync(Uri uri);
 
         Task<AdvertisementResource> UpdateAdvertisementAsync(Uri uri, Advertisement advertisement);
     }

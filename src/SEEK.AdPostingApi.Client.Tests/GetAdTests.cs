@@ -82,7 +82,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     { "self", new Link { Href = link } },
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
                 },
-                ProcessingStatus = ProcessingStatus.Pending
+                ProcessingStatus = ProcessingStatus.Pending,
+                State = AdvertisementState.Open
             };
 
             new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).WithAgentId(null).Build();
@@ -153,7 +154,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
                 },
                 Warnings = expectedWarnings,
-                ProcessingStatus = ProcessingStatus.Pending
+                ProcessingStatus = ProcessingStatus.Pending,
+                State = AdvertisementState.Open
             };
 
             new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).WithAgentId(null).Build();
@@ -216,7 +218,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     { "view", new Link { Href = viewRenderedAdvertisementLink } }
                 },
                 Errors = expectedErrors,
-                ProcessingStatus = ProcessingStatus.Failed
+                ProcessingStatus = ProcessingStatus.Failed,
+                State = AdvertisementState.Open
             };
 
             new AdvertisementModelBuilder(MinimumFieldsInitializer, expectedResult).WithAgentId(null).Build();

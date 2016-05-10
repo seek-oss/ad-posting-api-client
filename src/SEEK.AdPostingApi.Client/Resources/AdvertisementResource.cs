@@ -26,7 +26,7 @@ namespace SEEK.AdPostingApi.Client.Resources
         [FromHeader("Processing-Status")]
         public ProcessingStatus ProcessingStatus { get; set; }
 
-        public AdvertisementState State { get; internal set; }
+        public AdvertisementState State { get; set; }
 
         public AdvertisementError[] Errors { get; set; }
 
@@ -37,7 +37,7 @@ namespace SEEK.AdPostingApi.Client.Resources
 
         public async Task<AdvertisementResource> ExpireAsync()
         {
-            return await this._client.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>(this.Uri, new AdvertisementPatch { State = AdvertisementState.Expired });
+            return await this._client.PatchResourceAsync<AdvertisementResource, ExpireAdvertisementJsonPatch>(this.Uri, new ExpireAdvertisementJsonPatch());
         }
 
         public bool ShouldSerializeState()

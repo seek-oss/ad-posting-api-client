@@ -12,6 +12,7 @@
     <copyright>Copyright 2015</copyright>
     <tags>SEEK API</tags>
     <dependencies>
+      <dependency id="Marvin.JsonPatch" version="0.9.0" />
       <dependency id="Newtonsoft.Json" version="8.0.3.0" />
       <dependency id="Tavis.UriTemplates" version="1.0.0" />
     </dependencies>

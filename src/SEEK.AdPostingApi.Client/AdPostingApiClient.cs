@@ -53,9 +53,9 @@ namespace SEEK.AdPostingApi.Client
             return await this._indexResource.CreateAdvertisementAsync(advertisement);
         }
 
-        public async Task<AdvertisementResource> ExpireAdvertisementAsync(Uri uri, AdvertisementPatch advertisementPatch)
+        public async Task<AdvertisementResource> ExpireAdvertisementAsync(Uri uri)
         {
-            return await this._client.PatchResourceAsync<AdvertisementResource, AdvertisementPatch>(uri, advertisementPatch);
+            return await this._client.PatchResourceAsync<AdvertisementResource, ExpireAdvertisementJsonPatch>(uri, new ExpireAdvertisementJsonPatch());
         }
 
         public async Task<AdvertisementResource> GetAdvertisementAsync(Uri uri)
