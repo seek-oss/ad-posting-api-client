@@ -53,7 +53,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithAgentId(null)
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                        .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
+                        .WithVideoUrl("https://www.youtube.com/embed/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithEndApplicationUrl("http://endform.com/updated")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
@@ -70,7 +70,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                         .WithAgentId(null)
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                        .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
+                        .WithVideoUrl("https://www.youtube.com/embed/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithEndApplicationUrl("http://endform.com/updated")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
@@ -84,7 +84,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult)
                 .WithAgentId(null)
                 .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
+                .WithVideoUrl("https://www.youtube.com/embed/dVDk7PXNXB8")
                 .WithApplicationFormUrl("http://FakeATS.com.au")
                 .WithEndApplicationUrl("http://endform.com/updated")
                 .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
@@ -166,7 +166,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                         .WithSalaryMinimum(-1.0)
-                        .WithVideoUrl("htp://www.youtube.com/v/abc")
+                        .WithVideoUrl("htp://www.youtube.com/embed/abc")
                         .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                         .WithVideoPosition(VideoPosition.Below.ToString())
                         .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
@@ -195,7 +195,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                 new { field = "salary.minimum", code = "ValueOutOfRange" },
                                 new { field = "standout.bullets[1]", code = "MaxLengthExceeded" },
                                 new { field = "template.items[1].name", code = "Required" },
-                                new { field = "video.url", code = "RegexPatternNotMatched" }
+                                new { field = "video.url", code = "InvalidUrl" }
                             }
                         }
                     });
@@ -209,7 +209,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithAdvertisementType(AdvertisementType.StandOut)
                             .WithSalaryMinimum(-1)
-                            .WithVideoUrl("htp://www.youtube.com/v/abc")
+                            .WithVideoUrl("htp://www.youtube.com/embed/abc")
                             .WithVideoPosition(VideoPosition.Below)
                             .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                             .WithApplicationEmail("someone(at)some.domain")
@@ -232,7 +232,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
                         new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
                         new ValidationData { Field = "template.items[1].name", Code = "Required" },
-                        new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
+                        new ValidationData { Field = "video.url", Code = "InvalidUrl" }
                     }
                 });
 
