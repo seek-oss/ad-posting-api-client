@@ -188,6 +188,12 @@ namespace SEEK.AdPostingApi.Client.Tests
             return this;
         }
 
+        public AdvertisementModelBuilder WithAgentJobReference(string agentJobReference)
+        {
+            this._advertisementModel.AgentJobReference = agentJobReference;
+            return this;
+        }
+
         public AdvertisementModelBuilder WithTemplateId(int? id)
         {
             this._advertisementModel.Template = this._advertisementModel.Template ?? new Template();
