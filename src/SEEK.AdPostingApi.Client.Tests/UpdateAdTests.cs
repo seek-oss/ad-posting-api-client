@@ -166,9 +166,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                         .WithSalaryMinimum(-1.0)
-                        .WithVideoUrl("htp://www.youtube.com/embed/abc")
                         .WithAdvertisementType(AdvertisementType.StandOut.ToString())
-                        .WithVideoPosition(VideoPosition.Below.ToString())
                         .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                         .WithApplicationEmail("someone(at)some.domain")
                         .WithApplicationFormUrl("htp://somecompany.domain/apply")
@@ -208,8 +206,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                         new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithAdvertisementType(AdvertisementType.StandOut)
                             .WithSalaryMinimum(-1)
-                            .WithVideoUrl("htp://www.youtube.com/embed/abc")
-                            .WithVideoPosition(VideoPosition.Below)
                             .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                             .WithApplicationEmail("someone(at)some.domain")
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
