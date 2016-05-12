@@ -218,8 +218,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
                                 new { field = "salary.minimum", code = "ValueOutOfRange" },
                                 new { field = "standout.bullets[1]", code = "MaxLengthExceeded" },
-                                new { field = "template.items[1].name", code = "Required" },
-                                new { field = "video.url", code = "InvalidUrl" }
+                                new { field = "template.items[1].name", code = "Required" }
                             }
                         }
                     });
@@ -256,8 +255,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
                         new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
                         new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
-                        new ValidationData { Field = "template.items[1].name", Code = "Required" },
-                        new ValidationData { Field = "video.url", Code = "InvalidUrl" }
+                        new ValidationData { Field = "template.items[1].name", Code = "Required" }
                     }
                 });
 
