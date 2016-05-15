@@ -33,6 +33,8 @@ namespace SEEK.AdPostingApi.Client.Models
 
         public string JobReference { get; set; }
 
+        public string AgentJobReference { get; set; }
+
         public Salary Salary { get; set; }
 
         public Contact Contact { get; set; }

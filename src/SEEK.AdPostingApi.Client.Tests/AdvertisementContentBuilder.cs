@@ -268,6 +268,19 @@ namespace SEEK.AdPostingApi.Client.Tests
             return this;
         }
 
+        public AdvertisementContentBuilder WithAgentJobReference(object agentJobReference)
+        {
+            if (string.IsNullOrWhiteSpace((string)agentJobReference))
+            {
+                TryRemoveProperty(this._advertisementModel, "agentJobReference");
+            }
+            else
+            {
+                _advertisementModel.agentJobReference = agentJobReference;
+            }
+            return this;
+        }
+
         private void EnsureTemplatePropertyExists()
         {
             if (!((IDictionary<string, object>)_advertisementModel).ContainsKey("template"))
