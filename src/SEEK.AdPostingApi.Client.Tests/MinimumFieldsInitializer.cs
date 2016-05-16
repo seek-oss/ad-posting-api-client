@@ -7,28 +7,27 @@ namespace SEEK.AdPostingApi.Client.Tests
         public void Initialize(AdvertisementContentBuilder builder)
         {
             builder
+                .WithAdvertisementDetails(GetDefaultAdvertisementDetails())
                 .WithAdvertiserId(GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic.ToString())
+                .WithJobSummary(GetDefaultJobSummary())
                 .WithJobTitle(GetDefaultJobTitle())
                 .WithLocationId(this.GetDefaultLocationId())
                 .WithLocationAreaId(this.GetDefaultLocationAreaId())
-                .WithSubclassificationId(GetDefaultSubclassificationId())
-                .WithWorkType(GetDefaultWorkType().ToString())
-                .WithSalaryType(GetDefaultSalaryType().ToString())
                 .WithSalaryMinimum(GetDefaultSalaryMinimum())
                 .WithSalaryMaximum(GetDefaultSalaryMaximum())
-                .WithJobSummary(GetDefaultJobSummary())
-                .WithAdvertisementDetails(GetDefaultAdvertisementDetails());
+                .WithSalaryType(GetDefaultSalaryType().ToString())
+                .WithSubclassificationId(GetDefaultSubclassificationId())
+                .WithWorkType(GetDefaultWorkType().ToString());
         }
 
-        public void Initialize(AdvertisementModelBuilder builder)
+        public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
         {
             builder
                 .WithAdvertiserId(GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic)
                 .WithJobTitle(GetDefaultJobTitle())
-                .WithLocationId(this.GetDefaultLocationId())
-                .WithLocationAreaId(this.GetDefaultLocationAreaId())
+                .WithLocationArea(this.GetDefaultLocationId(), this.GetDefaultLocationAreaId())
                 .WithSubclassificationId(GetDefaultSubclassificationId())
                 .WithWorkType(GetDefaultWorkType())
                 .WithSalaryType(GetDefaultSalaryType())
@@ -38,14 +37,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithAdvertisementDetails(GetDefaultAdvertisementDetails());
         }
 
+        private string GetDefaultAdvertisementDetails()
+        {
+            return "Exciting, do I need to say more?";
+        }
+
         private string GetDefaultAdvertiserId()
         {
             return "1";
-        }
-
-        private string GetDefaultJobTitle()
-        {
-            return "Exciting Senior Developer role in a great CBD location. Great $$$";
         }
 
         private string GetDefaultJobSummary()
@@ -53,9 +52,14 @@ namespace SEEK.AdPostingApi.Client.Tests
             return "Developer job";
         }
 
-        private string GetDefaultAdvertisementDetails()
+        private string GetDefaultJobTitle()
         {
-            return "Exciting, do I need to say more?";
+            return "Exciting Senior Developer role in a great CBD location. Great $$$";
+        }
+
+        private string GetDefaultLocationAreaId()
+        {
+            return "RussiaEasternEurope";
         }
 
         private string GetDefaultLocationId()
@@ -63,9 +67,19 @@ namespace SEEK.AdPostingApi.Client.Tests
             return "EuropeRussia";
         }
 
-        private string GetDefaultLocationAreaId()
+        private decimal GetDefaultSalaryMaximum()
         {
-            return "RussiaEasternEurope";
+            return 119999;
+        }
+
+        private decimal GetDefaultSalaryMinimum()
+        {
+            return 100000;
+        }
+
+        private SalaryType GetDefaultSalaryType()
+        {
+            return SalaryType.AnnualPackage;
         }
 
         private string GetDefaultSubclassificationId()
@@ -76,21 +90,6 @@ namespace SEEK.AdPostingApi.Client.Tests
         private WorkType GetDefaultWorkType()
         {
             return WorkType.FullTime;
-        }
-
-        private SalaryType GetDefaultSalaryType()
-        {
-            return SalaryType.AnnualPackage;
-        }
-
-        private decimal GetDefaultSalaryMinimum()
-        {
-            return 100000;
-        }
-
-        private decimal GetDefaultSalaryMaximum()
-        {
-            return 119999;
         }
     }
 }

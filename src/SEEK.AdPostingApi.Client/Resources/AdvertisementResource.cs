@@ -11,13 +11,7 @@ namespace SEEK.AdPostingApi.Client.Resources
     {
         private Hal.Client _client;
 
-        public void Initialise(Hal.Client client)
-        {
-            this._client = client;
-        }
-
-        [JsonIgnore]
-        public Uri Uri => this.Links.GenerateLink("self");
+        public AdvertisementError[] Errors { get; set; }
 
         [JsonIgnore]
         public Links Links { get; set; }
@@ -28,24 +22,30 @@ namespace SEEK.AdPostingApi.Client.Resources
 
         public AdvertisementState State { get; set; }
 
-        public AdvertisementError[] Errors { get; set; }
-
-        public async Task<AdvertisementResource> SaveAsync()
-        {
-            return await this._client.PutResourceAsync<AdvertisementResource, Advertisement>(this.Uri, this);
-        }
+        [JsonIgnore]
+        public Uri Uri => this.Links.GenerateLink("self");
 
         public async Task<AdvertisementResource> ExpireAsync()
         {
             return await this._client.PatchResourceAsync<AdvertisementResource, ExpireAdvertisementJsonPatch>(this.Uri, new ExpireAdvertisementJsonPatch());
         }
 
-        public bool ShouldSerializeState()
+        public void Initialise(Hal.Client client)
+        {
+            this._client = client;
+        }
+
+        public async Task<AdvertisementResource> SaveAsync()
+        {
+            return await this._client.PutResourceAsync<AdvertisementResource, Advertisement>(this.Uri, this);
+        }
+
+        public bool ShouldSerializeErrors()
         {
             return false;
         }
 
-        public bool ShouldSerializeErrors()
+        public bool ShouldSerializeState()
         {
             return false;
         }

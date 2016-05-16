@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 using Xunit;
@@ -75,18 +74,11 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
-            var expectedResult = new AdvertisementResource
-            {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-                {
-                    { "self", new Link { Href = link } },
-                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                },
-                ProcessingStatus = ProcessingStatus.Pending,
-                State = AdvertisementState.Open
-            };
-
-            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).WithAgentId(null).Build();
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(AllFieldsInitializer)
+                .WithLinks(advertisementId)
+                .WithProcessingStatus(ProcessingStatus.Pending)
+                .WithAgentId(null)
+                .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
@@ -140,25 +132,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
-            ValidationData[] expectedWarnings =
-            {
-                new ValidationData { Field = "standout.logoId", Code = "missing" },
-                new ValidationData { Field = "standout.bullets", Code = "missing" }
-            };
-
-            var expectedResult = new AdvertisementResource
-            {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-                {
-                    { "self", new Link { Href = link } },
-                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                },
-                Warnings = expectedWarnings,
-                ProcessingStatus = ProcessingStatus.Pending,
-                State = AdvertisementState.Open
-            };
-
-            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).WithAgentId(null).Build();
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(AllFieldsInitializer)
+                .WithLinks(advertisementId)
+                .WithProcessingStatus(ProcessingStatus.Pending)
+                .WithWarnings(
+                    new ValidationData { Field = "standout.logoId", Code = "missing" },
+                    new ValidationData { Field = "standout.bullets", Code = "missing" })
+                .WithAgentId(null)
+                .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
@@ -209,20 +190,12 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
-            AdvertisementError[] expectedErrors = { new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" } };
-            var expectedResult = new AdvertisementResource
-            {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-                {
-                    { "self", new Link { Href = link } },
-                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                },
-                Errors = expectedErrors,
-                ProcessingStatus = ProcessingStatus.Failed,
-                State = AdvertisementState.Open
-            };
-
-            new AdvertisementModelBuilder(MinimumFieldsInitializer, expectedResult).WithAgentId(null).Build();
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(MinimumFieldsInitializer)
+                .WithLinks(advertisementId)
+                .WithProcessingStatus(ProcessingStatus.Failed)
+                .WithErrors(new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" })
+                .WithAgentId(null)
+                .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
@@ -261,7 +234,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAdvertisementWithDisabledThirdPartyUploader()
+        public async Task GetAdvertisementUsingDisabledRequestorAccount()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -270,7 +243,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("GET request for an advertisement with a disabled third party uploader")
+                .UponReceiving("GET request for an advertisement using a disabled requestor account")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -316,7 +289,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAdvertisementWhereAdvertiserNotRelatedToThirdPartyUploader()
+        public async Task GetAdvertisementWhereAdvertiserNotRelatedToRequestor()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -325,7 +298,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("GET request for an advertisement of an advertiser not related to the third party uploader")
+                .UponReceiving("GET request for an advertisement of an advertiser not related to the requestor's account")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,

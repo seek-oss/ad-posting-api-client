@@ -1,6 +1,6 @@
 ﻿namespace SEEK.AdPostingApi.Client.Models
 {
-    public class ThirdPartiesModel
+    public class ThirdParties
     {
         public string AdvertiserId { get; set; }
 

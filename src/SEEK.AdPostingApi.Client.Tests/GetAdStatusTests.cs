@@ -100,7 +100,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAdvertisementStatusWithDisabledThirdPartyUploader()
+        public async Task GetAdvertisementStatusUsingDisabledRequestorAccount()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -109,7 +109,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("HEAD request for an advertisement with a disabled third party uploader")
+                .UponReceiving("HEAD request for an advertisement using a disabled requestor account")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Head,
@@ -138,7 +138,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAdvertisementStatusWhereAdvertiserNotRelatedToThirdPartyUploader()
+        public async Task GetAdvertisementStatusWhereAdvertiserNotRelatedToRequestor()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -147,7 +147,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("HEAD request for an advertisement of an advertiser not related to the third party uploader")
+                .UponReceiving("HEAD request for an advertisement of an advertiser not related to the requestor's account")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Head,
