@@ -67,7 +67,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"}
                         },
-                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                        Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
                             .WithAgentId(null)
                             .WithAgentJobReference(null)
                             .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
@@ -75,9 +78,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithApplicationFormUrl("http://FakeATS.com.au")
                             .WithEndApplicationUrl("http://endform.com/updated")
                             .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
-                            .WithState(AdvertisementState.Open.ToString())
-                            .WithResponseLink("self", link)
-                            .WithResponseLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 

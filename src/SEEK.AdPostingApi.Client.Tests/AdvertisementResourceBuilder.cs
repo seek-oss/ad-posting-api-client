@@ -16,6 +16,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         AdvertisementModelBuilder<TAdvertisementResource> where TAdvertisementResource : AdvertisementResource, new()
     {
         private AdvertisementError[] _errors;
+        private DateTime _expiryDate;
         private Links _links;
         private ProcessingStatus _processingStatus;
         private AdvertisementState _state;
@@ -24,6 +25,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         protected AdvertisementResourceBuilder(IBuilderInitializer initializer = null) : base(initializer)
         {
             this.WithState(AdvertisementState.Open);
+            this.WithExpiryDate(new DateTime(2015, 11, 6, 21, 19, 00, DateTimeKind.Utc));
         }
 
         public override TAdvertisementResource Build()
@@ -31,6 +33,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             TAdvertisementResource advertisementResource = base.Build();
 
             advertisementResource.Errors = this._errors;
+            advertisementResource.ExpiryDate = this._expiryDate;
             advertisementResource.Links = this._links;
             advertisementResource.ProcessingStatus = this._processingStatus;
             advertisementResource.State = this._state;
@@ -42,6 +45,13 @@ namespace SEEK.AdPostingApi.Client.Tests
         public AdvertisementResourceBuilder<TAdvertisementResource> WithErrors(params AdvertisementError[] errors)
         {
             this._errors = errors;
+
+            return this;
+        }
+
+        public AdvertisementResourceBuilder<TAdvertisementResource> WithExpiryDate(DateTime expiryDate)
+        {
+            this._expiryDate = expiryDate;
 
             return this;
         }

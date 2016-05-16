@@ -36,6 +36,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             string link = $"{AdvertisementLink}/{advertisementId}";
             string viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            DateTime expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc);
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
@@ -69,12 +70,13 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" }
                         },
-                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                            .WithAgentId(null)
+                        Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
                             .WithState(AdvertisementState.Expired.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithExpiryDate(expiryDate)
+                            .WithAgentId(null)
                             .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
-                            .WithResponseLink("self", link)
-                            .WithResponseLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
@@ -88,6 +90,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(AllFieldsInitializer)
                 .WithLinks(advertisementId)
                 .WithState(AdvertisementState.Expired)
+                .WithExpiryDate(expiryDate)
                 .WithAgentId(null)
                 .Build();
 

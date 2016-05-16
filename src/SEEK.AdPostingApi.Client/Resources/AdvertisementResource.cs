@@ -13,6 +13,8 @@ namespace SEEK.AdPostingApi.Client.Resources
 
         public AdvertisementError[] Errors { get; set; }
 
+        public DateTime ExpiryDate { get; set; }
+
         [JsonIgnore]
         public Links Links { get; set; }
 

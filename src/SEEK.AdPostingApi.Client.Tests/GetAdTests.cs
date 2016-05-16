@@ -58,12 +58,12 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
                         { "Processing-Status", "Pending" }
                     },
-                    Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                        .WithAgentId(null)
+                    Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
                         .WithState(AdvertisementState.Open.ToString())
+                        .WithLink("self", link)
+                        .WithLink("view", viewRenderedAdvertisementLink)
+                        .WithAgentId(null)
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
-                        .WithResponseLink("self", link)
-                        .WithResponseLink("view", viewRenderedAdvertisementLink)
                         .Build()
                 });
 
@@ -113,15 +113,15 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
                         { "Processing-Status", "Pending" }
                     },
-                    Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                        .WithAgentId(null)
+                    Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
                         .WithState(AdvertisementState.Open.ToString())
-                        .WithResponseLink("self", link)
-                        .WithResponseLink("view", viewRenderedAdvertisementLink)
-                        .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
-                        .WithResponseWarnings(
+                        .WithLink("self", link)
+                        .WithLink("view", viewRenderedAdvertisementLink)
+                        .WithWarnings(
                             new { field = "standout.logoId", code = "missing" },
                             new { field = "standout.bullets", code = "missing" })
+                        .WithAgentId(null)
+                        .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
                         .Build()
                 });
 
@@ -174,12 +174,12 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
                         { "Processing-Status", "Failed" }
                     },
-                    Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                        .WithAgentId(null)
+                    Body = new AdvertisementResponseContentBuilder(MinimumFieldsInitializer)
                         .WithState(AdvertisementState.Open.ToString())
-                        .WithResponseLink("self", link)
-                        .WithResponseLink("view", viewRenderedAdvertisementLink)
-                        .WithResponseErrors(new { code = "Unauthorised", message = "Unauthorised" })
+                        .WithLink("self", link)
+                        .WithLink("view", viewRenderedAdvertisementLink)
+                        .WithErrors(new { code = "Unauthorised", message = "Unauthorised" })
+                        .WithAgentId(null)
                         .Build()
                 });
 

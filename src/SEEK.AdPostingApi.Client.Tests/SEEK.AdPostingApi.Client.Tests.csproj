@@ -109,6 +109,7 @@
     <Compile Include="AdvertisementContentBuilder.cs" />
     <Compile Include="AdvertisementModelBuilder.cs" />
     <Compile Include="AdvertisementResourceBuilder.cs" />
+    <Compile Include="AdvertisementResponseContentBuilder.cs" />
     <Compile Include="AdvertisementSummaryContentBuilder.cs" />
     <Compile Include="AllFieldsInitializer.cs" />
     <Compile Include="FluentAssertionsExtensions.cs" />

@@ -69,10 +69,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
                             { "Location", location }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementResponseContentBuilder(MinimumFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
-                            .WithResponseLink("self", link)
-                            .WithResponseLink("view", viewRenderedAdvertisementLink)
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
@@ -129,10 +129,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
                             { "Location", location }
                         },
-                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                        Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
-                            .WithResponseLink("self", link)
-                            .WithResponseLink("view", viewRenderedAdvertisementLink)
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
