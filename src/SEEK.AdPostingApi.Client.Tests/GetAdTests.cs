@@ -39,7 +39,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("GET request for advertisement")
+                .UponReceiving("GET advertisement request")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -94,7 +94,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("GET request for advertisement with warnings")
+                .UponReceiving("GET advertisement request for an advertisement with warnings")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -155,7 +155,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a failed classic advertisement")
-                .UponReceiving("GET request for advertisement with errors")
+                .UponReceiving("GET advertisement request for an advertisement with errors")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -208,7 +208,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("GET request for a non-existent advertisement")
+                .UponReceiving("GET advertisement request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -243,7 +243,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("GET request for an advertisement using a disabled requestor account")
+                .UponReceiving("GET advertisement request for an advertisement using a disabled requestor account")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -298,7 +298,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("GET request for an advertisement of an advertiser not related to the requestor's account")
+                .UponReceiving("GET advertisement request for an advertisement of an advertiser not related to the requestor's account")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
