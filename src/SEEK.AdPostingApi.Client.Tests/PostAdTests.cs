@@ -459,7 +459,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving($"POST advertisement request to create a job ad with the same creation id '{creationId}'")
+                .UponReceiving($"a POST advertisement request to create a job ad with the same creation id '{creationId}'")
                 .With(
                     new ProviderServiceRequest
                     {
