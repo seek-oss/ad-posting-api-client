@@ -33,9 +33,9 @@ let private removeBranchPrefix (branchName:string) =
 
 let private getBuildVarsLocal _ =
     let isGitRepository = Directory.Exists("../.git")
-    let gitInstalled = match tryFindFileOnPath (if isUnix then "git" else "git.exe") with
-                                    | Some(a) -> true
-                                    | None -> false
+    let gitInstalled = match tryFindFileOnPath "git.exe" with
+                         | Some(a) -> true
+                         | None -> false
 
     let gitHash = if isGitRepository && gitInstalled then Information.getCurrentSHA1(".").[0..6] else "xxxxxxx"
     let branch = removeBranchPrefix (if isGitRepository && gitInstalled then Information.getBranchName(".") else "unknown")
@@ -50,16 +50,13 @@ let private getBuildVarsTeamcity _ =
 
     { branch = branch; gitHash = gitHash }
 
-let generateVersionNumber path =
+let generateVersionNumber =
     let buildVars = if System.String.IsNullOrEmpty(environVar "TEAMCITY_VERSION") then getBuildVarsLocal() else getBuildVarsTeamcity()
     let buildNumber = environVarOrDefault "BUILD_NUMBER" "0"
     let version = deserialiseVersion(File.ReadAllText("./version.json"))
     let date = DateTime.Now.ToString("yyMMdd")
-    let version = [| buildVars.branch; version.major; version.minor; date; buildNumber; buildVars.gitHash |]
 
-    File.WriteAllText(path, version |> String.concat ".")
-
-    version
+    [| buildVars.branch; version.major; version.minor; date; buildNumber; buildVars.gitHash |]
 
 let generateNugetVersion =
     let buildNumber = environVarOrDefault "BUILD_NUMBER" "0"

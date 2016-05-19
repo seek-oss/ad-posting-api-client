@@ -1,9 +1,8 @@
-*.user
-version.txt
-
 .vs/
 bin/
+build/packages
+logs/
 obj/
-out/artifacts/
+out/
 pact/
-packages/
+src/packages
