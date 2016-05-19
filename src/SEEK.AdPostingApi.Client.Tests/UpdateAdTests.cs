@@ -39,7 +39,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("PUT advertisement request")
+                .UponReceiving("a PUT advertisement request")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -117,7 +117,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("PUT advertisement request for a non-existent advertisement")
+                .UponReceiving("a PUT advertisement request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -156,7 +156,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("PUT advertisement request for advertisement with bad data")
+                .UponReceiving("a PUT advertisement request for advertisement with bad data")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -250,7 +250,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("PUT advertisement request for advertisement with invalid salary data")
+                .UponReceiving("a PUT advertisement request for advertisement with invalid salary data")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -317,7 +317,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("PUT advertisement request to update a job ad with a different advertiser from the one owning the job")
+                .UponReceiving("a PUT advertisement request to update a job ad with a different advertiser from the one owning the job")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -381,7 +381,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("PUT advertisement request to update a job using a disabled requestor account")
+                .UponReceiving("a PUT advertisement request to update a job using a disabled requestor account")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -441,7 +441,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("PUT advertisement request to update a job for an advertiser not related to the requestor's account")
+                .UponReceiving("a PUT advertisement request to update a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -502,7 +502,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("PUT advertisement request to update a standout job to classic")
+                .UponReceiving("a PUT advertisement request to update a standout job to classic")
                 .With(
                     new ProviderServiceRequest
                     {

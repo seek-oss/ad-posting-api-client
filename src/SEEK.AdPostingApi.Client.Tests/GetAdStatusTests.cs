@@ -32,7 +32,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("HEAD advertisement request")
+                .UponReceiving("a HEAD advertisement request")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Head,
@@ -72,7 +72,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("HEAD advertisement request for a non-existent advertisement")
+                .UponReceiving("a HEAD advertisement request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Head,
@@ -109,7 +109,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("HEAD advertisement request for an advertisement using a disabled requestor account")
+                .UponReceiving("a HEAD advertisement request for an advertisement using a disabled requestor account")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Head,
@@ -147,7 +147,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account")
+                .UponReceiving("a HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Head,

@@ -44,7 +44,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("POST advertisement request to create a job ad with minimum required data")
+                .UponReceiving("a POST advertisement request to create a job ad with minimum required data")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -104,7 +104,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("POST advertisement request to create a job ad with maximum required data")
+                .UponReceiving("a POST advertisement request to create a job ad with maximum required data")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -160,7 +160,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("POST advertisement request to create a job ad with bad data")
+                .UponReceiving("a POST advertisement request to create a job ad with bad data")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -257,7 +257,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("POST advertisement request to create a job ad with invalid salary data")
+                .UponReceiving("a POST advertisement request to create a job ad with invalid salary data")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -328,7 +328,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("POST advertisement request to create a job ad with invalid advertisement details")
+                .UponReceiving("a POST advertisement request to create a job ad with invalid advertisement details")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -397,7 +397,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("POST advertisement request to create a job ad without a creation id")
+                .UponReceiving("a POST advertisement request to create a job ad without a creation id")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -501,7 +501,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("POST advertisement request to create a job ad with an invalid advertiser id")
+                .UponReceiving("a POST advertisement request to create a job ad with an invalid advertiser id")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -565,7 +565,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("The requestor's account is disabled")
-                .UponReceiving("POST advertisement request to create a job")
+                .UponReceiving("a POST advertisement request to create a job")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -627,7 +627,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("POST advertisement request to create a job for an advertiser not related to the requestor's account")
+                .UponReceiving("a POST advertisement request to create a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -690,7 +690,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("POST advertisement request to create a job ad with duplicated names for template custom fields")
+                .UponReceiving("a POST advertisement request to create a job ad with duplicated names for template custom fields")
                 .With(
                     new ProviderServiceRequest
                     {

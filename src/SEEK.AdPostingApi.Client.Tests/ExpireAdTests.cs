@@ -40,7 +40,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("PATCH advertisement request to expire an advertisement")
+                .UponReceiving("a PATCH advertisement request to expire an advertisement")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -106,7 +106,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is an expired advertisement")
-                .UponReceiving("PATCH advertisement request to expire an advertisement")
+                .UponReceiving("a PATCH advertisement request to expire an advertisement")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -172,7 +172,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("PATCH advertisement request to expire a non-existent advertisement")
+                .UponReceiving("a PATCH advertisement request to expire a non-existent advertisement")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -220,7 +220,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("PATCH advertisement request to expire a job using a disabled requestor account")
+                .UponReceiving("a PATCH advertisement request to expire a job using a disabled requestor account")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -286,7 +286,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("PATCH advertisement request to expire a job for an advertiser not related to the requestor's account")
+                .UponReceiving("a PATCH advertisement request to expire a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
                     {
