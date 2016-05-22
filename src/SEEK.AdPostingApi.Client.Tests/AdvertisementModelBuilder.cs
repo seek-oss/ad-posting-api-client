@@ -49,6 +49,12 @@ namespace SEEK.AdPostingApi.Client.Tests
             return this;
         }
 
+        public AdvertisementModelBuilder WithSearchJobTitle(string searchJobTitle)
+        {
+            this._advertisementModel.SearchJobTitle = searchJobTitle;
+            return this;
+        }
+
         public AdvertisementModelBuilder WithJobSummary(string jobSummary)
         {
             this._advertisementModel.JobSummary = jobSummary;

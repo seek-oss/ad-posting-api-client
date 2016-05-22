@@ -97,6 +97,12 @@ namespace SEEK.AdPostingApi.Client.Tests
             return this;
         }
 
+        public AdvertisementContentBuilder WithSearchJobTitle(object searchJobTitle)
+        {
+            _advertisementModel.searchJobTitle = searchJobTitle;
+            return this;
+        }
+
         public AdvertisementContentBuilder WithJobSummary(object jobSummary)
         {
             _advertisementModel.jobSummary = jobSummary;
