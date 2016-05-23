@@ -11,6 +11,8 @@ namespace SEEK.AdPostingApi.Client.Tests
 {
     public class AdPostingApiFixture : IDisposable
     {
+        private const string IndexContentType = "application/hal+json; charset=utf-8";
+
         static AdPostingApiFixture()
         {
             // See https://github.com/dennisdoomen/fluentassertions/issues/305 - ShouldBeEquivalentTo fails with objects from the System namespace.
@@ -53,7 +55,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        { "Accept", "application/hal+json" },
+                        { "Accept", IndexContentType },
                         { "Authorization", $"Bearer {token.AccessToken}" }
                     }
                 })
@@ -62,7 +64,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", "application/hal+json; charset=utf-8" }
+                        { "Content-Type", IndexContentType }
                     },
                     Body = new
                     {

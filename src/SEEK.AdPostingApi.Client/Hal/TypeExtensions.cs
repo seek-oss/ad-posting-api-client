@@ -5,13 +5,13 @@ namespace SEEK.AdPostingApi.Client.Hal
 {
     internal static class TypeExtensions
     {
-        public static string GetMediaType(this Type type, string defaultMediaType)
+        public static string GetMediaType(this Type type)
         {
             var mediaTypeAttribute = type.GetCustomAttributes(typeof(MediaTypeAttribute), true)
                 .Cast<MediaTypeAttribute>()
-                .SingleOrDefault();
+                .Single();
 
-            return (mediaTypeAttribute == null) ? defaultMediaType : mediaTypeAttribute.MediaType;
+            return mediaTypeAttribute.MediaType;
         }
     }
 }
