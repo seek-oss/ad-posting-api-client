@@ -593,7 +593,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllAdvertisementByAdvertiserWithNonExistentAdvertiserId()
         {
-            string advertiser = Guid.NewGuid().ToString();
+            string advertiser = "7d31d9b4-d922-43ef-9e88-f7b507ceea88";
             string queryString = "advertiserId=" + advertiser;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
