@@ -46,7 +46,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string advertisementLink = "/advertisement";
 
             this.AdPostingApiService
-                .UponReceiving($"a request to retrieve API links with Bearer {token.AccessToken}")
+                .UponReceiving($"a GET index request to retrieve API links with Bearer {token.AccessToken}")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,

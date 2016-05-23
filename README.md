@@ -1,5 +1,5 @@
 # SEEK's Job Ad Posting API Client
-This is a .Net version of SEEK's Job Ad Posting API Client. It composes of the following three projects:
+This is a .NET version of SEEK's Job Ad Posting API Client. It comprises of the following three projects:
 * SEEK.AdPostingApi.Client: the source code of the client
 * SEEK.AdPostingApi.SampleConsumer: the sample code using the client to make requests against Ad Posting API
 * SEEK.AdPostingApi.Client.Tests: the pact tests for Ad Posting API using the client
@@ -15,9 +15,7 @@ To initialize a client, the following values are needed:
 * **Client Key** [Required]: the client key for getting an OAuth 2 access token
 * **Client Secret** [Required]: the client secret for getting an OAuth 2 access token
 * **Environment** [Optional]: the environment to which your consumer will integrate with, either "Integration" or "Production" can be supplied. Without supplying anything, "Production" will be used by default.
-* **AdPostingApiBaseUrl** [Optional]: the URL of the Job Ad Posting API. Without supplying anything, "Production" URL will be used by default.
-
-You can choose your own mechanism to supply the above values, like JSON file or environmental variables.
+* **AdPostingApiBaseUrl** [Optional]: the URL of the Job Ad Posting API. Without supplying anything, the Production URL will be used by default.
 
 ### Construct a client to make API calls
 A job ad posting request may look something like this.
@@ -28,7 +26,7 @@ A job ad posting request may look something like this.
             var ad = new Advertisement
             {
                 CreationId = "Sample Consumer 20151001 114732 1234567",
-                ThirdParties = new ThirdPartiesModel { AdvertiserId = "Advertiser Id" },
+                ThirdParties = new ThirdParties { AdvertiserId = "Advertiser Id" },
                 JobTitle = "A Job Title",
                 JobSummary = "Job summary of the job ad",
                 AdvertisementDetails = "Experience Required",

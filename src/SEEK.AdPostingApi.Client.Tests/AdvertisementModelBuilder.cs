@@ -1,240 +1,310 @@
-﻿using SEEK.AdPostingApi.Client.Models;
+﻿using System.Linq;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Tests
 {
-    public class AdvertisementModelBuilder
+    public class AdvertisementModelBuilder : AdvertisementModelBuilder<Advertisement>
     {
-        private readonly Advertisement _advertisementModel;
-
-        public AdvertisementModelBuilder(IBuilderInitializer initializer = null, Advertisement advertisement = null)
+        public AdvertisementModelBuilder(IBuilderInitializer initializer = null) : base(initializer)
         {
-            this._advertisementModel = advertisement ?? new Advertisement();
+            initializer?.Initialize(this);
+        }
+    }
+
+    public class AdvertisementModelBuilder<TAdvertisement> where TAdvertisement : Advertisement, new()
+    {
+        private string _agentId;
+        private string _advertiserId;
+        private string _creationId;
+        private string _jobTitle;
+        private string _jobSummary;
+        private string _advertisementDetails;
+        private AdvertisementType _advertisementType;
+        private WorkType _workType;
+        private string _locationId;
+        private string _areaId;
+        private string _subclassificationId;
+        private SalaryType _salaryType;
+        private decimal _salaryMinimum;
+        private decimal _salaryMaximum;
+        private string _salaryDetails;
+        private string _contactName;
+        private string _contactPhone;
+        private string _contactEmail;
+        private string _videoUrl;
+        private VideoPosition? _videoPosition;
+        private string _applicationEmail;
+        private string _applicationFormUrl;
+        private string _endApplicationUrl;
+        private int? _screenId;
+        private string _jobReference;
+        private string _agentJobReference;
+        private int? _templateId;
+        private TemplateItem[] _templateItems;
+        private int? _standoutLogoId;
+        private string[] _standoutBullets;
+        private AdditionalPropertyType[] _additionalPropertyTypes;
+
+        protected AdvertisementModelBuilder(IBuilderInitializer initializer = null)
+        {
             initializer?.Initialize(this);
         }
 
-        private void CreateOrRemoveThirdPartiesModel(string advertiserId, string agentId)
+        public AdvertisementModelBuilder<TAdvertisement> WithAgentId(string agentId)
         {
-            if (advertiserId == null && agentId == null)
+            this._agentId = agentId;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithAdvertiserId(string advertiserId)
+        {
+            this._advertiserId = advertiserId;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithRequestCreationId(string creationId)
+        {
+            this._creationId = creationId;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithJobTitle(string jobTitle)
+        {
+            this._jobTitle = jobTitle;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithJobSummary(string jobSummary)
+        {
+            this._jobSummary = jobSummary;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithAdvertisementDetails(string advertisementDetails)
+        {
+            this._advertisementDetails = advertisementDetails;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithAdvertisementType(AdvertisementType advertisementType)
+        {
+            this._advertisementType = advertisementType;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithWorkType(WorkType workType)
+        {
+            this._workType = workType;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithLocationArea(string locationId, string areaId = null)
+        {
+            this._locationId = locationId;
+            this._areaId = areaId;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithSubclassificationId(string subclassificationId)
+        {
+            this._subclassificationId = subclassificationId;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithSalaryType(SalaryType salaryType)
+        {
+            this._salaryType = salaryType;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithSalaryMinimum(decimal minimum)
+        {
+            this._salaryMinimum = minimum;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithSalaryMaximum(decimal maximum)
+        {
+            this._salaryMaximum = maximum;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithSalaryDetails(string details)
+        {
+            this._salaryDetails = details;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithContactName(string contactName)
+        {
+            this._contactName = contactName;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithContactPhone(string contactPhone)
+        {
+            this._contactPhone = contactPhone;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithContactEmail(string contactEmail)
+        {
+            this._contactEmail = contactEmail;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithVideoUrl(string url)
+        {
+            this._videoUrl = url;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithVideoPosition(VideoPosition? videoPosition)
+        {
+            this._videoPosition = videoPosition;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithApplicationEmail(string applicationEmail)
+        {
+            this._applicationEmail = applicationEmail;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithApplicationFormUrl(string applicationFormUrl)
+        {
+            this._applicationFormUrl = applicationFormUrl;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithEndApplicationUrl(string endApplicationUrl)
+        {
+            this._endApplicationUrl = endApplicationUrl;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithScreenId(int? screenId)
+        {
+            this._screenId = screenId;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithJobReference(string jobReference)
+        {
+            this._jobReference = jobReference;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithAgentJobReference(string agentJobReference)
+        {
+            this._agentJobReference = agentJobReference;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithTemplateId(int? id)
+        {
+            this._templateId = id;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithTemplateItems(params TemplateItem[] templateItems)
+        {
+            this._templateItems = templateItems?.Select(itm => itm == null ? null : new TemplateItem { Name = itm.Name, Value = itm.Value }).ToArray();
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithStandoutLogoId(int? logoId)
+        {
+            this._standoutLogoId = logoId;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithStandoutBullets(params string[] bullets)
+        {
+            this._standoutBullets = bullets?.ToArray();
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithAdditionalProperties(params AdditionalPropertyType[] additionalPropertyTypes)
+        {
+            this._additionalPropertyTypes = additionalPropertyTypes.ToArray();
+
+            return this;
+        }
+
+        public virtual TAdvertisement Build()
+        {
+            return new TAdvertisement
             {
-                this._advertisementModel.ThirdParties = null;
-                return;
-            }
-
-            this._advertisementModel.ThirdParties = this._advertisementModel.ThirdParties ?? new ThirdPartiesModel();
-            this._advertisementModel.ThirdParties.AdvertiserId = advertiserId;
-            this._advertisementModel.ThirdParties.AgentId = agentId;
-        }
-
-        public AdvertisementModelBuilder WithAgentId(string agentId)
-        {
-            CreateOrRemoveThirdPartiesModel(this._advertisementModel.ThirdParties?.AdvertiserId, agentId);
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithAdvertiserId(string advertiserId)
-        {
-            CreateOrRemoveThirdPartiesModel(advertiserId, this._advertisementModel.ThirdParties?.AgentId);
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithRequestCreationId(string creationId)
-        {
-            this._advertisementModel.CreationId = creationId;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithJobTitle(string jobTitle)
-        {
-            this._advertisementModel.JobTitle = jobTitle;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithJobSummary(string jobSummary)
-        {
-            this._advertisementModel.JobSummary = jobSummary;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithAdvertisementDetails(string advertisementDetails)
-        {
-            this._advertisementModel.AdvertisementDetails = advertisementDetails;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithAdvertisementType(AdvertisementType advertisementType)
-        {
-            this._advertisementModel.AdvertisementType = advertisementType;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithWorkType(WorkType workType)
-        {
-            this._advertisementModel.WorkType = workType;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithLocationId(string locationId)
-        {
-            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
-
-            _advertisementModel.Location.Id = locationId;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithLocationAreaId(string areaId)
-        {
-            _advertisementModel.Location = _advertisementModel.Location ?? new Location();
-
-            _advertisementModel.Location.AreaId = areaId;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithSubclassificationId(string subclassificationId)
-        {
-            this._advertisementModel.SubclassificationId = subclassificationId;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithSalaryType(SalaryType salaryType)
-        {
-            this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
-            this._advertisementModel.Salary.Type = salaryType;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithSalaryMinimum(decimal minimum)
-        {
-            this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
-            this._advertisementModel.Salary.Minimum = minimum;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithSalaryMaximum(decimal maximum)
-        {
-            this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
-            this._advertisementModel.Salary.Maximum = maximum;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithSalaryDetails(string details)
-        {
-            this._advertisementModel.Salary = this._advertisementModel.Salary ?? new Salary();
-            this._advertisementModel.Salary.Details = details;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithContactName(string contactName)
-        {
-            this._advertisementModel.Contact = this._advertisementModel.Contact ?? new Contact();
-            this._advertisementModel.Contact.Name = contactName;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithContactPhone(string contactPhone)
-        {
-            this._advertisementModel.Contact = this._advertisementModel.Contact ?? new Contact();
-            this._advertisementModel.Contact.Phone = contactPhone;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithContactEmail(string contactEmail)
-        {
-            this._advertisementModel.Contact = this._advertisementModel.Contact ?? new Contact();
-            this._advertisementModel.Contact.Email = contactEmail;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithVideoUrl(string url)
-        {
-            this._advertisementModel.Video = this._advertisementModel.Video ?? new Video();
-            this._advertisementModel.Video.Url = url;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithVideoPosition(VideoPosition videoPosition)
-        {
-            this._advertisementModel.Video = this._advertisementModel.Video ?? new Video();
-            this._advertisementModel.Video.Position = videoPosition;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithApplicationEmail(string applicationEmail)
-        {
-            this._advertisementModel.ApplicationEmail = applicationEmail;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithApplicationFormUrl(string applicationFormUrl)
-        {
-            this._advertisementModel.ApplicationFormUrl = applicationFormUrl;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithEndApplicationUrl(string endApplicationUrl)
-        {
-            this._advertisementModel.EndApplicationUrl = endApplicationUrl;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithScreenId(int? screenId)
-        {
-            this._advertisementModel.ScreenId = screenId;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithJobReference(string jobReference)
-        {
-            this._advertisementModel.JobReference = jobReference;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithAgentJobReference(string agentJobReference)
-        {
-            this._advertisementModel.AgentJobReference = agentJobReference;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithTemplateId(int? id)
-        {
-            this._advertisementModel.Template = this._advertisementModel.Template ?? new Template();
-
-            this._advertisementModel.Template.Id = id;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithTemplateItems(params TemplateItemModel[] templateItems)
-        {
-            this._advertisementModel.Template = this._advertisementModel.Template ?? new Template();
-
-            this._advertisementModel.Template.Items = templateItems?.Clone<TemplateItemModel[]>();
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithStandoutLogoId(int? logoId)
-        {
-            this._advertisementModel.Standout = this._advertisementModel.Standout ?? new StandoutAdvertisement();
-
-            this._advertisementModel.Standout.LogoId = logoId;
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithStandoutBullets(params string[] bullets)
-        {
-            this._advertisementModel.Standout = this._advertisementModel.Standout ?? new StandoutAdvertisement();
-
-            this._advertisementModel.Standout.Bullets = bullets?.Clone<string[]>();
-            return this;
-        }
-
-        public AdvertisementModelBuilder WithAdditionalProperties(params AdditionalPropertyType[] additionalPropertyTypes)
-        {
-            this._advertisementModel.AdditionalProperties = additionalPropertyTypes.Clone<AdditionalPropertyType[]>();
-            return this;
-        }
-
-        public Advertisement Build()
-        {
-            return this._advertisementModel.Clone();
+                ThirdParties = this._advertiserId == null && this._agentId == null
+                    ? null
+                    : new ThirdParties { AdvertiserId = this._advertiserId, AgentId = this._agentId },
+                CreationId = this._creationId,
+                AdvertisementType = this._advertisementType,
+                JobTitle = this._jobTitle,
+                Location = this._locationId == null && this._areaId == null
+                    ? null
+                    : new Location { Id = this._locationId, AreaId = this._areaId },
+                SubclassificationId = this._subclassificationId,
+                WorkType = this._workType,
+                JobSummary = this._jobSummary,
+                AdvertisementDetails = this._advertisementDetails,
+                ApplicationEmail = this._applicationEmail,
+                ApplicationFormUrl = this._applicationFormUrl,
+                EndApplicationUrl = this._endApplicationUrl,
+                ScreenId = this._screenId,
+                JobReference = this._jobReference,
+                AgentJobReference = this._agentJobReference,
+                Salary = new Salary
+                {
+                    Type = this._salaryType,
+                    Minimum = this._salaryMinimum,
+                    Maximum = this._salaryMaximum,
+                    Details = this._salaryDetails
+                },
+                Contact = this._contactName == null && this._contactPhone == null && this._contactEmail == null
+                    ? null
+                    : new Contact { Name = this._contactName, Phone = this._contactPhone, Email = this._contactEmail },
+                Template = this._templateId == null && this._templateItems == null
+                    ? null
+                    : new Template { Id = this._templateId, Items = this._templateItems?.ToArray() },
+                Video = this._videoUrl == null && this._videoPosition == null
+                    ? null
+                    : new Video { Url = this._videoUrl, Position = this._videoPosition ?? default(VideoPosition) },
+                Standout = this._standoutLogoId == null && this._standoutBullets == null
+                    ? null
+                    : new StandoutAdvertisement { LogoId = this._standoutLogoId, Bullets = this._standoutBullets?.ToArray() },
+                AdditionalProperties = this._additionalPropertyTypes?.ToArray()
+            };
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 using Xunit;
@@ -33,14 +32,15 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task ExpireAdvertisement()
         {
-            var advertisementId = new Guid("8e2fde50-bc5f-4a12-9cfb-812e50500184");
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
-            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            string link = $"{AdvertisementLink}/{advertisementId}";
+            string viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            DateTime expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc);
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("An expire request for advertisement")
+                .UponReceiving("a PATCH advertisement request to expire an advertisement")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -70,12 +70,13 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" }
                         },
-                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                            .WithAgentId(null)
+                        Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
                             .WithState(AdvertisementState.Expired.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithExpiryDate(expiryDate)
+                            .WithAgentId(null)
                             .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
-                            .WithResponseLink("self", link)
-                            .WithResponseLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
@@ -86,17 +87,12 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
-            var expectedResult = new AdvertisementResource
-            {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-                {
-                    { "self", new Link { Href = link } },
-                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                },
-                State = AdvertisementState.Expired
-            };
-
-            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).WithAgentId(null).Build();
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(AllFieldsInitializer)
+                .WithLinks(advertisementId)
+                .WithState(AdvertisementState.Expired)
+                .WithExpiryDate(expiryDate)
+                .WithAgentId(null)
+                .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
@@ -110,7 +106,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is an expired advertisement")
-                .UponReceiving("An expire request for advertisement")
+                .UponReceiving("a PATCH advertisement request to expire an advertisement")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -176,7 +172,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("An expire request for a non-existent advertisement")
+                .UponReceiving("a PATCH advertisement request to expire a non-existent advertisement")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -216,7 +212,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task ExpireAdvertisementWithDisabledThirdPartyUploader()
+        public async Task ExpireAdvertisementUsingDisabledRequestorAccount()
         {
             var advertisementId = new Guid("8e2fde50-bc5f-4a12-9cfb-812e50500184");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
@@ -224,7 +220,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to expire a job with a disabled third party uploader")
+                .UponReceiving("a PATCH advertisement request to expire a job using a disabled requestor account")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -282,7 +278,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task ExpireAdvertisementWhereAdvertiserNotRelatedToThirdPartyUploader()
+        public async Task ExpireAdvertisementWhereAdvertiserNotRelatedToRequestor()
         {
             var advertisementId = new Guid("8e2fde50-bc5f-4a12-9cfb-812e50500184");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
@@ -290,7 +286,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to expire a job for an advertiser not related to the third party uploader")
+                .UponReceiving("a PATCH advertisement request to expire a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
                     {

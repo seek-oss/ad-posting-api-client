@@ -66,7 +66,7 @@
     <Compile Include="Models\ForbiddenMessageData.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Contact.cs" />
-    <Compile Include="Models\ThirdPartiesModel.cs" />
+    <Compile Include="Models\ThirdParties.cs" />
     <Compile Include="UnauthorizedException.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="Hal\Client.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="Models\StandoutAdvertisement.cs" />
     <Compile Include="Models\ProcessingStatus.cs" />
     <Compile Include="Models\Template.cs" />
-    <Compile Include="Models\TemplateItemModel.cs" />
+    <Compile Include="Models\TemplateItem.cs" />
     <Compile Include="Models\ValidationData.cs" />
     <Compile Include="Models\ValidationMessage.cs" />
     <Compile Include="Models\Video.cs" />

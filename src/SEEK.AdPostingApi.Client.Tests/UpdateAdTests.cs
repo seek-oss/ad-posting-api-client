@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 using Xunit;
@@ -40,7 +39,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("Update request for advertisement")
+                .UponReceiving("a PUT advertisement request")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -61,52 +60,52 @@ namespace SEEK.AdPostingApi.Client.Tests
                         .Build()
                 })
                 .WillRespondWith(
-                new ProviderServiceResponse
-                {
-                    Status = 202,
-                    Headers = new Dictionary<string, string>
+                    new ProviderServiceResponse
                     {
-                        { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"}
-                    },
-                    Body = new AdvertisementContentBuilder(AllFieldsInitializer)
-                        .WithAgentId(null)
-                        .WithAgentJobReference(null)
-                        .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                        .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
-                        .WithApplicationFormUrl("http://FakeATS.com.au")
-                        .WithEndApplicationUrl("http://endform.com/updated")
-                        .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
-                        .WithResponseLink("self", link)
-                        .WithResponseLink("view", viewRenderedAdvertisementLink)
-                        .Build()
-                });
+                        Status = 202,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8"}
+                        },
+                        Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithAgentId(null)
+                            .WithAgentJobReference(null)
+                            .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
+                            .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
+                            .WithApplicationFormUrl("http://FakeATS.com.au")
+                            .WithEndApplicationUrl("http://endform.com/updated")
+                            .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
+                            .Build()
+                    });
 
-            AdvertisementResource expectedResult = new AdvertisementResource();
+            Advertisement requestModel = this.SetupModelForExistingAdvertisement(new AdvertisementModelBuilder(AllFieldsInitializer)).Build();
+            AdvertisementResource result;
 
-            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult)
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel);
+            }
+
+            AdvertisementResource expectedResult = this.SetupModelForExistingAdvertisement(
+                new AdvertisementResourceBuilder(AllFieldsInitializer).WithLinks(AdvertisementId)).Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        private AdvertisementModelBuilder<TAdvertisement> SetupModelForExistingAdvertisement<TAdvertisement>(
+            AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
+        {
+            return builder
                 .WithAgentId(null)
                 .WithAgentJobReference(null)
                 .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
                 .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
                 .WithApplicationFormUrl("http://FakeATS.com.au")
                 .WithEndApplicationUrl("http://endform.com/updated")
-                .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
-                .Build();
-
-            AdvertisementResource result;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), expectedResult);
-            }
-
-            expectedResult.Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-            {
-                { "self", new Link { Href = link } },
-                { "view", new Link { Href = viewRenderedAdvertisementLink } }
-            };
-
-            result.ShouldBeEquivalentTo(expectedResult);
+                .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47");
         }
 
         [Fact]
@@ -118,7 +117,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("Update request for a non-existent advertisement")
+                .UponReceiving("a PUT advertisement request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -157,7 +156,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("Update request for advertisement with bad data")
+                .UponReceiving("a PUT advertisement request for advertisement with bad data")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -218,8 +217,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithApplicationEmail("someone(at)some.domain")
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
                             .WithTemplateItems(
-                                new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
-                                new TemplateItemModel { Name = "", Value = "value2" })
+                                new TemplateItem { Name = "Template Line 1", Value = "Template Value 1" },
+                                new TemplateItem { Name = "", Value = "value2" })
                             .Build()));
             }
 
@@ -251,7 +250,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("Update request for advertisement with invalid salary data")
+                .UponReceiving("a PUT advertisement request for advertisement with invalid salary data")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -318,7 +317,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to update a job ad with a different advertiser from the one owning the job")
+                .UponReceiving("a PUT advertisement request to update a job ad with a different advertiser from the one owning the job")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -375,14 +374,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task UpdateAdWithDisabledThirdPartyUploader()
+        public async Task UpdateAdUsingDisabledRequestorAccount()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to update a job with a disabled third party uploader")
+                .UponReceiving("a PUT advertisement request to update a job using a disabled requestor account")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -435,14 +434,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task UpdateAdWhereAdvertiserNotRelatedToThirdPartyUploader()
+        public async Task UpdateAdWhereAdvertiserNotRelatedToRequestor()
         {
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to update a job for an advertiser not related to the third party uploader")
+                .UponReceiving("a PUT advertisement request to update a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -503,7 +502,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a request to update a standout job to classic")
+                .UponReceiving("a PUT advertisement request to update a standout job to classic")
                 .With(
                     new ProviderServiceRequest
                     {
