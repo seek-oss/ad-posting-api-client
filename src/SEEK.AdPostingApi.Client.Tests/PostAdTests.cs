@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
-using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 using Xunit;
@@ -45,7 +44,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create a job ad with minimum required data")
+                .UponReceiving("a POST advertisement request to create a job ad with minimum required data")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -70,9 +69,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
                             { "Location", location }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
-                            .WithResponseLink("self", link)
-                            .WithResponseLink("view", viewRenderedAdvertisementLink)
+                        Body = new AdvertisementResponseContentBuilder(MinimumFieldsInitializer)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
@@ -85,16 +85,9 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.CreateAdvertisementAsync(requestModel);
             }
 
-            var expectedResult = new AdvertisementResource
-            {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-                {
-                    { "self", new Link { Href = link } },
-                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                }
-            };
-
-            new AdvertisementModelBuilder(MinimumFieldsInitializer, expectedResult).Build();
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(MinimumFieldsInitializer)
+                .WithLinks(advertisementId)
+                .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
@@ -111,7 +104,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create a job ad with maximum required data")
+                .UponReceiving("a POST advertisement request to create a job ad with maximum required data")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -136,10 +129,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
                             { "Location", location }
                         },
-                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                        Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
-                            .WithResponseLink("self", link)
-                            .WithResponseLink("view", viewRenderedAdvertisementLink)
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
@@ -152,17 +145,9 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.CreateAdvertisementAsync(requestModel);
             }
 
-            var expectedResult = new AdvertisementResource
-            {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-                {
-                    { "self", new Link { Href = link } },
-                    { "view", new Link { Href = viewRenderedAdvertisementLink } }
-                },
-                State = AdvertisementState.Open
-            };
-
-            new AdvertisementModelBuilder(AllFieldsInitializer, expectedResult).Build();
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(AllFieldsInitializer)
+                .WithLinks(advertisementId)
+                .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
@@ -175,7 +160,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create a job ad with bad data")
+                .UponReceiving("a POST advertisement request to create a job ad with bad data")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -235,8 +220,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithApplicationEmail("someone(at)some.domain")
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
                             .WithTemplateItems(
-                                new TemplateItemModel { Name = "Template Line 1", Value = "Template Value 1" },
-                                new TemplateItemModel { Name = "", Value = "value2" })
+                                new TemplateItem { Name = "Template Line 1", Value = "Template Value 1" },
+                                new TemplateItem { Name = "", Value = "value2" })
                             .Build()));
             }
 
@@ -266,7 +251,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create a job ad with invalid salary data")
+                .UponReceiving("a POST advertisement request to create a job ad with invalid salary data")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -337,7 +322,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create a job ad with invalid advertisement details")
+                .UponReceiving("a POST advertisement request to create a job ad with invalid advertisement details")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -406,7 +391,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create a job ad without a creation id")
+                .UponReceiving("a POST advertisement request to create a job ad without a creation id")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -468,7 +453,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving($"a request to create a job ad with the same creation id '{creationId}'")
+                .UponReceiving($"a POST advertisement request to create a job ad with the same creation id '{creationId}'")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -503,14 +488,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task PostAdWithANonIntegerAdvertiserName()
+        public async Task PostAdWithAnInvalidAdvertiserId()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create a job ad with a non integer advertiser name")
+                .UponReceiving("a POST advertisement request to create a job ad with an invalid advertiser id")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -566,15 +551,15 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task PostAdWithDisabledThirdPartyUploader()
+        public async Task PostAdUsingDisabledRequestorAccount()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .Given("The third party uploader account is disabled")
-                .UponReceiving("a request to create a job with a disabled third party uploader")
+                .Given("The requestor's account is disabled")
+                .UponReceiving("a POST advertisement request to create a job")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -629,14 +614,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task PostAdWhereAdvertiserNotRelatedToThirdPartyUploader()
+        public async Task PostAdWhereAdvertiserNotRelatedToRequestor()
         {
             var oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create a job for an advertiser not related to the third party uploader")
+                .UponReceiving("a POST advertisement request to create a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -699,7 +684,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a request to create a job ad with duplicated names for template custom fields")
+                .UponReceiving("a POST advertisement request to create a job ad with duplicated names for template custom fields")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -746,9 +731,9 @@ namespace SEEK.AdPostingApi.Client.Tests
                         await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithDuplicateTemplateCustomFields)
                             .WithTemplateItems(
-                                new TemplateItemModel { Name = "FieldNameA", Value = "Template Value 1" },
-                                new TemplateItemModel { Name = "FieldNameB", Value = "Template Value 2" },
-                                new TemplateItemModel { Name = "FieldNameA", Value = "Template Value 3" })
+                                new TemplateItem { Name = "FieldNameA", Value = "Template Value 1" },
+                                new TemplateItem { Name = "FieldNameB", Value = "Template Value 2" },
+                                new TemplateItem { Name = "FieldNameA", Value = "Template Value 3" })
                             .Build()));
             }
 

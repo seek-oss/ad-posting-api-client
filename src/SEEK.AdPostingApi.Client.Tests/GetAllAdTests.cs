@@ -34,7 +34,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("There are no advertisements")
-                .UponReceiving("GET request for all advertisements")
+                .UponReceiving("a GET advertisements request for all advertisements")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -96,7 +96,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("A page size of 3 with more than 1 page of data")
-                .UponReceiving("GET request for first page of data")
+                .UponReceiving("a GET advertisements request for first page of data")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -217,7 +217,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("A page size of 3 with more than 1 page of data")
-                .UponReceiving("GET request for the last page of data")
+                .UponReceiving("a GET advertisements request for the last page of data")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -378,7 +378,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("A page size of 3 with more than 1 page of data")
-                .UponReceiving("GET request for the first page of advertisements belong to the advertiser")
+                .UponReceiving("a GET advertisements request for the first page of advertisements belonging to the advertiser")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -501,7 +501,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.AdPostingApiService
                 .Given("A page size of 3 with more than 1 page of data")
-                .UponReceiving("GET request for the second page of advertisements belong to the advertiser")
+                .UponReceiving("a GET advertisements request for the second page of advertisements belonging to the advertiser")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -589,14 +589,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllAdvertisementByAdvertiserWithNonExistentAdvertiserId()
         {
-            string advertiser = Guid.NewGuid().ToString();
+            string advertiser = "7d31d9b4-d922-43ef-9e88-f7b507ceea88";
             string queryString = "advertiserId=" + advertiser;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("GET request to retrieve all advertisements for an advertiser not exists")
+                .UponReceiving("a GET advertisements request to retrieve all advertisements for an advertiser that doesn't exist")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -652,7 +652,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("GET request to retrieve all advertisements for the advertiser not related to uploader")
+                .UponReceiving("a GET advertisements request to retrieve all advertisements for the advertiser not related to requestor")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,

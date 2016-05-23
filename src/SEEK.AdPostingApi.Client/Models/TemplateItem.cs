@@ -1,6 +1,6 @@
 ﻿namespace SEEK.AdPostingApi.Client.Models
 {
-    public class TemplateItemModel
+    public class TemplateItem
     {
         public string Name { get; set; }
 

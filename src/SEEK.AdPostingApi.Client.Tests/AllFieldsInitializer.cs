@@ -36,7 +36,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithAdditionalProperties(GetDefaultAdditionalPropertiesAsObjects());
         }
 
-        public void Initialize(AdvertisementModelBuilder builder)
+        public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
         {
             _minimumFieldsInitializer.Initialize(builder);
 
@@ -57,8 +57,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithAgentJobReference(GetDefaultAgentJobReference())
                 .WithTemplateId(GetDefaultTemplateId())
                 .WithTemplateItems(
-                    new TemplateItemModel { Name = GetDefaultTemplateItemName(1), Value = GetDefaultTemplateItemValue(1) },
-                    new TemplateItemModel { Name = GetDefaultTemplateItemName(2), Value = GetDefaultTemplateItemValue(2) })
+                    new TemplateItem { Name = GetDefaultTemplateItemName(1), Value = GetDefaultTemplateItemValue(1) },
+                    new TemplateItem { Name = GetDefaultTemplateItemName(2), Value = GetDefaultTemplateItemValue(2) })
                 .WithStandoutLogoId(GetDefaultLogoId())
                 .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
                 .WithAdditionalProperties(GetDefaultAdditionalProperties());

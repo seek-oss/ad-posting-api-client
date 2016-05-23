@@ -4,6 +4,6 @@
     {
         public int? Id { get; set; }
 
-        public TemplateItemModel[] Items { get; set; }
+        public TemplateItem[] Items { get; set; }
     }
 }
