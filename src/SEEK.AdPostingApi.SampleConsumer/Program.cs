@@ -32,7 +32,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             var ad = new Advertisement
             {
                 CreationId = "Sample Consumer 2575274f-7526-455d-a2a3-32447e40733d",
-                ThirdParties = new ThirdPartiesModel { AdvertiserId = "Advertiser Id" },
+                ThirdParties = new ThirdParties { AdvertiserId = "Advertiser Id" },
                 JobTitle = "A Job Title",
                 SearchJobTitle = "A Job Title for Searching",
                 JobSummary = "Job summary of the job ad",

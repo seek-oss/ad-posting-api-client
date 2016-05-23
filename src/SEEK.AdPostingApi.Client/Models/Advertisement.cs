@@ -5,7 +5,7 @@ namespace SEEK.AdPostingApi.Client.Models
     [MediaType("application/vnd.seek.advertisement+json")]
     public class Advertisement
     {
-        public ThirdPartiesModel ThirdParties { get; set; }
+        public ThirdParties ThirdParties { get; set; }
 
         public string CreationId { get; set; }
 
