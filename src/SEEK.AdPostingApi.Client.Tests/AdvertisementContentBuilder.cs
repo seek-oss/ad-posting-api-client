@@ -190,7 +190,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             return this;
         }
 
-
         public AdvertisementContentBuilder WithStandoutBullets(params object[] bullets)
         {
             EnsureStandoutPropertyExists();
