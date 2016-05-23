@@ -17,6 +17,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         private string _advertiserId;
         private string _creationId;
         private string _jobTitle;
+        private string _searchJobTitle;
         private string _jobSummary;
         private string _advertisementDetails;
         private AdvertisementType _advertisementType;
@@ -77,6 +78,14 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             return this;
         }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithSearchJobTitle(string searchJobTitle)
+        {
+            this._searchJobTitle = searchJobTitle;
+
+            return this;
+        }
+
 
         public AdvertisementModelBuilder<TAdvertisement> WithJobSummary(string jobSummary)
         {
@@ -271,6 +280,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 CreationId = this._creationId,
                 AdvertisementType = this._advertisementType,
                 JobTitle = this._jobTitle,
+                SearchJobTitle = this._searchJobTitle,
                 Location = this._locationId == null && this._areaId == null
                     ? null
                     : new Location { Id = this._locationId, AreaId = this._areaId },
