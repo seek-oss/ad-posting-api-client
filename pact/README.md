@@ -92,6 +92,8 @@
 
 * [A PUT advertisement request to update a standout job to classic](#a_PUT_advertisement_request_to_update_a_standout_job_to_classic_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
 
+* [A PUT advertisement request to update an expired advertisement](#a_PUT_advertisement_request_to_update_an_expired_advertisement_given_There_is_an_expired_advertisement) given there is an expired advertisement
+
 #### Interactions
 
 <a name="a_GET_advertisement_request_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
@@ -102,7 +104,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -195,7 +197,7 @@ Upon receiving **a GET advertisement request for a non-existent advertisement** 
   "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -213,7 +215,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -242,7 +244,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -271,7 +273,7 @@ Given **there is a failed classic advertisement**, upon receiving **a GET advert
   "path": "/advertisement/448b8474-6165-4eed-a5b5-d2bb52e471ef",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -329,7 +331,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -432,7 +434,7 @@ Given **there are no advertisements**, upon receiving **a GET advertisements req
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/hal+json"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -465,7 +467,7 @@ Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/hal+json"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -540,7 +542,7 @@ Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET
   "query": "advertiserId=456",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/hal+json"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -615,7 +617,7 @@ Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET
   "query": "beforeId=6",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/hal+json"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -687,7 +689,7 @@ Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET
   "query": "advertiserId=456&beforeId=5",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/hal+json"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -733,7 +735,7 @@ Upon receiving **a GET advertisements request to retrieve all advertisements for
   "query": "advertiserId=7d31d9b4-d922-43ef-9e88-f7b507ceea88",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/hal+json"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -763,7 +765,7 @@ Upon receiving **a GET advertisements request to retrieve all advertisements for
   "query": "advertiserId=874392",
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-    "Accept": "application/hal+json"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -809,7 +811,7 @@ Upon receiving **a GET index request to retrieve API links with an invalid acces
   "path": "",
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-feed-faceb0bb1e",
-    "Accept": "application/hal+json"
+    "Accept": "application/hal+json; charset=utf-8"
   }
 }
 ```
@@ -829,7 +831,7 @@ Upon receiving **a GET index request to retrieve API links with Bearer a4f2aab5-
   "method": "get",
   "path": "",
   "headers": {
-    "Accept": "application/hal+json",
+    "Accept": "application/hal+json; charset=utf-8",
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6"
   }
 }
@@ -862,7 +864,7 @@ Upon receiving **a GET index request to retrieve API links with Bearer b635a7ea-
   "method": "get",
   "path": "",
   "headers": {
-    "Accept": "application/hal+json",
+    "Accept": "application/hal+json; charset=utf-8",
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e"
   }
 }
@@ -896,7 +898,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -918,7 +920,7 @@ Upon receiving **a HEAD advertisement request for a non-existent advertisement**
   "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -936,7 +938,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -954,7 +956,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-    "Accept": "application/vnd.seek.advertisement+json"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
 ```
@@ -1182,15 +1184,15 @@ Given **there is an expired advertisement**, upon receiving **a PATCH advertisem
 Ad Posting API will respond with:
 ```json
 {
-  "status": 422,
+  "status": 403,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
   },
   "body": {
-    "message": "Validation Failure",
+    "message": "Forbidden",
     "errors": [
       {
-        "code": "InvalidState",
+        "code": "AlreadyExpired",
         "message": "Advertisement has already expired."
       }
     ]
@@ -1205,7 +1207,7 @@ Given **the requestor's account is disabled**, upon receiving **a POST advertise
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1255,7 +1257,7 @@ Upon receiving **a POST advertisement request to create a job ad with an invalid
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1305,7 +1307,7 @@ Upon receiving **a POST advertisement request to create a job ad with bad data**
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1401,7 +1403,7 @@ Upon receiving **a POST advertisement request to create a job ad with duplicated
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1472,7 +1474,7 @@ Upon receiving **a POST advertisement request to create a job ad with invalid ad
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element",
@@ -1523,7 +1525,7 @@ Upon receiving **a POST advertisement request to create a job ad with invalid sa
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1574,7 +1576,7 @@ Upon receiving **a POST advertisement request to create a job ad with maximum re
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1731,7 +1733,7 @@ Upon receiving **a POST advertisement request to create a job ad with minimum re
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1804,7 +1806,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1846,7 +1848,7 @@ Upon receiving **a POST advertisement request to create a job ad without a creat
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1896,7 +1898,7 @@ Upon receiving **a POST advertisement request to create a job for an advertiser 
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1946,7 +1948,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2097,7 +2099,7 @@ Upon receiving **a PUT advertisement request for a non-existent advertisement** 
   "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "This advertisement should not exist.",
@@ -2135,7 +2137,7 @@ Upon receiving **a PUT advertisement request for advertisement with bad data** f
   "path": "/advertisement/7e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2230,7 +2232,7 @@ Upon receiving **a PUT advertisement request for advertisement with invalid sala
   "path": "/advertisement/7e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2280,7 +2282,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2371,7 +2373,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2462,7 +2464,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2553,7 +2555,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2590,6 +2592,56 @@ Ad Posting API will respond with:
       {
         "field": "advertisementType",
         "code": "ChangeNotAllowed"
+      }
+    ]
+  }
+}
+```
+<a name="a_PUT_advertisement_request_to_update_an_expired_advertisement_given_There_is_an_expired_advertisement"></a>
+Given **there is an expired advertisement**, upon receiving **a PUT advertisement request to update an expired advertisement** from Ad Posting API Client, with
+```json
+{
+  "method": "put",
+  "path": "/advertisement/c294088d-ff50-4374-bc38-7fa805790e3e",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 403,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+  },
+  "body": {
+    "message": "Forbidden",
+    "errors": [
+      {
+        "code": "AlreadyExpired",
+        "message": "Advertisement has expired."
       }
     ]
   }
