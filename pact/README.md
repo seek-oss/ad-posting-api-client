@@ -1195,8 +1195,7 @@ Ad Posting API will respond with:
     "message": "Forbidden",
     "errors": [
       {
-        "code": "InvalidState",
-        "message": "Advertisement has already expired."
+        "code": "InvalidState"
       }
     ]
   }
