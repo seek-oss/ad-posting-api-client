@@ -13,6 +13,8 @@ namespace SEEK.AdPostingApi.Client.Models
 
         public string JobTitle { get; set; }
 
+        public string SearchJobTitle { get; set; }
+
         public Location Location { get; set; }
 
         public string SubclassificationId { get; set; }
