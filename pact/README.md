@@ -136,6 +136,7 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
@@ -363,6 +364,7 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
@@ -1109,6 +1111,7 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
@@ -1599,6 +1602,7 @@ Upon receiving **a POST advertisement request to create a job ad with maximum re
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
@@ -1672,6 +1676,7 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
@@ -1970,6 +1975,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
@@ -2039,6 +2045,7 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
@@ -2305,6 +2312,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
@@ -2396,6 +2404,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
@@ -2487,6 +2496,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
       "email": "qwert@asdf.com",
