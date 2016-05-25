@@ -140,7 +140,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             message = "Forbidden",
                             errors = new[] {
-                                new { code = "InvalidState", message = "Advertisement has already expired." }
+                                new { code = "InvalidState" }
                             }
                         }
                     });
