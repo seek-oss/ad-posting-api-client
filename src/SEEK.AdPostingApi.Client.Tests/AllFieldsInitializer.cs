@@ -13,6 +13,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             _minimumFieldsInitializer.Initialize(builder);
 
             builder
+                .WithSearchJobTitle(GetDefaultSearchJobTitle())
                 .WithAgentId(GetDefaultAgentId())
                 .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                 .WithSalaryDetails(GetDefaultSalaryDetails())
@@ -41,6 +42,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             _minimumFieldsInitializer.Initialize(builder);
 
             builder
+                .WithSearchJobTitle(GetDefaultSearchJobTitle())
                 .WithAgentId(GetDefaultAgentId())
                 .WithAdvertisementType(AdvertisementType.StandOut)
                 .WithSalaryDetails(GetDefaultSalaryDetails())
@@ -62,6 +64,11 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithStandoutLogoId(GetDefaultLogoId())
                 .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
                 .WithAdditionalProperties(GetDefaultAdditionalProperties());
+        }
+
+        private string GetDefaultSearchJobTitle()
+        {
+            return "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies";
         }
 
         private string GetDefaultAgentId()

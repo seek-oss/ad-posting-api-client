@@ -184,6 +184,12 @@ namespace SEEK.AdPostingApi.Client.Tests
             return this;
         }
 
+        public AdvertisementContentBuilder WithSearchJobTitle(object searchJobTitle)
+        {
+            this.AdvertisementModel.searchJobTitle = searchJobTitle;
+            return this;
+        }
+
         public AdvertisementContentBuilder WithStandoutBullets(params object[] bullets)
         {
             EnsureStandoutPropertyExists();

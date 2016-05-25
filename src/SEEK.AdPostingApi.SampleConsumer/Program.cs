@@ -34,6 +34,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 CreationId = "Sample Consumer 2575274f-7526-455d-a2a3-32447e40733d",
                 ThirdParties = new ThirdParties { AdvertiserId = "Advertiser Id" },
                 JobTitle = "A Job Title",
+                SearchJobTitle = "A Job Title for Searching",
                 JobSummary = "Job summary of the job ad",
                 AdvertisementDetails = "Experience Required",
                 AdvertisementType = AdvertisementType.Classic,
