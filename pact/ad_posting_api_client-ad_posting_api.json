@@ -87,7 +87,7 @@
           "message": "Forbidden",
           "errors": [
             {
-              "code": "InvalidState"
+              "code": "Expired"
             }
           ]
         }
@@ -1763,8 +1763,7 @@
           "message": "Forbidden",
           "errors": [
             {
-              "code": "InvalidState",
-              "message": "Advertisement has expired."
+              "code": "Expired"
             }
           ]
         }
