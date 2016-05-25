@@ -523,37 +523,33 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 422,
+                        Status = 403,
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
-                            message = "Validation Failure",
-                            errors = new[]
-                            {
-                                new { field = "advertisementType", code = "ChangeNotAllowed" }
-                            }
+                            message = "Forbidden",
+                            errors = new[] { new { code = "InvalidState" } }
                         }
                     });
 
             var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithAdvertisementType(AdvertisementType.Classic).Build();
 
-            ValidationException actualException;
+            UnauthorizedException actualException;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = await Assert.ThrowsAsync<ValidationException>(
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
                     async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
             }
 
-            var expectedException = new ValidationException(
-                HttpMethod.Put,
-                new ValidationMessage
+            var expectedException = new UnauthorizedException(
+                new ForbiddenMessage
                 {
-                    Message = "Validation Failure",
-                    Errors = new[] { new ValidationData { Field = "advertisementType", Code = "ChangeNotAllowed" } }
+                    Message = "Forbidden",
+                    Errors = new[] { new ForbiddenMessageData { Code = "InvalidState" } }
                 }
             );
 
@@ -594,7 +590,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             message = "Forbidden",
                             errors = new[] {
-                                new { code = "AlreadyExpired", message = "Advertisement has expired." }
+                                new { code = "InvalidState", message = "Advertisement has expired." }
                             }
                         }
                     });
@@ -612,7 +608,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 new ForbiddenMessage
                 {
                     Message = "Forbidden",
-                    Errors = new[] { new ForbiddenMessageData { Code = "AlreadyExpired" } }
+                    Errors = new[] { new ForbiddenMessageData { Code = "InvalidState" } }
                 });
 
             actualException.ShouldBeEquivalentToException(expectedException);
