@@ -1192,7 +1192,7 @@ Ad Posting API will respond with:
     "message": "Forbidden",
     "errors": [
       {
-        "code": "AlreadyExpired",
+        "code": "InvalidState",
         "message": "Advertisement has already expired."
       }
     ]
@@ -2582,16 +2582,15 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
 Ad Posting API will respond with:
 ```json
 {
-  "status": 422,
+  "status": 403,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
   },
   "body": {
-    "message": "Validation Failure",
+    "message": "Forbidden",
     "errors": [
       {
-        "field": "advertisementType",
-        "code": "ChangeNotAllowed"
+        "code": "InvalidState"
       }
     ]
   }
@@ -2640,7 +2639,7 @@ Ad Posting API will respond with:
     "message": "Forbidden",
     "errors": [
       {
-        "code": "AlreadyExpired",
+        "code": "InvalidState",
         "message": "Advertisement has expired."
       }
     ]
