@@ -590,7 +590,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             message = "Forbidden",
                             errors = new[] {
-                                new { code = "InvalidState", message = "Advertisement has expired." }
+                                new { code = "Expired" }
                             }
                         }
                     });
@@ -608,7 +608,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 new ForbiddenMessage
                 {
                     Message = "Forbidden",
-                    Errors = new[] { new ForbiddenMessageData { Code = "InvalidState" } }
+                    Errors = new[] { new ForbiddenMessageData { Code = "Expired" } }
                 });
 
             actualException.ShouldBeEquivalentToException(expectedException);
