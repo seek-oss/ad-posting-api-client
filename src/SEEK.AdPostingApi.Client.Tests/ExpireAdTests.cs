@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
@@ -14,8 +13,9 @@ namespace SEEK.AdPostingApi.Client.Tests
     public class ExpireAdTests : IDisposable
     {
         private const string AdvertisementLink = "/advertisement";
+        private const string AdvertisementContentType = "application/vnd.seek.advertisement+json; version=1; charset=utf-8";
         private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
-        private const string PatchContentType = "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8";
+        private const string AdvertisementPatchContentType = "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8";
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 
@@ -49,7 +49,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", PatchContentType}
+                            {"Content-Type", AdvertisementPatchContentType}
                         },
                         Body = new[]
                         {
@@ -68,7 +68,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
                             .WithState(AdvertisementState.Expired.ToString())
@@ -115,7 +115,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", PatchContentType}
+                            {"Content-Type", AdvertisementPatchContentType}
                         },
                         Body = new[]
                         {
@@ -131,34 +131,33 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 422,
+                        Status = 403,
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
-                            message = "Validation Failure",
+                            message = "Forbidden",
                             errors = new[] {
-                                new { code = "InvalidState", message = "Advertisement has already expired." }
+                                new { code = "Expired" }
                             }
                         }
                     });
 
-            ValidationException actualException;
+            UnauthorizedException actualException;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = await Assert.ThrowsAsync<ValidationException>(
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
                     async () => await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
-            var expectedException = new ValidationException(
-                new HttpMethod("PATCH"),
-                new ValidationMessage
+            var expectedException = new UnauthorizedException(
+                new ForbiddenMessage
                 {
-                    Message = "Validation Failure",
-                    Errors = new[] { new ValidationData { Code = "InvalidState", Message = "Advertisement has already expired." } }
+                    Message = "Forbidden",
+                    Errors = new[] { new ForbiddenMessageData { Code = "Expired" } }
                 });
 
             actualException.ShouldBeEquivalentToException(expectedException);
@@ -181,7 +180,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", PatchContentType}
+                            {"Content-Type", AdvertisementPatchContentType}
                         },
                         Body = new[]
                         {
@@ -229,7 +228,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", PatchContentType}
+                            {"Content-Type", AdvertisementPatchContentType}
                         },
                         Body = new[]
                         {
@@ -295,7 +294,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", PatchContentType}
+                            {"Content-Type", AdvertisementPatchContentType}
                         },
                         Body = new[]
                         {

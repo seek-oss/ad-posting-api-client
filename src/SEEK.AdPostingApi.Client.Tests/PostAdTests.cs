@@ -17,6 +17,8 @@ namespace SEEK.AdPostingApi.Client.Tests
         private const string CreationIdForAdWithMinimumRequiredData = "20150914-134527-00012";
         private const string CreationIdForAdWithMaximumRequiredData = "20150914-134527-00097";
         private const string CreationIdForAdWithDuplicateTemplateCustomFields = "20160120-162020-00000";
+        private const string AdvertisementContentType = "application/vnd.seek.advertisement+json; version=1; charset=utf-8";
+        private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
 
         private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
 
@@ -53,7 +55,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -66,7 +68,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
+                            { "Content-Type", AdvertisementContentType },
                             { "Location", location }
                         },
                         Body = new AdvertisementResponseContentBuilder(MinimumFieldsInitializer)
@@ -113,7 +115,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(AllFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMaximumRequiredData)
@@ -126,7 +128,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
+                            { "Content-Type", AdvertisementContentType },
                             { "Location", location }
                         },
                         Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
@@ -169,7 +171,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
@@ -190,7 +192,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -260,7 +262,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -275,7 +277,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -331,7 +333,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
@@ -345,7 +347,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -400,7 +402,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer).Build()
                     }
@@ -411,7 +413,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -462,7 +464,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()
                     }
@@ -504,7 +506,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -518,7 +520,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -568,7 +570,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -581,7 +583,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -630,7 +632,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -644,7 +646,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {
@@ -693,7 +695,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", "application/vnd.seek.advertisement+json; charset=utf-8" }
+                            { "Content-Type", AdvertisementContentType }
                         },
                         Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithDuplicateTemplateCustomFields)
@@ -710,7 +712,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                         Body = new
                         {

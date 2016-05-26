@@ -13,6 +13,8 @@ namespace SEEK.AdPostingApi.Client.Tests
     public class GetAdTests : IDisposable
     {
         private const string AdvertisementLink = "/advertisement";
+        private const string AdvertisementContentType = "application/vnd.seek.advertisement+json; version=1; charset=utf-8";
+        private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
 
         private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
 
@@ -47,7 +49,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", "application/vnd.seek.advertisement+json" }
+                        { "Accept", AdvertisementContentType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -55,7 +57,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
+                        { "Content-Type", AdvertisementContentType },
                         { "Processing-Status", "Pending" }
                     },
                     Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
@@ -102,7 +104,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", "application/vnd.seek.advertisement+json" }
+                        { "Accept", AdvertisementContentType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -110,7 +112,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
+                        { "Content-Type", AdvertisementContentType },
                         { "Processing-Status", "Pending" }
                     },
                     Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
@@ -163,7 +165,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", "application/vnd.seek.advertisement+json" }
+                        { "Accept", AdvertisementContentType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -171,7 +173,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", "application/vnd.seek.advertisement+json; version=1; charset=utf-8" },
+                        { "Content-Type", AdvertisementContentType },
                         { "Processing-Status", "Failed" }
                     },
                     Body = new AdvertisementResponseContentBuilder(MinimumFieldsInitializer)
@@ -216,7 +218,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", "application/vnd.seek.advertisement+json" }
+                        { "Accept", AdvertisementContentType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse { Status = 404 });
@@ -251,7 +253,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", "application/vnd.seek.advertisement+json" }
+                        { "Accept", AdvertisementContentType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -259,7 +261,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 403,
                     Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                     Body = new
                     {
@@ -306,7 +308,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", "application/vnd.seek.advertisement+json" }
+                        { "Accept", AdvertisementContentType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -314,7 +316,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 403,
                     Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                     Body = new
                     {

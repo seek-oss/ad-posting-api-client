@@ -29,7 +29,10 @@ namespace SEEK.AdPostingApi.Client.Hal
         {
             using (var httpRequest = new HttpRequestMessage(HttpMethod.Get, uri))
             {
-                httpRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(typeof(TResponseResource).GetMediaType("application/hal+json")));
+                var acceptHeader = MediaTypeWithQualityHeaderValue.Parse(typeof(TResponseResource).GetMediaType());
+
+                acceptHeader.CharSet = "utf-8";
+                httpRequest.Headers.Accept.Add(acceptHeader);
 
                 using (HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest))
                 {
@@ -42,8 +45,13 @@ namespace SEEK.AdPostingApi.Client.Hal
 
         public async Task<HttpResponseHeaders> HeadResourceAsync<TRequest>(Uri uri)
         {
-            using (var httpRequest = new HttpRequestMessage(HttpMethod.Head, uri) { Headers = { Accept = { new MediaTypeWithQualityHeaderValue(typeof(TRequest).GetMediaType("application/hal+json")) } } })
+            using (var httpRequest = new HttpRequestMessage(HttpMethod.Head, uri))
             {
+                var acceptHeader = MediaTypeWithQualityHeaderValue.Parse(typeof(TRequest).GetMediaType());
+
+                acceptHeader.CharSet = "utf-8";
+                httpRequest.Headers.Accept.Add(acceptHeader);
+
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
                     await HandleBadResponse(httpRequest, httpResponse);
@@ -103,7 +111,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             var encoding = Encoding.UTF8;
             var stringContent = new StringContent(content, encoding);
 
-            stringContent.Headers.ContentType = MediaTypeHeaderValue.Parse(typeof(TResource).GetMediaType("application/json"));
+            stringContent.Headers.ContentType = MediaTypeHeaderValue.Parse(typeof(TResource).GetMediaType());
             stringContent.Headers.ContentType.CharSet = encoding.WebName;
 
             return new HttpRequestMessage(method, uri) { Content = stringContent };
