@@ -6,6 +6,7 @@ using SEEK.AdPostingApi.Client.Hal;
 
 namespace SEEK.AdPostingApi.Client.Resources
 {
+    [MediaType("application/vnd.seek.advertisement-list+json;version=1")]
     public class AdvertisementSummaryPageResource : IResource
     {
         private Hal.Client _client;

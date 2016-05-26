@@ -6,6 +6,7 @@ using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Resources
 {
+    [MediaType("application/hal+json")]
     public class IndexResource : IResource
     {
         private Hal.Client _client;

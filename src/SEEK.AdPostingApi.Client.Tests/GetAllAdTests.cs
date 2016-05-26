@@ -15,6 +15,10 @@ namespace SEEK.AdPostingApi.Client.Tests
     [Collection(AdPostingApiCollection.Name)]
     public class GetAllAdTests : IDisposable
     {
+        private const string IndexContentType = "application/hal+json; charset=utf-8";
+        private const string AdvertisementListType = "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8";
+        private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
+
         public GetAllAdTests(AdPostingApiPactService adPostingApiPactService)
         {
             this.Fixture = new AdPostingApiFixture(adPostingApiPactService);
@@ -41,8 +45,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Path = "/advertisement",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Accept", "application/hal+json"}
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", AdvertisementListType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -50,7 +54,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"}
+                        {"Content-Type", AdvertisementListType }
                     },
                     Body = new
                     {
@@ -103,8 +107,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Path = "/advertisement",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Accept", "application/hal+json"}
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", AdvertisementListType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -112,7 +116,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"}
+                        { "Content-Type", AdvertisementListType }
                     },
                     Body = new
                     {
@@ -225,8 +229,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Query = "beforeId=" + beforeJobId,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Accept", "application/hal+json"}
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", AdvertisementListType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -234,7 +238,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"}
+                        { "Content-Type", AdvertisementListType }
                     },
                     Body = new
                     {
@@ -386,8 +390,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Accept", "application/hal+json"}
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", AdvertisementListType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -395,7 +399,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"}
+                        { "Content-Type", AdvertisementListType }
                     },
                     Body = new
                     {
@@ -509,8 +513,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Accept", "application/hal+json"}
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", AdvertisementListType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -518,7 +522,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"}
+                        { "Content-Type", AdvertisementListType }
                     },
                     Body = new
                     {
@@ -604,8 +608,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Accept", "application/hal+json"}
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", AdvertisementListType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -613,7 +617,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 403,
                     Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                     Body = new
                     {
@@ -628,8 +632,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             UnauthorizedException actualException;
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
-                    async () => await client.GetAllAdvertisementsAsync(advertiser));
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(async () => await client.GetAllAdvertisementsAsync(advertiser));
             }
 
             actualException.ShouldBeEquivalentToException(
@@ -660,8 +663,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Accept", "application/hal+json"}
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", AdvertisementListType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -669,7 +672,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 403,
                     Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8" }
+                            { "Content-Type", AdvertisementErrorContentType }
                         },
                     Body = new
                     {
@@ -684,8 +687,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             UnauthorizedException actualException;
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
-                    async () => await client.GetAllAdvertisementsAsync(advertiserId));
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(async () => await client.GetAllAdvertisementsAsync(advertiserId));
             }
 
             actualException.ShouldBeEquivalentToException(

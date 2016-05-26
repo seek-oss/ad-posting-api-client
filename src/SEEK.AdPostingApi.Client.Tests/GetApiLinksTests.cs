@@ -11,6 +11,8 @@ namespace SEEK.AdPostingApi.Client.Tests
     [Collection(AdPostingApiCollection.Name)]
     public class GetApiLinksTests : IDisposable
     {
+        private const string IndexContentType = "application/hal+json; charset=utf-8";
+
         public GetApiLinksTests(AdPostingApiPactService adPostingApiPactService)
         {
             this.Fixture = new AdPostingApiFixture(adPostingApiPactService);
@@ -32,8 +34,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + AccessTokens.InvalidAccessToken},
-                        {"Accept", "application/hal+json"}
+                        { "Authorization", "Bearer " + AccessTokens.InvalidAccessToken },
+                        { "Accept", IndexContentType }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -41,7 +43,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = (int)HttpStatusCode.Unauthorized,
                     Headers = new Dictionary<string, string>
                     {
-                        {"WWW-Authenticate", "Bearer error=\"Invalid request\""}
+                        { "WWW-Authenticate", "Bearer error=\"Invalid request\"" }
                     }
                 });
 
