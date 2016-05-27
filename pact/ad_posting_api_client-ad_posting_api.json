@@ -27,7 +27,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -57,7 +58,10 @@
         ]
       },
       "response": {
-        "status": 404
+        "status": 404,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
       }
     },
     {
@@ -81,7 +85,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -114,7 +119,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -147,7 +153,8 @@
       "response": {
         "status": 202,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -235,7 +242,10 @@
         }
       },
       "response": {
-        "status": 403
+        "status": 403,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
       }
     },
     {
@@ -269,7 +279,10 @@
         }
       },
       "response": {
-        "status": 403
+        "status": 403,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
       }
     },
     {
@@ -278,12 +291,15 @@
         "method": "head",
         "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
         "headers": {
-          "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
         }
       },
       "response": {
-        "status": 404
+        "status": 404,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
       }
     },
     {
@@ -330,7 +346,8 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "_embedded": {
@@ -388,34 +405,6 @@
       }
     },
     {
-      "description": "a GET advertisements request for all advertisements",
-      "provider_state": "There are no advertisements",
-      "request": {
-        "method": "get",
-        "path": "/advertisement",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
-        },
-        "body": {
-          "_embedded": {
-            "advertisements": []
-          },
-          "_links": {
-            "self": {
-              "href": "/advertisement"
-            }
-          }
-        }
-      }
-    },
-    {
       "description": "a GET index request to retrieve API links with Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
       "request": {
         "method": "get",
@@ -458,7 +447,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -485,7 +475,8 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "_embedded": {
@@ -540,6 +531,35 @@
       }
     },
     {
+      "description": "a GET advertisements request for all advertisements",
+      "provider_state": "There are no advertisements",
+      "request": {
+        "method": "get",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "advertisements": []
+          },
+          "_links": {
+            "self": {
+              "href": "/advertisement"
+            }
+          }
+        }
+      }
+    },
+    {
       "description": "a GET advertisements request for the second page of advertisements belonging to the advertiser",
       "provider_state": "A page size of 3 with more than 1 page of data",
       "request": {
@@ -554,7 +574,8 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "_embedded": {
@@ -596,7 +617,8 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "_embedded": {
@@ -667,7 +689,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -693,7 +716,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -720,7 +744,8 @@
         "status": 200,
         "headers": {
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Processing-Status": "Pending"
+          "Processing-Status": "Pending",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -820,7 +845,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -847,7 +873,8 @@
         "status": 200,
         "headers": {
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Processing-Status": "Failed"
+          "Processing-Status": "Failed",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -898,7 +925,10 @@
         }
       },
       "response": {
-        "status": 404
+        "status": 404,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
       }
     },
     {
@@ -916,7 +946,8 @@
         "status": 200,
         "headers": {
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Processing-Status": "Pending"
+          "Processing-Status": "Pending",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1019,7 +1050,10 @@
         }
       },
       "response": {
-        "status": 401
+        "status": 401,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
       }
     },
     {
@@ -1100,7 +1134,8 @@
         "status": 202,
         "headers": {
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+          "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1211,7 +1246,8 @@
       "response": {
         "status": 422,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Validation Failure",
@@ -1274,7 +1310,8 @@
       "response": {
         "status": 422,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Validation Failure",
@@ -1325,7 +1362,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -1370,7 +1408,8 @@
       "response": {
         "status": 422,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Validation Failure",
@@ -1418,7 +1457,8 @@
         "status": 202,
         "headers": {
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+          "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1487,7 +1527,8 @@
       "response": {
         "status": 409,
         "headers": {
-          "Location": "http://localhost/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+          "Location": "http://localhost/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "X-Request-Id": "PactRequestId"
         }
       }
     },
@@ -1526,7 +1567,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -1572,7 +1614,8 @@
       "response": {
         "status": 422,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Validation Failure",
@@ -1619,7 +1662,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -1690,7 +1734,8 @@
       "response": {
         "status": 422,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Validation Failure",
@@ -1757,7 +1802,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -1844,7 +1890,8 @@
       "response": {
         "status": 202,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1996,7 +2043,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -2042,7 +2090,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -2131,7 +2180,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -2201,7 +2251,8 @@
       "response": {
         "status": 422,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Validation Failure",
@@ -2265,7 +2316,10 @@
         }
       },
       "response": {
-        "status": 404
+        "status": 404,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
       }
     },
     {
@@ -2345,7 +2399,8 @@
       "response": {
         "status": 403,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Forbidden",
@@ -2390,7 +2445,8 @@
       "response": {
         "status": 422,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
         },
         "body": {
           "message": "Validation Failure",
