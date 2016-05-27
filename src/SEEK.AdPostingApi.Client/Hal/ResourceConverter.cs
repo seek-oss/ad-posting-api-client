@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
-    public class ResourceConverter : JsonConverter
+    internal class ResourceConverter : JsonConverter
     {
         private readonly Client _client;
         private readonly Uri _uri;

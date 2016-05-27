@@ -2,7 +2,7 @@
 using System.Linq;
 using SEEK.AdPostingApi.Client.Models;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AllFieldsInitializer : IBuilderInitializer
     {
@@ -10,60 +10,60 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public void Initialize(AdvertisementContentBuilder builder)
         {
-            _minimumFieldsInitializer.Initialize(builder);
+            this._minimumFieldsInitializer.Initialize(builder);
 
             builder
-                .WithSearchJobTitle(GetDefaultSearchJobTitle())
-                .WithAgentId(GetDefaultAgentId())
+                .WithSearchJobTitle(this.GetDefaultSearchJobTitle())
+                .WithAgentId(this.GetDefaultAgentId())
                 .WithAdvertisementType(AdvertisementType.StandOut.ToString())
-                .WithSalaryDetails(GetDefaultSalaryDetails())
-                .WithContactName(GetDefaultContactName())
-                .WithContactEmail(GetDefaultContactEmail())
-                .WithContactPhone(GetDefaultContactPhone())
-                .WithVideoUrl(GetDefaultVideoUrl())
-                .WithVideoPosition(GetDefaultVideoPosition().ToString())
-                .WithApplicationEmail(GetDefaultApplicationEmail())
-                .WithApplicationFormUrl(GetDefaultApplicationFormUrl())
-                .WithEndApplicationUrl(GetDefaultEndApplicationUrl())
-                .WithScreenId(GetDefaultScreenId())
-                .WithJobReference(GetDefaultJobReference())
-                .WithAgentJobReference(GetDefaultAgentJobReference())
-                .WithTemplateId(GetDefaultTemplateId())
+                .WithSalaryDetails(this.GetDefaultSalaryDetails())
+                .WithContactName(this.GetDefaultContactName())
+                .WithContactEmail(this.GetDefaultContactEmail())
+                .WithContactPhone(this.GetDefaultContactPhone())
+                .WithVideoUrl(this.GetDefaultVideoUrl())
+                .WithVideoPosition(this.GetDefaultVideoPosition().ToString())
+                .WithApplicationEmail(this.GetDefaultApplicationEmail())
+                .WithApplicationFormUrl(this.GetDefaultApplicationFormUrl())
+                .WithEndApplicationUrl(this.GetDefaultEndApplicationUrl())
+                .WithScreenId(this.GetDefaultScreenId())
+                .WithJobReference(this.GetDefaultJobReference())
+                .WithAgentJobReference(this.GetDefaultAgentJobReference())
+                .WithTemplateId(this.GetDefaultTemplateId())
                 .WithTemplateItems(
-                    new KeyValuePair<object, object>(GetDefaultTemplateItemName(1), GetDefaultTemplateItemValue(1)),
-                    new KeyValuePair<object, object>(GetDefaultTemplateItemName(2), GetDefaultTemplateItemValue(2)))
-                .WithStandoutLogoId(GetDefaultLogoId())
-                .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
-                .WithAdditionalProperties(GetDefaultAdditionalPropertiesAsObjects());
+                    new KeyValuePair<object, object>(this.GetDefaultTemplateItemName(1), this.GetDefaultTemplateItemValue(1)),
+                    new KeyValuePair<object, object>(this.GetDefaultTemplateItemName(2), this.GetDefaultTemplateItemValue(2)))
+                .WithStandoutLogoId(this.GetDefaultLogoId())
+                .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2), this.GetDefaultStandoutBullet(3))
+                .WithAdditionalProperties(this.GetDefaultAdditionalPropertiesAsObjects());
         }
 
         public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
         {
-            _minimumFieldsInitializer.Initialize(builder);
+            this._minimumFieldsInitializer.Initialize(builder);
 
             builder
-                .WithSearchJobTitle(GetDefaultSearchJobTitle())
-                .WithAgentId(GetDefaultAgentId())
+                .WithSearchJobTitle(this.GetDefaultSearchJobTitle())
+                .WithAgentId(this.GetDefaultAgentId())
                 .WithAdvertisementType(AdvertisementType.StandOut)
-                .WithSalaryDetails(GetDefaultSalaryDetails())
-                .WithContactName(GetDefaultContactName())
-                .WithContactEmail(GetDefaultContactEmail())
-                .WithContactPhone(GetDefaultContactPhone())
-                .WithVideoUrl(GetDefaultVideoUrl())
-                .WithVideoPosition(GetDefaultVideoPosition())
-                .WithApplicationEmail(GetDefaultApplicationEmail())
-                .WithApplicationFormUrl(GetDefaultApplicationFormUrl())
-                .WithEndApplicationUrl(GetDefaultEndApplicationUrl())
-                .WithScreenId(GetDefaultScreenId())
-                .WithJobReference(GetDefaultJobReference())
-                .WithAgentJobReference(GetDefaultAgentJobReference())
-                .WithTemplateId(GetDefaultTemplateId())
+                .WithSalaryDetails(this.GetDefaultSalaryDetails())
+                .WithContactName(this.GetDefaultContactName())
+                .WithContactEmail(this.GetDefaultContactEmail())
+                .WithContactPhone(this.GetDefaultContactPhone())
+                .WithVideoUrl(this.GetDefaultVideoUrl())
+                .WithVideoPosition(this.GetDefaultVideoPosition())
+                .WithApplicationEmail(this.GetDefaultApplicationEmail())
+                .WithApplicationFormUrl(this.GetDefaultApplicationFormUrl())
+                .WithEndApplicationUrl(this.GetDefaultEndApplicationUrl())
+                .WithScreenId(this.GetDefaultScreenId())
+                .WithJobReference(this.GetDefaultJobReference())
+                .WithAgentJobReference(this.GetDefaultAgentJobReference())
+                .WithTemplateId(this.GetDefaultTemplateId())
                 .WithTemplateItems(
-                    new TemplateItem { Name = GetDefaultTemplateItemName(1), Value = GetDefaultTemplateItemValue(1) },
-                    new TemplateItem { Name = GetDefaultTemplateItemName(2), Value = GetDefaultTemplateItemValue(2) })
-                .WithStandoutLogoId(GetDefaultLogoId())
-                .WithStandoutBullets(GetDefaultStandoutBullet(1), GetDefaultStandoutBullet(2), GetDefaultStandoutBullet(3))
-                .WithAdditionalProperties(GetDefaultAdditionalProperties());
+                    new TemplateItem { Name = this.GetDefaultTemplateItemName(1), Value = this.GetDefaultTemplateItemValue(1) },
+                    new TemplateItem { Name = this.GetDefaultTemplateItemName(2), Value = this.GetDefaultTemplateItemValue(2) })
+                .WithStandoutLogoId(this.GetDefaultLogoId())
+                .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2), this.GetDefaultStandoutBullet(3))
+                .WithAdditionalProperties(this.GetDefaultAdditionalProperties());
         }
 
         private string GetDefaultSearchJobTitle()
@@ -181,7 +181,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         private object[] GetDefaultAdditionalPropertiesAsObjects()
         {
-            return GetDefaultAdditionalProperties().Select(a => a.ToString()).ToArray<object>();
+            return this.GetDefaultAdditionalProperties().Select(a => a.ToString()).ToArray<object>();
         }
     }
 }

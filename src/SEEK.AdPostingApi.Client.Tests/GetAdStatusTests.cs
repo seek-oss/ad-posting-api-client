@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client.Models;
+using SEEK.AdPostingApi.Client.Tests.Framework;
 using Xunit;
 
 namespace SEEK.AdPostingApi.Client.Tests
@@ -12,6 +13,7 @@ namespace SEEK.AdPostingApi.Client.Tests
     {
         private const string AdvertisementLink = "/advertisement";
         private const string AdvertisementContentType = "application/vnd.seek.advertisement+json; version=1; charset=utf-8";
+        private const string RequestId = "PactRequestId";
 
         public GetAdStatusTests(AdPostingApiPactService adPostingApiPactService)
         {
@@ -69,7 +71,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         {
             const string advertisementId = "9b650105-7434-473f-8293-4e23b7e0e064";
 
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
@@ -86,7 +88,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
-                    Status = 404
+                    Status = 404,
+                    Headers = new Dictionary<string, string> { { "X-Request-Id", RequestId } }
                 });
 
             AdvertisementNotFoundException actualException;
@@ -97,7 +100,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     async () => await client.GetAdvertisementStatusAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
-            actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException());
+            actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException(RequestId));
         }
 
         [Fact]
@@ -123,7 +126,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
-                    Status = 403
+                    Status = 403,
+                    Headers = new Dictionary<string, string> { { "X-Request-Id", RequestId } }
                 });
 
             UnauthorizedException actualException;
@@ -135,7 +139,9 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException($"[HEAD] {this.Fixture.AdPostingApiServiceBaseUri}advertisement/{advertisementId} is not authorized."));
+                new UnauthorizedException(
+                    RequestId,
+                    $"[HEAD] {this.Fixture.AdPostingApiServiceBaseUri}advertisement/{advertisementId} is not authorized."));
         }
 
         [Fact]
@@ -159,7 +165,12 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "Accept", AdvertisementContentType }
                     }
                 })
-                .WillRespondWith(new ProviderServiceResponse { Status = 403 });
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 403,
+                        Headers = new Dictionary<string, string> { { "X-Request-Id", RequestId } }
+                    });
 
             UnauthorizedException actualException;
 
@@ -170,7 +181,9 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException($"[HEAD] {this.Fixture.AdPostingApiServiceBaseUri}advertisement/{advertisementId} is not authorized."));
+                new UnauthorizedException(
+                    RequestId,
+                    $"[HEAD] {this.Fixture.AdPostingApiServiceBaseUri}advertisement/{advertisementId} is not authorized."));
         }
 
         private AdPostingApiFixture Fixture { get; }

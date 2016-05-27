@@ -11,16 +11,15 @@ namespace SEEK.AdPostingApi.Client.Resources
     {
         private Hal.Client _client;
 
-        public void Initialise(Hal.Client client)
-        {
-            this._client = client;
-        }
+        [JsonIgnore]
+        public Links Links { get; set; }
+
+        [JsonIgnore]
+        [FromHeader("X-Request-Id")]
+        public string RequestId { get; set; }
 
         [JsonIgnore]
         public Uri Uri => this.Links.GenerateLink("self");
-
-        [JsonIgnore]
-        public Links Links { get; set; }
 
         public async Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
         {
@@ -34,6 +33,11 @@ namespace SEEK.AdPostingApi.Client.Resources
                     this.Links.GenerateLink("advertisements"))
                 : await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(
                     this.Links.GenerateLink("advertisements", new { advertiserId = advertiserIdentifier }));
+        }
+
+        public void Initialise(Hal.Client client)
+        {
+            this._client = client;
         }
     }
 }

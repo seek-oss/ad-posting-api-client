@@ -5,31 +5,27 @@ using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client
 {
-    public class ValidationException : Exception
+    [Serializable]
+    public class ValidationException : RequestException
     {
-        public ValidationData[] ValidationDataItems { get; private set; }
-
-        public ValidationException(HttpMethod method, ValidationMessage validationMessage)
-            : this(method, validationMessage, null)
+        public ValidationException(string requestId, HttpMethod method, ValidationMessage validationMessage)
+            : base(requestId, $"{method:G} failed.{validationMessage?.Message.PadLeft(validationMessage.Message.Length + 1)}")
         {
+            this.ValidationDataItems = validationMessage?.Errors ?? new ValidationData[0];
         }
 
-        public ValidationException(HttpMethod method, ValidationMessage validationMessage, Exception innerException)
-            : base($"{method:G} failed.{validationMessage?.Message.PadLeft(validationMessage.Message.Length + 1)}", innerException)
+        protected ValidationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            ValidationDataItems = validationMessage?.Errors ?? new ValidationData[0];
+            this.ValidationDataItems = (ValidationData[])info.GetValue(nameof(this.ValidationDataItems), typeof(ValidationData[]));
         }
 
-        protected ValidationException(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(ValidationDataItems), ValidationDataItems);
-        }
+        public ValidationData[] ValidationDataItems { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            base.GetObjectData(info, context);
+            info.AddValue(nameof(this.ValidationDataItems), this.ValidationDataItems);
 
-            ValidationDataItems = (ValidationData[])info.GetValue(nameof(ValidationDataItems), typeof(ValidationData[]));
+            base.GetObjectData(info, context);
         }
     }
 }

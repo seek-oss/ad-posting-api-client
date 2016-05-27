@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using SEEK.AdPostingApi.Client.Models;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AdvertisementModelBuilder : AdvertisementModelBuilder<Advertisement>
     {
@@ -85,7 +85,6 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             return this;
         }
-
 
         public AdvertisementModelBuilder<TAdvertisement> WithJobSummary(string jobSummary)
         {

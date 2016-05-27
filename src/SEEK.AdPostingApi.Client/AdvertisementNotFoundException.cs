@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace SEEK.AdPostingApi.Client
 {
-    public class AdvertisementNotFoundException : Exception
+    [Serializable]
+    public class AdvertisementNotFoundException : RequestException
     {
-        public AdvertisementNotFoundException()
-            : base("The advertisement does not exist.")
+        public AdvertisementNotFoundException(string requestId) : base(requestId, "The advertisement does not exist.")
+        {
+        }
+
+        protected AdvertisementNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

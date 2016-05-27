@@ -8,6 +8,7 @@ using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using SEEK.AdPostingApi.Client.Tests.Framework;
 using Xunit;
 
 namespace SEEK.AdPostingApi.Client.Tests
@@ -15,9 +16,9 @@ namespace SEEK.AdPostingApi.Client.Tests
     [Collection(AdPostingApiCollection.Name)]
     public class GetAllAdTests : IDisposable
     {
-        private const string IndexContentType = "application/hal+json; charset=utf-8";
         private const string AdvertisementListType = "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8";
         private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
+        private const string RequestId = "PactRequestId";
 
         public GetAllAdTests(AdPostingApiPactService adPostingApiPactService)
         {
@@ -30,7 +31,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllAdvertisementsWithNoAdvertisementReturns()
+        public async Task GetAllAdvertisementsWithNoAdvertisementsReturned()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
@@ -54,7 +55,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        {"Content-Type", AdvertisementListType }
+                        { "Content-Type", AdvertisementListType },
+                        { "X-Request-Id", RequestId }
                     },
                     Body = new
                     {
@@ -73,7 +75,8 @@ namespace SEEK.AdPostingApi.Client.Tests
             AdvertisementSummaryPageResource expectedAdvertisements = new AdvertisementSummaryPageResource
             {
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/advertisement" } } },
-                AdvertisementSummaries = new List<AdvertisementSummaryResource>()
+                AdvertisementSummaries = new List<AdvertisementSummaryResource>(),
+                RequestId = RequestId
             };
 
             advertisements.ShouldBeEquivalentTo(expectedAdvertisements);
@@ -116,7 +119,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementListType }
+                        { "Content-Type", AdvertisementListType },
+                        { "X-Request-Id", RequestId }
                     },
                     Body = new
                     {
@@ -128,22 +132,22 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithAdvertiserId("456")
                                     .WithJobTitle(advertisement3Title)
                                     .WithJobReference(advertisement3Reference)
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId3))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId3))
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId3))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId3))
                                     .Build(),
                                 new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId("456")
                                     .WithJobTitle(advertisement2Title)
                                     .WithJobReference(advertisement2Reference)
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId2))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId2))
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId2))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId2))
                                     .Build(),
                                 new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId("345")
                                     .WithJobTitle(advertisement1Title)
                                     .WithJobReference(advertisement1Reference)
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId1))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId1))
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId1))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId1))
                                     .Build()
                             }
                         },
@@ -204,7 +208,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     { "self", new Link { Href = "/advertisement" } },
                     { "next", new Link { Href = "/advertisement?beforeId=" + beforeJobId} }
-                }
+                },
+                RequestId = RequestId
             };
 
             pageResource.ShouldBeEquivalentTo(expectedPageResource);
@@ -238,7 +243,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementListType }
+                        { "Content-Type", AdvertisementListType },
+                        { "X-Request-Id", RequestId }
                     },
                     Body = new
                     {
@@ -250,22 +256,22 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithAdvertiserId("456")
                                     .WithJobTitle("Exciting tester role in a great CBD location. Great $$")
                                     .WithJobReference("JOB2222")
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId3))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId3))
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId3))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId3))
                                     .Build(),
                                 new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId("456")
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
                                     .WithJobReference("JOB1111")
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId2))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId2))
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId2))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId2))
                                     .Build(),
                                 new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId("123")
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
                                     .WithJobReference("JOB1234")
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId1))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId1))
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId1))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId1))
                                     .Build()
                             }
                         },
@@ -336,7 +342,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     {"self", new Link {Href = $"/advertisement?beforeId={beforeJobId}"}}
-                }
+                },
+                RequestId = RequestId
             };
 
             nextPageResource.ShouldBeEquivalentTo(expectedNextPageResource);
@@ -399,7 +406,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementListType }
+                        { "Content-Type", AdvertisementListType },
+                        { "X-Request-Id", RequestId }
                     },
                     Body = new
                     {
@@ -411,23 +419,23 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithAdvertiserId(advertiser)
                                     .WithJobTitle(advertisement3Title)
                                     .WithJobReference(advertisement3Reference)
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId3))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId3))
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId3))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId3))
                                     .Build(),
                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId(advertiser)
                                     .WithJobTitle(advertisement2Title)
                                     .WithJobReference(advertisement2Reference)
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId2))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId2))
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId2))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId2))
                                     .Build(),
                                new AdvertisementSummaryContentBuilder()
                                     .WithAdvertiserId(advertiser)
                                     .WithJobTitle(advertisement1Title)
                                     .WithJobReference(advertisement1Reference)
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId1))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId1))
-                                    .Build(),
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId1))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId1))
+                                    .Build()
                             }
                         },
                         _links = new
@@ -481,13 +489,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "self", new Link { Href = $"/advertisement/{advertisementId1}" } },
                             { "view", new Link { Href = $"/advertisement/{advertisementId1}/view" } }
                         }
-                    },
+                    }
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     { "self", new Link { Href = selfLink } },
                     { "next", new Link { Href = nextLink } }
-                }
+                },
+                RequestId = RequestId
             };
 
             pageResource.ShouldBeEquivalentTo(expectedPageResource);
@@ -522,7 +531,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementListType }
+                        { "Content-Type", AdvertisementListType },
+                        { "X-Request-Id", RequestId }
                     },
                     Body = new
                     {
@@ -534,8 +544,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithAdvertiserId(advertiserId)
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
                                     .WithJobReference("JOB1111")
-                                    .WithResponseLink("self", GenerateSelfLink(advertisementId1))
-                                    .WithResponseLink("view", GenerateViewLink(advertisementId1))
+                                    .WithResponseLink("self", this.GenerateSelfLink(advertisementId1))
+                                    .WithResponseLink("view", this.GenerateViewLink(advertisementId1))
                                     .Build()
                             }
                         },
@@ -584,7 +594,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     {"self", new Link {Href = selfLink}}
-                }
+                },
+                RequestId = RequestId
             };
 
             nextPageResource.ShouldBeEquivalentTo(expectedNextPageResource);
@@ -616,16 +627,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     Status = 403,
                     Headers = new Dictionary<string, string>
-                        {
-                            { "Content-Type", AdvertisementErrorContentType }
-                        },
+                    {
+                        { "Content-Type", AdvertisementErrorContentType },
+                        { "X-Request-Id", RequestId }
+                    },
                     Body = new
                     {
                         message = "Forbidden",
-                        errors = new[]
-                            {
-                                new { code = "InvalidValue" }
-                            }
+                        errors = new[] { new { code = "InvalidValue" } }
                     }
                 });
 
@@ -637,12 +646,12 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
+                    RequestId,
                     new ForbiddenMessage
                     {
                         Message = "Forbidden",
                         Errors = new[] { new ForbiddenMessageData { Code = "InvalidValue" } }
-                    }
-                    ));
+                    }));
         }
 
         [Fact]
@@ -671,16 +680,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     Status = 403,
                     Headers = new Dictionary<string, string>
-                        {
-                            { "Content-Type", AdvertisementErrorContentType }
-                        },
+                    {
+                        { "Content-Type", AdvertisementErrorContentType },
+                        { "X-Request-Id", RequestId }
+                    },
                     Body = new
                     {
                         message = "Forbidden",
-                        errors = new[]
-                            {
-                                new { code = "RelationshipError" }
-                            }
+                        errors = new[] { new { code = "RelationshipError" } }
                     }
                 });
 
@@ -692,12 +699,12 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
+                    RequestId,
                     new ForbiddenMessage
                     {
                         Message = "Forbidden",
                         Errors = new[] { new ForbiddenMessageData { Code = "RelationshipError" } }
-                    }
-                    ));
+                    }));
         }
 
         private string GenerateSelfLink(string advertisementId)

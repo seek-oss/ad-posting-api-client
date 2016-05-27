@@ -1,11 +1,13 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using SEEK.AdPostingApi.Client.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client
 {
@@ -56,7 +58,10 @@ namespace SEEK.AdPostingApi.Client
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                throw new UnauthorizedException("Could not get OAuth2 access token.");
+                IEnumerable<string> requestIds;
+                string requestId = response.Headers.TryGetValues("X-Request-Id", out requestIds) ? requestIds.First() : null;
+
+                throw new UnauthorizedException(requestId, "Could not get OAuth2 access token.");
             }
 
             response.EnsureSuccessStatusCode();

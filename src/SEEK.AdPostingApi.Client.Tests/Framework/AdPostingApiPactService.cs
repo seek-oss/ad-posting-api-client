@@ -2,7 +2,7 @@
 using PactNet;
 using PactNet.Mocks.MockHttpService;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AdPostingApiPactService : IDisposable
     {

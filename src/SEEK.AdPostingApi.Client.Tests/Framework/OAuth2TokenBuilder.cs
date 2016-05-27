@@ -1,6 +1,6 @@
 ﻿using SEEK.AdPostingApi.Client.Models;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class OAuth2TokenBuilder
     {
@@ -13,7 +13,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public OAuth2TokenBuilder WithAccessToken(string accessToken)
         {
-            _accessToken = accessToken;
+            this._accessToken = accessToken;
             return this;
         }
 
@@ -21,7 +21,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         {
             return new OAuth2Token
             {
-                AccessToken = _accessToken,
+                AccessToken = this._accessToken,
                 ExpiresIn = 3600,
                 Scope = "seek",
                 TokenType = "Bearer"

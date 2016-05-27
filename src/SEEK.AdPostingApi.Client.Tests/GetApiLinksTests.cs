@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client.Models;
+using SEEK.AdPostingApi.Client.Tests.Framework;
 using Xunit;
 
 namespace SEEK.AdPostingApi.Client.Tests
@@ -12,6 +13,7 @@ namespace SEEK.AdPostingApi.Client.Tests
     public class GetApiLinksTests : IDisposable
     {
         private const string IndexContentType = "application/hal+json; charset=utf-8";
+        private const string RequestId = "PactRequestId";
 
         public GetApiLinksTests(AdPostingApiPactService adPostingApiPactService)
         {
@@ -71,22 +73,25 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        {"Authorization", "Bearer " + AccessTokens.ValidAccessToken_InvalidService}
+                        { "Authorization", "Bearer " + AccessTokens.ValidAccessToken_InvalidService }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
-                    Status = (int)HttpStatusCode.Unauthorized
+                    Status = (int)HttpStatusCode.Unauthorized,
+                    Headers = new Dictionary<string, string> { { "X-Request-Id", RequestId } }
                 });
 
             UnauthorizedException actualException;
 
             using (var client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = await Assert.ThrowsAsync<UnauthorizedException>(async () => await client.InitialiseIndexResource(this.Fixture.AdPostingApiServiceBaseUri));
+                actualException = await Assert.ThrowsAsync<UnauthorizedException>(
+                    async () => await client.InitialiseIndexResource(this.Fixture.AdPostingApiServiceBaseUri));
             }
 
-            actualException.ShouldBeEquivalentToException(new UnauthorizedException($"[GET] {this.Fixture.AdPostingApiServiceBaseUri} is not authorized."));
+            actualException.ShouldBeEquivalentToException(
+                new UnauthorizedException(RequestId, $"[GET] {this.Fixture.AdPostingApiServiceBaseUri} is not authorized."));
         }
 
         private AdPostingApiFixture Fixture { get; }
@@ -94,7 +99,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
     public class FakeOAuth2Client : IOAuth2TokenClient
     {
-        private bool _neverCalled = true;
+        private bool _called;
 
         public void Dispose()
         {
@@ -102,9 +107,9 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public Task<OAuth2Token> GetOAuth2TokenAsync()
         {
-            if (_neverCalled)
+            if (!this._called)
             {
-                _neverCalled = false;
+                this._called = true;
 
                 return Task.FromResult(new OAuth2TokenBuilder().WithAccessToken(AccessTokens.InvalidAccessToken).Build());
             }

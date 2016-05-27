@@ -2,7 +2,7 @@
 using System.Dynamic;
 using System.Linq;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AdvertisementContentBuilder
     {
@@ -42,7 +42,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 ? this.AdvertisementModel.thirdParties.agentId
                 : null;
 
-            CreateOrRemoveThirdParties(advertiserId, agentId);
+            this.CreateOrRemoveThirdParties(advertiserId, agentId);
 
             return this;
         }
@@ -53,7 +53,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 ? this.AdvertisementModel.thirdParties.advertiserId
                 : null;
 
-            CreateOrRemoveThirdParties(advertiserId, agentId);
+            this.CreateOrRemoveThirdParties(advertiserId, agentId);
 
             return this;
         }
@@ -85,21 +85,21 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithContactEmail(object contactEmail)
         {
-            EnsureContactPropertyExists();
+            this.EnsureContactPropertyExists();
             this.AdvertisementModel.contact.email = contactEmail;
             return this;
         }
 
         public AdvertisementContentBuilder WithContactName(object contactName)
         {
-            EnsureContactPropertyExists();
+            this.EnsureContactPropertyExists();
             this.AdvertisementModel.contact.name = contactName;
             return this;
         }
 
         public AdvertisementContentBuilder WithContactPhone(object contactPhone)
         {
-            EnsureContactPropertyExists();
+            this.EnsureContactPropertyExists();
             this.AdvertisementModel.contact.phone = contactPhone;
             return this;
         }
@@ -130,7 +130,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithLocationAreaId(object areaId)
         {
-            EnsureLocationPropertyExists();
+            this.EnsureLocationPropertyExists();
 
             this.AdvertisementModel.location.areaId = areaId;
             return this;
@@ -138,7 +138,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithLocationId(object locationId)
         {
-            EnsureLocationPropertyExists();
+            this.EnsureLocationPropertyExists();
 
             this.AdvertisementModel.location.id = locationId;
             return this;
@@ -152,28 +152,28 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithSalaryDetails(object details)
         {
-            EnsureSalaryPropertyExists();
+            this.EnsureSalaryPropertyExists();
             this.AdvertisementModel.salary.details = details;
             return this;
         }
 
         public AdvertisementContentBuilder WithSalaryMaximum(object maximum)
         {
-            EnsureSalaryPropertyExists();
+            this.EnsureSalaryPropertyExists();
             this.AdvertisementModel.salary.maximum = maximum;
             return this;
         }
 
         public AdvertisementContentBuilder WithSalaryMinimum(object minimum)
         {
-            EnsureSalaryPropertyExists();
+            this.EnsureSalaryPropertyExists();
             this.AdvertisementModel.salary.minimum = minimum;
             return this;
         }
 
         public AdvertisementContentBuilder WithSalaryType(object salaryType)
         {
-            EnsureSalaryPropertyExists();
+            this.EnsureSalaryPropertyExists();
             this.AdvertisementModel.salary.type = salaryType;
             return this;
         }
@@ -192,7 +192,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithStandoutBullets(params object[] bullets)
         {
-            EnsureStandoutPropertyExists();
+            this.EnsureStandoutPropertyExists();
 
             this.AdvertisementModel.standout.bullets = bullets?.Clone();
             return this;
@@ -200,7 +200,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithStandoutLogoId(object logoId)
         {
-            EnsureStandoutPropertyExists();
+            this.EnsureStandoutPropertyExists();
 
             this.AdvertisementModel.standout.logoId = logoId;
             return this;
@@ -214,7 +214,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithTemplateId(object id)
         {
-            EnsureTemplatePropertyExists();
+            this.EnsureTemplatePropertyExists();
 
             this.AdvertisementModel.template.id = id;
             return this;
@@ -222,7 +222,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithTemplateItems(params KeyValuePair<object, object>[] templateItems)
         {
-            EnsureTemplatePropertyExists();
+            this.EnsureTemplatePropertyExists();
 
             this.AdvertisementModel.template.items = templateItems?.Select(t => new { name = t.Key, value = t.Value }).ToArray();
             return this;
@@ -230,14 +230,14 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementContentBuilder WithVideoPosition(object videoPosition)
         {
-            EnsureVideoPropertyExists();
+            this.EnsureVideoPropertyExists();
             this.AdvertisementModel.video.position = videoPosition;
             return this;
         }
 
         public AdvertisementContentBuilder WithVideoUrl(object url)
         {
-            EnsureVideoPropertyExists();
+            this.EnsureVideoPropertyExists();
             this.AdvertisementModel.video.url = url;
             return this;
         }

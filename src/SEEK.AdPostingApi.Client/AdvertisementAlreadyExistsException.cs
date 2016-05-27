@@ -4,27 +4,25 @@ using System.Runtime.Serialization;
 namespace SEEK.AdPostingApi.Client
 {
     [Serializable]
-    public class AdvertisementAlreadyExistsException : Exception
+    public class AdvertisementAlreadyExistsException : RequestException
     {
-        public Uri AdvertisementLink { get; private set; }
-
-        public AdvertisementAlreadyExistsException(Uri advertisementLink)
-            : base("Advertisement already exists.")
+        public AdvertisementAlreadyExistsException(string requestId, Uri advertisementLink) : base(requestId, "Advertisement already exists.")
         {
-            AdvertisementLink = advertisementLink;
+            this.AdvertisementLink = advertisementLink;
         }
 
-        protected AdvertisementAlreadyExistsException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
+        protected AdvertisementAlreadyExistsException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            info.AddValue(nameof(AdvertisementLink), AdvertisementLink);
+            this.AdvertisementLink = (Uri)info.GetValue(nameof(this.AdvertisementLink), typeof(Uri));
         }
+
+        public Uri AdvertisementLink { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            base.GetObjectData(info, context);
+            info.AddValue(nameof(this.AdvertisementLink), this.AdvertisementLink);
 
-            AdvertisementLink = (Uri)info.GetValue(nameof(AdvertisementLink), typeof(Uri));
+            base.GetObjectData(info, context);
         }
     }
 }

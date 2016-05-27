@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Hal
@@ -34,9 +38,9 @@ namespace SEEK.AdPostingApi.Client.Hal
                 acceptHeader.CharSet = "utf-8";
                 httpRequest.Headers.Accept.Add(acceptHeader);
 
-                using (HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequest))
+                using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
-                    await HandleBadResponse(httpRequest, httpResponse);
+                    await this.HandleBadResponse(httpRequest, httpResponse);
 
                     return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
                 }
@@ -54,7 +58,7 @@ namespace SEEK.AdPostingApi.Client.Hal
 
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
-                    await HandleBadResponse(httpRequest, httpResponse);
+                    await this.HandleBadResponse(httpRequest, httpResponse);
 
                     return httpResponse.Headers;
                 }
@@ -69,7 +73,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
-                    await HandleBadResponse(httpRequest, httpResponse);
+                    await this.HandleBadResponse(httpRequest, httpResponse);
 
                     return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
                 }
@@ -84,7 +88,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
-                    await HandleBadResponse(httpRequest, httpResponse);
+                    await this.HandleBadResponse(httpRequest, httpResponse);
 
                     return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
                 }
@@ -99,7 +103,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 using (var httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
-                    await HandleBadResponse(httpRequest, httpResponse);
+                    await this.HandleBadResponse(httpRequest, httpResponse);
 
                     return await this.CreateResponseResource<TResponseResource>(uri, httpResponse);
                 }
@@ -124,40 +128,43 @@ namespace SEEK.AdPostingApi.Client.Hal
 
         private async Task HandleBadResponse(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse)
         {
+            IEnumerable<string> requestIds;
+            string requestId = httpResponse.Headers.TryGetValues("X-Request-Id", out requestIds) ? requestIds.First() : null;
+
             switch ((int)httpResponse.StatusCode)
             {
                 case (int)HttpStatusCode.Unauthorized:
-                    throw new UnauthorizedException($"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
+                    throw new UnauthorizedException(requestId, $"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
 
                 case (int)HttpStatusCode.Forbidden:
                     string content = await httpResponse.Content.ReadAsStringAsync();
 
                     if (string.IsNullOrEmpty(content))
                     {
-                        throw new UnauthorizedException($"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
+                        throw new UnauthorizedException(requestId, $"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
                     }
 
                     ForbiddenMessage forbiddenMessage;
 
-                    if (TryDeserializeForbiddenMessage(content, out forbiddenMessage))
+                    if (this.TryDeserializeForbiddenMessage(content, out forbiddenMessage))
                     {
-                        throw new UnauthorizedException(forbiddenMessage);
+                        throw new UnauthorizedException(requestId, forbiddenMessage);
                     }
                     break;
 
                 case (int)HttpStatusCode.NotFound:
-                    throw new AdvertisementNotFoundException();
+                    throw new AdvertisementNotFoundException(requestId);
 
                 case (int)HttpStatusCode.Conflict:
-                    throw new AdvertisementAlreadyExistsException(httpResponse.Headers.Location);
+                    throw new AdvertisementAlreadyExistsException(requestId, httpResponse.Headers.Location);
 
                 case 422:
                     ValidationMessage validationMessage;
                     string responseContent = await httpResponse.Content.ReadAsStringAsync();
 
-                    if (TryDeserialize(responseContent, out validationMessage))
+                    if (this.TryDeserialize(responseContent, out validationMessage))
                     {
-                        throw new ValidationException(httpRequest.Method, validationMessage);
+                        throw new ValidationException(requestId, httpRequest.Method, validationMessage);
                     }
 
                     break;
@@ -194,6 +201,16 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
 
             return forbiddenMessage != null;
+        }
+
+        private class SerializerSettings : JsonSerializerSettings
+        {
+            public SerializerSettings()
+            {
+                this.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                this.NullValueHandling = NullValueHandling.Ignore;
+                this.Converters.Add(new StringEnumConverter());
+            }
         }
     }
 }
