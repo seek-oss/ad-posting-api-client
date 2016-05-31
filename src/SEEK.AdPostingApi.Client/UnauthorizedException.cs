@@ -4,26 +4,30 @@ using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client
 {
-    public class UnauthorizedException : Exception
+    [Serializable]
+    public class UnauthorizedException : RequestException
     {
-        public UnauthorizedException()
+        public ForbiddenMessageData[] Errors { get; set; }
+
+        public UnauthorizedException(string requestId, string message) : base(requestId, message)
         {
         }
 
-        public UnauthorizedException(string message) : base(message)
+        public UnauthorizedException(string requestId, ForbiddenMessage forbiddenMessage) : base(requestId, forbiddenMessage?.Message)
         {
-        }
-
-        public UnauthorizedException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        public UnauthorizedException(ForbiddenMessage forbiddenMessage)
-        {            
+            this.Errors = forbiddenMessage?.Errors;
         }
 
         protected UnauthorizedException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
+            this.Errors = (ForbiddenMessageData[])info.GetValue(nameof(this.Errors), typeof(ForbiddenMessageData[]));
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(this.Errors), this.Errors);
+
+            base.GetObjectData(info, context);
         }
     }
 }

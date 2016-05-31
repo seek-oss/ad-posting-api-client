@@ -1,6 +1,6 @@
 ﻿using SEEK.AdPostingApi.Client.Models;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public interface IBuilderInitializer
     {

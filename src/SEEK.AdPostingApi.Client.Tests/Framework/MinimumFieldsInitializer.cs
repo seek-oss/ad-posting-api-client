@@ -1,40 +1,40 @@
 ﻿using SEEK.AdPostingApi.Client.Models;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class MinimumFieldsInitializer : IBuilderInitializer
     {
         public void Initialize(AdvertisementContentBuilder builder)
         {
             builder
-                .WithAdvertisementDetails(GetDefaultAdvertisementDetails())
-                .WithAdvertiserId(GetDefaultAdvertiserId())
+                .WithAdvertisementDetails(this.GetDefaultAdvertisementDetails())
+                .WithAdvertiserId(this.GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic.ToString())
-                .WithJobSummary(GetDefaultJobSummary())
-                .WithJobTitle(GetDefaultJobTitle())
+                .WithJobSummary(this.GetDefaultJobSummary())
+                .WithJobTitle(this.GetDefaultJobTitle())
                 .WithLocationId(this.GetDefaultLocationId())
                 .WithLocationAreaId(this.GetDefaultLocationAreaId())
-                .WithSalaryMinimum(GetDefaultSalaryMinimum())
-                .WithSalaryMaximum(GetDefaultSalaryMaximum())
-                .WithSalaryType(GetDefaultSalaryType().ToString())
-                .WithSubclassificationId(GetDefaultSubclassificationId())
-                .WithWorkType(GetDefaultWorkType().ToString());
+                .WithSalaryMinimum(this.GetDefaultSalaryMinimum())
+                .WithSalaryMaximum(this.GetDefaultSalaryMaximum())
+                .WithSalaryType(this.GetDefaultSalaryType().ToString())
+                .WithSubclassificationId(this.GetDefaultSubclassificationId())
+                .WithWorkType(this.GetDefaultWorkType().ToString());
         }
 
         public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
         {
             builder
-                .WithAdvertiserId(GetDefaultAdvertiserId())
+                .WithAdvertiserId(this.GetDefaultAdvertiserId())
                 .WithAdvertisementType(AdvertisementType.Classic)
-                .WithJobTitle(GetDefaultJobTitle())
+                .WithJobTitle(this.GetDefaultJobTitle())
                 .WithLocationArea(this.GetDefaultLocationId(), this.GetDefaultLocationAreaId())
-                .WithSubclassificationId(GetDefaultSubclassificationId())
-                .WithWorkType(GetDefaultWorkType())
-                .WithSalaryType(GetDefaultSalaryType())
-                .WithSalaryMinimum(GetDefaultSalaryMinimum())
-                .WithSalaryMaximum(GetDefaultSalaryMaximum())
-                .WithJobSummary(GetDefaultJobSummary())
-                .WithAdvertisementDetails(GetDefaultAdvertisementDetails());
+                .WithSubclassificationId(this.GetDefaultSubclassificationId())
+                .WithWorkType(this.GetDefaultWorkType())
+                .WithSalaryType(this.GetDefaultSalaryType())
+                .WithSalaryMinimum(this.GetDefaultSalaryMinimum())
+                .WithSalaryMaximum(this.GetDefaultSalaryMaximum())
+                .WithJobSummary(this.GetDefaultJobSummary())
+                .WithAdvertisementDetails(this.GetDefaultAdvertisementDetails());
         }
 
         private string GetDefaultAdvertisementDetails()

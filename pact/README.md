@@ -114,7 +114,8 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Processing-Status": "Pending"
+    "Processing-Status": "Pending",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -205,7 +206,10 @@ Upon receiving **a GET advertisement request for a non-existent advertisement** 
 Ad Posting API will respond with:
 ```json
 {
-  "status": 404
+  "status": 404,
+  "headers": {
+    "X-Request-Id": "PactRequestId"
+  }
 }
 ```
 <a name="a_GET_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
@@ -225,7 +229,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -254,7 +259,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -284,7 +290,8 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Processing-Status": "Failed"
+    "Processing-Status": "Failed",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -342,7 +349,8 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Processing-Status": "Pending"
+    "Processing-Status": "Pending",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -445,7 +453,8 @@ Ad Posting API will respond with:
 {
   "status": 200,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "_embedded": {
@@ -478,7 +487,8 @@ Ad Posting API will respond with:
 {
   "status": 200,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "_embedded": {
@@ -553,7 +563,8 @@ Ad Posting API will respond with:
 {
   "status": 200,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "_embedded": {
@@ -628,7 +639,8 @@ Ad Posting API will respond with:
 {
   "status": 200,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "_embedded": {
@@ -700,7 +712,8 @@ Ad Posting API will respond with:
 {
   "status": 200,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "_embedded": {
@@ -746,7 +759,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -776,7 +790,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -802,7 +817,10 @@ Upon receiving **a GET index request that is unauthorised to retrieve API links*
 Ad Posting API will respond with:
 ```json
 {
-  "status": 401
+  "status": 401,
+  "headers": {
+    "X-Request-Id": "PactRequestId"
+  }
 }
 ```
 <a name="a_GET_index_request_to_retrieve_API_links_with_an_invalid_access_token"></a>
@@ -921,7 +939,7 @@ Upon receiving **a HEAD advertisement request for a non-existent advertisement**
   "method": "head",
   "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
   "headers": {
-    "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
   }
 }
@@ -929,7 +947,10 @@ Upon receiving **a HEAD advertisement request for a non-existent advertisement**
 Ad Posting API will respond with:
 ```json
 {
-  "status": 404
+  "status": 404,
+  "headers": {
+    "X-Request-Id": "PactRequestId"
+  }
 }
 ```
 <a name="a_HEAD_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
@@ -947,7 +968,10 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
 Ad Posting API will respond with:
 ```json
 {
-  "status": 403
+  "status": 403,
+  "headers": {
+    "X-Request-Id": "PactRequestId"
+  }
 }
 ```
 <a name="a_HEAD_advertisement_request_for_an_advertisement_using_a_disabled_requestor_account_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
@@ -965,7 +989,10 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
 Ad Posting API will respond with:
 ```json
 {
-  "status": 403
+  "status": 403,
+  "headers": {
+    "X-Request-Id": "PactRequestId"
+  }
 }
 ```
 <a name="a_PATCH_advertisement_request_to_expire_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
@@ -992,7 +1019,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -1028,7 +1056,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -1062,7 +1091,10 @@ Upon receiving **a PATCH advertisement request to expire a non-existent advertis
 Ad Posting API will respond with:
 ```json
 {
-  "status": 404
+  "status": 404,
+  "headers": {
+    "X-Request-Id": "PactRequestId"
+  }
 }
 ```
 <a name="a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
@@ -1089,7 +1121,8 @@ Ad Posting API will respond with:
 {
   "status": 202,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1189,7 +1222,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -1239,7 +1273,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -1289,7 +1324,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -1364,7 +1400,8 @@ Ad Posting API will respond with:
 {
   "status": 422,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Validation Failure",
@@ -1451,7 +1488,8 @@ Ad Posting API will respond with:
 {
   "status": 422,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Validation Failure",
@@ -1506,7 +1544,8 @@ Ad Posting API will respond with:
 {
   "status": 422,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Validation Failure",
@@ -1557,7 +1596,8 @@ Ad Posting API will respond with:
 {
   "status": 422,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Validation Failure",
@@ -1652,7 +1692,8 @@ Ad Posting API will respond with:
   "status": 202,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1768,7 +1809,8 @@ Ad Posting API will respond with:
   "status": 202,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1840,7 +1882,8 @@ Ad Posting API will respond with:
 {
   "status": 409,
   "headers": {
-    "Location": "http://localhost/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+    "Location": "http://localhost/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "X-Request-Id": "PactRequestId"
   }
 }
 ```
@@ -1881,7 +1924,8 @@ Ad Posting API will respond with:
 {
   "status": 422,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Validation Failure",
@@ -1932,7 +1976,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -2022,7 +2067,8 @@ Ad Posting API will respond with:
 {
   "status": 202,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2132,7 +2178,10 @@ Upon receiving **a PUT advertisement request for a non-existent advertisement** 
 Ad Posting API will respond with:
 ```json
 {
-  "status": 404
+  "status": 404,
+  "headers": {
+    "X-Request-Id": "PactRequestId"
+  }
 }
 ```
 <a name="a_PUT_advertisement_request_for_advertisement_with_bad_data"></a>
@@ -2197,7 +2246,8 @@ Ad Posting API will respond with:
 {
   "status": 422,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Validation Failure",
@@ -2267,7 +2317,8 @@ Ad Posting API will respond with:
 {
   "status": 422,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Validation Failure",
@@ -2360,7 +2411,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -2452,7 +2504,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -2544,7 +2597,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -2593,7 +2647,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",
@@ -2642,7 +2697,8 @@ Ad Posting API will respond with:
 {
   "status": 403,
   "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
   },
   "body": {
     "message": "Forbidden",

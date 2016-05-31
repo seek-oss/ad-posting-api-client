@@ -4,10 +4,10 @@ namespace SEEK.AdPostingApi.Client.Hal
 {
     public interface IResource
     {
-        void Initialise(Client client);
+        Links Links { get; set; }
 
         Uri Uri { get; }
 
-        Links Links { get; set; }
+        void Initialise(Client client);
     }
 }

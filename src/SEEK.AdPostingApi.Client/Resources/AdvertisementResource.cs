@@ -22,6 +22,10 @@ namespace SEEK.AdPostingApi.Client.Resources
         [FromHeader("Processing-Status")]
         public ProcessingStatus ProcessingStatus { get; set; }
 
+        [JsonIgnore]
+        [FromHeader("X-Request-Id")]
+        public string RequestId { get; set; }
+
         public AdvertisementState State { get; set; }
 
         [JsonIgnore]

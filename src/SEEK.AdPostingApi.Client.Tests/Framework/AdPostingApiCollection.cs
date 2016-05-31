@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     [CollectionDefinition(Name)]
     public class AdPostingApiCollection : ICollectionFixture<AdPostingApiPactService>

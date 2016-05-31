@@ -5,6 +5,7 @@ using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using SEEK.AdPostingApi.Client.Tests.Framework;
 using Xunit;
 
 namespace SEEK.AdPostingApi.Client.Tests
@@ -16,6 +17,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         private const string AdvertisementContentType = "application/vnd.seek.advertisement+json; version=1; charset=utf-8";
         private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
         private const string AdvertisementPatchContentType = "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8";
+        private const string RequestId = "PactRequestId";
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 
@@ -68,9 +70,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", AdvertisementContentType },
+                            { "X-Request-Id", RequestId }
                         },
-                        Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
+                        Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
                             .WithState(AdvertisementState.Expired.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
@@ -87,7 +90,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
-            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(AllFieldsInitializer)
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
                 .WithLinks(advertisementId)
                 .WithState(AdvertisementState.Expired)
                 .WithExpiryDate(expiryDate)
@@ -134,14 +137,13 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
                             message = "Forbidden",
-                            errors = new[] {
-                                new { code = "Expired" }
-                            }
+                            errors = new[] { new { code = "Expired" } }
                         }
                     });
 
@@ -153,12 +155,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                     async () => await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
-            var expectedException = new UnauthorizedException(
-                new ForbiddenMessage
-                {
-                    Message = "Forbidden",
-                    Errors = new[] { new ForbiddenMessageData { Code = "Expired" } }
-                });
+            var expectedException =
+                new UnauthorizedException(
+                    RequestId,
+                    new ForbiddenMessage
+                    {
+                        Message = "Forbidden",
+                        Errors = new[] { new ForbiddenMessageData { Code = "Expired" } }
+                    });
 
             actualException.ShouldBeEquivalentToException(expectedException);
         }
@@ -196,7 +200,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 404
+                        Status = 404,
+                        Headers = new Dictionary<string, string> { { "X-Request-Id", RequestId } }
                     });
 
             AdvertisementNotFoundException actualException;
@@ -207,7 +212,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     async () => await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)));
             }
 
-            actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException());
+            actualException.ShouldBeEquivalentToException(new AdvertisementNotFoundException(RequestId));
         }
 
         [Fact]
@@ -247,15 +252,13 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
                             message = "Forbidden",
-                            errors = new[]
-                            {
-                                new { code = "AccountError" }
-                            }
+                            errors = new[] { new { code = "AccountError" } }
                         }
                     });
 
@@ -269,6 +272,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
+                    RequestId,
                     new ForbiddenMessage
                     {
                         Message = "Forbidden",
@@ -293,8 +297,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Path = link,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", AdvertisementPatchContentType}
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", AdvertisementPatchContentType }
                         },
                         Body = new[]
                         {
@@ -313,15 +317,13 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
                             message = "Forbidden",
-                            errors = new[]
-                            {
-                                new { code = "RelationshipError" }
-                            }
+                            errors = new[] { new { code = "RelationshipError" } }
                         }
                     });
 
@@ -335,6 +337,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
+                    RequestId,
                     new ForbiddenMessage
                     {
                         Message = "Forbidden",
