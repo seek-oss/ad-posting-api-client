@@ -57,7 +57,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         .WithAgentId(null)
                         .WithAgentJobReference(null)
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                        .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
+                        .WithVideoUrl("https://www.youtube.com/embed/dVDk7PXNXB8")
                         .WithApplicationFormUrl("http://FakeATS.com.au")
                         .WithEndApplicationUrl("http://endform.com/updated")
                         .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
@@ -79,7 +79,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithAgentId(null)
                             .WithAgentJobReference(null)
                             .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                            .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
+                            .WithVideoUrl("https://www.youtube.com/embed/dVDk7PXNXB8")
                             .WithApplicationFormUrl("http://FakeATS.com.au")
                             .WithEndApplicationUrl("http://endform.com/updated")
                             .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
@@ -107,7 +107,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithAgentId(null)
                 .WithAgentJobReference(null)
                 .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
-                .WithVideoUrl("https://www.youtube.com/v/dVDk7PXNXB8")
+                .WithVideoUrl("https://www.youtube.com/embed/dVDk7PXNXB8")
                 .WithApplicationFormUrl("http://FakeATS.com.au")
                 .WithEndApplicationUrl("http://endform.com/updated")
                 .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47");
@@ -178,9 +178,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                         .WithSalaryMinimum(-1.0)
-                        .WithVideoUrl("htp://www.youtube.com/v/abc")
                         .WithAdvertisementType(AdvertisementType.StandOut.ToString())
-                        .WithVideoPosition(VideoPosition.Below.ToString())
                         .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                         .WithApplicationEmail("someone(at)some.domain")
                         .WithApplicationFormUrl("htp://somecompany.domain/apply")
@@ -207,8 +205,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                 new { field = "applicationFormUrl", code = "InvalidUrl" },
                                 new { field = "salary.minimum", code = "ValueOutOfRange" },
                                 new { field = "standout.bullets[1]", code = "MaxLengthExceeded" },
-                                new { field = "template.items[1].name", code = "Required" },
-                                new { field = "video.url", code = "RegexPatternNotMatched" }
+                                new { field = "template.items[1].name", code = "Required" }
                             }
                         }
                     });
@@ -222,8 +219,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                         new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
                             .WithAdvertisementType(AdvertisementType.StandOut)
                             .WithSalaryMinimum(-1)
-                            .WithVideoUrl("htp://www.youtube.com/v/abc")
-                            .WithVideoPosition(VideoPosition.Below)
                             .WithStandoutBullets("new Uzi", "new Remington Model".PadRight(85, '!'), "new AK-47")
                             .WithApplicationEmail("someone(at)some.domain")
                             .WithApplicationFormUrl("htp://somecompany.domain/apply")
@@ -246,8 +241,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
                             new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
                             new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
-                            new ValidationData { Field = "template.items[1].name", Code = "Required" },
-                            new ValidationData { Field = "video.url", Code = "RegexPatternNotMatched" }
+                            new ValidationData { Field = "template.items[1].name", Code = "Required" }
                         }
                     });
 

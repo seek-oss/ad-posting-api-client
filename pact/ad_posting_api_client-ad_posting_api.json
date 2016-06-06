@@ -1704,10 +1704,6 @@
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
           "creationId": "20150914-134527-00109",
-          "video": {
-            "url": "htp://www.youtube.com/v/abc",
-            "position": "Below"
-          },
           "standout": {
             "bullets": [
               "new Uzi",
@@ -1759,10 +1755,6 @@
             {
               "field": "template.items[1].name",
               "code": "Required"
-            },
-            {
-              "field": "video.url",
-              "code": "RegexPatternNotMatched"
             }
           ]
         }
@@ -1852,7 +1844,7 @@
             "phone": "+1 (123) 456 7889"
           },
           "video": {
-            "url": "https://www.youtube.com/v/dVDk7PXNXB8",
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
             "position": "Above"
           },
           "applicationEmail": "asdf@asdf.com",
@@ -1920,7 +1912,7 @@
             "phone": "+1 (123) 456 7889"
           },
           "video": {
-            "url": "https://www.youtube.com/v/dVDk7PXNXB8",
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
             "position": "Above"
           },
           "applicationEmail": "asdf@asdf.com",
@@ -2221,10 +2213,6 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
-          "video": {
-            "url": "htp://www.youtube.com/v/abc",
-            "position": "Below"
-          },
           "standout": {
             "bullets": [
               "new Uzi",
@@ -2276,10 +2264,6 @@
             {
               "field": "template.items[1].name",
               "code": "Required"
-            },
-            {
-              "field": "video.url",
-              "code": "RegexPatternNotMatched"
             }
           ]
         }
