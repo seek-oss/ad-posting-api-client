@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AdvertisementSummaryContentBuilder
     {
@@ -30,11 +30,11 @@ namespace SEEK.AdPostingApi.Client.Tests
         {
             if (advertiserId == null)
             {
-                TryRemoveProperty(_advertisementModel, "advertiserId");
+                TryRemoveProperty(this._advertisementModel, "advertiserId");
             }
             else
             {
-                _advertisementModel.advertiserId = advertiserId;
+                this._advertisementModel.advertiserId = advertiserId;
             }
 
             return this;
@@ -42,33 +42,33 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public AdvertisementSummaryContentBuilder WithJobTitle(object jobTitle)
         {
-            _advertisementModel.jobTitle = jobTitle;
+            this._advertisementModel.jobTitle = jobTitle;
             return this;
         }
 
         public AdvertisementSummaryContentBuilder WithJobReference(object jobReference)
         {
-            _advertisementModel.jobReference = jobReference;
+            this._advertisementModel.jobReference = jobReference;
             return this;
         }
 
         public AdvertisementSummaryContentBuilder WithResponseLink(string linkName, object linkRef)
         {
-            if (!((IDictionary<string, object>)_advertisementModel).ContainsKey("_links"))
+            if (!((IDictionary<string, object>)this._advertisementModel).ContainsKey("_links"))
             {
-                _advertisementModel._links = new ExpandoObject();
+                this._advertisementModel._links = new ExpandoObject();
             }
 
             dynamic href = new ExpandoObject();
             href.href = linkRef;
-            ((IDictionary<string, object>)_advertisementModel._links).Add(linkName, href);
+            ((IDictionary<string, object>)this._advertisementModel._links).Add(linkName, href);
 
             return this;
         }
 
         public dynamic Build()
         {
-            return ((IDictionary<string, object>)_advertisementModel).Clone();
+            return ((IDictionary<string, object>)this._advertisementModel).Clone();
         }
     }
 }

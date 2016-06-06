@@ -4,7 +4,7 @@ using System.Reflection;
 using FluentAssertions;
 using FluentAssertions.Equivalency;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public static class FluentAssertionsExtensions
     {
@@ -16,14 +16,14 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public static EquivalencyAssertionOptions<TSubject> ExcludingNonPublicProperties<TSubject>(this EquivalencyAssertionOptions<TSubject> options)
         {
-            var internalPropertyNames = typeof (TSubject).GetProperties(BindingFlags.Instance | BindingFlags.NonPublic).Select(p => p.Name).ToArray();
+            var internalPropertyNames = typeof(TSubject).GetProperties(BindingFlags.Instance | BindingFlags.NonPublic).Select(p => p.Name).ToArray();
 
             return options.Excluding(e => internalPropertyNames.Contains(e.SelectedMemberInfo.Name));
         }
 
         public static EquivalencyAssertionOptions<TSubject> ExcludingNonPublicFields<TSubject>(this EquivalencyAssertionOptions<TSubject> options)
         {
-            var internalFieldNames = typeof (TSubject).GetFields(BindingFlags.Instance | BindingFlags.NonPublic).Select(f => f.Name).ToArray();
+            var internalFieldNames = typeof(TSubject).GetFields(BindingFlags.Instance | BindingFlags.NonPublic).Select(f => f.Name).ToArray();
 
             return options.Excluding(e => internalFieldNames.Contains(e.SelectedMemberInfo.Name));
         }

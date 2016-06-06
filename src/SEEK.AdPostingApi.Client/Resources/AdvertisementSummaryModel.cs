@@ -7,14 +7,14 @@ namespace SEEK.AdPostingApi.Client.Resources
 {
     public class AdvertisementSummaryResource : AdvertisementSummary, IResource
     {
-        public void Initialise(Hal.Client client)
-        {
-        }
+        [JsonIgnore]
+        public Links Links { get; set; }
 
         [JsonIgnore]
         public Uri Uri => this.Links.GenerateLink("self");
 
-        [JsonIgnore]
-        public Links Links { get; set; }
+        public void Initialise(Hal.Client client)
+        {
+        }
     }
 }

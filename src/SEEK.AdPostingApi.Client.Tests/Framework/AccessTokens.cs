@@ -1,4 +1,4 @@
-﻿namespace SEEK.AdPostingApi.Client.Tests
+﻿namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AccessTokens
     {

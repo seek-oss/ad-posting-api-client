@@ -11,19 +11,25 @@ namespace SEEK.AdPostingApi.Client.Resources
     {
         private Hal.Client _client;
 
-        public void Initialise(Hal.Client client)
-        {
-            this._client = client;
-        }
+        [Embedded(Rel = "advertisements")]
+        public IList<AdvertisementSummaryResource> AdvertisementSummaries { get; set; }
 
-        [JsonIgnore]
-        public Uri Uri => this.Links.GenerateLink("self");
+        public bool Eof => (this.Links == null || !this.Links.ContainsKey("next"));
 
         [JsonIgnore]
         public Links Links { get; set; }
 
-        [Embedded(Rel = "advertisements")]
-        public IList<AdvertisementSummaryResource> AdvertisementSummaries { get; set; }
+        [JsonIgnore]
+        [FromHeader("X-Request-Id")]
+        public string RequestId { get; set; }
+
+        [JsonIgnore]
+        public Uri Uri => this.Links.GenerateLink("self");
+
+        public void Initialise(Hal.Client client)
+        {
+            this._client = client;
+        }
 
         public async Task<AdvertisementSummaryPageResource> NextPageAsync()
         {
@@ -34,7 +40,5 @@ namespace SEEK.AdPostingApi.Client.Resources
 
             return await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(this.Links.GenerateLink("next"));
         }
-
-        public bool Eof => (this.Links == null || !this.Links.ContainsKey("next"));
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ThirdParties.cs" />
+    <Compile Include="RequestException.cs" />
     <Compile Include="UnauthorizedException.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="Hal\Client.cs" />
@@ -101,10 +102,9 @@
     <Compile Include="Resources\AdvertisementResource.cs" />
     <Compile Include="OAuth2TokenClient.cs" />
     <Compile Include="Models\AdvertisementSummary.cs" />
-    <Compile Include="Resources\AdvertisementSummaryResource.cs" />
+    <Compile Include="Resources\AdvertisementSummaryModel.cs" />
     <Compile Include="Resources\AdvertisementSummaryPageResource.cs" />
     <Compile Include="Resources\IndexResource.cs" />
-    <Compile Include="SerializerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

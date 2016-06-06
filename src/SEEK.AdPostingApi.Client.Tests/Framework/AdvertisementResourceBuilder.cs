@@ -3,7 +3,7 @@ using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
-namespace SEEK.AdPostingApi.Client.Tests
+namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AdvertisementResourceBuilder : AdvertisementResourceBuilder<AdvertisementResource>
     {
@@ -38,6 +38,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             advertisementResource.ProcessingStatus = this._processingStatus;
             advertisementResource.State = this._state;
             advertisementResource.Warnings = this._warnings;
+            advertisementResource.RequestId = "PactRequestId";
 
             return advertisementResource;
         }

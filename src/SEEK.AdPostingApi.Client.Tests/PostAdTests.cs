@@ -6,6 +6,7 @@ using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using SEEK.AdPostingApi.Client.Tests.Framework;
 using Xunit;
 
 namespace SEEK.AdPostingApi.Client.Tests
@@ -19,6 +20,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         private const string CreationIdForAdWithDuplicateTemplateCustomFields = "20160120-162020-00000";
         private const string AdvertisementContentType = "application/vnd.seek.advertisement+json; version=1; charset=utf-8";
         private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
+        private const string RequestId = "PactRequestId";
 
         private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
 
@@ -57,7 +59,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
                             .Build()
                     }
@@ -69,16 +71,17 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", AdvertisementContentType },
-                            { "Location", location }
+                            { "Location", location },
+                            { "X-Request-Id", RequestId }
                         },
-                        Body = new AdvertisementResponseContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementResponseContentBuilder(this.MinimumFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
-            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
+            var requestModel = new AdvertisementModelBuilder(this.MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
 
             AdvertisementResource result;
 
@@ -87,7 +90,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.CreateAdvertisementAsync(requestModel);
             }
 
-            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(MinimumFieldsInitializer)
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.MinimumFieldsInitializer)
                 .WithLinks(advertisementId)
                 .Build();
 
@@ -117,7 +120,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(AllFieldsInitializer)
+                        Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMaximumRequiredData)
                             .Build()
                     }
@@ -129,16 +132,17 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", AdvertisementContentType },
-                            { "Location", location }
+                            { "Location", location },
+                            { "X-Request-Id", RequestId }
                         },
-                        Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
+                        Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
                             .Build()
                     });
 
-            var requestModel = new AdvertisementModelBuilder(AllFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMaximumRequiredData).Build();
+            var requestModel = new AdvertisementModelBuilder(this.AllFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMaximumRequiredData).Build();
 
             AdvertisementResource result;
 
@@ -147,7 +151,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.CreateAdvertisementAsync(requestModel);
             }
 
-            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(AllFieldsInitializer)
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
                 .WithLinks(advertisementId)
                 .Build();
 
@@ -173,7 +177,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
                             .WithAdvertisementType(AdvertisementType.StandOut.ToString())
                             .WithSalaryMinimum(-1.0)
@@ -192,7 +196,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
@@ -214,7 +219,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 exception = await Assert.ThrowsAsync<ValidationException>(
                     async () =>
-                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
                             .WithAdvertisementType(AdvertisementType.StandOut)
                             .WithSalaryMinimum(-1)
@@ -227,20 +232,22 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .Build()));
             }
 
-            var expectedException = new ValidationException(
-                HttpMethod.Post,
-                new ValidationMessage
-                {
-                    Message = "Validation Failure",
-                    Errors = new[]
+            var expectedException =
+                new ValidationException(
+                    RequestId,
+                    HttpMethod.Post,
+                    new ValidationMessage
                     {
-                        new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
-                        new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
-                        new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
-                        new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
-                        new ValidationData { Field = "template.items[1].name", Code = "Required" }
-                    }
-                });
+                        Message = "Validation Failure",
+                        Errors = new[]
+                        {
+                            new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
+                            new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                            new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
+                            new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
+                            new ValidationData { Field = "template.items[1].name", Code = "Required" }
+                        }
+                    });
 
             exception.ShouldBeEquivalentToException(expectedException);
         }
@@ -264,7 +271,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
                             .WithSalaryMinimum(2.0)
                             .WithSalaryMaximum(1.0)
@@ -277,7 +284,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
@@ -295,23 +303,22 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 exception = await Assert.ThrowsAsync<ValidationException>(
                     async () =>
-                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
                             .WithSalaryMinimum(2)
                             .WithSalaryMaximum(1)
                             .Build()));
             }
 
-            var expectedException = new ValidationException(
-                HttpMethod.Post,
-                new ValidationMessage
-                {
-                    Message = "Validation Failure",
-                    Errors = new[]
+            var expectedException =
+                new ValidationException(
+                    RequestId,
+                    HttpMethod.Post,
+                    new ValidationMessage
                     {
-                        new ValidationData { Field = "salary.maximum", Code = "InvalidValue" }
-                    }
-                });
+                        Message = "Validation Failure",
+                        Errors = new[] { new ValidationData { Field = "salary.maximum", Code = "InvalidValue" } }
+                    });
 
             exception.ShouldBeEquivalentToException(expectedException);
         }
@@ -335,7 +342,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
                             .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
                             .Build()
@@ -347,7 +354,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
@@ -365,22 +373,21 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 exception = await Assert.ThrowsAsync<ValidationException>(
                     async () =>
-                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
                             .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
                             .Build()));
             }
 
-            var expectedException = new ValidationException(
-                HttpMethod.Post,
-                new ValidationMessage
-                {
-                    Message = "Validation Failure",
-                    Errors = new[]
+            var expectedException =
+                new ValidationException(
+                    RequestId,
+                    HttpMethod.Post,
+                    new ValidationMessage
                     {
-                        new ValidationData { Field = "advertisementDetails", Code = "InvalidFormat" }
-                    }
-                });
+                        Message = "Validation Failure",
+                        Errors = new[] { new ValidationData { Field = "advertisementDetails", Code = "InvalidFormat" } }
+                    });
 
             exception.ShouldBeEquivalentToException(expectedException);
         }
@@ -404,7 +411,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer).Build()
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer).Build()
                     }
                 )
                 .WillRespondWith(
@@ -413,7 +420,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
@@ -430,11 +438,12 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 exception = await Assert.ThrowsAsync<ValidationException>(
-                    async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).Build()));
+                    async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(this.MinimumFieldsInitializer).Build()));
             }
 
             exception.ShouldBeEquivalentToException(
                 new ValidationException(
+                    RequestId,
                     HttpMethod.Post,
                     new ValidationMessage
                     {
@@ -466,14 +475,18 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()
                     }
                 )
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
                         Status = 409,
-                        Headers = new Dictionary<string, string> { { "Location", location } }
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Location", location },
+                            { "X-Request-Id", RequestId }
+                        }
                     });
 
             AdvertisementAlreadyExistsException actualException;
@@ -481,10 +494,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 actualException = await Assert.ThrowsAsync<AdvertisementAlreadyExistsException>(
-                    async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()));
+                    async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(this.MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()));
             }
 
-            var expectedException = new AdvertisementAlreadyExistsException(new Uri(location));
+            var expectedException = new AdvertisementAlreadyExistsException(RequestId, new Uri(location));
 
             actualException.ShouldBeEquivalentToException(expectedException);
         }
@@ -508,7 +521,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
                             .WithAdvertiserId("1234ABC")
                             .Build()
@@ -520,19 +533,17 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
                             message = "Forbidden",
-                            errors = new[]
-                            {
-                                new { code = "InvalidValue" }
-                            }
+                            errors = new[] { new { code = "InvalidValue" } }
                         }
                     });
 
-            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).WithAdvertiserId("1234ABC").Build();
+            var requestModel = new AdvertisementModelBuilder(this.MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).WithAdvertiserId("1234ABC").Build();
 
             UnauthorizedException actualException;
 
@@ -544,12 +555,12 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
+                    RequestId,
                     new ForbiddenMessage
                     {
                         Message = "Forbidden",
                         Errors = new[] { new ForbiddenMessageData { Code = "InvalidValue" } }
-                    }
-                    ));
+                    }));
         }
 
         [Fact]
@@ -572,7 +583,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
                             .Build()
                     }
@@ -583,19 +594,17 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
                             message = "Forbidden",
-                            errors = new[]
-                            {
-                                new { code = "AccountError" }
-                            }
+                            errors = new[] { new { code = "AccountError" } }
                         }
                     });
 
-            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
+            var requestModel = new AdvertisementModelBuilder(this.MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
 
             UnauthorizedException actualException;
 
@@ -607,12 +616,12 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
+                    RequestId,
                     new ForbiddenMessage
                     {
                         Message = "Forbidden",
                         Errors = new[] { new ForbiddenMessageData { Code = "AccountError" } }
-                    }
-                    ));
+                    }));
         }
 
         [Fact]
@@ -634,7 +643,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
                             .WithAdvertiserId("999888777")
                             .Build()
@@ -646,19 +655,17 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
                             message = "Forbidden",
-                            errors = new[]
-                            {
-                                new { code = "RelationshipError" }
-                            }
+                            errors = new[] { new { code = "RelationshipError" } }
                         }
                     });
 
-            var requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).WithAdvertiserId("999888777").Build();
+            var requestModel = new AdvertisementModelBuilder(this.MinimumFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).WithAdvertiserId("999888777").Build();
 
             UnauthorizedException actualException;
 
@@ -670,12 +677,12 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
+                    RequestId,
                     new ForbiddenMessage
                     {
                         Message = "Forbidden",
                         Errors = new[] { new ForbiddenMessageData { Code = "RelationshipError" } }
-                    }
-                    ));
+                    }));
         }
 
         [Fact]
@@ -697,7 +704,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", AdvertisementContentType }
                         },
-                        Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithDuplicateTemplateCustomFields)
                             .WithTemplateItems(
                                 new KeyValuePair<object, object>("FieldNameA", "Template Value 1"),
@@ -712,7 +719,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType }
+                            { "Content-Type", AdvertisementErrorContentType },
+                            { "X-Request-Id", RequestId }
                         },
                         Body = new
                         {
@@ -730,7 +738,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 exception = await Assert.ThrowsAsync<ValidationException>(
                     async () =>
-                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                        await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithDuplicateTemplateCustomFields)
                             .WithTemplateItems(
                                 new TemplateItem { Name = "FieldNameA", Value = "Template Value 1" },
@@ -740,6 +748,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             var expectedException = new ValidationException(
+                RequestId,
                 HttpMethod.Post,
                 new ValidationMessage
                 {
