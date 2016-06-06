@@ -1367,10 +1367,6 @@ Upon receiving **a POST advertisement request to create a job ad with bad data**
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "creationId": "20150914-134527-00109",
-    "video": {
-      "url": "htp://www.youtube.com/v/abc",
-      "position": "Below"
-    },
     "standout": {
       "bullets": [
         "new Uzi",
@@ -1425,10 +1421,6 @@ Ad Posting API will respond with:
       {
         "field": "template.items[1].name",
         "code": "Required"
-      },
-      {
-        "field": "video.url",
-        "code": "RegexPatternNotMatched"
       }
     ]
   }
@@ -2026,7 +2018,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
       "phone": "+1 (123) 456 7889"
     },
     "video": {
-      "url": "https://www.youtube.com/v/dVDk7PXNXB8",
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
       "position": "Above"
     },
     "applicationEmail": "asdf@asdf.com",
@@ -2097,7 +2089,7 @@ Ad Posting API will respond with:
       "phone": "+1 (123) 456 7889"
     },
     "video": {
-      "url": "https://www.youtube.com/v/dVDk7PXNXB8",
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
       "position": "Above"
     },
     "applicationEmail": "asdf@asdf.com",
@@ -2213,10 +2205,6 @@ Upon receiving **a PUT advertisement request for advertisement with bad data** f
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "video": {
-      "url": "htp://www.youtube.com/v/abc",
-      "position": "Below"
-    },
     "standout": {
       "bullets": [
         "new Uzi",
@@ -2271,10 +2259,6 @@ Ad Posting API will respond with:
       {
         "field": "template.items[1].name",
         "code": "Required"
-      },
-      {
-        "field": "video.url",
-        "code": "RegexPatternNotMatched"
       }
     ]
   }
