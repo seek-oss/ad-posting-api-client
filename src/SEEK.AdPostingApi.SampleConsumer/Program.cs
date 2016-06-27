@@ -54,7 +54,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             };
 
             // Example of creating the advertisement using a simple retry loop.
-            ValidationData[] validationDataItems = null;
+            AdvertisementError[] errors = null;
             var createResult = CreateResult.Unknown;
             Uri advertisementLink = null;
             var maxAttempts = 2;
@@ -76,7 +76,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 }
                 catch (ValidationException ex)
                 {
-                    validationDataItems = ex.ValidationDataItems;
+                    errors = ex.Errors;
                     createResult = CreateResult.ValidationErrors;
                     break;
                 }
@@ -133,9 +133,9 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     // There were validation errors; show the errors.
                     Console.WriteLine("Advertisement creation failed. Validation errors:");
                     var counter = 1;
-                    foreach (var item in validationDataItems)
+                    foreach (var error in errors)
                     {
-                        Console.WriteLine($"  [{counter:##}] Field: '{item.Field}' Code: '{item.Code}' Message: '{item.Message}'");
+                        Console.WriteLine($"  [{counter:##}] Field: '{error.Field}' Code: '{error.Code}' Message: '{error.Message}'");
                         counter++;
                     }
                     break;

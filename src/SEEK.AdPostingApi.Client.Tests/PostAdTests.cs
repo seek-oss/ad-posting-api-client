@@ -18,8 +18,6 @@ namespace SEEK.AdPostingApi.Client.Tests
         private const string CreationIdForAdWithMinimumRequiredData = "20150914-134527-00012";
         private const string CreationIdForAdWithMaximumRequiredData = "20150914-134527-00097";
         private const string CreationIdForAdWithDuplicateTemplateCustomFields = "20160120-162020-00000";
-        private const string AdvertisementContentType = "application/vnd.seek.advertisement+json; version=1; charset=utf-8";
-        private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
         private const string RequestId = "PactRequestId";
 
         private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
@@ -57,7 +55,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -70,7 +69,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
                             { "Location", location },
                             { "X-Request-Id", RequestId }
                         },
@@ -118,7 +117,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMaximumRequiredData)
@@ -131,7 +131,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
                             { "Location", location },
                             { "X-Request-Id", RequestId }
                         },
@@ -175,7 +175,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
@@ -196,7 +197,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
                         },
                         Body = new
@@ -236,16 +237,16 @@ namespace SEEK.AdPostingApi.Client.Tests
                 new ValidationException(
                     RequestId,
                     HttpMethod.Post,
-                    new ValidationMessage
+                    new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
                         Errors = new[]
                         {
-                            new ValidationData { Field = "applicationEmail", Code = "InvalidEmailAddress" },
-                            new ValidationData { Field = "applicationFormUrl", Code = "InvalidUrl" },
-                            new ValidationData { Field = "salary.minimum", Code = "ValueOutOfRange" },
-                            new ValidationData { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
-                            new ValidationData { Field = "template.items[1].name", Code = "Required" }
+                            new AdvertisementError { Field = "applicationEmail", Code = "InvalidEmailAddress" },
+                            new AdvertisementError { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                            new AdvertisementError { Field = "salary.minimum", Code = "ValueOutOfRange" },
+                            new AdvertisementError { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
+                            new AdvertisementError { Field = "template.items[1].name", Code = "Required" }
                         }
                     });
 
@@ -269,7 +270,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -284,7 +286,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
                         },
                         Body = new
@@ -314,10 +316,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                 new ValidationException(
                     RequestId,
                     HttpMethod.Post,
-                    new ValidationMessage
+                    new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new ValidationData { Field = "salary.maximum", Code = "InvalidValue" } }
+                        Errors = new[] { new AdvertisementError { Field = "salary.maximum", Code = "InvalidValue" } }
                     });
 
             exception.ShouldBeEquivalentToException(expectedException);
@@ -340,7 +342,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId("20150914-134527-00109")
@@ -354,7 +357,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
                         },
                         Body = new
@@ -383,10 +386,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                 new ValidationException(
                     RequestId,
                     HttpMethod.Post,
-                    new ValidationMessage
+                    new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new ValidationData { Field = "advertisementDetails", Code = "InvalidFormat" } }
+                        Errors = new[] { new AdvertisementError { Field = "advertisementDetails", Code = "InvalidFormat" } }
                     });
 
             exception.ShouldBeEquivalentToException(expectedException);
@@ -409,7 +412,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer).Build()
                     }
@@ -420,7 +424,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
                         },
                         Body = new
@@ -445,10 +449,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                 new ValidationException(
                     RequestId,
                     HttpMethod.Post,
-                    new ValidationMessage
+                    new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new ValidationData { Field = "creationId", Code = "Required" } }
+                        Errors = new[] { new AdvertisementError { Field = "creationId", Code = "Required" } }
                     }));
         }
 
@@ -473,7 +477,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()
                     }
@@ -519,7 +524,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -533,7 +539,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
                         },
                         Body = new
@@ -556,10 +562,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
                     RequestId,
-                    new ForbiddenMessage
+                    new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new ForbiddenMessageData { Code = "InvalidValue" } }
+                        Errors = new[] { new AdvertisementError { Code = "InvalidValue" } }
                     }));
         }
 
@@ -581,7 +587,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -594,7 +601,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
                         },
                         Body = new
@@ -617,10 +624,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
                     RequestId,
-                    new ForbiddenMessage
+                    new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new ForbiddenMessageData { Code = "AccountError" } }
+                        Errors = new[] { new AdvertisementError { Code = "AccountError" } }
                     }));
         }
 
@@ -641,7 +648,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
@@ -655,7 +663,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 403,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
                         },
                         Body = new
@@ -678,10 +686,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
                     RequestId,
-                    new ForbiddenMessage
+                    new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new ForbiddenMessageData { Code = "RelationshipError" } }
+                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
                     }));
         }
 
@@ -702,7 +710,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", AdvertisementContentType }
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithDuplicateTemplateCustomFields)
@@ -719,7 +728,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 422,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", AdvertisementErrorContentType },
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
                         },
                         Body = new
@@ -750,13 +759,13 @@ namespace SEEK.AdPostingApi.Client.Tests
             var expectedException = new ValidationException(
                 RequestId,
                 HttpMethod.Post,
-                new ValidationMessage
+                new AdvertisementErrorResponse
                 {
                     Message = "Validation Failure",
                     Errors = new[]
                     {
-                        new ValidationData { Field = "template.items[0]", Code = "AlreadySpecified" },
-                        new ValidationData { Field = "template.items[2]", Code = "AlreadySpecified" }
+                        new AdvertisementError { Field = "template.items[0]", Code = "AlreadySpecified" },
+                        new AdvertisementError { Field = "template.items[2]", Code = "AlreadySpecified" }
                     }
                 });
 

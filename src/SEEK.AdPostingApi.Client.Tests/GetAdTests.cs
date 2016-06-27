@@ -14,8 +14,6 @@ namespace SEEK.AdPostingApi.Client.Tests
     public class GetAdTests : IDisposable
     {
         private const string AdvertisementLink = "/advertisement";
-        private const string AdvertisementContentType = "application/vnd.seek.advertisement+json; version=1; charset=utf-8";
-        private const string AdvertisementErrorContentType = "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8";
         private const string RequestId = "PactRequestId";
 
         private IBuilderInitializer MinimumFieldsInitializer => new MinimumFieldsInitializer();
@@ -51,7 +49,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -59,7 +57,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementContentType },
+                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
                         { "Processing-Status", "Pending" },
                         { "X-Request-Id", RequestId }
                     },
@@ -107,7 +105,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -115,7 +113,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementContentType },
+                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
                         { "Processing-Status", "Pending" },
                         { "X-Request-Id", RequestId }
                     },
@@ -142,8 +140,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Pending)
                 .WithWarnings(
-                    new ValidationData { Field = "standout.logoId", Code = "missing" },
-                    new ValidationData { Field = "standout.bullets", Code = "missing" })
+                    new AdvertisementError { Field = "standout.logoId", Code = "missing" },
+                    new AdvertisementError { Field = "standout.bullets", Code = "missing" })
                 .WithAgentId(null)
                 .Build();
 
@@ -169,7 +167,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -177,7 +175,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementContentType },
+                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
                         { "Processing-Status", "Failed" },
                         { "X-Request-Id", RequestId }
                     },
@@ -223,7 +221,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(
@@ -263,7 +261,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -271,7 +269,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 403,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementErrorContentType },
+                        { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                         { "X-Request-Id", RequestId }
                     },
                     Body = new
@@ -292,10 +290,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
                     RequestId,
-                    new ForbiddenMessage
+                    new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new ForbiddenMessageData { Code = "AccountError" } }
+                        Errors = new[] { new AdvertisementError { Code = "AccountError" } }
                     }));
         }
 
@@ -317,7 +315,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -325,7 +323,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 403,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementErrorContentType },
+                        { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                         { "X-Request-Id", RequestId }
                     },
                     Body = new
@@ -349,10 +347,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
                     RequestId,
-                    new ForbiddenMessage
+                    new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new ForbiddenMessageData { Code = "RelationshipError" } }
+                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
                     }));
         }
 

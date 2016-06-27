@@ -62,8 +62,8 @@
     <Compile Include="Hal\IResource.cs" />
     <Compile Include="Hal\Links.cs" />
     <Compile Include="Models\ExpireAdvertisementJsonPatch.cs" />
-    <Compile Include="Models\ForbiddenMessage.cs" />
-    <Compile Include="Models\ForbiddenMessageData.cs" />
+    <Compile Include="Models\AdvertisementErrorResponse.cs" />
+    <Compile Include="Models\AdvertisementError.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ThirdParties.cs" />
@@ -78,7 +78,6 @@
     <Compile Include="IAdPostingApiClient.cs" />
     <Compile Include="IOAuth2TokenClient.cs" />
     <Compile Include="Models\AdditionalPropertyType.cs" />
-    <Compile Include="Models\AdvertisementError.cs" />
     <Compile Include="Models\AdvertisementPatch.cs" />
     <Compile Include="Models\AdvertisementState.cs" />
     <Compile Include="Models\AdvertisementType.cs" />
@@ -92,8 +91,6 @@
     <Compile Include="Models\ProcessingStatus.cs" />
     <Compile Include="Models\Template.cs" />
     <Compile Include="Models\TemplateItem.cs" />
-    <Compile Include="Models\ValidationData.cs" />
-    <Compile Include="Models\ValidationMessage.cs" />
     <Compile Include="Models\Video.cs" />
     <Compile Include="Models\VideoPosition.cs" />
     <Compile Include="Models\WorkType.cs" />

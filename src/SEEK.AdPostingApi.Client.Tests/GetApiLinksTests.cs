@@ -12,7 +12,6 @@ namespace SEEK.AdPostingApi.Client.Tests
     [Collection(AdPostingApiCollection.Name)]
     public class GetApiLinksTests : IDisposable
     {
-        private const string IndexContentType = "application/hal+json; charset=utf-8";
         private const string RequestId = "PactRequestId";
 
         public GetApiLinksTests(AdPostingApiPactService adPostingApiPactService)
@@ -37,7 +36,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + AccessTokens.InvalidAccessToken },
-                        { "Accept", IndexContentType }
+                        { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -73,7 +72,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        { "Authorization", "Bearer " + AccessTokens.ValidAccessToken_InvalidService }
+                        { "Authorization", "Bearer " + AccessTokens.ValidAccessToken_InvalidService },
+                        { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
