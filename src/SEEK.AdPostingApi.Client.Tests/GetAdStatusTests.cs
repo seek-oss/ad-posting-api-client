@@ -12,7 +12,6 @@ namespace SEEK.AdPostingApi.Client.Tests
     public class GetAdStatusTests : IDisposable
     {
         private const string AdvertisementLink = "/advertisement";
-        private const string AdvertisementContentType = "application/vnd.seek.advertisement+json; version=1; charset=utf-8";
         private const string RequestId = "PactRequestId";
 
         public GetAdStatusTests(AdPostingApiPactService adPostingApiPactService)
@@ -43,7 +42,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -51,7 +50,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", AdvertisementContentType },
+                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
                         { "Processing-Status", "Pending" }
                     }
                 });
@@ -83,7 +82,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -121,7 +120,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -162,7 +161,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", AdvertisementContentType }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
                     }
                 })
                 .WillRespondWith(

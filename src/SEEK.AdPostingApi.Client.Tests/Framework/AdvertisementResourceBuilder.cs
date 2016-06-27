@@ -20,7 +20,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private Links _links;
         private ProcessingStatus _processingStatus;
         private AdvertisementState _state;
-        private ValidationData[] _warnings;
+        private AdvertisementError[] _warnings;
 
         protected AdvertisementResourceBuilder(IBuilderInitializer initializer = null) : base(initializer)
         {
@@ -82,7 +82,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
-        public AdvertisementResourceBuilder<TAdvertisementResource> WithWarnings(params ValidationData[] warnings)
+        public AdvertisementResourceBuilder<TAdvertisementResource> WithWarnings(params AdvertisementError[] warnings)
         {
             this._warnings = warnings;
 

@@ -7,21 +7,21 @@ namespace SEEK.AdPostingApi.Client
     [Serializable]
     public class UnauthorizedException : RequestException
     {
-        public ForbiddenMessageData[] Errors { get; set; }
-
         public UnauthorizedException(string requestId, string message) : base(requestId, message)
         {
         }
 
-        public UnauthorizedException(string requestId, ForbiddenMessage forbiddenMessage) : base(requestId, forbiddenMessage?.Message)
+        public UnauthorizedException(string requestId, AdvertisementErrorResponse errorResponse) : base(requestId, errorResponse?.Message)
         {
-            this.Errors = forbiddenMessage?.Errors;
+            this.Errors = errorResponse?.Errors;
         }
 
         protected UnauthorizedException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            this.Errors = (ForbiddenMessageData[])info.GetValue(nameof(this.Errors), typeof(ForbiddenMessageData[]));
+            this.Errors = (AdvertisementError[])info.GetValue(nameof(this.Errors), typeof(AdvertisementError[]));
         }
+
+        public AdvertisementError[] Errors { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

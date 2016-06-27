@@ -33,10 +33,8 @@ namespace SEEK.AdPostingApi.Client.Hal
         {
             using (var httpRequest = new HttpRequestMessage(HttpMethod.Get, uri))
             {
-                var acceptHeader = MediaTypeWithQualityHeaderValue.Parse(typeof(TResponseResource).GetMediaType());
-
-                acceptHeader.CharSet = "utf-8";
-                httpRequest.Headers.Accept.Add(acceptHeader);
+                httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
 
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
@@ -47,14 +45,12 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
-        public async Task<HttpResponseHeaders> HeadResourceAsync<TRequest>(Uri uri)
+        public async Task<HttpResponseHeaders> HeadResourceAsync<TResponseResource>(Uri uri)
         {
             using (var httpRequest = new HttpRequestMessage(HttpMethod.Head, uri))
             {
-                var acceptHeader = MediaTypeWithQualityHeaderValue.Parse(typeof(TRequest).GetMediaType());
-
-                acceptHeader.CharSet = "utf-8";
-                httpRequest.Headers.Accept.Add(acceptHeader);
+                httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
 
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
@@ -71,6 +67,9 @@ namespace SEEK.AdPostingApi.Client.Hal
 
             using (HttpRequestMessage httpRequest = this.CreateHttpRequest<TRequest>(uri, new HttpMethod("PATCH"), content))
             {
+                httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
+
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
                     await this.HandleBadResponse(httpRequest, httpResponse);
@@ -86,6 +85,9 @@ namespace SEEK.AdPostingApi.Client.Hal
 
             using (HttpRequestMessage httpRequest = this.CreateHttpRequest<TRequest>(uri, HttpMethod.Post, content))
             {
+                httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
+
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
                     await this.HandleBadResponse(httpRequest, httpResponse);
@@ -101,6 +103,9 @@ namespace SEEK.AdPostingApi.Client.Hal
 
             using (var httpRequest = this.CreateHttpRequest<TResponseResource>(uri, HttpMethod.Put, content))
             {
+                httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
+
                 using (var httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
                     await this.HandleBadResponse(httpRequest, httpResponse);
@@ -121,6 +126,24 @@ namespace SEEK.AdPostingApi.Client.Hal
             return new HttpRequestMessage(method, uri) { Content = stringContent };
         }
 
+        private MediaTypeWithQualityHeaderValue CreateResourceHeader<TResponseResource>()
+        {
+            MediaTypeWithQualityHeaderValue resourceHeader = MediaTypeWithQualityHeaderValue.Parse(typeof(TResponseResource).GetMediaType());
+
+            resourceHeader.CharSet = "utf-8";
+
+            return resourceHeader;
+        }
+
+        private MediaTypeWithQualityHeaderValue CreateErrorResponseHeader()
+        {
+            MediaTypeWithQualityHeaderValue resourceHeader = MediaTypeWithQualityHeaderValue.Parse(typeof(AdvertisementErrorResponse).GetMediaType());
+
+            resourceHeader.CharSet = "utf-8";
+
+            return resourceHeader;
+        }
+
         private async Task<TResponseResource> CreateResponseResource<TResponseResource>(Uri uri, HttpResponseMessage response) where TResponseResource : IResource, new()
         {
             return JsonConvert.DeserializeObject<TResponseResource>(await response.Content.ReadAsStringAsync(), new ResourceConverter(this, uri, response.Headers));
@@ -138,18 +161,18 @@ namespace SEEK.AdPostingApi.Client.Hal
 
                 case (int)HttpStatusCode.Forbidden:
                     string content = await httpResponse.Content.ReadAsStringAsync();
+                    AdvertisementErrorResponse advertisementErrorResponse;
 
                     if (string.IsNullOrEmpty(content))
                     {
                         throw new UnauthorizedException(requestId, $"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
                     }
 
-                    ForbiddenMessage forbiddenMessage;
-
-                    if (this.TryDeserializeForbiddenMessage(content, out forbiddenMessage))
+                    if (this.TryDeserializeError(content, out advertisementErrorResponse))
                     {
-                        throw new UnauthorizedException(requestId, forbiddenMessage);
+                        throw new UnauthorizedException(requestId, advertisementErrorResponse);
                     }
+
                     break;
 
                 case (int)HttpStatusCode.NotFound:
@@ -159,10 +182,10 @@ namespace SEEK.AdPostingApi.Client.Hal
                     throw new AdvertisementAlreadyExistsException(requestId, httpResponse.Headers.Location);
 
                 case 422:
-                    ValidationMessage validationMessage;
+                    AdvertisementErrorResponse validationMessage;
                     string responseContent = await httpResponse.Content.ReadAsStringAsync();
 
-                    if (this.TryDeserialize(responseContent, out validationMessage))
+                    if (this.TryDeserializeError(responseContent, out validationMessage))
                     {
                         throw new ValidationException(requestId, httpRequest.Method, validationMessage);
                     }
@@ -175,32 +198,18 @@ namespace SEEK.AdPostingApi.Client.Hal
             }
         }
 
-        private bool TryDeserialize(string responseContent, out ValidationMessage validationMessage)
+        private bool TryDeserializeError(string responseContent, out AdvertisementErrorResponse error)
         {
             try
             {
-                validationMessage = JsonConvert.DeserializeObject<ValidationMessage>(responseContent);
+                error = JsonConvert.DeserializeObject<AdvertisementErrorResponse>(responseContent);
             }
             catch
             {
-                validationMessage = null;
+                error = null;
             }
 
-            return validationMessage != null;
-        }
-
-        private bool TryDeserializeForbiddenMessage(string responseContent, out ForbiddenMessage forbiddenMessage)
-        {
-            try
-            {
-                forbiddenMessage = JsonConvert.DeserializeObject<ForbiddenMessage>(responseContent);
-            }
-            catch
-            {
-                forbiddenMessage = null;
-            }
-
-            return forbiddenMessage != null;
+            return error != null;
         }
 
         private class SerializerSettings : JsonSerializerSettings

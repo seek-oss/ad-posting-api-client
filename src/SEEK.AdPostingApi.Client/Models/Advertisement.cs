@@ -49,6 +49,6 @@ namespace SEEK.AdPostingApi.Client.Models
 
         public AdditionalPropertyType[] AdditionalProperties { get; set; }
 
-        public ValidationData[] Warnings { get; set; }
+        public AdvertisementError[] Warnings { get; set; }
     }
 }
