@@ -130,20 +130,119 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementContentBuilder WithLocationAreaId(object areaId)
         {
-            this.EnsureLocationPropertyExists();
-
-            this.AdvertisementModel.location.areaId = areaId;
+            if (areaId == null)
+            {
+                if (PropertyExists(this.AdvertisementModel, "location"))
+                {
+                    TryRemoveProperty(this.AdvertisementModel.location, "areaId");
+                }
+            }
+            else
+            {
+                this.EnsureLocationPropertyExists();
+                this.AdvertisementModel.location.areaId = areaId;
+            }
             return this;
         }
 
         public AdvertisementContentBuilder WithLocationId(object locationId)
         {
-            this.EnsureLocationPropertyExists();
-
-            this.AdvertisementModel.location.id = locationId;
+            if (locationId == null)
+            {
+                if (PropertyExists(this.AdvertisementModel, "location"))
+                {
+                    TryRemoveProperty(this.AdvertisementModel.location, "id");
+                }
+            }
+            else
+            {
+                this.EnsureLocationPropertyExists();
+                this.AdvertisementModel.location.id = locationId;
+            }
             return this;
         }
 
+        public AdvertisementContentBuilder WithGranularLocationCountry(object country)
+        {
+            this.EnsureGranularLocationPropertyExists();
+
+            TryRemoveProperty(this.AdvertisementModel, "location");
+
+            this.AdvertisementModel.granularLocation.country = country;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithGranularLocationState(object state)
+        {
+            if (state == null)
+            {
+                if (PropertyExists(this.AdvertisementModel, "granularLocation"))
+                {
+                    TryRemoveProperty(this.AdvertisementModel.granularLocation, "state");
+                }
+            }
+            else
+            {
+                this.EnsureGranularLocationPropertyExists();
+
+                this.AdvertisementModel.granularLocation.state = state;
+            }
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithGranularLocationCity(object city)
+        {
+            if (city == null)
+            {
+                if (PropertyExists(this.AdvertisementModel, "granularLocation"))
+                {
+                    TryRemoveProperty(this.AdvertisementModel.granularLocation, "city");
+                }
+            }
+            else
+            {
+                this.EnsureGranularLocationPropertyExists();
+
+                this.AdvertisementModel.granularLocation.city = city;
+            }
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithGranularLocationPostCode(object postCode)
+        {
+            if (postCode == null)
+            {
+                if (PropertyExists(this.AdvertisementModel, "granularLocation"))
+                {
+                    TryRemoveProperty(this.AdvertisementModel.granularLocation, "postCode");
+                }
+            }
+            else
+            {
+                this.EnsureGranularLocationPropertyExists();
+
+                this.AdvertisementModel.granularLocation.postCode = postCode;
+            }
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithGranularLocationOptions(params object[] options)
+        {
+            if (options == null)
+            {
+                if (PropertyExists(this.AdvertisementModel, "granularLocation"))
+                {
+                    TryRemoveProperty(this.AdvertisementModel.granularLocation, "options");
+                }
+            }
+            else
+            {
+                this.EnsureGranularLocationPropertyExists();
+
+                this.AdvertisementModel.granularLocation.options = options?.Clone<object[]>();
+            }
+            return this;
+        }
         public AdvertisementContentBuilder WithRequestCreationId(object creationId)
         {
             this.AdvertisementModel.creationId = creationId;
@@ -293,6 +392,14 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("location"))
             {
                 this.AdvertisementModel.location = new ExpandoObject();
+            }
+        }
+
+        private void EnsureGranularLocationPropertyExists()
+        {
+            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("granularLocation"))
+            {
+                this.AdvertisementModel.granularLocation = new ExpandoObject();
             }
         }
 

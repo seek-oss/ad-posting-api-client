@@ -24,6 +24,11 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private WorkType _workType;
         private string _locationId;
         private string _areaId;
+        private string _granularLocationCountry;
+        private string _granularLocationState;
+        private string _granularLocationCity;
+        private string _granularLocationPostCode;
+        private GranularLocationOptions[] _granularLocationOptions;
         private string _subclassificationId;
         private SalaryType _salaryType;
         private decimal _salaryMinimum;
@@ -119,6 +124,38 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             this._locationId = locationId;
             this._areaId = areaId;
 
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithGranularLocationCountry(string country)
+        {
+            this._granularLocationCountry = country;
+            this._locationId = null;
+            this._areaId = null;
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithGranularLocationState(string state)
+        {
+            this._granularLocationState = state;
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithGranularLocationCity(string city)
+        {
+            this._granularLocationCity = city;
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithGranularLocationPostCode(string postCode)
+        {
+            this._granularLocationPostCode = postCode;
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithGranularLocationOptions(params GranularLocationOptions[] locationOptions)
+        {
+            this._granularLocationOptions = locationOptions?.Clone<GranularLocationOptions[]>();
             return this;
         }
 
@@ -283,6 +320,16 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 Location = this._locationId == null && this._areaId == null
                     ? null
                     : new Location { Id = this._locationId, AreaId = this._areaId },
+                GranularLocation = this._granularLocationCountry == null
+                    ? null
+                    : new GranularLocation
+                    {
+                        Country = this._granularLocationCountry,
+                        State = this._granularLocationState,
+                        City = this._granularLocationCity,
+                        PostCode = this._granularLocationPostCode,
+                        Options = this._granularLocationOptions?.ToArray()
+                    },
                 SubclassificationId = this._subclassificationId,
                 WorkType = this._workType,
                 JobSummary = this._jobSummary,

@@ -17,6 +17,8 @@ namespace SEEK.AdPostingApi.Client.Models
 
         public Location Location { get; set; }
 
+        public GranularLocation GranularLocation { get; set; }
+
         public string SubclassificationId { get; set; }
 
         public WorkType WorkType { get; set; }

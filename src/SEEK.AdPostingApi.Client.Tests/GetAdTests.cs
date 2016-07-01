@@ -354,6 +354,70 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }));
         }
 
+        [Fact]
+        public async Task GetAdvertisementWithGranularLocationData()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            var allFieldsWithGranularLocatoinInitializer = new AllFieldsInitializer(LocationType.UseGranularLocation);
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with granular location data")
+                .UponReceiving("a GET advertisement request")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                        { "Processing-Status", "Pending" },
+                        { "X-Request-Id", RequestId }
+                    },
+                    Body = new AdvertisementResponseContentBuilder(allFieldsWithGranularLocatoinInitializer)
+                        .WithState(AdvertisementState.Open.ToString())
+                        .WithLink("self", link)
+                        .WithLink("view", viewRenderedAdvertisementLink)
+                        .WithGranularLocationCountry("Australia")
+                        .WithGranularLocationState("Victoria")
+                        .WithGranularLocationCity("Melbourne")
+                        .WithGranularLocationPostCode("3000")
+                        .WithGranularLocationOptions(GranularLocationOptions.HideCity.ToString())
+                        .Build()
+                });
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithGranularLocatoinInitializer)
+                .WithLinks(advertisementId)
+                .WithProcessingStatus(ProcessingStatus.Pending)
+                .WithGranularLocationCountry("Australia")
+                .WithGranularLocationState("Victoria")
+                .WithGranularLocationCity("Melbourne")
+                .WithGranularLocationPostCode("3000")
+                .WithGranularLocationOptions(GranularLocationOptions.HideCity)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
         private AdPostingApiFixture Fixture { get; }
     }
 }
