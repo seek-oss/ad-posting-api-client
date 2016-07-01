@@ -2,6 +2,8 @@
 
 #### Requests from Ad Posting API Client to Ad Posting API
 
+* [A GET advertisement request](#a_GET_advertisement_request_given_There_is_a_pending_standout_advertisement_with_granular_location_data) given there is a pending standout advertisement with granular location data
+
 * [A GET advertisement request](#a_GET_advertisement_request_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
 
 * [A GET advertisement request for a non-existent advertisement](#a_GET_advertisement_request_for_a_non-existent_advertisement)
@@ -62,6 +64,8 @@
 
 * [A POST advertisement request to create a job ad with duplicated names for template custom fields](#a_POST_advertisement_request_to_create_a_job_ad_with_duplicated_names_for_template_custom_fields)
 
+* [A POST advertisement request to create a job ad with granular location](#a_POST_advertisement_request_to_create_a_job_ad_with_granular_location)
+
 * [A POST advertisement request to create a job ad with invalid advertisement details](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details)
 
 * [A POST advertisement request to create a job ad with invalid salary data](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_salary_data)
@@ -94,8 +98,111 @@
 
 * [A PUT advertisement request to update an expired advertisement](#a_PUT_advertisement_request_to_update_an_expired_advertisement_given_There_is_an_expired_advertisement) given there is an expired advertisement
 
+* [A PUT advertisement request to update granular location](#a_PUT_advertisement_request_to_update_granular_location_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
+
 #### Interactions
 
+<a name="a_GET_advertisement_request_given_There_is_a_pending_standout_advertisement_with_granular_location_data"></a>
+Given **there is a pending standout advertisement with granular location data**, upon receiving **a GET advertisement request** from Ad Posting API Client, with
+```json
+{
+  "method": "get",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Processing-Status": "Pending",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1",
+      "agentId": "385"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "granularLocation": {
+      "country": "Australia",
+      "state": "Victoria",
+      "city": "Melbourne",
+      "postCode": "3000",
+      "options": [
+        "HideCity"
+      ]
+    },
+    "expiryDate": "2015-11-06T21:19:00Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+      },
+      "view": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+      }
+    }
+  }
+}
+```
 <a name="a_GET_advertisement_request_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
 Given **there is a pending standout advertisement with maximum data**, upon receiving **a GET advertisement request** from Ad Posting API Client, with
 ```json
@@ -1508,6 +1615,176 @@ Ad Posting API will respond with:
   }
 }
 ```
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_granular_location"></a>
+Upon receiving **a POST advertisement request to create a job ad with granular location** from Ad Posting API Client, with
+```json
+{
+  "method": "post",
+  "path": "/advertisement",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1",
+      "agentId": "385"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "granularLocation": {
+      "country": "Australia",
+      "state": "Victoria",
+      "city": "Melbourne",
+      "postCode": "3000",
+      "options": [
+        "HideCity"
+      ]
+    },
+    "creationId": "20150914-134527-00012"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 202,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1",
+      "agentId": "385"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "granularLocation": {
+      "country": "Australia",
+      "city": "Melbourne",
+      "postCode": "3000",
+      "options": [
+        "HideCity"
+      ]
+    },
+    "expiryDate": "2015-11-06T21:19:00Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+      },
+      "view": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+      }
+    }
+  }
+}
+```
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details"></a>
 Upon receiving **a POST advertisement request to create a job ad with invalid advertisement details** from Ad Posting API Client, with
 ```json
@@ -2717,6 +2994,174 @@ Ad Posting API will respond with:
         "code": "Expired"
       }
     ]
+  }
+}
+```
+<a name="a_PUT_advertisement_request_to_update_granular_location_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
+Given **there is a pending standout advertisement with maximum data**, upon receiving **a PUT advertisement request to update granular location** from Ad Posting API Client, with
+```json
+{
+  "method": "put",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1",
+      "agentId": "385"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "granularLocation": {
+      "country": "Australia",
+      "state": "Victoria",
+      "city": "Melbourne",
+      "postCode": "3000",
+      "options": [
+        "HideCity"
+      ]
+    }
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 202,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1",
+      "agentId": "385"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "granularLocation": {
+      "country": "Australia",
+      "city": "Melbourne",
+      "postCode": "3000",
+      "options": [
+        "HideCity"
+      ]
+    },
+    "expiryDate": "2015-11-06T21:19:00Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+      },
+      "view": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+      }
+    }
   }
 }
 ```
