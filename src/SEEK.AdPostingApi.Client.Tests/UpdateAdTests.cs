@@ -620,6 +620,65 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(expectedException);
         }
 
+        [Fact]
+        public async Task UpdateWithGranularLocationData()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
+
+            var allFieldsWithGranularLocationInitializer = new AllFieldsInitializer(LocationType.UseGranularLocation);
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("a PUT advertisement request to update granular location")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                    },
+                    Body = new AdvertisementContentBuilder(allFieldsWithGranularLocationInitializer)
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 202,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(allFieldsWithGranularLocationInitializer)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithGranularLocationState(null)
+                            .Build()
+                    });
+
+            Advertisement requestModel = new AdvertisementModelBuilder(allFieldsWithGranularLocationInitializer)
+                .Build();
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel);
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithGranularLocationInitializer)
+                .WithLinks(AdvertisementId)
+                .WithGranularLocationState(null)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
         private AdPostingApiFixture Fixture { get; }
     }
 }

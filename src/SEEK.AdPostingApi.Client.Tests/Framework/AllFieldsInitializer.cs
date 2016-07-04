@@ -6,7 +6,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AllFieldsInitializer : IBuilderInitializer
     {
+        private readonly LocationType _locationType;
         private readonly IBuilderInitializer _minimumFieldsInitializer = new MinimumFieldsInitializer();
+
+        public AllFieldsInitializer(LocationType locationType = LocationType.UseLocation)
+        {
+            this._locationType = locationType;
+        }
 
         public void Initialize(AdvertisementContentBuilder builder)
         {
@@ -35,6 +41,18 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithStandoutLogoId(this.GetDefaultLogoId())
                 .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2), this.GetDefaultStandoutBullet(3))
                 .WithAdditionalProperties(this.GetDefaultAdditionalPropertiesAsObjects());
+
+            if (_locationType == LocationType.UseGranularLocation)
+            {
+                builder
+                    .WithLocationId(null)
+                    .WithLocationAreaId(null)
+                    .WithGranularLocationCountry(this.GetDefaultGranularLocationCountry())
+                    .WithGranularLocationState(this.GetDefaultGranularLocationState())
+                    .WithGranularLocationCity(this.GetDefaultGranularLocationCity())
+                    .WithGranularLocationPostCode(this.GetDefaultGranularLocationPostCode())
+                    .WithGranularLocationOptions(this.GetDefaultGranularLocationOptionsPropertiesAsObjects());
+            }
         }
 
         public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
@@ -64,6 +82,17 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithStandoutLogoId(this.GetDefaultLogoId())
                 .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2), this.GetDefaultStandoutBullet(3))
                 .WithAdditionalProperties(this.GetDefaultAdditionalProperties());
+
+            if (_locationType == LocationType.UseGranularLocation)
+            {
+                builder
+                    .WithLocationArea(null)
+                    .WithGranularLocationCountry(this.GetDefaultGranularLocationCountry())
+                    .WithGranularLocationState(this.GetDefaultGranularLocationState())
+                    .WithGranularLocationCity(this.GetDefaultGranularLocationCity())
+                    .WithGranularLocationPostCode(this.GetDefaultGranularLocationPostCode())
+                    .WithGranularLocationOptions(this.getDefaultGranularLocationOptionsesOptions());
+            }
         }
 
         private string GetDefaultSearchJobTitle()
@@ -182,6 +211,36 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private object[] GetDefaultAdditionalPropertiesAsObjects()
         {
             return this.GetDefaultAdditionalProperties().Select(a => a.ToString()).ToArray<object>();
+        }
+
+        private string GetDefaultGranularLocationCountry()
+        {
+            return "Australia";
+        }
+
+        private string GetDefaultGranularLocationState()
+        {
+            return "Victoria";
+        }
+
+        private string GetDefaultGranularLocationCity()
+        {
+            return "Melbourne";
+        }
+
+        private string GetDefaultGranularLocationPostCode()
+        {
+            return "3000";
+        }
+
+        private GranularLocationOptions[] getDefaultGranularLocationOptionsesOptions()
+        {
+            return new [] {GranularLocationOptions.HideCity};
+        }
+
+        private object[] GetDefaultGranularLocationOptionsPropertiesAsObjects()
+        {
+            return this.getDefaultGranularLocationOptionsesOptions().Select(a => a.ToString()).ToArray<object>();
         }
     }
 }

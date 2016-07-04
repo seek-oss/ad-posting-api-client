@@ -30,8 +30,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.Dispose();
         }
 
-        [Fact]
-        public async Task GetExistingAdvertisement()
+        [Theory]
+        [InlineData(LocationType.UseGranularLocation, "There is a pending standout advertisement with granular location data")]
+        [InlineData(LocationType.UseLocation, "There is a pending standout advertisement with maximum data")]
+        public async Task GetExistingAdvertisement(LocationType locationType, string givenStatement)
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -39,8 +41,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
+            var builderInitializer = new AllFieldsInitializer(locationType);
+    
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given(givenStatement)
                 .UponReceiving("a GET advertisement request")
                 .With(new ProviderServiceRequest
                 {
@@ -61,7 +65,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "Processing-Status", "Pending" },
                         { "X-Request-Id", RequestId }
                     },
-                    Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
+                    Body = new AdvertisementResponseContentBuilder(builderInitializer)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithLink("self", link)
                         .WithLink("view", viewRenderedAdvertisementLink)
@@ -77,7 +81,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
-            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(builderInitializer)
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Pending)
                 .WithAgentId(null)

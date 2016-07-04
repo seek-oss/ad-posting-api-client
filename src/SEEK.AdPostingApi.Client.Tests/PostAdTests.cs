@@ -772,6 +772,74 @@ namespace SEEK.AdPostingApi.Client.Tests
             exception.ShouldBeEquivalentToException(expectedException);
         }
 
+        [Fact]
+        public async Task PostAdWithGranularLocation()
+        {
+            const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            var location = $"http://localhost{link}";
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            var allFieldsWithGranularLocationInitializer = new AllFieldsInitializer(LocationType.UseGranularLocation);
+
+            this.Fixture.AdPostingApiService
+                .UponReceiving("a POST advertisement request to create a job ad with granular location")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        },
+                        Body = new AdvertisementContentBuilder(allFieldsWithGranularLocationInitializer)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 202,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "Location", location },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(allFieldsWithGranularLocationInitializer)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithGranularLocationState(null)
+                            .Build()
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(allFieldsWithGranularLocationInitializer)
+                .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                .Build();
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.CreateAdvertisementAsync(requestModel);
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithGranularLocationInitializer)
+                .WithLinks(advertisementId)
+                .WithGranularLocationState(null)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
         private AdPostingApiFixture Fixture { get; }
     }
 }
