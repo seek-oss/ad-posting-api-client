@@ -823,11 +823,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             var requestModel = new AdvertisementModelBuilder(allFieldsWithGranularLocationInitializer)
                 .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
-                .WithGranularLocationCountry("Australia")
-                .WithGranularLocationState("Victoria")
-                .WithGranularLocationCity("Melbourne")
-                .WithGranularLocationPostCode("3000")
-                .WithGranularLocationOptions(GranularLocationOptions.HideCity)
+                .WithLocationArea(null)
                 .Build();
 
             AdvertisementResource result;
@@ -839,11 +835,8 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithGranularLocationInitializer)
                 .WithLinks(advertisementId)
-                .WithGranularLocationCountry("Australia")
                 .WithGranularLocationState(null)
-                .WithGranularLocationCity("Melbourne")
-                .WithGranularLocationPostCode("3000")
-                .WithGranularLocationOptions(GranularLocationOptions.HideCity)
+                .WithLocationArea(null)
                 .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);

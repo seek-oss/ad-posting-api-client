@@ -82,6 +82,17 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithStandoutLogoId(this.GetDefaultLogoId())
                 .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2), this.GetDefaultStandoutBullet(3))
                 .WithAdditionalProperties(this.GetDefaultAdditionalProperties());
+
+            if (_locationType == LocationType.UseGranularLocation)
+            {
+                builder
+                    .WithLocationArea(null)
+                    .WithGranularLocationCountry(this.GetDefaultGranularLocationCountry())
+                    .WithGranularLocationState(this.GetDefaultGranularLocationState())
+                    .WithGranularLocationCity(this.GetDefaultGranularLocationCity())
+                    .WithGranularLocationPostCode(this.GetDefaultGranularLocationPostCode())
+                    .WithGranularLocationOptions(this.getDefaultGranularLocationOptionsesOptions());
+            }
         }
 
         private string GetDefaultSearchJobTitle()

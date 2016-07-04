@@ -663,11 +663,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                     });
 
             Advertisement requestModel = new AdvertisementModelBuilder(allFieldsWithGranularLocationInitializer)
-                .WithGranularLocationCountry("Australia")
-                .WithGranularLocationState("Victoria")
-                .WithGranularLocationCity("Melbourne")
-                .WithGranularLocationPostCode("3000")
-                .WithGranularLocationOptions(GranularLocationOptions.HideCity)
                 .Build();
             AdvertisementResource result;
 
@@ -678,11 +673,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithGranularLocationInitializer)
                 .WithLinks(AdvertisementId)
-                .WithGranularLocationCountry("Australia")
                 .WithGranularLocationState(null)
-                .WithGranularLocationCity("Melbourne")
-                .WithGranularLocationPostCode("3000")
-                .WithGranularLocationOptions(GranularLocationOptions.HideCity)
                 .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);

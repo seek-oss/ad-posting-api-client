@@ -130,8 +130,6 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         public AdvertisementModelBuilder<TAdvertisement> WithGranularLocationCountry(string country)
         {
             this._granularLocationCountry = country;
-            this._locationId = null;
-            this._areaId = null;
             return this;
         }
 
