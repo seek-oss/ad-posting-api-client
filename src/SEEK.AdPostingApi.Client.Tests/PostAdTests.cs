@@ -823,7 +823,6 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             var requestModel = new AdvertisementModelBuilder(allFieldsWithGranularLocationInitializer)
                 .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
-                .WithLocationArea(null)
                 .Build();
 
             AdvertisementResource result;
@@ -836,7 +835,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithGranularLocationInitializer)
                 .WithLinks(advertisementId)
                 .WithGranularLocationState(null)
-                .WithLocationArea(null)
                 .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);

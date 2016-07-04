@@ -31,9 +31,9 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Theory]
-        [InlineData(LocationType.UseGranularLocation)]
-        [InlineData(LocationType.UseLocation)]
-        public async Task GetExistingAdvertisement(LocationType locationType)
+        [InlineData(LocationType.UseGranularLocation, "There is a pending standout advertisement with granular location data")]
+        [InlineData(LocationType.UseLocation, "There is a pending standout advertisement with maximum data")]
+        public async Task GetExistingAdvertisement(LocationType locationType, string givenStatement)
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -42,10 +42,9 @@ namespace SEEK.AdPostingApi.Client.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             var builderInitializer = new AllFieldsInitializer(locationType);
-            var extraGivenStatement = locationType == LocationType.UseLocation ? "" : " with granular location data";
-      
+    
             this.Fixture.AdPostingApiService
-                .Given($"There is a pending standout advertisement with maximum data{extraGivenStatement}")
+                .Given(givenStatement)
                 .UponReceiving("a GET advertisement request")
                 .With(new ProviderServiceRequest
                 {
