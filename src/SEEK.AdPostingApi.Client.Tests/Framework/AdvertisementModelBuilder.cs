@@ -28,7 +28,6 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private string _granularLocationState;
         private string _granularLocationCity;
         private string _granularLocationPostCode;
-        private GranularLocationOptions[] _granularLocationOptions;
         private string _subclassificationId;
         private SalaryType _salaryType;
         private decimal _salaryMinimum;
@@ -148,12 +147,6 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         public AdvertisementModelBuilder<TAdvertisement> WithGranularLocationPostCode(string postCode)
         {
             this._granularLocationPostCode = postCode;
-            return this;
-        }
-
-        public AdvertisementModelBuilder<TAdvertisement> WithGranularLocationOptions(params GranularLocationOptions[] locationOptions)
-        {
-            this._granularLocationOptions = locationOptions?.Clone<GranularLocationOptions[]>();
             return this;
         }
 
@@ -325,8 +318,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                         Country = this._granularLocationCountry,
                         State = this._granularLocationState,
                         City = this._granularLocationCity,
-                        PostCode = this._granularLocationPostCode,
-                        Options = this._granularLocationOptions?.ToArray()
+                        PostCode = this._granularLocationPostCode
                     },
                 SubclassificationId = this._subclassificationId,
                 WorkType = this._workType,

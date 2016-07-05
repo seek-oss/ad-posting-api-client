@@ -1090,10 +1090,7 @@
             "country": "Australia",
             "state": "Victoria",
             "city": "Melbourne",
-            "postCode": "3000",
-            "options": [
-              "HideCity"
-            ]
+            "postCode": "3000"
           },
           "expiryDate": "2015-11-06T21:19:00Z",
           "state": "Open",
@@ -1231,10 +1228,7 @@
             "country": "Australia",
             "state": "Victoria",
             "city": "Melbourne",
-            "postCode": "3000",
-            "options": [
-              "HideCity"
-            ]
+            "postCode": "3000"
           },
           "creationId": "20150914-134527-00012"
         }
@@ -1307,10 +1301,7 @@
           "granularLocation": {
             "country": "Australia",
             "city": "Melbourne",
-            "postCode": "3000",
-            "options": [
-              "HideCity"
-            ]
+            "postCode": "3000"
           },
           "expiryDate": "2015-11-06T21:19:00Z",
           "state": "Open",
@@ -2666,10 +2657,7 @@
             "country": "Australia",
             "state": "Victoria",
             "city": "Melbourne",
-            "postCode": "3000",
-            "options": [
-              "HideCity"
-            ]
+            "postCode": "3000"
           }
         }
       },
@@ -2740,10 +2728,7 @@
           "granularLocation": {
             "country": "Australia",
             "city": "Melbourne",
-            "postCode": "3000",
-            "options": [
-              "HideCity"
-            ]
+            "postCode": "3000"
           },
           "expiryDate": "2015-11-06T21:19:00Z",
           "state": "Open",

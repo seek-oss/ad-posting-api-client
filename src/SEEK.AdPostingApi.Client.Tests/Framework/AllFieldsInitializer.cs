@@ -50,8 +50,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     .WithGranularLocationCountry(this.GetDefaultGranularLocationCountry())
                     .WithGranularLocationState(this.GetDefaultGranularLocationState())
                     .WithGranularLocationCity(this.GetDefaultGranularLocationCity())
-                    .WithGranularLocationPostCode(this.GetDefaultGranularLocationPostCode())
-                    .WithGranularLocationOptions(this.GetDefaultGranularLocationOptionsPropertiesAsObjects());
+                    .WithGranularLocationPostCode(this.GetDefaultGranularLocationPostCode());
             }
         }
 
@@ -90,8 +89,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     .WithGranularLocationCountry(this.GetDefaultGranularLocationCountry())
                     .WithGranularLocationState(this.GetDefaultGranularLocationState())
                     .WithGranularLocationCity(this.GetDefaultGranularLocationCity())
-                    .WithGranularLocationPostCode(this.GetDefaultGranularLocationPostCode())
-                    .WithGranularLocationOptions(this.getDefaultGranularLocationOptionsesOptions());
+                    .WithGranularLocationPostCode(this.GetDefaultGranularLocationPostCode());
             }
         }
 
@@ -231,16 +229,6 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private string GetDefaultGranularLocationPostCode()
         {
             return "3000";
-        }
-
-        private GranularLocationOptions[] getDefaultGranularLocationOptionsesOptions()
-        {
-            return new [] {GranularLocationOptions.HideCity};
-        }
-
-        private object[] GetDefaultGranularLocationOptionsPropertiesAsObjects()
-        {
-            return this.getDefaultGranularLocationOptionsesOptions().Select(a => a.ToString()).ToArray<object>();
         }
     }
 }
