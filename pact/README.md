@@ -126,8 +126,7 @@ Ad Posting API will respond with:
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
     "thirdParties": {
-      "advertiserId": "1",
-      "agentId": "385"
+      "advertiserId": "1"
     },
     "advertisementType": "StandOut",
     "jobSummary": "Developer job",
@@ -185,10 +184,7 @@ Ad Posting API will respond with:
       "country": "Australia",
       "state": "Victoria",
       "city": "Melbourne",
-      "postCode": "3000",
-      "options": [
-        "HideCity"
-      ]
+      "postCode": "3000"
     },
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -1688,10 +1684,7 @@ Upon receiving **a POST advertisement request to create a job ad with granular l
       "country": "Australia",
       "state": "Victoria",
       "city": "Melbourne",
-      "postCode": "3000",
-      "options": [
-        "HideCity"
-      ]
+      "postCode": "3000"
     },
     "creationId": "20150914-134527-00012"
   }
@@ -1767,10 +1760,7 @@ Ad Posting API will respond with:
     "granularLocation": {
       "country": "Australia",
       "city": "Melbourne",
-      "postCode": "3000",
-      "options": [
-        "HideCity"
-      ]
+      "postCode": "3000"
     },
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -3070,10 +3060,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
       "country": "Australia",
       "state": "Victoria",
       "city": "Melbourne",
-      "postCode": "3000",
-      "options": [
-        "HideCity"
-      ]
+      "postCode": "3000"
     }
   }
 }
@@ -3147,10 +3134,7 @@ Ad Posting API will respond with:
     "granularLocation": {
       "country": "Australia",
       "city": "Melbourne",
-      "postCode": "3000",
-      "options": [
-        "HideCity"
-      ]
+      "postCode": "3000"
     },
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
