@@ -6,3 +6,4 @@ obj/
 out/
 pact/
 src/packages
+.fake/
