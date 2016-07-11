@@ -1,7 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Dynamic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Marvin.JsonPatch.Operations;
+using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
@@ -345,6 +353,70 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Message = "Forbidden",
                         Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
                     }));
+        }
+
+        [Fact]
+        public async Task ExpireAdvertisementUsingInvalidRequestContent()
+        {
+            var advertisementId = new Guid("8e2fde50-bc5f-4a12-9cfb-812e50500184");
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var acceptHeader = $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}";
+            var requestBody = new[]
+                        {
+                            new
+                            {
+                                op = "add",
+                                path = "state",
+                                value = "open"
+                            }
+                        };
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("a PATCH advertisement request to expire a job using invalid request content")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Patch,
+                        Path = link,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
+                            { "Accept", acceptHeader }
+                        },
+                        Body = requestBody
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 422,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new
+                        {
+                            message = "Validation Failure",
+                            errors = new[] { new { code = "InvalidRequestContent" } }
+                        }
+                    });
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(this.Fixture.AdPostingApiServiceBaseUri, link);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.ParseAdd(acceptHeader);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessTokens.OtherThirdPartyUploader);
+                HttpContent httpContent = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody));
+                httpContent.Headers.Remove("Content-Type");
+                httpContent.Headers.TryAddWithoutValidation("Content-Type", RequestContentTypes.AdvertisementPatchVersion1);
+                var response = await client.PatchAsync(client.BaseAddress, httpContent);
+                Assert.True(((int)response.StatusCode).Equals(422));
+            }
         }
 
         private AdPostingApiFixture Fixture { get; }
