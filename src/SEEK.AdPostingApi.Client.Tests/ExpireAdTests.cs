@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Newtonsoft.Json;
 using PactNet.Mocks.MockHttpService.Models;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
@@ -401,15 +403,19 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(this.Fixture.AdPostingApiServiceBaseUri, link);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.ParseAdd(acceptHeader);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessTokens.OtherThirdPartyUploader);
-                HttpContent httpContent = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody));
-                httpContent.Headers.Remove("Content-Type");
-                httpContent.Headers.TryAddWithoutValidation("Content-Type", RequestContentTypes.AdvertisementPatchVersion1);
-                var response = await client.PatchAsync(client.BaseAddress, httpContent);
-                Assert.True(((int)response.StatusCode).Equals(422));
+                using (var request = new HttpRequestMessage(new HttpMethod("PATCH"), new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)))
+                {
+                    request.Content = new StringContent(JsonConvert.SerializeObject(requestBody));
+                    request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse(RequestContentTypes.AdvertisementPatchVersion1);
+                    request.Headers.Accept.Clear();
+                    request.Headers.Accept.ParseAdd(acceptHeader);
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessTokens.OtherThirdPartyUploader);
+
+                    using (HttpResponseMessage response = await client.SendAsync(request))
+                    {
+                        Assert.True(((int)response.StatusCode).Equals(422));
+                    }
+                }
             }
         }
 

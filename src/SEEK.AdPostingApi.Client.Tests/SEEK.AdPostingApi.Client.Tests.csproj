@@ -107,7 +107,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\HttpClientExtensions.cs" />
     <Compile Include="Framework\LocationType.cs" />
     <Compile Include="Framework\RequestContentTypes.cs" />
     <Compile Include="Framework\AccessTokens.cs" />
