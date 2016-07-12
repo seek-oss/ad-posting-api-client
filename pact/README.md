@@ -50,6 +50,8 @@
 
 * [A PATCH advertisement request to expire a job using a disabled requestor account](#a_PATCH_advertisement_request_to_expire_a_job_using_a_disabled_requestor_account_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
 
+* [A PATCH advertisement request to expire a job using invalid request content](#a_PATCH_advertisement_request_to_expire_a_job_using_invalid_request_content_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
+
 * [A PATCH advertisement request to expire a non-existent advertisement](#a_PATCH_advertisement_request_to_expire_a_non-existent_advertisement)
 
 * [A PATCH advertisement request to expire an advertisement](#a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
@@ -1170,6 +1172,44 @@ Ad Posting API will respond with:
     "errors": [
       {
         "code": "AccountError"
+      }
+    ]
+  }
+}
+```
+<a name="a_PATCH_advertisement_request_to_expire_a_job_using_invalid_request_content_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
+Given **there is a pending standout advertisement with maximum data**, upon receiving **a PATCH advertisement request to expire a job using invalid request content** from Ad Posting API Client, with
+```json
+{
+  "method": "patch",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+    "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+  },
+  "body": [
+    {
+      "op": "add",
+      "path": "state",
+      "value": "open"
+    }
+  ]
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 422,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "message": "Validation Failure",
+    "errors": [
+      {
+        "code": "InvalidRequestContent"
       }
     ]
   }
