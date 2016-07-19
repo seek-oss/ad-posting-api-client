@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json;
 using PactNet.Mocks.MockHttpService.Models;
+using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 using SEEK.AdPostingApi.Client.Tests.Framework;
@@ -19,6 +19,18 @@ namespace SEEK.AdPostingApi.Client.Tests
     {
         private const string AdvertisementLink = "/advertisement";
         private const string RequestId = "PactRequestId";
+
+        private readonly string _acceptHeader = $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}";
+
+        private readonly dynamic _expireRequest = new[]
+        {
+            new
+            {
+                op = "replace",
+                path = "state",
+                value = "Expired"
+            }
+        };
 
         private IBuilderInitializer AllFieldsInitializer => new AllFieldsInitializer();
 
@@ -53,7 +65,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", this._acceptHeader }
                         },
                         Body = new[]
                         {
@@ -103,6 +115,78 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
+        public async Task ExpireAdvertisementWithPostVerb()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            string link = $"{AdvertisementLink}/{advertisementId}";
+            string viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            DateTime expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc);
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("a POST advertisement request to expire an advertisement")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = link,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
+                            { "Accept", this._acceptHeader }
+                        },
+                        Body = this._expireRequest
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 202,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
+                            .WithState(AdvertisementState.Expired.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithExpiryDate(expiryDate)
+                            .WithAgentId(null)
+                            .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
+                            .Build()
+                    });
+
+            AdvertisementResource result;
+            var requestUri = new Uri(this.Fixture.AdPostingApiServiceBaseUri, link);
+
+            using (var client = new HttpClient())
+            {
+                using (HttpRequestMessage request = this.CreatePatchRequest(requestUri, this._expireRequest, oAuth2Token.AccessToken, "POST"))
+                {
+                    using (HttpResponseMessage response = await client.SendAsync(request))
+                    {
+                        response.EnsureSuccessStatusCode();
+
+                        result = JsonConvert.DeserializeObject<AdvertisementResource>(
+                            await response.Content.ReadAsStringAsync(), new ResourceConverter(null, requestUri, response.Headers));
+                    }
+                }
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithLinks(advertisementId)
+                .WithState(AdvertisementState.Expired)
+                .WithExpiryDate(expiryDate)
+                .WithAgentId(null)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
         public async Task ExpireAlreadyExpiredAdvertisement()
         {
             var advertisementId = new Guid("c294088d-ff50-4374-bc38-7fa805790e3e");
@@ -121,7 +205,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", this._acceptHeader }
                         },
                         Body = new[]
                         {
@@ -188,7 +272,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", this._acceptHeader }
                         },
                         Body = new[]
                         {
@@ -238,7 +322,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", this._acceptHeader }
                         },
                         Body = new[]
                         {
@@ -304,7 +388,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", this._acceptHeader }
                         },
                         Body = new[]
                         {
@@ -357,16 +441,16 @@ namespace SEEK.AdPostingApi.Client.Tests
             var advertisementId = new Guid("8e2fde50-bc5f-4a12-9cfb-812e50500184");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
-            var acceptHeader = $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}";
+            var acceptHeader = this._acceptHeader;
             var requestBody = new[]
-                        {
-                            new
-                            {
-                                op = "add",
-                                path = "state",
-                                value = "open"
-                            }
-                        };
+            {
+                new
+                {
+                    op = "add",
+                    path = "state",
+                    value = "open"
+                }
+            };
 
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
@@ -403,22 +487,32 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             using (var client = new HttpClient())
             {
-                using (var request = new HttpRequestMessage(new HttpMethod("PATCH"), new Uri(this.Fixture.AdPostingApiServiceBaseUri, link)))
+                using (HttpRequestMessage request = this.CreatePatchRequest(
+                    new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestBody, AccessTokens.OtherThirdPartyUploader))
                 {
-                    request.Content = new StringContent(JsonConvert.SerializeObject(requestBody));
-                    request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse(RequestContentTypes.AdvertisementPatchVersion1);
-                    request.Headers.Accept.Clear();
-                    request.Headers.Accept.ParseAdd(acceptHeader);
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessTokens.OtherThirdPartyUploader);
-
                     using (HttpResponseMessage response = await client.SendAsync(request))
                     {
-                        Assert.True(((int)response.StatusCode).Equals(422));
+                        Assert.Equal(422, (int)response.StatusCode);
                     }
                 }
             }
         }
 
         private AdPostingApiFixture Fixture { get; }
+
+        private HttpRequestMessage CreatePatchRequest(Uri requestUri, object requestBody, string accessToken, string verb = "PATCH")
+        {
+            var request = new HttpRequestMessage(new HttpMethod(verb), requestUri)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(requestBody))
+            };
+
+            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse(RequestContentTypes.AdvertisementPatchVersion1);
+            request.Headers.Accept.Clear();
+            request.Headers.Accept.ParseAdd(this._acceptHeader);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            return request;
+        }
     }
 }
