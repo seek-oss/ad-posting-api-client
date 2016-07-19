@@ -82,6 +82,8 @@
 
 * [A POST advertisement request to create a job for an advertiser not related to the requestor's account](#a_POST_advertisement_request_to_create_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account)
 
+* [A POST advertisement request to expire an advertisement](#a_POST_advertisement_request_to_expire_an_advertisement_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
+
 * [A PUT advertisement request](#a_PUT_advertisement_request_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
 
 * [A PUT advertisement request for a non-existent advertisement](#a_PUT_advertisement_request_for_a_non-existent_advertisement)
@@ -2302,6 +2304,108 @@ Ad Posting API will respond with:
         "code": "RelationshipError"
       }
     ]
+  }
+}
+```
+<a name="a_POST_advertisement_request_to_expire_an_advertisement_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
+Given **there is a pending standout advertisement with maximum data**, upon receiving **a POST advertisement request to expire an advertisement** from Ad Posting API Client, with
+```json
+{
+  "method": "post",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+  },
+  "body": [
+    {
+      "op": "replace",
+      "path": "state",
+      "value": "Expired"
+    }
+  ]
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 202,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "expiryDate": "2015-10-07T21:19:00Z",
+    "state": "Expired",
+    "_links": {
+      "self": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+      },
+      "view": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+      }
+    }
   }
 }
 ```
