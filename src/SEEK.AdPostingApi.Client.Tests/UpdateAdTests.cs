@@ -73,6 +73,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
+                            .WithId(AdvertisementId)
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
                             .WithAgentId(null)
@@ -94,7 +95,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = this.SetupModelForExistingAdvertisement(
-                new AdvertisementResourceBuilder(this.AllFieldsInitializer).WithLinks(AdvertisementId)).Build();
+                new AdvertisementResourceBuilder(this.AllFieldsInitializer).WithId(new Guid(AdvertisementId)).WithLinks(AdvertisementId)).Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
@@ -158,7 +159,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task UpdateWithBadAdvertisementData()
+        public async Task UpdateWithInvalidFieldValues()
         {
             const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -166,7 +167,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a PUT advertisement request for advertisement with bad data")
+                .UponReceiving("a PUT advertisement request for advertisement with invalid field values")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -655,6 +656,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "X-Request-Id", RequestId }
                         },
                         Body = new AdvertisementResponseContentBuilder(allFieldsWithGranularLocationInitializer)
+                            .WithId(AdvertisementId)
                             .WithState(AdvertisementState.Open.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
@@ -672,6 +674,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithGranularLocationInitializer)
+                .WithId(new Guid(AdvertisementId))
                 .WithLinks(AdvertisementId)
                 .WithGranularLocationState(null)
                 .Build();

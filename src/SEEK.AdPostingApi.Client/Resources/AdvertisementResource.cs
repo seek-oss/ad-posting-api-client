@@ -15,6 +15,8 @@ namespace SEEK.AdPostingApi.Client.Resources
 
         public DateTime ExpiryDate { get; set; }
 
+        public Guid Id { get; set; }
+
         [JsonIgnore]
         public Links Links { get; set; }
 

@@ -88,6 +88,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "X-Request-Id", RequestId }
                         },
                         Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
+                            .WithId(advertisementId)
                             .WithState(AdvertisementState.Expired.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
@@ -105,6 +106,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithState(AdvertisementState.Expired)
                 .WithExpiryDate(expiryDate)
@@ -150,6 +152,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "X-Request-Id", RequestId }
                         },
                         Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
+                            .WithId(advertisementId)
                             .WithState(AdvertisementState.Expired.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
@@ -177,6 +180,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithState(AdvertisementState.Expired)
                 .WithExpiryDate(expiryDate)

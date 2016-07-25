@@ -56,6 +56,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             // Example of creating the advertisement using a simple retry loop.
             AdvertisementError[] errors = null;
             var createResult = CreateResult.Unknown;
+            Guid? advertisementId = null;
             Uri advertisementLink = null;
             var maxAttempts = 2;
             while (maxAttempts > 0)
@@ -64,6 +65,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 {
                     var advertisement = await postingClient.CreateAdvertisementAsync(ad);
 
+                    advertisementId = advertisement.Id;
                     advertisementLink = advertisement.Uri;
                     createResult = CreateResult.Created;
                     break;
@@ -104,6 +106,10 @@ namespace SEEK.AdPostingApi.SampleConsumer
             {
                 case CreateResult.Created:
                 case CreateResult.AlreadyExists:
+                    if (createResult == CreateResult.Created)
+                    {
+                        Console.WriteLine($"Advertisement Id: {advertisementId}");
+                    }
                     Console.WriteLine($"Advertisement Link: {advertisementLink}");
 
                     // Use the returned advertisement link to get the advertisement.

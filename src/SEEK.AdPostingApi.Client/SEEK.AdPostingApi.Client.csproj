@@ -100,7 +100,7 @@
     <Compile Include="Resources\AdvertisementResource.cs" />
     <Compile Include="OAuth2TokenClient.cs" />
     <Compile Include="Models\AdvertisementSummary.cs" />
-    <Compile Include="Resources\AdvertisementSummaryModel.cs" />
+    <Compile Include="Resources\AdvertisementSummaryResource.cs" />
     <Compile Include="Resources\AdvertisementSummaryPageResource.cs" />
     <Compile Include="Resources\IndexResource.cs" />
   </ItemGroup>

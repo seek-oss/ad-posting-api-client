@@ -25,6 +25,12 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementResponseContentBuilder WithId(object id)
+        {
+            this.AdvertisementModel.id = id;
+            return this;
+        }
+
         public AdvertisementResponseContentBuilder WithLink(string linkName, object linkRef)
         {
             if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("_links"))

@@ -40,6 +40,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementSummaryContentBuilder WithId(object id)
+        {
+            this._advertisementModel.id = id;
+
+            return this;
+        }
+
         public AdvertisementSummaryContentBuilder WithJobTitle(object jobTitle)
         {
             this._advertisementModel.jobTitle = jobTitle;

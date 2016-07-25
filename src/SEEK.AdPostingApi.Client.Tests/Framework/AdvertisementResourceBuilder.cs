@@ -17,6 +17,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
     {
         private AdvertisementError[] _errors;
         private DateTime _expiryDate;
+        private Guid _id;
         private Links _links;
         private ProcessingStatus _processingStatus;
         private AdvertisementState _state;
@@ -32,6 +33,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             TAdvertisementResource advertisementResource = base.Build();
 
+            advertisementResource.Id = this._id;
             advertisementResource.Errors = this._errors;
             advertisementResource.ExpiryDate = this._expiryDate;
             advertisementResource.Links = this._links;
@@ -53,6 +55,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         public AdvertisementResourceBuilder<TAdvertisementResource> WithExpiryDate(DateTime expiryDate)
         {
             this._expiryDate = expiryDate;
+
+            return this;
+        }
+
+        public AdvertisementResourceBuilder<TAdvertisementResource> WithId(Guid id)
+        {
+            this._id = id;
 
             return this;
         }

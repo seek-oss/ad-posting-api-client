@@ -42,7 +42,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             var builderInitializer = new AllFieldsInitializer(locationType);
-    
+
             this.Fixture.AdPostingApiService
                 .Given(givenStatement)
                 .UponReceiving("a GET advertisement request")
@@ -66,6 +66,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "X-Request-Id", RequestId }
                     },
                     Body = new AdvertisementResponseContentBuilder(builderInitializer)
+                        .WithId(advertisementId)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithLink("self", link)
                         .WithLink("view", viewRenderedAdvertisementLink)
@@ -82,6 +83,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(builderInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Pending)
                 .WithAgentId(null)
@@ -122,6 +124,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "X-Request-Id", RequestId }
                     },
                     Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
+                        .WithId(advertisementId)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithLink("self", link)
                         .WithLink("view", viewRenderedAdvertisementLink)
@@ -141,6 +144,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Pending)
                 .WithWarnings(
@@ -184,6 +188,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "X-Request-Id", RequestId }
                     },
                     Body = new AdvertisementResponseContentBuilder(this.MinimumFieldsInitializer)
+                        .WithId(advertisementId)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithLink("self", link)
                         .WithLink("view", viewRenderedAdvertisementLink)
@@ -200,6 +205,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.MinimumFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Failed)
                 .WithErrors(new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" })
