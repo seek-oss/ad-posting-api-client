@@ -258,6 +258,7 @@
             "Graduate"
           ],
           "expiryDate": "2015-10-07T21:19:00Z",
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
           "state": "Expired",
           "_links": {
             "self": {
@@ -357,6 +358,7 @@
             "Graduate"
           ],
           "expiryDate": "2015-10-07T21:19:00Z",
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
           "state": "Expired",
           "_links": {
             "self": {
@@ -495,6 +497,7 @@
                 "advertiserId": "456",
                 "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
                 "jobReference": "JOB4444",
+                "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
                 "_links": {
                   "self": {
                     "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
@@ -508,6 +511,7 @@
                 "advertiserId": "456",
                 "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
                 "jobReference": "JOB3333",
+                "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
                 "_links": {
                   "self": {
                     "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
@@ -521,6 +525,7 @@
                 "advertiserId": "456",
                 "jobTitle": "Exciting tester role in a great CBD location. Great $$",
                 "jobReference": "JOB2222",
+                "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
                 "_links": {
                   "self": {
                     "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d"
@@ -624,6 +629,7 @@
                 "advertiserId": "456",
                 "jobTitle": "Exciting tester role in a great CBD location. Great $$",
                 "jobReference": "JOB2222",
+                "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
                 "_links": {
                   "self": {
                     "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d"
@@ -637,6 +643,7 @@
                 "advertiserId": "456",
                 "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
                 "jobReference": "JOB1111",
+                "id": "f7302df2-704b-407c-a42a-62ff822b5461",
                 "_links": {
                   "self": {
                     "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461"
@@ -650,6 +657,7 @@
                 "advertiserId": "123",
                 "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
                 "jobReference": "JOB1234",
+                "id": "fa6939b5-c91f-4f6a-9600-1ea74963fbb2",
                 "_links": {
                   "self": {
                     "href": "/advertisement/fa6939b5-c91f-4f6a-9600-1ea74963fbb2"
@@ -723,6 +731,7 @@
                 "advertiserId": "456",
                 "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
                 "jobReference": "JOB1111",
+                "id": "f7302df2-704b-407c-a42a-62ff822b5461",
                 "_links": {
                   "self": {
                     "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461"
@@ -766,6 +775,7 @@
                 "advertiserId": "456",
                 "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
                 "jobReference": "JOB4444",
+                "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
                 "_links": {
                   "self": {
                     "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
@@ -779,6 +789,7 @@
                 "advertiserId": "456",
                 "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
                 "jobReference": "JOB3333",
+                "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
                 "_links": {
                   "self": {
                     "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
@@ -792,6 +803,7 @@
                 "advertiserId": "345",
                 "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
                 "jobReference": "JOB12345",
+                "id": "e6e31b9c-3c2c-4b85-b17f-babbf7da972b",
                 "_links": {
                   "self": {
                     "href": "/advertisement/e6e31b9c-3c2c-4b85-b17f-babbf7da972b"
@@ -948,6 +960,7 @@
             "Graduate"
           ],
           "expiryDate": "2015-11-06T21:19:00Z",
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
           "state": "Open",
           "_links": {
             "self": {
@@ -1035,6 +1048,7 @@
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
           "expiryDate": "2015-11-06T21:19:00Z",
+          "id": "448b8474-6165-4eed-a5b5-d2bb52e471ef",
           "state": "Open",
           "_links": {
             "self": {
@@ -1133,6 +1147,7 @@
             "Graduate"
           ],
           "expiryDate": "2015-11-06T21:19:00Z",
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
           "state": "Open",
           "_links": {
             "self": {
@@ -1227,6 +1242,7 @@
             "postCode": "3000"
           },
           "expiryDate": "2015-11-06T21:19:00Z",
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
           "state": "Open",
           "_links": {
             "self": {
@@ -1437,163 +1453,6 @@
             "city": "Melbourne",
             "postCode": "3000"
           },
-          "expiryDate": "2015-11-06T21:19:00Z",
-          "state": "Open",
-          "_links": {
-            "self": {
-              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
-            },
-            "view": {
-              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a POST advertisement request to create a job ad with maximum required data",
-      "request": {
-        "method": "post",
-        "path": "/advertisement",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1",
-            "agentId": "385"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
-          "creationId": "20150914-134527-00097"
-        }
-      },
-      "response": {
-        "status": 202,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1",
-            "agentId": "385"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
           "expiryDate": "2015-11-06T21:19:00Z",
           "state": "Open",
           "_links": {
@@ -1822,7 +1681,7 @@
       }
     },
     {
-      "description": "a POST advertisement request to create a job ad with minimum required data",
+      "description": "a POST advertisement request to create a job ad with required field values only",
       "request": {
         "method": "post",
         "path": "/advertisement",
@@ -1881,6 +1740,165 @@
           "workType": "FullTime",
           "expiryDate": "2015-11-06T21:19:00Z",
           "state": "Open",
+          "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "_links": {
+            "self": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+            },
+            "view": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a POST advertisement request to create a job ad with required and optional field values",
+      "request": {
+        "method": "post",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1",
+            "agentId": "385"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "creationId": "20150914-134527-00097"
+        }
+      },
+      "response": {
+        "status": 202,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1",
+            "agentId": "385"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "expiryDate": "2015-11-06T21:19:00Z",
+          "state": "Open",
+          "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
           "_links": {
             "self": {
               "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
@@ -1983,6 +2001,92 @@
       }
     },
     {
+      "description": "a POST advertisement request to create a job ad with invalid field values",
+      "request": {
+        "method": "post",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": -1.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "creationId": "20150914-134527-00109",
+          "standout": {
+            "bullets": [
+              "new Uzi",
+              "new Remington Model!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+              "new AK-47"
+            ]
+          },
+          "applicationEmail": "someone(at)some.domain",
+          "applicationFormUrl": "htp://somecompany.domain/apply",
+          "template": {
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "",
+                "value": "value2"
+              }
+            ]
+          }
+        }
+      },
+      "response": {
+        "status": 422,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Validation Failure",
+          "errors": [
+            {
+              "field": "applicationEmail",
+              "code": "InvalidEmailAddress"
+            },
+            {
+              "field": "applicationFormUrl",
+              "code": "InvalidUrl"
+            },
+            {
+              "field": "salary.minimum",
+              "code": "ValueOutOfRange"
+            },
+            {
+              "field": "standout.bullets[1]",
+              "code": "MaxLengthExceeded"
+            },
+            {
+              "field": "template.items[1].name",
+              "code": "Required"
+            }
+          ]
+        }
+      }
+    },
+    {
       "description": "a POST advertisement request to create a job ad with invalid salary data",
       "request": {
         "method": "post",
@@ -2074,92 +2178,6 @@
           "errors": [
             {
               "code": "RelationshipError"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a POST advertisement request to create a job ad with bad data",
-      "request": {
-        "method": "post",
-        "path": "/advertisement",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": -1.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "creationId": "20150914-134527-00109",
-          "standout": {
-            "bullets": [
-              "new Uzi",
-              "new Remington Model!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-              "new AK-47"
-            ]
-          },
-          "applicationEmail": "someone(at)some.domain",
-          "applicationFormUrl": "htp://somecompany.domain/apply",
-          "template": {
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "",
-                "value": "value2"
-              }
-            ]
-          }
-        }
-      },
-      "response": {
-        "status": 422,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Validation Failure",
-          "errors": [
-            {
-              "field": "applicationEmail",
-              "code": "InvalidEmailAddress"
-            },
-            {
-              "field": "applicationFormUrl",
-              "code": "InvalidUrl"
-            },
-            {
-              "field": "salary.minimum",
-              "code": "ValueOutOfRange"
-            },
-            {
-              "field": "standout.bullets[1]",
-              "code": "MaxLengthExceeded"
-            },
-            {
-              "field": "template.items[1].name",
-              "code": "Required"
             }
           ]
         }
@@ -2354,6 +2372,7 @@
           ],
           "expiryDate": "2015-11-06T21:19:00Z",
           "state": "Open",
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
           "_links": {
             "self": {
               "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
@@ -2596,91 +2615,6 @@
       }
     },
     {
-      "description": "a PUT advertisement request for advertisement with bad data",
-      "request": {
-        "method": "put",
-        "path": "/advertisement/7e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": -1.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "standout": {
-            "bullets": [
-              "new Uzi",
-              "new Remington Model!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-              "new AK-47"
-            ]
-          },
-          "applicationEmail": "someone(at)some.domain",
-          "applicationFormUrl": "htp://somecompany.domain/apply",
-          "template": {
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "",
-                "value": "value2"
-              }
-            ]
-          }
-        }
-      },
-      "response": {
-        "status": 422,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Validation Failure",
-          "errors": [
-            {
-              "field": "applicationEmail",
-              "code": "InvalidEmailAddress"
-            },
-            {
-              "field": "applicationFormUrl",
-              "code": "InvalidUrl"
-            },
-            {
-              "field": "salary.minimum",
-              "code": "ValueOutOfRange"
-            },
-            {
-              "field": "standout.bullets[1]",
-              "code": "MaxLengthExceeded"
-            },
-            {
-              "field": "template.items[1].name",
-              "code": "Required"
-            }
-          ]
-        }
-      }
-    },
-    {
       "description": "a PUT advertisement request for a non-existent advertisement",
       "request": {
         "method": "put",
@@ -2865,6 +2799,7 @@
             "postCode": "3000"
           },
           "expiryDate": "2015-11-06T21:19:00Z",
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
           "state": "Open",
           "_links": {
             "self": {
@@ -2963,6 +2898,91 @@
           "errors": [
             {
               "code": "AccountError"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a PUT advertisement request for advertisement with invalid field values",
+      "request": {
+        "method": "put",
+        "path": "/advertisement/7e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": -1.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "standout": {
+            "bullets": [
+              "new Uzi",
+              "new Remington Model!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+              "new AK-47"
+            ]
+          },
+          "applicationEmail": "someone(at)some.domain",
+          "applicationFormUrl": "htp://somecompany.domain/apply",
+          "template": {
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "",
+                "value": "value2"
+              }
+            ]
+          }
+        }
+      },
+      "response": {
+        "status": 422,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Validation Failure",
+          "errors": [
+            {
+              "field": "applicationEmail",
+              "code": "InvalidEmailAddress"
+            },
+            {
+              "field": "applicationFormUrl",
+              "code": "InvalidUrl"
+            },
+            {
+              "field": "salary.minimum",
+              "code": "ValueOutOfRange"
+            },
+            {
+              "field": "standout.bullets[1]",
+              "code": "MaxLengthExceeded"
+            },
+            {
+              "field": "template.items[1].name",
+              "code": "Required"
             }
           ]
         }
