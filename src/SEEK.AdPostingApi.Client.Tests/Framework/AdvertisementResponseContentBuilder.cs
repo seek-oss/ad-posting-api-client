@@ -8,7 +8,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
     {
         public AdvertisementResponseContentBuilder(IBuilderInitializer initializer) : base(initializer)
         {
-            this.WithExpiryDate(new DateTime(2015, 11, 6, 21, 19, 00, DateTimeKind.Utc));
+            this
+                .WithId(Guid.NewGuid().ToString())
+                .WithExpiryDate(new DateTime(2015, 11, 6, 21, 19, 00, DateTimeKind.Utc));
         }
 
         public AdvertisementResponseContentBuilder WithExpiryDate(DateTime expiryDate)

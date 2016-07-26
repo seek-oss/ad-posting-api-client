@@ -116,7 +116,7 @@
     <Compile Include="Framework\AdvertisementModelBuilder.cs" />
     <Compile Include="Framework\AdvertisementResourceBuilder.cs" />
     <Compile Include="Framework\AdvertisementResponseContentBuilder.cs" />
-    <Compile Include="Framework\AdvertisementSummaryContentBuilder.cs" />
+    <Compile Include="Framework\AdvertisementSummaryResponseContentBuilder.cs" />
     <Compile Include="Framework\AllFieldsInitializer.cs" />
     <Compile Include="Framework\FluentAssertionsExtensions.cs" />
     <Compile Include="ExpireAdTests.cs" />

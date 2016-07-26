@@ -818,6 +818,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "X-Request-Id", RequestId }
                         },
                         Body = new AdvertisementResponseContentBuilder(allFieldsWithGranularLocationInitializer)
+                            .WithId(advertisementId)
                             .WithState(AdvertisementState.Open.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
@@ -837,6 +838,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithGranularLocationInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithGranularLocationState(null)
                 .Build();

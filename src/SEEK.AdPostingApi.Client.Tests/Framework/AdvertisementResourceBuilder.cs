@@ -25,6 +25,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         protected AdvertisementResourceBuilder(IBuilderInitializer initializer = null) : base(initializer)
         {
+            this.WithId(Guid.NewGuid());
             this.WithState(AdvertisementState.Open);
             this.WithExpiryDate(new DateTime(2015, 11, 6, 21, 19, 00, DateTimeKind.Utc));
         }

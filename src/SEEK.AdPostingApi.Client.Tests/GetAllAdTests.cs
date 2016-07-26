@@ -126,7 +126,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             advertisements = new[]
                             {
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId3)
                                     .WithAdvertiserId("456")
                                     .WithJobTitle(advertisement3Title)
@@ -134,7 +134,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithResponseLink("self", this.GenerateSelfLink(advertisementId3))
                                     .WithResponseLink("view", this.GenerateViewLink(advertisementId3))
                                     .Build(),
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId2)
                                     .WithAdvertiserId("456")
                                     .WithJobTitle(advertisement2Title)
@@ -142,7 +142,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithResponseLink("self", this.GenerateSelfLink(advertisementId2))
                                     .WithResponseLink("view", this.GenerateViewLink(advertisementId2))
                                     .Build(),
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId1)
                                     .WithAdvertiserId("345")
                                     .WithJobTitle(advertisement1Title)
@@ -256,7 +256,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             advertisements = new[]
                             {
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId3)
                                     .WithAdvertiserId("456")
                                     .WithJobTitle("Exciting tester role in a great CBD location. Great $$")
@@ -264,7 +264,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithResponseLink("self", this.GenerateSelfLink(advertisementId3))
                                     .WithResponseLink("view", this.GenerateViewLink(advertisementId3))
                                     .Build(),
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId2)
                                     .WithAdvertiserId("456")
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
@@ -272,7 +272,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithResponseLink("self", this.GenerateSelfLink(advertisementId2))
                                     .WithResponseLink("view", this.GenerateViewLink(advertisementId2))
                                     .Build(),
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId1)
                                     .WithAdvertiserId("123")
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")
@@ -425,7 +425,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             advertisements = new[]
                             {
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId3)
                                     .WithAdvertiserId(advertiser)
                                     .WithJobTitle(advertisement3Title)
@@ -433,7 +433,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithResponseLink("self", this.GenerateSelfLink(advertisementId3))
                                     .WithResponseLink("view", this.GenerateViewLink(advertisementId3))
                                     .Build(),
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId2)
                                     .WithAdvertiserId(advertiser)
                                     .WithJobTitle(advertisement2Title)
@@ -441,7 +441,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                                     .WithResponseLink("self", this.GenerateSelfLink(advertisementId2))
                                     .WithResponseLink("view", this.GenerateViewLink(advertisementId2))
                                     .Build(),
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId1)
                                     .WithAdvertiserId(advertiser)
                                     .WithJobTitle(advertisement1Title)
@@ -556,7 +556,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             advertisements = new[]
                             {
-                                new AdvertisementSummaryContentBuilder()
+                                new AdvertisementSummaryResponseContentBuilder()
                                     .WithId(advertisementId1)
                                     .WithAdvertiserId(advertiserId)
                                     .WithJobTitle("Exciting Developer role in a great CBD location. Great $$")

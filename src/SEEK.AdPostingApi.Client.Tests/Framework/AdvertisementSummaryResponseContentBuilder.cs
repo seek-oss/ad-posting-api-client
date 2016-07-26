@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 
 namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
-    public class AdvertisementSummaryContentBuilder
+    public class AdvertisementSummaryResponseContentBuilder
     {
         private readonly dynamic _advertisementModel = new ExpandoObject();
 
-        public AdvertisementSummaryContentBuilder()
+        public AdvertisementSummaryResponseContentBuilder()
         {
             this
+                .WithId(Guid.NewGuid().ToString())
                 .WithAdvertiserId("1")
                 .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$")
                 .WithJobReference("JobReference1");
@@ -26,7 +28,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             }
         }
 
-        public AdvertisementSummaryContentBuilder WithAdvertiserId(object advertiserId)
+        public AdvertisementSummaryResponseContentBuilder WithAdvertiserId(object advertiserId)
         {
             if (advertiserId == null)
             {
@@ -40,26 +42,26 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
-        public AdvertisementSummaryContentBuilder WithId(object id)
+        public AdvertisementSummaryResponseContentBuilder WithId(object id)
         {
             this._advertisementModel.id = id;
 
             return this;
         }
 
-        public AdvertisementSummaryContentBuilder WithJobTitle(object jobTitle)
+        public AdvertisementSummaryResponseContentBuilder WithJobTitle(object jobTitle)
         {
             this._advertisementModel.jobTitle = jobTitle;
             return this;
         }
 
-        public AdvertisementSummaryContentBuilder WithJobReference(object jobReference)
+        public AdvertisementSummaryResponseContentBuilder WithJobReference(object jobReference)
         {
             this._advertisementModel.jobReference = jobReference;
             return this;
         }
 
-        public AdvertisementSummaryContentBuilder WithResponseLink(string linkName, object linkRef)
+        public AdvertisementSummaryResponseContentBuilder WithResponseLink(string linkName, object linkRef)
         {
             if (!((IDictionary<string, object>)this._advertisementModel).ContainsKey("_links"))
             {
