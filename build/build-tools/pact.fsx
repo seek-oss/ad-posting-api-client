@@ -1,7 +1,7 @@
 ﻿#r "../packages/FAKE/tools/FakeLib.dll" // include Fake lib
 #r "System.Runtime.Serialization"
 
-open Fake 
+open Fake
 open System.Runtime.Serialization
 open System.Runtime.Serialization.Json
 open System
@@ -11,7 +11,7 @@ open System.Web
 open System.Net
 open System.IO
 
-let pactBroker = "http://pactbroker.seek.com.au"
+let pactBroker = "http://pact.seek.int:9292"
 
 [<DataContract>]
 type Provider = {
@@ -39,7 +39,7 @@ let private deserialisePact (s:string) =
     let stream = new MemoryStream(byteArray)
     json.ReadObject(stream) :?> Pact
 
-let private pactVersionFromVersion (version:string[]) = 
+let private pactVersionFromVersion (version:string[]) =
     version.[1..4] |> String.concat "."
 
 let private changeCharsToDash text (chars:string) =
@@ -49,7 +49,7 @@ let private changeCharsToDash text (chars:string) =
 
 let PublishPact (version:string[], branchName:string) pactfiles =
     pactfiles |>
-        Seq.iter(fun file -> 
+        Seq.iter(fun file ->
             let pactContent = File.ReadAllText(file)
             let pact = deserialisePact(pactContent)
             let url = sprintf "%s/pacts/provider/%s/consumer/%s/version/%s" pactBroker Uri.EscapeDataString(pact.provider.name) Uri.EscapeDataString(pact.consumer.name) (pactVersionFromVersion version)
@@ -69,7 +69,7 @@ let PublishPact (version:string[], branchName:string) pactfiles =
                 trace ("Uploaded pact: " + url)
             with
                 | a -> traceError ("Error uploading pact file " + url); reraise()
-            
+
 
             let tagRequest = WebRequest.Create tagUrl :?> HttpWebRequest
             tagRequest.ContentType <- "application/json"
