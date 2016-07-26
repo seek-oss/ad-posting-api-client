@@ -38,7 +38,7 @@ namespace SEEK.AdPostingApi.Client
 
         internal async Task InitialiseIndexResource(Uri adPostingUri)
         {
-            _indexResource = await this._client.GetResourceAsync<IndexResource>(adPostingUri);
+            this._indexResource = await this._client.GetResourceAsync<IndexResource>(adPostingUri);
         }
 
         public async Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
@@ -53,14 +53,35 @@ namespace SEEK.AdPostingApi.Client
             return await this._indexResource.CreateAdvertisementAsync(advertisement);
         }
 
+        public async Task<AdvertisementResource> ExpireAdvertisementAsync(Guid advertisementId)
+        {
+            await this.EnsureIndexResourceInitialised();
+
+            return await this.ExpireAdvertisementAsync(this._indexResource.GenerateAdvertisementUri(advertisementId));
+        }
+
         public async Task<AdvertisementResource> ExpireAdvertisementAsync(Uri uri)
         {
             return await this._client.PatchResourceAsync<AdvertisementResource, ExpireAdvertisementJsonPatch>(uri, new ExpireAdvertisementJsonPatch());
         }
 
+        public async Task<AdvertisementResource> GetAdvertisementAsync(Guid advertisementId)
+        {
+            await this.EnsureIndexResourceInitialised();
+
+            return await this.GetAdvertisementAsync(this._indexResource.GenerateAdvertisementUri(advertisementId));
+        }
+
         public async Task<AdvertisementResource> GetAdvertisementAsync(Uri uri)
         {
             return await this._client.GetResourceAsync<AdvertisementResource>(uri);
+        }
+
+        public async Task<ProcessingStatus> GetAdvertisementStatusAsync(Guid advertisementId)
+        {
+            await this.EnsureIndexResourceInitialised();
+
+            return await this.GetAdvertisementStatusAsync(this._indexResource.GenerateAdvertisementUri(advertisementId));
         }
 
         public async Task<ProcessingStatus> GetAdvertisementStatusAsync(Uri uri)
@@ -74,7 +95,17 @@ namespace SEEK.AdPostingApi.Client
         {
             await this.EnsureIndexResourceInitialised();
 
-            return await _indexResource.GetAllAdvertisements(advertiserId);
+            return await this._indexResource.GetAllAdvertisements(advertiserId);
+        }
+
+        public async Task<AdvertisementResource> UpdateAdvertisementAsync(Guid advertisementId, Advertisement advertisement)
+        {
+            if (advertisement == null)
+                throw new ArgumentNullException(nameof(advertisement));
+
+            await this.EnsureIndexResourceInitialised();
+
+            return await this.UpdateAdvertisementAsync(this._indexResource.GenerateAdvertisementUri(advertisementId), advertisement);
         }
 
         public async Task<AdvertisementResource> UpdateAdvertisementAsync(Uri uri, Advertisement advertisement)

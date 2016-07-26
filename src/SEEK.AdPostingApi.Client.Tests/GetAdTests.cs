@@ -33,7 +33,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Theory]
         [InlineData(LocationType.UseGranularLocation, "There is a pending standout advertisement with granular location data")]
         [InlineData(LocationType.UseLocation, "There is a pending standout advertisement with maximum data")]
-        public async Task GetExistingAdvertisement(LocationType locationType, string givenStatement)
+        public async Task GetExistingAdvertisementUsingHalSelfLink(LocationType locationType, string givenStatement)
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -80,6 +80,70 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(builderInitializer)
+                .WithId(new Guid(advertisementId))
+                .WithLinks(advertisementId)
+                .WithProcessingStatus(ProcessingStatus.Pending)
+                .WithAgentId(null)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Theory]
+        [InlineData(LocationType.UseGranularLocation, "There is a pending standout advertisement with granular location data")]
+        [InlineData(LocationType.UseLocation, "There is a pending standout advertisement with maximum data")]
+        public async Task GetExistingAdvertisementUsingHalTemplateWithAdvertisementId(LocationType locationType, string givenStatement)
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+
+            var builderInitializer = new AllFieldsInitializer(locationType);
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.Fixture.AdPostingApiService
+                .Given(givenStatement)
+                .UponReceiving("a GET advertisement request")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                        { "Processing-Status", "Pending" },
+                        { "X-Request-Id", RequestId }
+                    },
+                    Body = new AdvertisementResponseContentBuilder(builderInitializer)
+                        .WithId(advertisementId)
+                        .WithState(AdvertisementState.Open.ToString())
+                        .WithLink("self", link)
+                        .WithLink("view", viewRenderedAdvertisementLink)
+                        .WithAgentId(null)
+                        .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
+                        .Build()
+                });
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.GetAdvertisementAsync(new Guid(advertisementId));
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(builderInitializer)

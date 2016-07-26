@@ -45,7 +45,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task ExpireAdvertisement()
+        public async Task ExpireAdvertisementUsingHalSelfLink()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -103,6 +103,80 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 result = await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(advertisementId))
+                .WithLinks(advertisementId)
+                .WithState(AdvertisementState.Expired)
+                .WithExpiryDate(expiryDate)
+                .WithAgentId(null)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public async Task ExpireAdvertisementUsingHalTemplateWithAdvertisementId()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            string link = $"{AdvertisementLink}/{advertisementId}";
+            string viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            DateTime expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc);
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("a PATCH advertisement request to expire an advertisement")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Patch,
+                        Path = link,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
+                            { "Accept", this._acceptHeader }
+                        },
+                        Body = new[]
+                        {
+                            new
+                            {
+                                op = "replace",
+                                path = "state",
+                                value = AdvertisementState.Expired.ToString()
+                            }
+                        }
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 202,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
+                            .WithId(advertisementId)
+                            .WithState(AdvertisementState.Expired.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithExpiryDate(expiryDate)
+                            .WithAgentId(null)
+                            .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
+                            .Build()
+                    });
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.ExpireAdvertisementAsync(new Guid(advertisementId));
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)

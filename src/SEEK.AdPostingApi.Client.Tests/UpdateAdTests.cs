@@ -33,7 +33,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task UpdateExistingAdvertisement()
+        public async Task UpdateExistingAdvertisementUsingHalSelfLink()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
@@ -92,6 +92,76 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel);
+            }
+
+            AdvertisementResource expectedResult = this.SetupModelForExistingAdvertisement(
+                new AdvertisementResourceBuilder(this.AllFieldsInitializer).WithId(new Guid(AdvertisementId)).WithLinks(AdvertisementId)).Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public async Task UpdateExistingAdvertisementUsingHalTemplateWithAdvertisementId()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("a PUT advertisement request")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                    },
+                    Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
+                        .WithAgentId(null)
+                        .WithAgentJobReference(null)
+                        .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
+                        .WithVideoUrl("https://www.youtube.com/embed/dVDk7PXNXB8")
+                        .WithApplicationFormUrl("http://FakeATS.com.au")
+                        .WithEndApplicationUrl("http://endform.com/updated")
+                        .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 202,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithId(AdvertisementId)
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithAgentId(null)
+                            .WithAgentJobReference(null)
+                            .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
+                            .WithVideoUrl("https://www.youtube.com/embed/dVDk7PXNXB8")
+                            .WithApplicationFormUrl("http://FakeATS.com.au")
+                            .WithEndApplicationUrl("http://endform.com/updated")
+                            .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
+                            .Build()
+                    });
+
+            Advertisement requestModel = this.SetupModelForExistingAdvertisement(new AdvertisementModelBuilder(this.AllFieldsInitializer)).Build();
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.UpdateAdvertisementAsync(new Guid(AdvertisementId), requestModel);
             }
 
             AdvertisementResource expectedResult = this.SetupModelForExistingAdvertisement(
