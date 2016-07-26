@@ -32,28 +32,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a HEAD advertisement request")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Head,
-                    Path = link,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
-                        { "Processing-Status", "Pending" }
-                    }
-                });
+            this.SetupPactForGettingExistingAdvertisementStatus(link, oAuth2Token);
 
             ProcessingStatus status;
 
@@ -75,28 +54,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a HEAD advertisement request")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Head,
-                    Path = link,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
-                        { "Processing-Status", "Pending" }
-                    }
-                });
+            this.SetupPactForGettingExistingAdvertisementStatus(link, oAuth2Token);
 
             ProcessingStatus status;
 
@@ -106,6 +64,32 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             Assert.Equal(ProcessingStatus.Pending, status);
+        }
+
+        private void SetupPactForGettingExistingAdvertisementStatus(string link, OAuth2Token oAuth2Token)
+        {
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("a HEAD advertisement request")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Head,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Content-Type", ResponseContentTypes.AdvertisementVersion1},
+                        {"Processing-Status", "Pending"}
+                    }
+                });
         }
 
         [Fact]
