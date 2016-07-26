@@ -190,8 +190,8 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
-    "expiryDate": "2015-11-06T21:19:00Z",
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -286,8 +286,8 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "expiryDate": "2015-11-06T21:19:00Z",
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -421,8 +421,8 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "expiryDate": "2015-11-06T21:19:00Z",
     "id": "448b8474-6165-4eed-a5b5-d2bb52e471ef",
+    "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -523,8 +523,8 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "expiryDate": "2015-11-06T21:19:00Z",
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -605,10 +605,10 @@ Ad Posting API will respond with:
     "_embedded": {
       "advertisements": [
         {
+          "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
           "advertiserId": "456",
           "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
           "jobReference": "JOB4444",
-          "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
           "_links": {
             "self": {
               "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
@@ -619,10 +619,10 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
           "advertiserId": "456",
           "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
           "jobReference": "JOB3333",
-          "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
           "_links": {
             "self": {
               "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
@@ -633,10 +633,10 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "e6e31b9c-3c2c-4b85-b17f-babbf7da972b",
           "advertiserId": "345",
           "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
           "jobReference": "JOB12345",
-          "id": "e6e31b9c-3c2c-4b85-b17f-babbf7da972b",
           "_links": {
             "self": {
               "href": "/advertisement/e6e31b9c-3c2c-4b85-b17f-babbf7da972b"
@@ -684,10 +684,10 @@ Ad Posting API will respond with:
     "_embedded": {
       "advertisements": [
         {
+          "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
           "advertiserId": "456",
           "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
           "jobReference": "JOB4444",
-          "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
           "_links": {
             "self": {
               "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
@@ -698,10 +698,10 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
           "advertiserId": "456",
           "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
           "jobReference": "JOB3333",
-          "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
           "_links": {
             "self": {
               "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
@@ -712,10 +712,10 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
           "advertiserId": "456",
           "jobTitle": "Exciting tester role in a great CBD location. Great $$",
           "jobReference": "JOB2222",
-          "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
           "_links": {
             "self": {
               "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d"
@@ -763,10 +763,10 @@ Ad Posting API will respond with:
     "_embedded": {
       "advertisements": [
         {
+          "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
           "advertiserId": "456",
           "jobTitle": "Exciting tester role in a great CBD location. Great $$",
           "jobReference": "JOB2222",
-          "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
           "_links": {
             "self": {
               "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d"
@@ -777,10 +777,10 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "f7302df2-704b-407c-a42a-62ff822b5461",
           "advertiserId": "456",
           "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
           "jobReference": "JOB1111",
-          "id": "f7302df2-704b-407c-a42a-62ff822b5461",
           "_links": {
             "self": {
               "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461"
@@ -791,10 +791,10 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "fa6939b5-c91f-4f6a-9600-1ea74963fbb2",
           "advertiserId": "123",
           "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
           "jobReference": "JOB1234",
-          "id": "fa6939b5-c91f-4f6a-9600-1ea74963fbb2",
           "_links": {
             "self": {
               "href": "/advertisement/fa6939b5-c91f-4f6a-9600-1ea74963fbb2"
@@ -839,10 +839,10 @@ Ad Posting API will respond with:
     "_embedded": {
       "advertisements": [
         {
+          "id": "f7302df2-704b-407c-a42a-62ff822b5461",
           "advertiserId": "456",
           "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
           "jobReference": "JOB1111",
-          "id": "f7302df2-704b-407c-a42a-62ff822b5461",
           "_links": {
             "self": {
               "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461"
@@ -1349,8 +1349,8 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "expiryDate": "2015-10-07T21:19:00Z",
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-10-07T21:19:00Z",
     "state": "Expired",
     "_links": {
       "self": {
@@ -1729,6 +1729,7 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
@@ -2086,9 +2087,9 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
-    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "_links": {
       "self": {
         "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
@@ -2162,9 +2163,9 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
-    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "_links": {
       "self": {
         "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
@@ -2413,8 +2414,8 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "expiryDate": "2015-10-07T21:19:00Z",
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-10-07T21:19:00Z",
     "state": "Expired",
     "_links": {
       "self": {
@@ -2569,9 +2570,9 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
-    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "_links": {
       "self": {
         "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
@@ -3299,8 +3300,8 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
-    "expiryDate": "2015-11-06T21:19:00Z",
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
       "self": {
