@@ -7,6 +7,8 @@ namespace SEEK.AdPostingApi.Client.Resources
 {
     public class AdvertisementSummaryResource : AdvertisementSummary, IResource
     {
+        public Guid Id { get; set; }
+
         [JsonIgnore]
         public Links Links { get; set; }
 

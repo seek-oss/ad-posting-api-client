@@ -35,7 +35,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task PostAdWithMinimumRequiredData()
+        public async Task PostAdWithRequiredFieldValuesOnly()
         {
             const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -46,7 +46,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a POST advertisement request to create a job ad with minimum required data")
+                .UponReceiving("a POST advertisement request to create a job ad with required field values only")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -75,6 +75,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         Body = new AdvertisementResponseContentBuilder(this.MinimumFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
+                            .WithId(advertisementId)
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
                             .Build()
@@ -90,6 +91,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.MinimumFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .Build();
 
@@ -97,7 +99,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task PostAdWithMaximumData()
+        public async Task PostAdWithRequiredAndOptionalFieldValues()
         {
             const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -108,7 +110,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a POST advertisement request to create a job ad with maximum required data")
+                .UponReceiving("a POST advertisement request to create a job ad with required and optional field values")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -137,6 +139,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
                             .WithState(AdvertisementState.Open.ToString())
+                            .WithId(advertisementId)
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
                             .Build()
@@ -152,6 +155,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .Build();
 
@@ -159,14 +163,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task PostAdWithWrongData()
+        public async Task PostAdWithInvalidFieldValues()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a POST advertisement request to create a job ad with bad data")
+                .UponReceiving("a POST advertisement request to create a job ad with invalid field values")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -814,6 +818,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "X-Request-Id", RequestId }
                         },
                         Body = new AdvertisementResponseContentBuilder(allFieldsWithGranularLocationInitializer)
+                            .WithId(advertisementId)
                             .WithState(AdvertisementState.Open.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
@@ -833,6 +838,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithGranularLocationInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithGranularLocationState(null)
                 .Build();

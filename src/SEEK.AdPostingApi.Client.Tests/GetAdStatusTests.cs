@@ -25,35 +25,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetExistingAdvertisementStatus()
+        public async Task GetExistingAdvertisementStatusUsingHalSelfLink()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
-                .UponReceiving("a HEAD advertisement request")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Head,
-                    Path = link,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
-                        { "Processing-Status", "Pending" }
-                    }
-                });
+            this.SetupPactForGettingExistingAdvertisementStatus(link, oAuth2Token);
 
             ProcessingStatus status;
 
@@ -63,6 +42,54 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             Assert.Equal(ProcessingStatus.Pending, status);
+        }
+
+        [Fact]
+        public async Task GetExistingAdvertisementStatusUsingHalTemplateWithAdvertisementId()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.SetupPactForGettingExistingAdvertisementStatus(link, oAuth2Token);
+
+            ProcessingStatus status;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                status = await client.GetAdvertisementStatusAsync(new Guid(advertisementId));
+            }
+
+            Assert.Equal(ProcessingStatus.Pending, status);
+        }
+
+        private void SetupPactForGettingExistingAdvertisementStatus(string link, OAuth2Token oAuth2Token)
+        {
+            this.Fixture.AdPostingApiService
+                .Given("There is a pending standout advertisement with maximum data")
+                .UponReceiving("a HEAD advertisement request")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Head,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}"}
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Content-Type", ResponseContentTypes.AdvertisementVersion1},
+                        {"Processing-Status", "Pending"}
+                    }
+                });
         }
 
         [Fact]

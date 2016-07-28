@@ -31,9 +31,8 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Theory]
-        [InlineData(LocationType.UseGranularLocation, "There is a pending standout advertisement with granular location data")]
-        [InlineData(LocationType.UseLocation, "There is a pending standout advertisement with maximum data")]
-        public async Task GetExistingAdvertisement(LocationType locationType, string givenStatement)
+        [MemberData(nameof(GetExistingAdvertisementTheoryData))]
+        public async Task GetExistingAdvertisementUsingHalSelfLink(LocationType locationType, string givenStatement)
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
 
@@ -42,7 +41,54 @@ namespace SEEK.AdPostingApi.Client.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             var builderInitializer = new AllFieldsInitializer(locationType);
-    
+
+            this.SetupPactForGettingExistingAdvertisement(givenStatement, link, oAuth2Token, builderInitializer, advertisementId, viewRenderedAdvertisementLink);
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
+            }
+
+            this.AssertRetrievedAdvertisementMatchesExpected(builderInitializer, advertisementId, result);
+        }
+
+        [Theory]
+        [MemberData(nameof(GetExistingAdvertisementTheoryData))]
+        public async Task GetExistingAdvertisementUsingHalTemplateWithAdvertisementId(LocationType locationType, string givenStatement)
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+
+            var builderInitializer = new AllFieldsInitializer(locationType);
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.SetupPactForGettingExistingAdvertisement(givenStatement, link, oAuth2Token, builderInitializer, advertisementId, viewRenderedAdvertisementLink);
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.GetAdvertisementAsync(new Guid(advertisementId));
+            }
+
+            this.AssertRetrievedAdvertisementMatchesExpected(builderInitializer, advertisementId, result);
+        }
+
+        public static IEnumerable<object[]> GetExistingAdvertisementTheoryData => new[]
+        {
+            new object[] {LocationType.UseGranularLocation, "There is a pending standout advertisement with granular location data"},
+            new object[] {LocationType.UseLocation, "There is a pending standout advertisement with maximum data"}
+        };
+
+        private void SetupPactForGettingExistingAdvertisement(string givenStatement, string link, OAuth2Token oAuth2Token, AllFieldsInitializer builderInitializer,
+            string advertisementId, string viewRenderedAdvertisementLink)
+        {
             this.Fixture.AdPostingApiService
                 .Given(givenStatement)
                 .UponReceiving("a GET advertisement request")
@@ -52,8 +98,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Path = link,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}"}
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -61,11 +107,12 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
-                        { "Processing-Status", "Pending" },
-                        { "X-Request-Id", RequestId }
+                        {"Content-Type", ResponseContentTypes.AdvertisementVersion1},
+                        {"Processing-Status", "Pending"},
+                        {"X-Request-Id", RequestId}
                     },
                     Body = new AdvertisementResponseContentBuilder(builderInitializer)
+                        .WithId(advertisementId)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithLink("self", link)
                         .WithLink("view", viewRenderedAdvertisementLink)
@@ -73,15 +120,12 @@ namespace SEEK.AdPostingApi.Client.Tests
                         .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
                         .Build()
                 });
+        }
 
-            AdvertisementResource result;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
-            }
-
+        private void AssertRetrievedAdvertisementMatchesExpected(AllFieldsInitializer builderInitializer, string advertisementId, AdvertisementResource result)
+        {
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(builderInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Pending)
                 .WithAgentId(null)
@@ -122,6 +166,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "X-Request-Id", RequestId }
                     },
                     Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
+                        .WithId(advertisementId)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithLink("self", link)
                         .WithLink("view", viewRenderedAdvertisementLink)
@@ -141,6 +186,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Pending)
                 .WithWarnings(
@@ -184,6 +230,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "X-Request-Id", RequestId }
                     },
                     Body = new AdvertisementResponseContentBuilder(this.MinimumFieldsInitializer)
+                        .WithId(advertisementId)
                         .WithState(AdvertisementState.Open.ToString())
                         .WithLink("self", link)
                         .WithLink("view", viewRenderedAdvertisementLink)
@@ -200,6 +247,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.MinimumFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Failed)
                 .WithErrors(new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" })

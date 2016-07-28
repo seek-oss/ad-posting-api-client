@@ -62,19 +62,19 @@
 
 * [A POST advertisement request to create a job ad with an invalid advertiser id](#a_POST_advertisement_request_to_create_a_job_ad_with_an_invalid_advertiser_id)
 
-* [A POST advertisement request to create a job ad with bad data](#a_POST_advertisement_request_to_create_a_job_ad_with_bad_data)
-
 * [A POST advertisement request to create a job ad with duplicated names for template custom fields](#a_POST_advertisement_request_to_create_a_job_ad_with_duplicated_names_for_template_custom_fields)
 
 * [A POST advertisement request to create a job ad with granular location](#a_POST_advertisement_request_to_create_a_job_ad_with_granular_location)
 
 * [A POST advertisement request to create a job ad with invalid advertisement details](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details)
 
+* [A POST advertisement request to create a job ad with invalid field values](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_field_values)
+
 * [A POST advertisement request to create a job ad with invalid salary data](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_salary_data)
 
-* [A POST advertisement request to create a job ad with maximum required data](#a_POST_advertisement_request_to_create_a_job_ad_with_maximum_required_data)
+* [A POST advertisement request to create a job ad with required and optional field values](#a_POST_advertisement_request_to_create_a_job_ad_with_required_and_optional_field_values)
 
-* [A POST advertisement request to create a job ad with minimum required data](#a_POST_advertisement_request_to_create_a_job_ad_with_minimum_required_data)
+* [A POST advertisement request to create a job ad with required field values only](#a_POST_advertisement_request_to_create_a_job_ad_with_required_field_values_only)
 
 * [A POST advertisement request to create a job ad with the same creation id 'CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184'](#a_POST_advertisement_request_to_create_a_job_ad_with_the_same_creation_id_&#39;CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184&#39;_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
 
@@ -88,7 +88,7 @@
 
 * [A PUT advertisement request for a non-existent advertisement](#a_PUT_advertisement_request_for_a_non-existent_advertisement)
 
-* [A PUT advertisement request for advertisement with bad data](#a_PUT_advertisement_request_for_advertisement_with_bad_data)
+* [A PUT advertisement request for advertisement with invalid field values](#a_PUT_advertisement_request_for_advertisement_with_invalid_field_values)
 
 * [A PUT advertisement request for advertisement with invalid salary data](#a_PUT_advertisement_request_for_advertisement_with_invalid_salary_data)
 
@@ -190,6 +190,7 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
@@ -285,6 +286,7 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
@@ -419,6 +421,7 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "id": "448b8474-6165-4eed-a5b5-d2bb52e471ef",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
@@ -520,6 +523,7 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
@@ -601,6 +605,7 @@ Ad Posting API will respond with:
     "_embedded": {
       "advertisements": [
         {
+          "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
           "advertiserId": "456",
           "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
           "jobReference": "JOB4444",
@@ -614,6 +619,7 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
           "advertiserId": "456",
           "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
           "jobReference": "JOB3333",
@@ -627,6 +633,7 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "e6e31b9c-3c2c-4b85-b17f-babbf7da972b",
           "advertiserId": "345",
           "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
           "jobReference": "JOB12345",
@@ -677,6 +684,7 @@ Ad Posting API will respond with:
     "_embedded": {
       "advertisements": [
         {
+          "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
           "advertiserId": "456",
           "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
           "jobReference": "JOB4444",
@@ -690,6 +698,7 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
           "advertiserId": "456",
           "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
           "jobReference": "JOB3333",
@@ -703,6 +712,7 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
           "advertiserId": "456",
           "jobTitle": "Exciting tester role in a great CBD location. Great $$",
           "jobReference": "JOB2222",
@@ -753,6 +763,7 @@ Ad Posting API will respond with:
     "_embedded": {
       "advertisements": [
         {
+          "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
           "advertiserId": "456",
           "jobTitle": "Exciting tester role in a great CBD location. Great $$",
           "jobReference": "JOB2222",
@@ -766,6 +777,7 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "f7302df2-704b-407c-a42a-62ff822b5461",
           "advertiserId": "456",
           "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
           "jobReference": "JOB1111",
@@ -779,6 +791,7 @@ Ad Posting API will respond with:
           }
         },
         {
+          "id": "fa6939b5-c91f-4f6a-9600-1ea74963fbb2",
           "advertiserId": "123",
           "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
           "jobReference": "JOB1234",
@@ -826,6 +839,7 @@ Ad Posting API will respond with:
     "_embedded": {
       "advertisements": [
         {
+          "id": "f7302df2-704b-407c-a42a-62ff822b5461",
           "advertiserId": "456",
           "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
           "jobReference": "JOB1111",
@@ -1335,6 +1349,7 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-10-07T21:19:00Z",
     "state": "Expired",
     "_links": {
@@ -1485,96 +1500,6 @@ Ad Posting API will respond with:
     "errors": [
       {
         "code": "InvalidValue"
-      }
-    ]
-  }
-}
-```
-<a name="a_POST_advertisement_request_to_create_a_job_ad_with_bad_data"></a>
-Upon receiving **a POST advertisement request to create a job ad with bad data** from Ad Posting API Client, with
-```json
-{
-  "method": "post",
-  "path": "/advertisement",
-  "headers": {
-    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
-  },
-  "body": {
-    "advertisementDetails": "Exciting, do I need to say more?",
-    "thirdParties": {
-      "advertiserId": "1"
-    },
-    "advertisementType": "StandOut",
-    "jobSummary": "Developer job",
-    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-    "location": {
-      "id": "EuropeRussia",
-      "areaId": "RussiaEasternEurope"
-    },
-    "salary": {
-      "minimum": -1.0,
-      "maximum": 119999.0,
-      "type": "AnnualPackage"
-    },
-    "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "creationId": "20150914-134527-00109",
-    "standout": {
-      "bullets": [
-        "new Uzi",
-        "new Remington Model!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-        "new AK-47"
-      ]
-    },
-    "applicationEmail": "someone(at)some.domain",
-    "applicationFormUrl": "htp://somecompany.domain/apply",
-    "template": {
-      "items": [
-        {
-          "name": "Template Line 1",
-          "value": "Template Value 1"
-        },
-        {
-          "name": "",
-          "value": "value2"
-        }
-      ]
-    }
-  }
-}
-```
-Ad Posting API will respond with:
-```json
-{
-  "status": 422,
-  "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "X-Request-Id": "PactRequestId"
-  },
-  "body": {
-    "message": "Validation Failure",
-    "errors": [
-      {
-        "field": "applicationEmail",
-        "code": "InvalidEmailAddress"
-      },
-      {
-        "field": "applicationFormUrl",
-        "code": "InvalidUrl"
-      },
-      {
-        "field": "salary.minimum",
-        "code": "ValueOutOfRange"
-      },
-      {
-        "field": "standout.bullets[1]",
-        "code": "MaxLengthExceeded"
-      },
-      {
-        "field": "template.items[1].name",
-        "code": "Required"
       }
     ]
   }
@@ -1804,6 +1729,7 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
@@ -1870,6 +1796,96 @@ Ad Posting API will respond with:
   }
 }
 ```
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_field_values"></a>
+Upon receiving **a POST advertisement request to create a job ad with invalid field values** from Ad Posting API Client, with
+```json
+{
+  "method": "post",
+  "path": "/advertisement",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": -1.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "creationId": "20150914-134527-00109",
+    "standout": {
+      "bullets": [
+        "new Uzi",
+        "new Remington Model!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+        "new AK-47"
+      ]
+    },
+    "applicationEmail": "someone(at)some.domain",
+    "applicationFormUrl": "htp://somecompany.domain/apply",
+    "template": {
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "",
+          "value": "value2"
+        }
+      ]
+    }
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 422,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "message": "Validation Failure",
+    "errors": [
+      {
+        "field": "applicationEmail",
+        "code": "InvalidEmailAddress"
+      },
+      {
+        "field": "applicationFormUrl",
+        "code": "InvalidUrl"
+      },
+      {
+        "field": "salary.minimum",
+        "code": "ValueOutOfRange"
+      },
+      {
+        "field": "standout.bullets[1]",
+        "code": "MaxLengthExceeded"
+      },
+      {
+        "field": "template.items[1].name",
+        "code": "Required"
+      }
+    ]
+  }
+}
+```
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_salary_data"></a>
 Upon receiving **a POST advertisement request to create a job ad with invalid salary data** from Ad Posting API Client, with
 ```json
@@ -1923,8 +1939,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_POST_advertisement_request_to_create_a_job_ad_with_maximum_required_data"></a>
-Upon receiving **a POST advertisement request to create a job ad with maximum required data** from Ad Posting API Client, with
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_required_and_optional_field_values"></a>
+Upon receiving **a POST advertisement request to create a job ad with required and optional field values** from Ad Posting API Client, with
 ```json
 {
   "method": "post",
@@ -2071,6 +2087,7 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
@@ -2084,8 +2101,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_POST_advertisement_request_to_create_a_job_ad_with_minimum_required_data"></a>
-Upon receiving **a POST advertisement request to create a job ad with minimum required data** from Ad Posting API Client, with
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_required_field_values_only"></a>
+Upon receiving **a POST advertisement request to create a job ad with required field values only** from Ad Posting API Client, with
 ```json
 {
   "method": "post",
@@ -2146,6 +2163,7 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
@@ -2396,6 +2414,7 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-10-07T21:19:00Z",
     "state": "Expired",
     "_links": {
@@ -2551,6 +2570,7 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
@@ -2606,8 +2626,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_PUT_advertisement_request_for_advertisement_with_bad_data"></a>
-Upon receiving **a PUT advertisement request for advertisement with bad data** from Ad Posting API Client, with
+<a name="a_PUT_advertisement_request_for_advertisement_with_invalid_field_values"></a>
+Upon receiving **a PUT advertisement request for advertisement with invalid field values** from Ad Posting API Client, with
 ```json
 {
   "method": "put",
@@ -3280,6 +3300,7 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {

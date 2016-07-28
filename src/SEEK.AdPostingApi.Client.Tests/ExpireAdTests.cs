@@ -45,7 +45,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task ExpireAdvertisement()
+        public async Task ExpireAdvertisementUsingHalSelfLink()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -53,6 +53,44 @@ namespace SEEK.AdPostingApi.Client.Tests
             string viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             DateTime expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc);
 
+            this.SetupPactForExpiringExistingAdvertisement(link, oAuth2Token, advertisementId, viewRenderedAdvertisementLink, expiryDate);
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
+            }
+
+            this.AssertReturnedAdvertisementMatchesExpectedExpiredAdvertisement(advertisementId, expiryDate, result);
+        }
+
+        [Fact]
+        public async Task ExpireAdvertisementUsingHalTemplateWithAdvertisementId()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            string link = $"{AdvertisementLink}/{advertisementId}";
+            string viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            DateTime expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc);
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.SetupPactForExpiringExistingAdvertisement(link, oAuth2Token, advertisementId, viewRenderedAdvertisementLink, expiryDate);
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.ExpireAdvertisementAsync(new Guid(advertisementId));
+            }
+
+            this.AssertReturnedAdvertisementMatchesExpectedExpiredAdvertisement(advertisementId, expiryDate, result);
+        }
+
+        private void SetupPactForExpiringExistingAdvertisement(
+            string link, OAuth2Token oAuth2Token, string advertisementId, string viewRenderedAdvertisementLink, DateTime expiryDate)
+        {
             this.Fixture.AdPostingApiService
                 .Given("There is a pending standout advertisement with maximum data")
                 .UponReceiving("a PATCH advertisement request to expire an advertisement")
@@ -63,9 +101,9 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Path = link,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                            { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", this._acceptHeader }
+                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                            {"Content-Type", RequestContentTypes.AdvertisementPatchVersion1},
+                            {"Accept", this._acceptHeader}
                         },
                         Body = new[]
                         {
@@ -84,10 +122,11 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Status = 202,
                         Headers = new Dictionary<string, string>
                         {
-                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
-                            { "X-Request-Id", RequestId }
+                            {"Content-Type", ResponseContentTypes.AdvertisementVersion1},
+                            {"X-Request-Id", RequestId}
                         },
                         Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
+                            .WithId(advertisementId)
                             .WithState(AdvertisementState.Expired.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
@@ -96,15 +135,12 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
                             .Build()
                     });
+        }
 
-            AdvertisementResource result;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                result = await client.ExpireAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
-            }
-
+        private void AssertReturnedAdvertisementMatchesExpectedExpiredAdvertisement(string advertisementId, DateTime expiryDate, AdvertisementResource result)
+        {
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithState(AdvertisementState.Expired)
                 .WithExpiryDate(expiryDate)
@@ -150,6 +186,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "X-Request-Id", RequestId }
                         },
                         Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
+                            .WithId(advertisementId)
                             .WithState(AdvertisementState.Expired.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
@@ -177,6 +214,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithState(AdvertisementState.Expired)
                 .WithExpiryDate(expiryDate)
