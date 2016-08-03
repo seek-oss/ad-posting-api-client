@@ -1,61 +1,66 @@
 # SEEK's Job Ad Posting API Client
-This is a .NET version of SEEK's Job Ad Posting API Client. It comprises of the following three projects:
-* SEEK.AdPostingApi.Client: the source code of the client
-* SEEK.AdPostingApi.SampleConsumer: the sample code using the client to make requests against Ad Posting API
-* SEEK.AdPostingApi.Client.Tests: the pact tests for Ad Posting API using the client
 
+## What It Is
+1. A .NET version of SEEK's Job Ad Posting API Client which can be installed via [NuGet](https://www.nuget.org/packages/SEEK.AdPostingApi.Client).
+2. It comprises of the following three projects:
+    1. *SEEK.AdPostingApi.Client* - Source code of the API client
+    2. *SEEK.AdPostingApi.SampleConsumer* - Example code using the API client to make requests to the Job Ad Posting API
+    3. *SEEK.AdPostingApi.Client.Tests* - Contract (PACT) tests between the API client and the Job Ad Posting API.
 
-## Build your consumer
+## What It Does
+1. Exchanges the OAuth 2.0 credentials (client key and client secret) for an OAuth 2.0 access token.
+2. Using the OAuth 2.0 access token:
+    1. Retrieves the API links from the Job Ad Posting API.
+    2. Depending on the operation (create, update, retrieve or expire):
+        1. Builds the appropriate API link for the operation.
+        2. Makes the appropriate request to the API.
 
-### Install the client
-Via Nuget with [Install-Package SEEK.AdPostingApi.Client -Pre](https://www.nuget.org/packages/SEEK.AdPostingApi.Client/)
+## Resources
 
-### Input values
+1. [Job Ad Posting API Documentation](https://devportal.seek.com.au)
+2. [NuGet Package](https://www.nuget.org/packages/SEEK.AdPostingApi.Client)
+3. [Release Notes](https://github.com/SEEK-Jobs/ad-posting-api-client/releases)
+4. [Contract (PACT) Between the API Client and the Job Ad Posting API](https://github.com/SEEK-Jobs/ad-posting-api-client/blob/master/pact/README.md)
+
+## Usage
+
+### Install the API Client
+Via NuGet with `Install-Package SEEK.AdPostingApi.Client`
+
+### Initializing the API Client
 To initialize a client, the following values are needed:
 * **Client Key** [Required]: the client key for getting an OAuth 2 access token
 * **Client Secret** [Required]: the client secret for getting an OAuth 2 access token
 * **Environment** [Optional]: the environment to which your consumer will integrate with, either "Integration" or "Production" can be supplied. Without supplying anything, "Production" will be used by default.
 * **AdPostingApiBaseUrl** [Optional]: the URL of the Job Ad Posting API. Without supplying anything, the Production URL will be used by default.
 
-### Construct a client to make API calls
-A job ad posting request may look something like this.
+### Example Code: Construct an API Client to Create a Job Advertisement
 
 ```c#
-            IAdPostingApiClient postingClient = new AdPostingApiClient("<client id>", "<client secret>", Environment.Integration);
+IAdPostingApiClient postingClient = new AdPostingApiClient("<client id>", "<client secret>", Environment.Integration);
 
-            var ad = new Advertisement
-            {
-                CreationId = "Sample Consumer 20151001 114732 1234567",
-                ThirdParties = new ThirdParties { AdvertiserId = "Advertiser Id" },
-                JobTitle = "A Job Title",
-                JobSummary = "Job summary of the job ad",
-                AdvertisementDetails = "Experience Required",
-                AdvertisementType = AdvertisementType.Classic,
-                WorkType = WorkType.Casual,
-                Salary = new Salary
-                {
-                    Type = SalaryType.HourlyRate,
-                    Minimum = 20,
-                    Maximum = 24
-                },
-                Location = new Location
-                {
-                    Id = "Melbourne",
-                    AreaId = "MelbourneNorthernSuburbs"
-                },
-                SubclassificationId = "AerospaceEngineering"
-            };
+var ad = new Advertisement
+{
+    CreationId = "Sample Consumer 20151001 114732 1234567",
+    ThirdParties = new ThirdParties { AdvertiserId = "Advertiser Id" },
+    JobTitle = "A Job Title",
+    JobSummary = "Job summary of the job ad",
+    AdvertisementDetails = "Experience Required",
+    AdvertisementType = AdvertisementType.Classic,
+    WorkType = WorkType.Casual,
+    Salary = new Salary
+    {
+        Type = SalaryType.HourlyRate,
+        Minimum = 20,
+        Maximum = 24
+    },
+    Location = new Location
+    {
+        Id = "Melbourne",
+        AreaId = "MelbourneNorthernSuburbs"
+    },
+    SubclassificationId = "AerospaceEngineering"
+};
 
-            AdvertisementResource advertisement = await postingClient.CreateAdvertisementAsync(ad);
+AdvertisementResource advertisement = await postingClient.CreateAdvertisementAsync(ad);
 ```
-
-## What does the client do
-Take the posting request as an example, when the "CreateAdvertisementAsync" method is called, the following actions will be taken:
- 1. It takes the OAuth 2.0 credentials (client key and client secret) to obtain an OAuth2 access token
- 2. It takes the OAuth2 access token to get all the available links and identify which one to use to create a job ad
- 3. It then takes the OAuth2 access token, the link (from step 2) and the job ad object to make a request to the create the job ad 
- 4. Other operations like update, retrieve, and expire job ad are also available.
-
-## API document
-* [SEEK OAuth 2](http://docs.oauth2seek.apiary.io/#)
-* [Job Ad Posting API](http://docs.adposting.apiary.io/#)

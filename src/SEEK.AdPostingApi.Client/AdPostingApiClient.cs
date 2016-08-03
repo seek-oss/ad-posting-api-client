@@ -28,7 +28,7 @@ namespace SEEK.AdPostingApi.Client
         {
             this._ensureIndexResourceInitialised = new Lazy<Task>(() => this.InitialiseIndexResource(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             this._tokenClient = tokenClient;
-            this._client = new Hal.Client(new HttpClient(new OAuthMessageHandler(tokenClient)));
+            this._client = new Hal.Client(new HttpClient(new AdPostingApiMessageHandler(new OAuthMessageHandler(tokenClient))));
         }
 
         private Task EnsureIndexResourceInitialised()

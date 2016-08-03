@@ -36,7 +36,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + AccessTokens.InvalidAccessToken },
-                        { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -73,7 +74,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + AccessTokens.ValidAccessToken_InvalidService },
-                        { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse

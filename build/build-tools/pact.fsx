@@ -48,12 +48,17 @@ let private changeCharsToDash text (chars:string) =
     ) text (chars.ToCharArray())
 
 let PublishPact (version:string[], branchName:string) pactfiles =
+    let pactVersionText = pactVersionFromVersion version
+    let pactBranchTag = changeCharsToDash branchName "/"
+
     pactfiles |>
         Seq.iter(fun file ->
             let pactContent = File.ReadAllText(file)
             let pact = deserialisePact(pactContent)
-            let url = sprintf "%s/pacts/provider/%s/consumer/%s/version/%s" pactBroker Uri.EscapeDataString(pact.provider.name) Uri.EscapeDataString(pact.consumer.name) (pactVersionFromVersion version)
-            let tagUrl = sprintf "%s/pacticipants/%s/versions/%s/tags/%s" pactBroker Uri.EscapeDataString(pact.consumer.name) (pactVersionFromVersion version) Uri.EscapeDataString(changeCharsToDash branchName "/")
+            let url = sprintf "%s/pacts/provider/%s/consumer/%s/version/%s" pactBroker (Uri.EscapeDataString pact.provider.name) (Uri.EscapeDataString pact.consumer.name) pactVersionText
+            let tagUrl = sprintf "%s/pacticipants/%s/versions/%s/tags/%s" pactBroker (Uri.EscapeDataString pact.consumer.name) pactVersionText (Uri.EscapeDataString pactBranchTag)
+
+            trace (sprintf "##teamcity[message text='Publishing PACT %s <==> %s version %s with tag %s']" pact.provider.name pact.consumer.name pactVersionText pactBranchTag)
 
             let request = WebRequest.Create url
             request.ContentType <- "application/json"

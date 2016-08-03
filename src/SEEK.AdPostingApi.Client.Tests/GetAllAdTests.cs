@@ -45,7 +45,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -109,7 +110,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -239,7 +241,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -301,7 +304,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(oAuth2Token));
             AdvertisementSummaryPageResource nextPageResource;
 
-            using (var client = new Hal.Client(new HttpClient(new OAuthMessageHandler(oAuthClient))))
+            using (var client = new Hal.Client(new HttpClient(new AdPostingApiMessageHandler(new OAuthMessageHandler(oAuthClient)))))
             {
                 pageResource.Initialise(client);
 
@@ -408,7 +411,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -539,7 +543,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -585,7 +590,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(oAuth2Token));
             AdvertisementSummaryPageResource nextPageResource;
 
-            using (var client = new Hal.Client(new HttpClient(new OAuthMessageHandler(oAuthClient))))
+            using (var client = new Hal.Client(new HttpClient(new AdPostingApiMessageHandler(new OAuthMessageHandler(oAuthClient)))))
             {
                 pageResource.Initialise(client);
 
@@ -638,7 +643,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -691,7 +697,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
