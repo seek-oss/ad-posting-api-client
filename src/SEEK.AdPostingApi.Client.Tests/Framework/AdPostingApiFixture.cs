@@ -11,8 +11,14 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AdPostingApiFixture : IDisposable
     {
+        public const string UserAgentProductName = "SEEK.AdPostingApi.Client";
+        public const string UserAgentProductVersion = "0.15.630.1108";
+        public const string UserAgentHeaderValue = UserAgentProductName + "/" + UserAgentProductVersion;
+
         static AdPostingApiFixture()
         {
+            AdPostingApiMessageHandler.SetProductVersion(UserAgentProductVersion);
+
             // See https://github.com/dennisdoomen/fluentassertions/issues/305 - ShouldBeEquivalentTo fails with objects from the System namespace.
             // Due to this, we need to change the IsValueType predicate so that it does not assume System.Exception and derivatives of it in the System namespace are value types.
             AssertionOptions.IsValueType = type => (type.Namespace == typeof(int).Namespace) && !(type == typeof(Exception) || type.IsSubclassOf(typeof(Exception)));
@@ -54,7 +60,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     Headers = new Dictionary<string, string>
                     {
                         { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
-                        { "Authorization", $"Bearer {token.AccessToken}" }
+                        { "Authorization", $"Bearer {token.AccessToken}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse

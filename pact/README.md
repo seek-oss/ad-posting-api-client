@@ -114,7 +114,8 @@ Given **there is a pending standout advertisement with granular location data**,
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -212,7 +213,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -308,7 +310,8 @@ Upon receiving **a GET advertisement request for a non-existent advertisement** 
   "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -329,7 +332,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -359,7 +363,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -389,7 +394,8 @@ Given **there is a failed classic advertisement**, upon receiving **a GET advert
   "path": "/advertisement/448b8474-6165-4eed-a5b5-d2bb52e471ef",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -449,7 +455,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -555,7 +562,8 @@ Given **there are no advertisements**, upon receiving **a GET advertisements req
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -589,7 +597,8 @@ Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET
   "path": "/advertisement",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -668,7 +677,8 @@ Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET
   "query": "advertiserId=456",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -747,7 +757,8 @@ Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET
   "query": "beforeId=6",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -823,7 +834,8 @@ Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET
   "query": "advertiserId=456&beforeId=5",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -871,7 +883,8 @@ Upon receiving **a GET advertisements request to retrieve all advertisements for
   "query": "advertiserId=7d31d9b4-d922-43ef-9e88-f7b507ceea88",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -902,7 +915,8 @@ Upon receiving **a GET advertisements request to retrieve all advertisements for
   "query": "advertiserId=874392",
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -932,7 +946,8 @@ Upon receiving **a GET index request that is unauthorised to retrieve API links*
   "path": "",
   "headers": {
     "Authorization": "Bearer baaa1b4f-0dfd-4d80-a871-64fb78716667",
-    "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -953,7 +968,8 @@ Upon receiving **a GET index request to retrieve API links with an invalid acces
   "path": "",
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-feed-faceb0bb1e",
-    "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -974,7 +990,8 @@ Upon receiving **a GET index request to retrieve API links with Bearer a4f2aab5-
   "path": "",
   "headers": {
     "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6"
+    "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -1007,7 +1024,8 @@ Upon receiving **a GET index request to retrieve API links with Bearer b635a7ea-
   "path": "",
   "headers": {
     "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e"
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -1040,7 +1058,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -1062,7 +1081,8 @@ Upon receiving **a HEAD advertisement request for a non-existent advertisement**
   "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -1083,7 +1103,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -1104,7 +1125,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   }
 }
 ```
@@ -1126,7 +1148,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
     "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": [
     {
@@ -1164,7 +1187,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
     "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": [
     {
@@ -1202,7 +1226,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
     "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": [
     {
@@ -1240,7 +1265,8 @@ Upon receiving **a PATCH advertisement request to expire a non-existent advertis
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": [
     {
@@ -1269,7 +1295,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": [
     {
@@ -1372,7 +1399,8 @@ Given **there is an expired advertisement**, upon receiving **a PATCH advertisem
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": [
     {
@@ -1410,7 +1438,8 @@ Given **the requestor's account is disabled**, upon receiving **a POST advertise
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1462,7 +1491,8 @@ Upon receiving **a POST advertisement request to create a job ad with an invalid
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1514,7 +1544,8 @@ Upon receiving **a POST advertisement request to create a job ad with duplicated
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1587,7 +1618,8 @@ Upon receiving **a POST advertisement request to create a job ad with granular l
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1752,7 +1784,8 @@ Upon receiving **a POST advertisement request to create a job ad with invalid ad
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element",
@@ -1805,7 +1838,8 @@ Upon receiving **a POST advertisement request to create a job ad with invalid fi
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1895,7 +1929,8 @@ Upon receiving **a POST advertisement request to create a job ad with invalid sa
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -1948,7 +1983,8 @@ Upon receiving **a POST advertisement request to create a job ad with required a
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2110,7 +2146,8 @@ Upon receiving **a POST advertisement request to create a job ad with required f
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2186,7 +2223,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2230,7 +2268,8 @@ Upon receiving **a POST advertisement request to create a job ad without a creat
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2282,7 +2321,8 @@ Upon receiving **a POST advertisement request to create a job for an advertiser 
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2334,7 +2374,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": [
     {
@@ -2437,7 +2478,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2593,7 +2635,8 @@ Upon receiving **a PUT advertisement request for a non-existent advertisement** 
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "This advertisement should not exist.",
@@ -2635,7 +2678,8 @@ Upon receiving **a PUT advertisement request for advertisement with invalid fiel
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2724,7 +2768,8 @@ Upon receiving **a PUT advertisement request for advertisement with invalid sala
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2776,7 +2821,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2870,7 +2916,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -2964,7 +3011,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -3058,7 +3106,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -3109,7 +3158,8 @@ Given **there is an expired advertisement**, upon receiving **a PUT advertisemen
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
@@ -3160,7 +3210,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
   "headers": {
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",

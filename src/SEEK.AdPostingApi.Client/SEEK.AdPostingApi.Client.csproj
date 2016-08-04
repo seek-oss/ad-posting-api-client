@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdPostingApiClient.cs" />
+    <Compile Include="AdPostingApiMessageHandler.cs" />
     <Compile Include="AdvertisementNotFoundException.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="EnvironmentUrlAttribute.cs" />

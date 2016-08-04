@@ -101,9 +101,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Path = link,
                         Headers = new Dictionary<string, string>
                         {
-                            {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                            {"Content-Type", RequestContentTypes.AdvertisementPatchVersion1},
-                            {"Accept", this._acceptHeader}
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
+                            { "Accept", this._acceptHeader },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new[]
                         {
@@ -171,7 +172,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", this._acceptHeader }
+                            { "Accept", this._acceptHeader },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = this._expireRequest
                     }
@@ -243,7 +245,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", this._acceptHeader }
+                            { "Accept", this._acceptHeader },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new[]
                         {
@@ -310,7 +313,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", this._acceptHeader }
+                            { "Accept", this._acceptHeader },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new[]
                         {
@@ -360,7 +364,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", this._acceptHeader }
+                            { "Accept", this._acceptHeader },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new[]
                         {
@@ -426,7 +431,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", this._acceptHeader }
+                            { "Accept", this._acceptHeader },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new[]
                         {
@@ -502,7 +508,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
-                            { "Accept", acceptHeader }
+                            { "Accept", acceptHeader },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = requestBody
                     }
@@ -549,6 +556,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             request.Headers.Accept.Clear();
             request.Headers.Accept.ParseAdd(this._acceptHeader);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            request.Headers.UserAgent.Add(new ProductInfoHeaderValue(AdPostingApiFixture.UserAgentProductName, AdPostingApiFixture.UserAgentProductVersion));
 
             return request;
         }

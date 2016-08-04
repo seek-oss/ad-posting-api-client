@@ -26,7 +26,7 @@ let private deserialiseVersion (s:string) =
     let stream = new MemoryStream(byteArray)
     json.ReadObject(stream) :?> Version
 
-let private removeBranchPrefix (branchName:string) =
+let private removeBranchPrefix (branchName: string) =
     let slashIndex = branchName.LastIndexOf('/')
 
     if slashIndex = -1 then branchName else branchName.Substring(slashIndex + 1)
@@ -43,25 +43,17 @@ let private getBuildVarsLocal _ =
     { branch = branch; gitHash = gitHash }
 
 let private getBuildVarsTeamcity _ =
-    if environVar "SEEK_TEAMCITY_VCSROOT_URL" = null || environVar "SEEK_TEAMCITY_VCSROOT_BRANCH" = null then failwith "One of the required variables (SEEK_TEAMCITY_VCSROOT_URL, SEEK_TEAMCITY_VCSROOT_BRANCH) is not defined. Did you forget to attach 'Template: Build | Upload v2' template? There is a jive page containing how to migrate builds. https://seek.jiveon.com/docs/DOC-9633"
+    if environVar "BUILD_VCS_NUMBER" = null || environVar "SEEK_TEAMCITY_VCSROOT_BRANCH" = null then failwith "One of the required variables (BUILD_VCS_NUMBER, SEEK_TEAMCITY_VCSROOT_BRANCH) is not defined"
 
     let gitHash = (environVar "BUILD_VCS_NUMBER").[0..6]
-    let branch = removeBranchPrefix (environVar "SEEK_TEAMCITY_VCSROOT_BRANCH")
+    let branch = removeBranchPrefix ( environVar "SEEK_TEAMCITY_VCSROOT_BRANCH")
 
     { branch = branch; gitHash = gitHash }
 
-let generateVersionNumber =
+let generatePactVersionNumber =
     let buildVars = if System.String.IsNullOrEmpty(environVar "TEAMCITY_VERSION") then getBuildVarsLocal() else getBuildVarsTeamcity()
     let buildNumber = environVarOrDefault "BUILD_NUMBER" "0"
     let version = deserialiseVersion(File.ReadAllText("./version.json"))
     let date = DateTime.Now.ToString("yyMMdd")
 
     [| buildVars.branch; version.major; version.minor; date; buildNumber; buildVars.gitHash |]
-
-let generateNugetVersion =
-    let buildNumber = environVarOrDefault "BUILD_NUMBER" "0"
-    let version = deserialiseVersion(File.ReadAllText("./version.json"))
-    let date = DateTime.Now.ToString("yyMMdd")
-    let nugetVersion = [ version.major; version.minor; date; buildNumber] |> String.concat "."
-    
-    nugetVersion
