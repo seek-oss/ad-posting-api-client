@@ -15,7 +15,8 @@
         "headers": {
           "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
           "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": [
           {
@@ -49,7 +50,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": [
           {
@@ -75,7 +77,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": [
           {
@@ -110,7 +113,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": [
           {
@@ -210,7 +214,8 @@
         "headers": {
           "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
           "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": [
           {
@@ -245,7 +250,8 @@
         "headers": {
           "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
           "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": [
           {
@@ -278,7 +284,8 @@
         "path": "/",
         "headers": {
           "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e"
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -309,7 +316,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": [
           {
@@ -408,7 +416,8 @@
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
         "headers": {
           "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -426,7 +435,8 @@
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -445,7 +455,8 @@
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
         "headers": {
           "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -462,7 +473,8 @@
         "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -481,7 +493,8 @@
         "query": "advertiserId=456",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -555,7 +568,8 @@
         "path": "/",
         "headers": {
           "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6"
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -585,7 +599,8 @@
         "query": "advertiserId=874392",
         "headers": {
           "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -613,7 +628,8 @@
         "query": "beforeId=6",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -685,7 +701,8 @@
         "path": "/advertisement",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -715,7 +732,8 @@
         "query": "advertiserId=456&beforeId=5",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -759,7 +777,8 @@
         "path": "/advertisement",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -834,7 +853,8 @@
         "query": "advertiserId=7d31d9b4-d922-43ef-9e88-f7b507ceea88",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -861,7 +881,8 @@
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
         "headers": {
           "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -888,7 +909,8 @@
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -991,7 +1013,8 @@
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -1084,7 +1107,8 @@
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -1179,7 +1203,8 @@
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
         "headers": {
           "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -1206,7 +1231,8 @@
         "path": "/advertisement/448b8474-6165-4eed-a5b5-d2bb52e471ef",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -1262,7 +1288,8 @@
         "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -1279,7 +1306,8 @@
         "path": "/",
         "headers": {
           "Authorization": "Bearer ca11ab1e-c0de-b10b-feed-faceb0bb1e",
-          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -1296,7 +1324,8 @@
         "path": "/",
         "headers": {
           "Authorization": "Bearer baaa1b4f-0dfd-4d80-a871-64fb78716667",
-          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         }
       },
       "response": {
@@ -1314,7 +1343,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1475,7 +1505,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element",
@@ -1524,7 +1555,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1593,7 +1625,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1641,7 +1674,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1689,7 +1723,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1761,7 +1796,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1920,7 +1956,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -1961,7 +1998,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2009,7 +2047,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2095,7 +2134,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2144,7 +2184,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2193,7 +2234,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2241,7 +2283,8 @@
         "headers": {
           "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2332,7 +2375,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2485,7 +2529,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2533,7 +2578,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2623,7 +2669,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "This advertisement should not exist.",
@@ -2662,7 +2709,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2822,7 +2870,8 @@
         "headers": {
           "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2912,7 +2961,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
@@ -2997,7 +3047,8 @@
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8"
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
         },
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
