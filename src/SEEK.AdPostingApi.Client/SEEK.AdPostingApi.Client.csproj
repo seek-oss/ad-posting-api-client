@@ -54,10 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdPostingApiClient.cs" />
+    <Compile Include="AdPostingApiMessageHandler.cs" />
     <Compile Include="AdvertisementNotFoundException.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="EnvironmentUrlAttribute.cs" />
-    <Compile Include="AdvertisementAlreadyExistsException.cs" />
+    <Compile Include="CreationIdAlreadyExistsException.cs" />
     <Compile Include="Hal\EmbeddedAttribute.cs" />
     <Compile Include="Hal\IResource.cs" />
     <Compile Include="Hal\Links.cs" />

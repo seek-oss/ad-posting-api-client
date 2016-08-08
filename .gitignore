@@ -7,3 +7,4 @@ out/
 pact/
 src/packages
 .fake/
+*.csproj.user

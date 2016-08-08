@@ -78,7 +78,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
-                        {"Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}"}
+                        {"Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}"},
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -109,7 +110,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -147,7 +149,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -188,7 +191,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     }
                 })
                 .WillRespondWith(

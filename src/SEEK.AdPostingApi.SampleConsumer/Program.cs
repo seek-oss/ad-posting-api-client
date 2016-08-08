@@ -70,7 +70,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     createResult = CreateResult.Created;
                     break;
                 }
-                catch (AdvertisementAlreadyExistsException ex)
+                catch (CreationIdAlreadyExistsException ex)
                 {
                     advertisementLink = ex.AdvertisementLink;
                     createResult = CreateResult.AlreadyExists;

@@ -5,19 +5,19 @@ open System.IO
 open Fake.VSTest
 
 let nugetPath = findNuget (".." @@ ".nuget")
+let apiClientBuildNumber = environVarOrDefault "BUILD_NUMBER" "0"
+let apiClientVersion = getBuildParamOrDefault "API_CLIENT_VERSION" (sprintf "0.0.%s" apiClientBuildNumber)
+let apiClientVersionSuffix = getBuildParamOrDefault "API_CLIENT_VERSION_SUFFIX" ""
 let branchName = getBuildParamOrDefault "branch" "master"
 let outputDir = "../out"
 let pactDir = "../pact"
 let srcDir = "../src"
-let version = generateVersionNumber
+let pactVersion = generatePactVersionNumber
 let solutionDir = srcDir + "/SEEK.AdPostingApi.Client.sln"
 let testDir = srcDir + "/SEEK.AdPostingApi.Client.Tests"
 let clientDir = srcDir + "/SEEK.AdPostingApi.Client"
-let nugetVersion = environVarOrDefault "NugetVersion" generateNugetVersion
+let assemblyInfoFile = clientDir + "/Properties/AssemblyInfo.cs"
 let packagingRoot = outputDir + "/artifacts"
-
-trace (sprintf "branch name set to " + branchName)
-trace (sprintf "##teamcity[setParameter name='VERSION' value='%s']" (version |> String.concat "."))
 
 Target "Clean" (fun _ ->
     CleanDirs [outputDir; pactDir; testDir + @"/bin/"]
@@ -31,7 +31,14 @@ Target "RestorePackages" (fun _ ->
              OutputPath = srcDir + "/packages"
              Retries = 4 })
 )
- 
+
+Target "UpdateVersion" (fun _ ->
+    let replaceInfoVersion = [
+        ( "\"0.15.630.1108-commitHashPlaceholder-commitBranchPlaceholder\"", ("\"" + apiClientVersion + apiClientVersionSuffix + "\""));
+        ( "\"0.15.630.1108\"", ("\"" + apiClientVersion + "\"")) ]
+    ReplaceInFiles replaceInfoVersion [ assemblyInfoFile ]
+)
+
 Target "Build" (fun _ ->
     !! solutionDir
       |> MSBuildRelease "" "Build"
@@ -44,6 +51,7 @@ Target "Test" (fun _ ->
 )
 
 Target "NuGet" (fun _ ->
+    let nugetVersion = apiClientVersion + apiClientVersionSuffix
     CreateDir packagingRoot
 
     NuGet (fun p -> 
@@ -55,6 +63,8 @@ Target "NuGet" (fun _ ->
             Files = [ (@"bin/Release/SEEK.AdPostingApi.Client.dll", Some "lib/net452", None) ]
             Publish = false }) 
             (srcDir + "/SEEK.AdPostingApi.Client/SEEK.AdPostingApi.Client.nuspec")
+
+    trace (sprintf "##teamcity[buildNumber '%s']" nugetVersion)
 )
 
 Target "PactMarkdown" (fun _ ->
@@ -69,15 +79,20 @@ Target "PactMarkdown" (fun _ ->
 )
 
 Target "UploadPact" (fun _ ->
-   (!! (pactDir + "/*.json")) |> PublishPact (version, branchName)
+    (!! (pactDir + "/*.json")) |> PublishPact (pactVersion, branchName)
 )
 
 "Clean"
    ==> "RestorePackages"
+   ==> "UpdateVersion"
    ==> "Build"
    ==> "Test"
-   ==> "NuGet"
+
+"Test"
    ==> "PactMarkdown"
    ==> "UploadPact"
+
+"Test"
+   ==> "NuGet"
 
 RunTargetOrDefault "NuGet"

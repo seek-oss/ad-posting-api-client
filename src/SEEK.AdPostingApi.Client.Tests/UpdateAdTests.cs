@@ -93,7 +93,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         {"Authorization", "Bearer " + oAuth2Token.AccessToken},
                         {"Content-Type", RequestContentTypes.AdvertisementVersion1},
-                        {"Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}"}
+                        {"Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}"},
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
                         .WithAgentId(null)
@@ -161,7 +162,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                         .WithAdvertisementDetails("This advertisement should not exist.")
@@ -206,7 +208,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                         .WithSalaryMinimum(-1.0)
@@ -298,7 +301,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                         .WithSalaryMinimum(2.0)
@@ -364,7 +368,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
                             .WithAdvertiserId("99887766")
@@ -427,7 +432,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new AdvertisementContentBuilder(this.AllFieldsInitializer).Build()
                     }
@@ -486,7 +492,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
                             .Build()
@@ -546,7 +553,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithAdvertisementType(AdvertisementType.Classic.ToString())
@@ -609,7 +617,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
-                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer).Build()
                     }
@@ -671,7 +680,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" }
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(allFieldsWithGranularLocationInitializer)
                         .Build()

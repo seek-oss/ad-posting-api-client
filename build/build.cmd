@@ -12,6 +12,12 @@ set RubyPackage=%RubyVersion%.7z
 if not exist "%FakePath%" "%NuGetPath%" Install FAKE -Version 4.26.0 -OutputDirectory "%PackagesDir%" -ExcludeVersion
 if errorlevel 1 goto :end
 
+if "%1" equ "UploadPact" goto :doPactPrep
+if "%1" equ "PactMarkdown" goto :doPactPrep
+goto :dobuild
+
+:doPactPrep
+
 if not exist "%PackagesDir%\7-Zip.CommandLine" "%NuGetPath%" Install 7-Zip.CommandLine -Version 9.20.0 -OutputDirectory "%PackagesDir%" -ExcludeVersion
 if errorlevel 1 goto :end
 
@@ -24,9 +30,12 @@ if errorlevel 1 goto :end
 cmd /c "%PackagesDir%\%RubyVersion%\bin\gem" install pact:1.9.1
 if errorlevel 1 goto :end
 
-if "%1" equ "UploadPact" set branch=--envvar branch %2
+set branch=--envvar branch %2
 
 set PATH=%PackagesDir%\%RubyVersion%\bin;%PATH%
+
+:dobuild
+
 "%FakePath%" build.fsx %1 --nocache %branch%
 if errorlevel 1 goto :end
 endlocal
