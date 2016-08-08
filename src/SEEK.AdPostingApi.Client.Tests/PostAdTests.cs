@@ -501,19 +501,30 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Headers = new Dictionary<string, string>
                         {
                             { "Location", location },
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
+                        },
+                        Body = new
+                        {
+                            message = "Conflict",
+                            errors = new[] { new { field = "creationId", code = "AlreadyExists" } }
                         }
                     });
 
-            AdvertisementAlreadyExistsException actualException;
+            CreationIdAlreadyExistsException actualException;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                actualException = await Assert.ThrowsAsync<AdvertisementAlreadyExistsException>(
+                actualException = await Assert.ThrowsAsync<CreationIdAlreadyExistsException>(
                     async () => await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(this.MinimumFieldsInitializer).WithRequestCreationId(creationId).Build()));
             }
 
-            var expectedException = new AdvertisementAlreadyExistsException(RequestId, new Uri(location));
+            var expectedException = new CreationIdAlreadyExistsException(RequestId, new Uri(location),
+                new AdvertisementErrorResponse
+                {
+                    Message = "Conflict",
+                    Errors = new[] { new AdvertisementError { Field = "creationId", Code = "AlreadyExists" } }
+                });
 
             actualException.ShouldBeEquivalentToException(expectedException);
         }

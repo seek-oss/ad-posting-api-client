@@ -2255,7 +2255,17 @@ Ad Posting API will respond with:
   "status": 409,
   "headers": {
     "Location": "http://localhost/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
     "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "message": "Conflict",
+    "errors": [
+      {
+        "field": "creationId",
+        "code": "AlreadyExists"
+      }
+    ]
   }
 }
 ```

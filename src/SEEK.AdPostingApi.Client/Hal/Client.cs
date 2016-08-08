@@ -179,7 +179,15 @@ namespace SEEK.AdPostingApi.Client.Hal
                     throw new AdvertisementNotFoundException(requestId);
 
                 case (int)HttpStatusCode.Conflict:
-                    throw new AdvertisementAlreadyExistsException(requestId, httpResponse.Headers.Location);
+                    AdvertisementErrorResponse conflictMessage;
+                    string respContent = await httpResponse.Content.ReadAsStringAsync();
+
+                    if (this.TryDeserializeError(respContent, out conflictMessage))
+                    {
+                        throw new CreationIdAlreadyExistsException(requestId, httpResponse.Headers.Location, conflictMessage);
+                    }
+
+                    break;
 
                 case 422:
                     AdvertisementErrorResponse validationMessage;
@@ -191,11 +199,9 @@ namespace SEEK.AdPostingApi.Client.Hal
                     }
 
                     break;
-
-                default:
-                    httpResponse.EnsureSuccessStatusCode();
-                    break;
             }
+
+            httpResponse.EnsureSuccessStatusCode();
         }
 
         private bool TryDeserializeError(string responseContent, out AdvertisementErrorResponse error)
