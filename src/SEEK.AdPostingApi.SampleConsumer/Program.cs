@@ -53,13 +53,15 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 SubclassificationId = "AerospaceEngineering"
             };
 
-            // Example of creating the advertisement using a simple retry loop.
+            // Example of creating the advertisement using a simple exponential retry loop.
             AdvertisementError[] errors = null;
             var createResult = CreateResult.Unknown;
             Guid? advertisementId = null;
             Uri advertisementLink = null;
-            var maxAttempts = 2;
-            while (maxAttempts > 0)
+            var attempts = 0;
+            var maxRetryAttempts = 5;
+            var baseRetryIntervalSeconds = 2;
+            while (true)
             {
                 try
                 {
@@ -90,14 +92,15 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 }
                 catch (Exception ex)
                 {
-                    maxAttempts--;
-                    Console.WriteLine("Unexpected exception while creating advertisement.\r\n{0}", ex);
-                    if (maxAttempts == 0)
+                    if (attempts == maxRetryAttempts)
                     {
                         createResult = CreateResult.Timeout;
                         break;
                     }
-                    await Task.Delay(2000);
+
+                    var waitInterval = (int)Math.Pow(3, attempts++) * baseRetryIntervalSeconds;
+                    Console.WriteLine("Unexpected exception while creating advertisement, waiting {0} seconds before retrying.\r\n{1}", waitInterval, ex);
+                    await Task.Delay(TimeSpan.FromSeconds(waitInterval));
                 }
             }
 
