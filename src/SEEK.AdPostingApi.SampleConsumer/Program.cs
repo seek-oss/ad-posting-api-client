@@ -58,7 +58,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             var createResult = CreateResult.Unknown;
             Guid? advertisementId = null;
             Uri advertisementLink = null;
-            var attempts = 0;
+            var retryAttempts = 0;
             var maxRetryAttempts = 5;
             var baseRetryIntervalSeconds = 2;
             while (true)
@@ -92,13 +92,13 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 }
                 catch (Exception ex)
                 {
-                    if (attempts == maxRetryAttempts)
+                    if (retryAttempts == maxRetryAttempts)
                     {
                         createResult = CreateResult.Timeout;
                         break;
                     }
 
-                    var waitInterval = (int)Math.Pow(3, attempts++) * baseRetryIntervalSeconds;
+                    var waitInterval = (int)Math.Pow(3, retryAttempts++) * baseRetryIntervalSeconds;
                     Console.WriteLine("Unexpected exception while creating advertisement, waiting {0} seconds before retrying.\r\n{1}", waitInterval, ex);
                     await Task.Delay(TimeSpan.FromSeconds(waitInterval));
                 }
