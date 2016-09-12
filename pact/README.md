@@ -145,8 +145,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -252,8 +252,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -436,8 +436,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "id": "448b8474-6165-4eed-a5b5-d2bb52e471ef",
     "expiryDate": "2015-11-06T21:19:00Z",
@@ -502,8 +502,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -1352,8 +1352,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -1481,8 +1481,8 @@ Given **the requestor's account is disabled**, upon receiving **a POST advertise
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "creationId": "20150914-134527-00012"
   }
@@ -1538,8 +1538,8 @@ Upon receiving **a POST advertisement request to create a job ad with an invalid
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "creationId": "20150914-134527-00012"
   }
@@ -1595,8 +1595,8 @@ Upon receiving **a POST advertisement request to create a job ad with duplicated
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "creationId": "20160120-162020-00000",
     "template": {
@@ -1671,8 +1671,8 @@ Upon receiving **a POST advertisement request to create a job ad with granular l
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -1752,8 +1752,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -1847,8 +1847,8 @@ Upon receiving **a POST advertisement request to create a job ad with invalid ad
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "creationId": "20150914-134527-00109"
   }
@@ -1905,8 +1905,8 @@ Upon receiving **a POST advertisement request to create a job ad with invalid fi
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "creationId": "20150914-134527-00109",
     "standout": {
@@ -2000,8 +2000,8 @@ Upon receiving **a POST advertisement request to create a job ad with invalid sa
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "creationId": "20150914-134527-00012"
   }
@@ -2060,8 +2060,8 @@ Upon receiving **a POST advertisement request to create a job ad with required a
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2139,8 +2139,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2229,8 +2229,8 @@ Upon receiving **a POST advertisement request to create a job ad with required f
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "creationId": "20150914-134527-00012"
   }
@@ -2265,8 +2265,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
@@ -2314,8 +2314,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "creationId": "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184"
   }
@@ -2373,8 +2373,8 @@ Upon receiving **a POST advertisement request to create a job ad without a creat
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     }
   }
 }
@@ -2430,8 +2430,8 @@ Upon receiving **a POST advertisement request to create a job for an advertiser 
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "creationId": "20150914-134527-00012"
   }
@@ -2505,8 +2505,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2596,8 +2596,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2671,8 +2671,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2760,8 +2760,8 @@ Upon receiving **a PUT advertisement request for a non-existent advertisement** 
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     }
   }
 }
@@ -2807,8 +2807,8 @@ Upon receiving **a PUT advertisement request for advertisement with invalid fiel
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "standout": {
       "bullets": [
@@ -2901,8 +2901,8 @@ Upon receiving **a PUT advertisement request for advertisement with invalid sala
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     }
   }
 }
@@ -2960,8 +2960,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -3059,8 +3059,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -3158,8 +3158,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -3255,8 +3255,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     }
   }
 }
@@ -3311,8 +3311,8 @@ Given **there is an expired advertisement**, upon receiving **a PUT advertisemen
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     }
   }
 }
@@ -3365,8 +3365,8 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -3444,8 +3444,8 @@ Ad Posting API will respond with:
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
-      "fullName": "John Smith",
-      "email": "smithy@recruiter.com"
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
