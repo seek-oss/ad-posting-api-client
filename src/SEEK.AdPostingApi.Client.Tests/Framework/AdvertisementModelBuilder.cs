@@ -49,6 +49,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private int? _standoutLogoId;
         private string[] _standoutBullets;
         private AdditionalPropertyType[] _additionalPropertyTypes;
+        private string _recruiterEmail;
+        private string _recruiterFullName;
+
 
         protected AdvertisementModelBuilder(IBuilderInitializer initializer = null)
         {
@@ -297,6 +300,20 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementModelBuilder<TAdvertisement> WithRecruiterFullName(string recruiterFullName)
+        {
+            this._recruiterFullName = recruiterFullName;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithRecruiterEmail(string recruiterEmail)
+        {
+            this._recruiterEmail = recruiterEmail;
+
+            return this;
+        }
+
         public virtual TAdvertisement Build()
         {
             return new TAdvertisement
@@ -330,6 +347,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 ScreenId = this._screenId,
                 JobReference = this._jobReference,
                 AgentJobReference = this._agentJobReference,
+                Recruiter = this._recruiterFullName == null && this._recruiterEmail == null
+                    ? null
+                    : new Recruiter { FullName = this._recruiterFullName, Email = this._recruiterEmail},
                 Salary = new Salary
                 {
                     Type = this._salaryType,
