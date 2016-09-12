@@ -98,12 +98,12 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private string GetDefaultRecruiterFullName()
         {
-            return "John Smith";
+            return "Recruiter Full Name";
         }
 
         private string GetDefaultRecruiterEmail()
         {
-            return "smithy@recruiter.com";
+            return "recruiter@email.com";
         }
     }
 }

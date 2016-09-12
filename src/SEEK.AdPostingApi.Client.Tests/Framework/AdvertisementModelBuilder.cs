@@ -52,7 +52,6 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private string _recruiterEmail;
         private string _recruiterFullName;
 
-
         protected AdvertisementModelBuilder(IBuilderInitializer initializer = null)
         {
             initializer?.Initialize(this);

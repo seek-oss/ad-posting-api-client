@@ -473,7 +473,5 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 dictionary.Remove(propertyName);
             }
         }
-
-
     }
 }
