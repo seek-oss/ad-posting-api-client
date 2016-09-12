@@ -1,5 +1,4 @@
-﻿using System;
-using SEEK.AdPostingApi.Client.Hal;
+﻿using SEEK.AdPostingApi.Client.Hal;
 
 namespace SEEK.AdPostingApi.Client.Models
 {
