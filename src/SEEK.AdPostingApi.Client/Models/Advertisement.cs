@@ -52,5 +52,7 @@ namespace SEEK.AdPostingApi.Client.Models
         public AdditionalPropertyType[] AdditionalProperties { get; set; }
 
         public AdvertisementError[] Warnings { get; set; }
+
+        public Recruiter Recruiter { get; set; }
     }
 }

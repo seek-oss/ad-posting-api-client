@@ -243,6 +243,21 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             }
             return this;
         }
+
+        public AdvertisementContentBuilder WithRecruiterFullName(object recruiterFullName)
+        {
+            this.EnsureRecruiterPropertyExists();
+            this.AdvertisementModel.recruiter.fullName = recruiterFullName;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithRecruiterEmail(object recruiterEmail)
+        {
+            this.EnsureRecruiterPropertyExists();
+            this.AdvertisementModel.recruiter.email = recruiterEmail;
+            return this;
+        }
+
         public AdvertisementContentBuilder WithRequestCreationId(object creationId)
         {
             this.AdvertisementModel.creationId = creationId;
@@ -400,6 +415,14 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("granularLocation"))
             {
                 this.AdvertisementModel.granularLocation = new ExpandoObject();
+            }
+        }
+
+        private void EnsureRecruiterPropertyExists()
+        {
+            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("recruiter"))
+            {
+                this.AdvertisementModel.recruiter = new ExpandoObject();
             }
         }
 
