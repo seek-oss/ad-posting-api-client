@@ -18,9 +18,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithSalaryMaximum(this.GetDefaultSalaryMaximum())
                 .WithSalaryType(this.GetDefaultSalaryType().ToString())
                 .WithSubclassificationId(this.GetDefaultSubclassificationId())
-                .WithWorkType(this.GetDefaultWorkType().ToString())
-                .WithRecruiterFullName(this.GetDefaultRecruiterFullName())
-                .WithRecruiterEmail(this.GetDefaultRecruiterEmail());
+                .WithWorkType(this.GetDefaultWorkType().ToString());
         }
 
         public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
@@ -36,9 +34,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithSalaryMinimum(this.GetDefaultSalaryMinimum())
                 .WithSalaryMaximum(this.GetDefaultSalaryMaximum())
                 .WithJobSummary(this.GetDefaultJobSummary())
-                .WithAdvertisementDetails(this.GetDefaultAdvertisementDetails())
-                .WithRecruiterFullName(this.GetDefaultRecruiterFullName())
-                .WithRecruiterEmail(this.GetDefaultRecruiterEmail());
+                .WithAdvertisementDetails(this.GetDefaultAdvertisementDetails());
         }
 
         private string GetDefaultAdvertisementDetails()
@@ -94,16 +90,6 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private WorkType GetDefaultWorkType()
         {
             return WorkType.FullTime;
-        }
-
-        private string GetDefaultRecruiterFullName()
-        {
-            return "Recruiter Full Name";
-        }
-
-        private string GetDefaultRecruiterEmail()
-        {
-            return "recruiter@email.com";
         }
     }
 }
