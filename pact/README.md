@@ -144,10 +144,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -189,6 +185,10 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "granularLocation": {
       "country": "Australia",
       "state": "Victoria",
@@ -251,10 +251,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -296,6 +292,10 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -435,10 +435,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "id": "448b8474-6165-4eed-a5b5-d2bb52e471ef",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -501,10 +497,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -546,6 +538,10 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -1351,10 +1347,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -1396,6 +1388,10 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-10-07T21:19:00Z",
     "state": "Expired",
@@ -1480,10 +1476,6 @@ Given **the requestor's account is disabled**, upon receiving **a POST advertise
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "creationId": "20150914-134527-00012"
   }
 }
@@ -1537,10 +1529,6 @@ Upon receiving **a POST advertisement request to create a job ad with an invalid
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "creationId": "20150914-134527-00012"
   }
 }
@@ -1594,10 +1582,6 @@ Upon receiving **a POST advertisement request to create a job ad with duplicated
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "creationId": "20160120-162020-00000",
     "template": {
       "items": [
@@ -1670,10 +1654,6 @@ Upon receiving **a POST advertisement request to create a job ad with granular l
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -1715,6 +1695,10 @@ Upon receiving **a POST advertisement request to create a job ad with granular l
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "granularLocation": {
       "country": "Australia",
       "state": "Victoria",
@@ -1751,10 +1735,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -1796,6 +1776,10 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "granularLocation": {
       "country": "Australia",
       "city": "Melbourne",
@@ -1846,10 +1830,6 @@ Upon receiving **a POST advertisement request to create a job ad with invalid ad
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "creationId": "20150914-134527-00109"
   }
 }
@@ -1904,10 +1884,6 @@ Upon receiving **a POST advertisement request to create a job ad with invalid fi
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "creationId": "20150914-134527-00109",
     "standout": {
       "bullets": [
@@ -1999,10 +1975,6 @@ Upon receiving **a POST advertisement request to create a job ad with invalid sa
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "creationId": "20150914-134527-00012"
   }
 }
@@ -2059,10 +2031,6 @@ Upon receiving **a POST advertisement request to create a job ad with required a
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -2104,6 +2072,10 @@ Upon receiving **a POST advertisement request to create a job ad with required a
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "creationId": "20150914-134527-00097"
   }
 }
@@ -2138,10 +2110,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -2183,6 +2151,10 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -2228,10 +2200,6 @@ Upon receiving **a POST advertisement request to create a job ad with required f
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "creationId": "20150914-134527-00012"
   }
 }
@@ -2264,10 +2232,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -2313,10 +2277,6 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "creationId": "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184"
   }
 }
@@ -2371,11 +2331,7 @@ Upon receiving **a POST advertisement request to create a job ad without a creat
       "type": "AnnualPackage"
     },
     "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    }
+    "workType": "FullTime"
   }
 }
 ```
@@ -2429,10 +2385,6 @@ Upon receiving **a POST advertisement request to create a job for an advertiser 
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "creationId": "20150914-134527-00012"
   }
 }
@@ -2504,10 +2456,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -2549,6 +2497,10 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-10-07T21:19:00Z",
     "state": "Expired",
@@ -2595,85 +2547,6 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
-    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-    "contact": {
-      "name": "Contact name",
-      "email": "qwert@asdf.com",
-      "phone": "+1 (123) 456 7889"
-    },
-    "video": {
-      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-      "position": "Above"
-    },
-    "applicationEmail": "asdf@asdf.com",
-    "applicationFormUrl": "http://FakeATS.com.au",
-    "endApplicationUrl": "http://endform.com/updated",
-    "screenId": 1,
-    "jobReference": "JOB1234",
-    "template": {
-      "id": 1,
-      "items": [
-        {
-          "name": "Template Line 1",
-          "value": "Template Value 1"
-        },
-        {
-          "name": "Template Line 2",
-          "value": "Template Value 2"
-        }
-      ]
-    },
-    "standout": {
-      "logoId": 1,
-      "bullets": [
-        "new Uzi",
-        "new Remington Model",
-        "new AK-47"
-      ]
-    },
-    "additionalProperties": [
-      "ResidentsOnly",
-      "Graduate"
-    ]
-  }
-}
-```
-Ad Posting API will respond with:
-```json
-{
-  "status": 202,
-  "headers": {
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "X-Request-Id": "PactRequestId"
-  },
-  "body": {
-    "advertisementDetails": "Exciting, do I need to say more?",
-    "thirdParties": {
-      "advertiserId": "1"
-    },
-    "advertisementType": "StandOut",
-    "jobSummary": "Developer job",
-    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
-    "location": {
-      "id": "EuropeRussia",
-      "areaId": "RussiaEasternEurope"
-    },
-    "salary": {
-      "minimum": 100000.0,
-      "maximum": 119999.0,
-      "type": "AnnualPackage",
-      "details": "We will pay you"
-    },
-    "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -2714,6 +2587,85 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    }
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 202,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://FakeATS.com.au",
+    "endApplicationUrl": "http://endform.com/updated",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "new Uzi",
+        "new Remington Model",
+        "new AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -2758,11 +2710,7 @@ Upon receiving **a PUT advertisement request for a non-existent advertisement** 
       "type": "AnnualPackage"
     },
     "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    }
+    "workType": "FullTime"
   }
 }
 ```
@@ -2806,10 +2754,6 @@ Upon receiving **a PUT advertisement request for advertisement with invalid fiel
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "standout": {
       "bullets": [
         "new Uzi",
@@ -2899,11 +2843,7 @@ Upon receiving **a PUT advertisement request for advertisement with invalid sala
       "type": "AnnualPackage"
     },
     "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    }
+    "workType": "FullTime"
   }
 }
 ```
@@ -2959,10 +2899,6 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -3003,7 +2939,11 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "additionalProperties": [
       "ResidentsOnly",
       "Graduate"
-    ]
+    ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    }
   }
 }
 ```
@@ -3058,10 +2998,6 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -3102,7 +3038,11 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "additionalProperties": [
       "ResidentsOnly",
       "Graduate"
-    ]
+    ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    }
   }
 }
 ```
@@ -3157,10 +3097,6 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -3201,7 +3137,11 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "additionalProperties": [
       "ResidentsOnly",
       "Graduate"
-    ]
+    ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    }
   }
 }
 ```
@@ -3253,11 +3193,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
       "type": "AnnualPackage"
     },
     "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    }
+    "workType": "FullTime"
   }
 }
 ```
@@ -3309,11 +3245,7 @@ Given **there is an expired advertisement**, upon receiving **a PUT advertisemen
       "type": "AnnualPackage"
     },
     "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    }
+    "workType": "FullTime"
   }
 }
 ```
@@ -3364,10 +3296,6 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -3409,6 +3337,10 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "granularLocation": {
       "country": "Australia",
       "state": "Victoria",
@@ -3443,10 +3375,6 @@ Ad Posting API will respond with:
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
       "name": "Contact name",
@@ -3488,6 +3416,10 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
     "granularLocation": {
       "country": "Australia",
       "city": "Melbourne",
