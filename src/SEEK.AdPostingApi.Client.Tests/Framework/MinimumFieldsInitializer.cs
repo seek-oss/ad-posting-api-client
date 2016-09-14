@@ -95,6 +95,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             return WorkType.FullTime;
         }
+
         private string GetDefaultRecruiterFullName()
         {
             return "Recruiter Full Name";
