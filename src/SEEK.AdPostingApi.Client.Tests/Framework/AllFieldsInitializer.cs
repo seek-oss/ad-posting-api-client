@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SEEK.AdPostingApi.Client.Models;
+using System.Collections.Generic;
 using System.Linq;
-using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
@@ -36,10 +36,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithAgentJobReference(this.GetDefaultAgentJobReference())
                 .WithTemplateId(this.GetDefaultTemplateId())
                 .WithTemplateItems(
-                    new KeyValuePair<object, object>(this.GetDefaultTemplateItemName(1), this.GetDefaultTemplateItemValue(1)),
-                    new KeyValuePair<object, object>(this.GetDefaultTemplateItemName(2), this.GetDefaultTemplateItemValue(2)))
+                    new KeyValuePair<object, object>(this.GetDefaultTemplateItemName(1),
+                        this.GetDefaultTemplateItemValue(1)),
+                    new KeyValuePair<object, object>(this.GetDefaultTemplateItemName(2),
+                        this.GetDefaultTemplateItemValue(2)))
                 .WithStandoutLogoId(this.GetDefaultLogoId())
-                .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2), this.GetDefaultStandoutBullet(3))
+                .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2),
+                    this.GetDefaultStandoutBullet(3))
                 .WithAdditionalProperties(this.GetDefaultAdditionalPropertiesAsObjects())
                 .WithRecruiterTeamName(this.GetDefaultRecruiterTeamName());
 
@@ -55,7 +58,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             }
         }
 
-        public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
+        public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder)
+            where TAdvertisement : Advertisement, new()
         {
             this._minimumFieldsInitializer.Initialize(builder);
 
@@ -77,10 +81,19 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithAgentJobReference(this.GetDefaultAgentJobReference())
                 .WithTemplateId(this.GetDefaultTemplateId())
                 .WithTemplateItems(
-                    new TemplateItem { Name = this.GetDefaultTemplateItemName(1), Value = this.GetDefaultTemplateItemValue(1) },
-                    new TemplateItem { Name = this.GetDefaultTemplateItemName(2), Value = this.GetDefaultTemplateItemValue(2) })
+                    new TemplateItem
+                    {
+                        Name = this.GetDefaultTemplateItemName(1),
+                        Value = this.GetDefaultTemplateItemValue(1)
+                    },
+                    new TemplateItem
+                    {
+                        Name = this.GetDefaultTemplateItemName(2),
+                        Value = this.GetDefaultTemplateItemValue(2)
+                    })
                 .WithStandoutLogoId(this.GetDefaultLogoId())
-                .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2), this.GetDefaultStandoutBullet(3))
+                .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2),
+                    this.GetDefaultStandoutBullet(3))
                 .WithAdditionalProperties(this.GetDefaultAdditionalProperties())
                 .WithRecruiterTeamName(this.GetDefaultRecruiterTeamName());
 
@@ -205,7 +218,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private AdditionalPropertyType[] GetDefaultAdditionalProperties()
         {
-            return new[] { AdditionalPropertyType.ResidentsOnly, AdditionalPropertyType.Graduate };
+            return new[] {AdditionalPropertyType.ResidentsOnly, AdditionalPropertyType.Graduate};
         }
 
         private object[] GetDefaultAdditionalPropertiesAsObjects()

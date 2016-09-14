@@ -23,7 +23,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithRecruiterEmail(this.GetDefaultRecruiterEmail());
         }
 
-        public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
+        public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder)
+            where TAdvertisement : Advertisement, new()
         {
             builder
                 .WithAdvertiserId(this.GetDefaultAdvertiserId())

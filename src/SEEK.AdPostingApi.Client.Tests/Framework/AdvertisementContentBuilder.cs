@@ -15,7 +15,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public dynamic Build()
         {
-            return ((IDictionary<string, object>)this.AdvertisementModel).Clone();
+            return ((IDictionary<string, object>) this.AdvertisementModel).Clone();
         }
 
         public AdvertisementContentBuilder WithAdditionalProperties(params object[] additionalPropertyTypes)
@@ -38,7 +38,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementContentBuilder WithAdvertiserId(object advertiserId)
         {
-            object agentId = PropertyExists(this.AdvertisementModel, "thirdParties") && PropertyExists(this.AdvertisementModel.thirdParties, "agentId")
+            object agentId = PropertyExists(this.AdvertisementModel, "thirdParties") &&
+                             PropertyExists(this.AdvertisementModel.thirdParties, "agentId")
                 ? this.AdvertisementModel.thirdParties.agentId
                 : null;
 
@@ -49,7 +50,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementContentBuilder WithAgentId(object agentId)
         {
-            object advertiserId = PropertyExists(this.AdvertisementModel, "thirdParties") && PropertyExists(this.AdvertisementModel.thirdParties, "advertiserId")
+            object advertiserId = PropertyExists(this.AdvertisementModel, "thirdParties") &&
+                                  PropertyExists(this.AdvertisementModel.thirdParties, "advertiserId")
                 ? this.AdvertisementModel.thirdParties.advertiserId
                 : null;
 
@@ -60,7 +62,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementContentBuilder WithAgentJobReference(object agentJobReference)
         {
-            if (string.IsNullOrWhiteSpace((string)agentJobReference))
+            if (string.IsNullOrWhiteSpace((string) agentJobReference))
             {
                 TryRemoveProperty(this.AdvertisementModel, "agentJobReference");
             }
@@ -261,7 +263,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         public AdvertisementContentBuilder WithRecruiterTeamName(object recruiterTeamName)
         {
             this.EnsureRecruiterPropertyExists();
-            this.AdvertisementModel.recruiter.teamName= recruiterTeamName;
+            this.AdvertisementModel.recruiter.teamName = recruiterTeamName;
             return this;
         }
 
@@ -345,7 +347,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             this.EnsureTemplatePropertyExists();
 
-            this.AdvertisementModel.template.items = templateItems?.Select(t => new { name = t.Key, value = t.Value }).ToArray();
+            this.AdvertisementModel.template.items =
+                templateItems?.Select(t => new {name = t.Key, value = t.Value}).ToArray();
             return this;
         }
 
@@ -403,7 +406,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private void EnsureContactPropertyExists()
         {
-            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("contact"))
+            if (!((IDictionary<string, object>) this.AdvertisementModel).ContainsKey("contact"))
             {
                 this.AdvertisementModel.contact = new ExpandoObject();
             }
@@ -411,7 +414,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private void EnsureLocationPropertyExists()
         {
-            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("location"))
+            if (!((IDictionary<string, object>) this.AdvertisementModel).ContainsKey("location"))
             {
                 this.AdvertisementModel.location = new ExpandoObject();
             }
@@ -419,7 +422,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private void EnsureGranularLocationPropertyExists()
         {
-            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("granularLocation"))
+            if (!((IDictionary<string, object>) this.AdvertisementModel).ContainsKey("granularLocation"))
             {
                 this.AdvertisementModel.granularLocation = new ExpandoObject();
             }
@@ -427,7 +430,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private void EnsureRecruiterPropertyExists()
         {
-            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("recruiter"))
+            if (!((IDictionary<string, object>) this.AdvertisementModel).ContainsKey("recruiter"))
             {
                 this.AdvertisementModel.recruiter = new ExpandoObject();
             }
@@ -435,7 +438,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private void EnsureSalaryPropertyExists()
         {
-            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("salary"))
+            if (!((IDictionary<string, object>) this.AdvertisementModel).ContainsKey("salary"))
             {
                 this.AdvertisementModel.salary = new ExpandoObject();
             }
@@ -443,7 +446,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private void EnsureStandoutPropertyExists()
         {
-            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("standout"))
+            if (!((IDictionary<string, object>) this.AdvertisementModel).ContainsKey("standout"))
             {
                 this.AdvertisementModel.standout = new ExpandoObject();
             }
@@ -451,7 +454,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private void EnsureTemplatePropertyExists()
         {
-            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("template"))
+            if (!((IDictionary<string, object>) this.AdvertisementModel).ContainsKey("template"))
             {
                 this.AdvertisementModel.template = new ExpandoObject();
             }
@@ -459,7 +462,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private void EnsureVideoPropertyExists()
         {
-            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("video"))
+            if (!((IDictionary<string, object>) this.AdvertisementModel).ContainsKey("video"))
             {
                 this.AdvertisementModel.video = new ExpandoObject();
             }
@@ -467,7 +470,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private bool PropertyExists(dynamic model, string propertyName)
         {
-            return ((IDictionary<string, object>)model).ContainsKey(propertyName);
+            return ((IDictionary<string, object>) model).ContainsKey(propertyName);
         }
 
         private void TryRemoveProperty(dynamic model, string propertyName)
