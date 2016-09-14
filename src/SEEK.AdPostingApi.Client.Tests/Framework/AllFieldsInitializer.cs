@@ -248,7 +248,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private string GetDefaultRecruiterTeamName()
         {
-            return "recruiter team name";
+            return "Recruiter Team Name";
         }
     }
 }
