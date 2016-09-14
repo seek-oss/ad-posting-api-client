@@ -40,7 +40,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     new KeyValuePair<object, object>(this.GetDefaultTemplateItemName(2), this.GetDefaultTemplateItemValue(2)))
                 .WithStandoutLogoId(this.GetDefaultLogoId())
                 .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2), this.GetDefaultStandoutBullet(3))
-                .WithAdditionalProperties(this.GetDefaultAdditionalPropertiesAsObjects());
+                .WithAdditionalProperties(this.GetDefaultAdditionalPropertiesAsObjects())
+                .WithRecruiterTeamName(this.GetDefaultRecruiterTeamName());
 
             if (_locationType == LocationType.UseGranularLocation)
             {
@@ -80,7 +81,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     new TemplateItem { Name = this.GetDefaultTemplateItemName(2), Value = this.GetDefaultTemplateItemValue(2) })
                 .WithStandoutLogoId(this.GetDefaultLogoId())
                 .WithStandoutBullets(this.GetDefaultStandoutBullet(1), this.GetDefaultStandoutBullet(2), this.GetDefaultStandoutBullet(3))
-                .WithAdditionalProperties(this.GetDefaultAdditionalProperties());
+                .WithAdditionalProperties(this.GetDefaultAdditionalProperties())
+                .WithRecruiterTeamName(this.GetDefaultRecruiterTeamName());
 
             if (_locationType == LocationType.UseGranularLocation)
             {
@@ -229,6 +231,11 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private string GetDefaultGranularLocationPostCode()
         {
             return "3000";
+        }
+
+        private string GetDefaultRecruiterTeamName()
+        {
+            return "recruiter team name";
         }
     }
 }

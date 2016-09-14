@@ -51,6 +51,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private AdditionalPropertyType[] _additionalPropertyTypes;
         private string _recruiterEmail;
         private string _recruiterFullName;
+        private string _recruiterTeamName;
 
         protected AdvertisementModelBuilder(IBuilderInitializer initializer = null)
         {
@@ -313,6 +314,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementModelBuilder<TAdvertisement> WithRecruiterTeamName(string recruiterTeamName)
+        {
+            this._recruiterTeamName = recruiterTeamName;
+
+            return this;
+        }
+
         public virtual TAdvertisement Build()
         {
             return new TAdvertisement
@@ -346,9 +354,14 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 ScreenId = this._screenId,
                 JobReference = this._jobReference,
                 AgentJobReference = this._agentJobReference,
-                Recruiter = this._recruiterFullName == null && this._recruiterEmail == null
+                Recruiter = this._recruiterFullName == null && this._recruiterEmail == null && this._recruiterTeamName == null
                     ? null
-                    : new Recruiter { FullName = this._recruiterFullName, Email = this._recruiterEmail},
+                    : new Recruiter
+                    {
+                        FullName = this._recruiterFullName,
+                        Email = this._recruiterEmail,
+                        TeamName = this._recruiterTeamName
+                    },
                 Salary = new Salary
                 {
                     Type = this._salaryType,

@@ -258,6 +258,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementContentBuilder WithRecruiterTeamName(object recruiterTeamName)
+        {
+            this.EnsureRecruiterPropertyExists();
+            this.AdvertisementModel.recruiter.teamName= recruiterTeamName;
+            return this;
+        }
+
         public AdvertisementContentBuilder WithRequestCreationId(object creationId)
         {
             this.AdvertisementModel.creationId = creationId;
