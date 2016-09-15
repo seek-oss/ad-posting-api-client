@@ -12,7 +12,7 @@ namespace SEEK.AdPostingApi.Client
             this.StatusCode = statusCode;
         }
 
-        public RequestException(SerializationInfo info, StreamingContext context) : base()
+        public RequestException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this.RequestId = (string)info.GetValue(nameof(this.RequestId), typeof(string));
             this.StatusCode = (int)info.GetValue(nameof(this.StatusCode), typeof(int));
