@@ -1,6 +1,6 @@
-﻿using SEEK.AdPostingApi.Client.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
@@ -218,7 +218,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         private AdditionalPropertyType[] GetDefaultAdditionalProperties()
         {
-            return new[] {AdditionalPropertyType.ResidentsOnly, AdditionalPropertyType.Graduate};
+            return new[] { AdditionalPropertyType.ResidentsOnly, AdditionalPropertyType.Graduate };
         }
 
         private object[] GetDefaultAdditionalPropertiesAsObjects()

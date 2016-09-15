@@ -1,5 +1,5 @@
-﻿using SEEK.AdPostingApi.Client.Models;
-using System.Linq;
+﻿using System.Linq;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
@@ -275,7 +275,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         public AdvertisementModelBuilder<TAdvertisement> WithTemplateItems(params TemplateItem[] templateItems)
         {
             this._templateItems =
-                templateItems?.Select(itm => itm == null ? null : new TemplateItem {Name = itm.Name, Value = itm.Value})
+                templateItems?.Select(itm => itm == null ? null : new TemplateItem { Name = itm.Name, Value = itm.Value })
                     .ToArray();
 
             return this;
@@ -330,14 +330,14 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             {
                 ThirdParties = this._advertiserId == null && this._agentId == null
                     ? null
-                    : new ThirdParties {AdvertiserId = this._advertiserId, AgentId = this._agentId},
+                    : new ThirdParties { AdvertiserId = this._advertiserId, AgentId = this._agentId },
                 CreationId = this._creationId,
                 AdvertisementType = this._advertisementType,
                 JobTitle = this._jobTitle,
                 SearchJobTitle = this._searchJobTitle,
                 Location = this._locationId == null && this._areaId == null
                     ? null
-                    : new Location {Id = this._locationId, AreaId = this._areaId},
+                    : new Location { Id = this._locationId, AreaId = this._areaId },
                 GranularLocation = this._granularLocationCountry == null
                     ? null
                     : new GranularLocation
@@ -375,13 +375,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 },
                 Contact = this._contactName == null && this._contactPhone == null && this._contactEmail == null
                     ? null
-                    : new Contact {Name = this._contactName, Phone = this._contactPhone, Email = this._contactEmail},
+                    : new Contact { Name = this._contactName, Phone = this._contactPhone, Email = this._contactEmail },
                 Template = this._templateId == null && this._templateItems == null
                     ? null
-                    : new Template {Id = this._templateId, Items = this._templateItems?.ToArray()},
+                    : new Template { Id = this._templateId, Items = this._templateItems?.ToArray() },
                 Video = this._videoUrl == null && this._videoPosition == null
                     ? null
-                    : new Video {Url = this._videoUrl, Position = this._videoPosition ?? default(VideoPosition)},
+                    : new Video { Url = this._videoUrl, Position = this._videoPosition ?? default(VideoPosition) },
                 Standout = this._standoutLogoId == null && this._standoutBullets == null
                     ? null
                     : new StandoutAdvertisement
