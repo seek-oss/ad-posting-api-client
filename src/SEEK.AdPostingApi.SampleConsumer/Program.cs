@@ -50,6 +50,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     Id = "Melbourne",
                     AreaId = "MelbourneNorthernSuburbs"
                 },
+                Recruiter = new Recruiter
+                {
+                    FullName = "Recruiter full name",
+                    Email = "recruiter@email.com"
+                },
                 SubclassificationId = "AerospaceEngineering"
             };
 
