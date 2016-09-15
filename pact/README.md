@@ -147,7 +147,7 @@ Ad Posting API will respond with:
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -255,7 +255,7 @@ Ad Posting API will respond with:
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -506,7 +506,7 @@ Ad Posting API will respond with:
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -1357,7 +1357,7 @@ Ad Posting API will respond with:
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -1677,7 +1677,7 @@ Upon receiving **a POST advertisement request to create a job ad with granular l
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -1759,7 +1759,7 @@ Ad Posting API will respond with:
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2068,7 +2068,7 @@ Upon receiving **a POST advertisement request to create a job ad with required a
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2148,7 +2148,7 @@ Ad Posting API will respond with:
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2515,7 +2515,7 @@ Ad Posting API will respond with:
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2607,7 +2607,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2683,7 +2683,7 @@ Ad Posting API will respond with:
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -2973,7 +2973,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -3073,7 +3073,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -3173,7 +3173,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -3381,7 +3381,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
@@ -3461,7 +3461,7 @@ Ad Posting API will respond with:
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com",
-      "teamName": "recruiter team name"
+      "teamName": "Recruiter Team Name"
     },
     "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
     "contact": {
