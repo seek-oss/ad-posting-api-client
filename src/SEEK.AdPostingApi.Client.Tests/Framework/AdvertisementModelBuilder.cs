@@ -49,6 +49,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private int? _standoutLogoId;
         private string[] _standoutBullets;
         private AdditionalPropertyType[] _additionalPropertyTypes;
+        private string _recruiterEmail;
+        private string _recruiterFullName;
+        private string _recruiterTeamName;
 
         protected AdvertisementModelBuilder(IBuilderInitializer initializer = null)
         {
@@ -271,7 +274,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementModelBuilder<TAdvertisement> WithTemplateItems(params TemplateItem[] templateItems)
         {
-            this._templateItems = templateItems?.Select(itm => itm == null ? null : new TemplateItem { Name = itm.Name, Value = itm.Value }).ToArray();
+            this._templateItems =
+                templateItems?.Select(itm => itm == null ? null : new TemplateItem { Name = itm.Name, Value = itm.Value })
+                    .ToArray();
 
             return this;
         }
@@ -290,9 +295,31 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
-        public AdvertisementModelBuilder<TAdvertisement> WithAdditionalProperties(params AdditionalPropertyType[] additionalPropertyTypes)
+        public AdvertisementModelBuilder<TAdvertisement> WithAdditionalProperties(
+            params AdditionalPropertyType[] additionalPropertyTypes)
         {
             this._additionalPropertyTypes = additionalPropertyTypes.ToArray();
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithRecruiterFullName(string recruiterFullName)
+        {
+            this._recruiterFullName = recruiterFullName;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithRecruiterEmail(string recruiterEmail)
+        {
+            this._recruiterEmail = recruiterEmail;
+
+            return this;
+        }
+
+        public AdvertisementModelBuilder<TAdvertisement> WithRecruiterTeamName(string recruiterTeamName)
+        {
+            this._recruiterTeamName = recruiterTeamName;
 
             return this;
         }
@@ -330,6 +357,15 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 ScreenId = this._screenId,
                 JobReference = this._jobReference,
                 AgentJobReference = this._agentJobReference,
+                Recruiter =
+                    this._recruiterFullName == null && this._recruiterEmail == null && this._recruiterTeamName == null
+                        ? null
+                        : new Recruiter
+                        {
+                            FullName = this._recruiterFullName,
+                            Email = this._recruiterEmail,
+                            TeamName = this._recruiterTeamName
+                        },
                 Salary = new Salary
                 {
                     Type = this._salaryType,
@@ -348,7 +384,11 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     : new Video { Url = this._videoUrl, Position = this._videoPosition ?? default(VideoPosition) },
                 Standout = this._standoutLogoId == null && this._standoutBullets == null
                     ? null
-                    : new StandoutAdvertisement { LogoId = this._standoutLogoId, Bullets = this._standoutBullets?.ToArray() },
+                    : new StandoutAdvertisement
+                    {
+                        LogoId = this._standoutLogoId,
+                        Bullets = this._standoutBullets?.ToArray()
+                    },
                 AdditionalProperties = this._additionalPropertyTypes?.ToArray()
             };
         }

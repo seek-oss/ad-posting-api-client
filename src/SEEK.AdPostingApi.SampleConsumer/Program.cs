@@ -182,7 +182,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
         {
             return new Advertisement
             {
-                CreationId = "Sample Consumer " + Guid.NewGuid(),
+                CreationId = "Sample Consumer 2575274f-7526-455d-a2a3-32447e40733d",
                 ThirdParties = new ThirdParties { AdvertiserId = "<advertiser id>" },
                 JobTitle = "A Job Title",
                 SearchJobTitle = "A Job Title for Searching",
@@ -200,6 +200,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 {
                     Id = "Melbourne",
                     AreaId = "MelbourneNorthernSuburbs"
+                },
+                Recruiter = new Recruiter
+                {
+                    FullName = "Recruiter full name",
+                    Email = "recruiter@email.com"
                 },
                 SubclassificationId = "AerospaceEngineering"
             };
