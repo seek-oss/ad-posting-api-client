@@ -38,7 +38,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementContentBuilder WithAdvertiserId(object advertiserId)
         {
-            object agentId = PropertyExists(this.AdvertisementModel, "thirdParties") && PropertyExists(this.AdvertisementModel.thirdParties, "agentId")
+            object agentId = PropertyExists(this.AdvertisementModel, "thirdParties") &&
+                             PropertyExists(this.AdvertisementModel.thirdParties, "agentId")
                 ? this.AdvertisementModel.thirdParties.agentId
                 : null;
 
@@ -49,7 +50,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementContentBuilder WithAgentId(object agentId)
         {
-            object advertiserId = PropertyExists(this.AdvertisementModel, "thirdParties") && PropertyExists(this.AdvertisementModel.thirdParties, "advertiserId")
+            object advertiserId = PropertyExists(this.AdvertisementModel, "thirdParties") &&
+                                  PropertyExists(this.AdvertisementModel.thirdParties, "advertiserId")
                 ? this.AdvertisementModel.thirdParties.advertiserId
                 : null;
 
@@ -243,6 +245,28 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             }
             return this;
         }
+
+        public AdvertisementContentBuilder WithRecruiterFullName(object recruiterFullName)
+        {
+            this.EnsureRecruiterPropertyExists();
+            this.AdvertisementModel.recruiter.fullName = recruiterFullName;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithRecruiterEmail(object recruiterEmail)
+        {
+            this.EnsureRecruiterPropertyExists();
+            this.AdvertisementModel.recruiter.email = recruiterEmail;
+            return this;
+        }
+
+        public AdvertisementContentBuilder WithRecruiterTeamName(object recruiterTeamName)
+        {
+            this.EnsureRecruiterPropertyExists();
+            this.AdvertisementModel.recruiter.teamName = recruiterTeamName;
+            return this;
+        }
+
         public AdvertisementContentBuilder WithRequestCreationId(object creationId)
         {
             this.AdvertisementModel.creationId = creationId;
@@ -323,7 +347,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             this.EnsureTemplatePropertyExists();
 
-            this.AdvertisementModel.template.items = templateItems?.Select(t => new { name = t.Key, value = t.Value }).ToArray();
+            this.AdvertisementModel.template.items =
+                templateItems?.Select(t => new { name = t.Key, value = t.Value }).ToArray();
             return this;
         }
 
@@ -400,6 +425,14 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("granularLocation"))
             {
                 this.AdvertisementModel.granularLocation = new ExpandoObject();
+            }
+        }
+
+        private void EnsureRecruiterPropertyExists()
+        {
+            if (!((IDictionary<string, object>)this.AdvertisementModel).ContainsKey("recruiter"))
+            {
+                this.AdvertisementModel.recruiter = new ExpandoObject();
             }
         }
 

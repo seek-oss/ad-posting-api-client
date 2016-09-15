@@ -18,10 +18,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithSalaryMaximum(this.GetDefaultSalaryMaximum())
                 .WithSalaryType(this.GetDefaultSalaryType().ToString())
                 .WithSubclassificationId(this.GetDefaultSubclassificationId())
-                .WithWorkType(this.GetDefaultWorkType().ToString());
+                .WithWorkType(this.GetDefaultWorkType().ToString())
+                .WithRecruiterFullName(this.GetDefaultRecruiterFullName())
+                .WithRecruiterEmail(this.GetDefaultRecruiterEmail());
         }
 
-        public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder) where TAdvertisement : Advertisement, new()
+        public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder)
+            where TAdvertisement : Advertisement, new()
         {
             builder
                 .WithAdvertiserId(this.GetDefaultAdvertiserId())
@@ -34,7 +37,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithSalaryMinimum(this.GetDefaultSalaryMinimum())
                 .WithSalaryMaximum(this.GetDefaultSalaryMaximum())
                 .WithJobSummary(this.GetDefaultJobSummary())
-                .WithAdvertisementDetails(this.GetDefaultAdvertisementDetails());
+                .WithAdvertisementDetails(this.GetDefaultAdvertisementDetails())
+                .WithRecruiterFullName(this.GetDefaultRecruiterFullName())
+                .WithRecruiterEmail(this.GetDefaultRecruiterEmail());
         }
 
         private string GetDefaultAdvertisementDetails()
@@ -90,6 +95,16 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private WorkType GetDefaultWorkType()
         {
             return WorkType.FullTime;
+        }
+
+        private string GetDefaultRecruiterFullName()
+        {
+            return "Recruiter Full Name";
+        }
+
+        private string GetDefaultRecruiterEmail()
+        {
+            return "recruiter@email.com";
         }
     }
 }

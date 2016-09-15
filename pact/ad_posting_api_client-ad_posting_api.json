@@ -150,6 +150,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -353,6 +358,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -940,6 +950,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -1044,6 +1059,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -1134,6 +1154,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -1261,6 +1286,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "id": "448b8474-6165-4eed-a5b5-d2bb52e471ef",
           "expiryDate": "2015-11-06T21:19:00Z",
           "state": "Open",
@@ -1363,6 +1392,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -1437,6 +1471,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -1527,6 +1566,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "creationId": "20150914-134527-00109"
         }
       },
@@ -1577,6 +1620,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "creationId": "20160120-162020-00000",
           "template": {
             "items": [
@@ -1647,6 +1694,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "creationId": "20150914-134527-00012"
         }
       },
@@ -1695,7 +1746,11 @@
             "type": "AnnualPackage"
           },
           "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime"
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          }
         }
       },
       "response": {
@@ -1745,6 +1800,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "creationId": "20150914-134527-00012"
         }
       },
@@ -1774,6 +1833,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
           "expiryDate": "2015-11-06T21:19:00Z",
           "state": "Open",
@@ -1820,6 +1883,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -1892,6 +1960,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -1978,6 +2051,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "creationId": "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184"
         }
       },
@@ -2030,6 +2107,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "creationId": "20150914-134527-00012"
         }
       },
@@ -2079,6 +2160,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "creationId": "20150914-134527-00109",
           "standout": {
             "bullets": [
@@ -2166,6 +2251,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "creationId": "20150914-134527-00012"
         }
       },
@@ -2216,6 +2305,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "creationId": "20150914-134527-00012"
         }
       },
@@ -2265,7 +2358,11 @@
             "type": "AnnualPackage"
           },
           "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime"
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          }
         }
       },
       "response": {
@@ -2317,6 +2414,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -2408,6 +2510,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -2476,6 +2583,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -2560,7 +2672,11 @@
             "type": "AnnualPackage"
           },
           "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime"
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          }
         }
       },
       "response": {
@@ -2612,6 +2728,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -2700,7 +2821,11 @@
             "type": "AnnualPackage"
           },
           "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime"
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          }
         }
       },
       "response": {
@@ -2739,6 +2864,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -2811,6 +2941,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -2904,6 +3039,11 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
           "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
           "contact": {
             "name": "Contact name",
@@ -2993,6 +3133,10 @@
           },
           "subclassificationId": "AerospaceEngineering",
           "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
           "standout": {
             "bullets": [
               "new Uzi",
@@ -3078,7 +3222,11 @@
             "type": "AnnualPackage"
           },
           "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime"
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          }
         }
       },
       "response": {
