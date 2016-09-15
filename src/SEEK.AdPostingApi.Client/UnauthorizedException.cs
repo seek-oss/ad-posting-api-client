@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Runtime.Serialization;
 using SEEK.AdPostingApi.Client.Models;
 
@@ -7,11 +8,11 @@ namespace SEEK.AdPostingApi.Client
     [Serializable]
     public class UnauthorizedException : RequestException
     {
-        public UnauthorizedException(string requestId, string message) : base(requestId, message)
+        public UnauthorizedException(string requestId, string message) : base(requestId, (int)HttpStatusCode.Unauthorized, message)
         {
         }
 
-        public UnauthorizedException(string requestId, AdvertisementErrorResponse errorResponse) : base(requestId, errorResponse?.Message)
+        public UnauthorizedException(string requestId, AdvertisementErrorResponse errorResponse) : base(requestId, (int)HttpStatusCode.Unauthorized, errorResponse?.Message)
         {
             this.Errors = errorResponse?.Errors;
         }

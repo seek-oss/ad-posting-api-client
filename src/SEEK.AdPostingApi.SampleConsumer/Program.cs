@@ -16,42 +16,19 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
         private enum CreateResult
         {
-            Unknown,
-            Created,
             AlreadyExists,
-            ValidationErrors,
-            Timeout,
-            Unauthorized
+            Created,
+            Failed,
+            Unauthorized,
+            Unknown,
+            ValidationErrors
         }
 
         private static async Task MainAsync()
         {
             IAdPostingApiClient postingClient = new AdPostingApiClient("<client id>", "<client secret>", Client.Environment.Integration);
 
-            // An example advertisement with a unique creation ID that ensures multiple create retries will not create duplicate advertisements.
-            var ad = new Advertisement
-            {
-                CreationId = "Sample Consumer 2575274f-7526-455d-a2a3-32447e40733d",
-                ThirdParties = new ThirdParties { AdvertiserId = "Advertiser Id" },
-                JobTitle = "A Job Title",
-                SearchJobTitle = "A Job Title for Searching",
-                JobSummary = "Job summary of the job ad",
-                AdvertisementDetails = "Experience Required",
-                AdvertisementType = AdvertisementType.Classic,
-                WorkType = WorkType.Casual,
-                Salary = new Salary
-                {
-                    Type = SalaryType.HourlyRate,
-                    Minimum = 20,
-                    Maximum = 24
-                },
-                Location = new Location
-                {
-                    Id = "Melbourne",
-                    AreaId = "MelbourneNorthernSuburbs"
-                },
-                SubclassificationId = "AerospaceEngineering"
-            };
+            var ad = GetExampleAdvertisementDetails();
 
             // Example of creating the advertisement using a simple exponential retry loop.
             AdvertisementError[] errors = null;
@@ -65,6 +42,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             {
                 try
                 {
+                    //Create a new advertisement
                     var advertisement = await postingClient.CreateAdvertisementAsync(ad);
 
                     advertisementId = advertisement.Id;
@@ -86,21 +64,29 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 }
                 catch (UnauthorizedException ex)
                 {
-                    Console.WriteLine("Unauthorized exception while creating advertisement.\r\n{0}", ex.Message);
+                    LogException(ex);
                     createResult = CreateResult.Unauthorized;
                     break;
                 }
-                catch (Exception ex)
+                catch (RequestException ex)
                 {
-                    if (retryAttempts == maxRetryAttempts)
+                    LogException(ex);
+
+                    if (ex.StatusCode >= 500)
                     {
-                        createResult = CreateResult.Timeout;
-                        break;
+                        if (retryAttempts == maxRetryAttempts)
+                        {
+                            createResult = CreateResult.Failed;
+                            break;
+                        }
+
+                        var waitInterval = (int)Math.Pow(3, retryAttempts++) * baseRetryIntervalSeconds;
+                        Console.WriteLine("Waiting {0} seconds before retrying.", waitInterval);
+                        await Task.Delay(TimeSpan.FromSeconds(waitInterval));
+                        continue;
                     }
 
-                    var waitInterval = (int)Math.Pow(3, retryAttempts++) * baseRetryIntervalSeconds;
-                    Console.WriteLine("Unexpected exception while creating advertisement, waiting {0} seconds before retrying.\r\n{1}", waitInterval, ex);
-                    await Task.Delay(TimeSpan.FromSeconds(waitInterval));
+                    break;
                 }
             }
 
@@ -115,42 +101,16 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     }
                     Console.WriteLine($"Advertisement Link: {advertisementLink}");
 
-                    // Use the returned advertisement link to get the advertisement.
-                    AdvertisementResource advertisementResource = await postingClient.GetAdvertisementAsync(advertisementLink);
-                    Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
+                    await GetUpdateAndExpireAdvertisement(postingClient, advertisementLink);
 
-                    // Update the advertisement.
-                    advertisementResource.JobTitle = "New job title";
-                    advertisementResource = await advertisementResource.SaveAsync();
-
-                    Console.WriteLine();
-                    Console.WriteLine("Updated advertisement.");
-                    Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
-
-                    var expiredAdvertisementContent = await advertisementResource.ExpireAsync();
-                    Console.WriteLine();
-                    Console.WriteLine("Expired advertisement.");
-                    Console.WriteLine(JsonConvert.SerializeObject(expiredAdvertisementContent, Formatting.Indented));
-
-                    var advertisementList = await postingClient.GetAllAdvertisementsAsync();
-                    Console.WriteLine();
-                    Console.WriteLine("Retrieve all advertisements.");
-                    Console.WriteLine(JsonConvert.SerializeObject(advertisementList, Formatting.Indented));
                     break;
 
                 case CreateResult.ValidationErrors:
-                    // There were validation errors; show the errors.
-                    Console.WriteLine("Advertisement creation failed. Validation errors:");
-                    var counter = 1;
-                    foreach (var error in errors)
-                    {
-                        Console.WriteLine($"  [{counter:##}] Field: '{error.Field}' Code: '{error.Code}' Message: '{error.Message}'");
-                        counter++;
-                    }
+                    PrintValidationErrors(errors);
                     break;
 
-                case CreateResult.Timeout:
-                    Console.WriteLine("Advertisement not created. Maximum attempts reached.");
+                case CreateResult.Failed:
+                    Console.WriteLine("Advertisement failed to be created, contact SEEK.");
                     break;
 
                 default:
@@ -158,8 +118,91 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     break;
             }
 
+            await GetAllAdvertisements(postingClient);
+
             Console.WriteLine("Finished Example. Press a key to exit.");
             Console.ReadKey(true);
+        }
+
+        private static void LogException(RequestException ex)
+        {
+            Console.WriteLine("Error (Status Code: {0}) while creating advertisement.\r\n{1}", ex.StatusCode, ex.Message);
+        }
+
+        private static void PrintValidationErrors(AdvertisementError[] errors)
+        {
+            Console.WriteLine("Advertisement creation failed. Validation errors:");
+            var counter = 1;
+            foreach (var error in errors)
+            {
+                Console.WriteLine($"  [{counter:##}] Field: '{error.Field}' Code: '{error.Code}' Message: '{error.Message}'");
+                counter++;
+            }
+        }
+
+        /// <summary>
+        /// Example on get all advertisement for the advertiser
+        /// </summary>
+        /// <param name="postingClient"></param>
+        /// <returns></returns>
+        private static async Task GetAllAdvertisements(IAdPostingApiClient postingClient)
+        {
+            var advertisementList = await postingClient.GetAllAdvertisementsAsync();
+            Console.WriteLine("\nRetrieve all advertisements.{0}",
+                JsonConvert.SerializeObject(advertisementList, Formatting.Indented));
+        }
+
+        /// <summary>
+        /// Example on Get, Update and Expire an advertisement.
+        /// </summary>
+        /// <param name="postingClient"></param>
+        /// <param name="advertisementLink"></param>
+        /// <returns></returns>
+        private static async Task GetUpdateAndExpireAdvertisement(IAdPostingApiClient postingClient, Uri advertisementLink)
+        {
+            // Use the advertisement link to get the advertisement.
+            AdvertisementResource advertisementResource = await postingClient.GetAdvertisementAsync(advertisementLink);
+            Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
+
+            // Modify and update the advertisement
+            advertisementResource.JobTitle = "New job title";
+            advertisementResource = await advertisementResource.SaveAsync();
+            Console.WriteLine("\nUpdated advertisement:\n{0}", JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
+
+            //Expire the advertisement
+            var expiredAdvertisementContent = await advertisementResource.ExpireAsync();
+            Console.WriteLine("\nExpired advertisement:\n{0}", JsonConvert.SerializeObject(expiredAdvertisementContent, Formatting.Indented));
+        }
+
+        /// <summary>
+        /// Get a Sample advertisement to be created
+        /// </summary>
+        /// <returns></returns>
+        private static Advertisement GetExampleAdvertisementDetails()
+        {
+            return new Advertisement
+            {
+                CreationId = "Sample Consumer " + Guid.NewGuid(),
+                ThirdParties = new ThirdParties { AdvertiserId = "<advertiser id>" },
+                JobTitle = "A Job Title",
+                SearchJobTitle = "A Job Title for Searching",
+                JobSummary = "Job summary of the job ad",
+                AdvertisementDetails = "Experience Required",
+                AdvertisementType = AdvertisementType.Classic,
+                WorkType = WorkType.Casual,
+                Salary = new Salary
+                {
+                    Type = SalaryType.HourlyRate,
+                    Minimum = 20,
+                    Maximum = 24
+                },
+                Location = new Location
+                {
+                    Id = "Melbourne",
+                    AreaId = "MelbourneNorthernSuburbs"
+                },
+                SubclassificationId = "AerospaceEngineering"
+            };
         }
     }
 }

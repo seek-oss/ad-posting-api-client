@@ -201,7 +201,10 @@ namespace SEEK.AdPostingApi.Client.Hal
                     break;
             }
 
-            httpResponse.EnsureSuccessStatusCode();
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new RequestException(requestId, (int)httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
+            }
         }
 
         private bool TryDeserializeError(string responseContent, out AdvertisementErrorResponse error)

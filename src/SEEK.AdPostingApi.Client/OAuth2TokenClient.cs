@@ -56,15 +56,14 @@ namespace SEEK.AdPostingApi.Client
         {
             if (response.IsSuccessStatusCode) return;
 
+            IEnumerable<string> requestIds;
+            string requestId = response.Headers.TryGetValues("X-Request-Id", out requestIds) ? requestIds.First() : null;
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                IEnumerable<string> requestIds;
-                string requestId = response.Headers.TryGetValues("X-Request-Id", out requestIds) ? requestIds.First() : null;
-
                 throw new UnauthorizedException(requestId, "Could not get OAuth2 access token.");
             }
 
-            response.EnsureSuccessStatusCode();
+            throw new RequestException(requestId, (int)response.StatusCode, "Unexpected error when retrieving OAuth2 access token.");
         }
 
         public void Dispose()
