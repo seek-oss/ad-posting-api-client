@@ -42,7 +42,7 @@ namespace SEEK.AdPostingApi.Client
 
                 using (HttpResponseMessage response = await _httpClient.SendAsync(tokenRequest))
                 {
-                    HandleBadResponse(response);
+                    await HandleBadResponse(response);
 
                     string responseContent = await response.Content.ReadAsStringAsync();
                     var token = JsonConvert.DeserializeObject<OAuth2Token>(responseContent, _jsonSettings);
@@ -52,7 +52,7 @@ namespace SEEK.AdPostingApi.Client
             }
         }
 
-        private void HandleBadResponse(HttpResponseMessage response)
+        private async Task HandleBadResponse(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode) return;
 
@@ -63,7 +63,9 @@ namespace SEEK.AdPostingApi.Client
                 throw new UnauthorizedException(requestId, "Could not get OAuth2 access token.");
             }
 
-            throw new RequestException(requestId, (int)response.StatusCode, "Unexpected error when retrieving OAuth2 access token.");
+            string responseContent = await response.Content.ReadAsStringAsync();
+            string responseContentType = response.GetHeaderValue("Content-Type");
+            throw new RequestException(requestId, (int)response.StatusCode, response.ReasonPhrase, responseContent, responseContentType);
         }
 
         public void Dispose()

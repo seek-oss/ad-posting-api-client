@@ -199,11 +199,24 @@ namespace SEEK.AdPostingApi.Client.Hal
                     }
 
                     break;
+
+                case 429:
+                    string retryAfterHeaderValue = httpResponse.GetHeaderValue("Retry-After");
+
+                    int retryAfterSeconds;
+                    if (int.TryParse(retryAfterHeaderValue, out retryAfterSeconds))
+                    {
+                        throw new TooManyRequestsException(requestId, retryAfterSeconds);
+                    }
+
+                    throw new TooManyRequestsException(requestId);
             }
 
             if (!httpResponse.IsSuccessStatusCode)
             {
-                throw new RequestException(requestId, (int)httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
+                string responseContent = await httpResponse.Content.ReadAsStringAsync();
+                string responseContentType = httpResponse.GetHeaderValue("Content-Type");
+                throw new RequestException(requestId, (int)httpResponse.StatusCode, httpResponse.ReasonPhrase, responseContent, responseContentType);
             }
         }
 

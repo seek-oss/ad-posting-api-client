@@ -21,6 +21,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             Failed,
             Unauthorized,
             Unknown,
+            LimitExceeded,
             ValidationErrors
         }
 
@@ -58,8 +59,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 }
                 catch (ValidationException ex)
                 {
-                    errors = ex.Errors;
-                    createResult = CreateResult.ValidationErrors;
+                    PrintValidationErrors(ex.Errors);
                     break;
                 }
                 catch (UnauthorizedException ex)
@@ -68,10 +68,19 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     createResult = CreateResult.Unauthorized;
                     break;
                 }
+                catch (TooManyRequestsException ex)
+                {
+                    LogException(ex);
+                    createResult = CreateResult.LimitExceeded;
+                    if (ex.RetryAfter != null)
+                    {
+                        Console.WriteLine($"A Retry-After period of {ex.RetryAfter.Value.TotalSeconds} seconds is provided.");
+                    }
+                    break;
+                }
                 catch (RequestException ex)
                 {
                     LogException(ex);
-
                     if (ex.StatusCode >= 500)
                     {
                         if (retryAttempts == maxRetryAttempts)
@@ -105,10 +114,6 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
                     break;
 
-                case CreateResult.ValidationErrors:
-                    PrintValidationErrors(errors);
-                    break;
-
                 case CreateResult.Failed:
                     Console.WriteLine("Advertisement failed to be created, contact SEEK.");
                     break;
@@ -118,6 +123,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     break;
             }
 
+            // Get all advertisements example
             await GetAllAdvertisements(postingClient);
 
             Console.WriteLine("Finished Example. Press a key to exit.");
@@ -126,7 +132,15 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
         private static void LogException(RequestException ex)
         {
-            Console.WriteLine("Error (Status Code: {0}) while creating advertisement.\r\n{1}", ex.StatusCode, ex.Message);
+            Console.WriteLine("Error (Status Code: {0}) while creating advertisement.\r\nMessage: {1}", ex.StatusCode, ex.Message);
+            if (ex.ResponseContentType != null)
+            {
+                Console.WriteLine($"Response Content-Type: {ex.ResponseContentType}");
+            }
+            if (ex.ResponseContent != null)
+            {
+                Console.WriteLine($"Response Content: {ex.ResponseContent}");
+            }
         }
 
         private static void PrintValidationErrors(AdvertisementError[] errors)
@@ -148,8 +162,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
         private static async Task GetAllAdvertisements(IAdPostingApiClient postingClient)
         {
             var advertisementList = await postingClient.GetAllAdvertisementsAsync();
-            Console.WriteLine("\nRetrieve all advertisements.{0}",
-                JsonConvert.SerializeObject(advertisementList, Formatting.Indented));
+            Console.WriteLine("\nRetrieve all advertisements.{0}", JsonConvert.SerializeObject(advertisementList, Formatting.Indented));
         }
 
         /// <summary>
