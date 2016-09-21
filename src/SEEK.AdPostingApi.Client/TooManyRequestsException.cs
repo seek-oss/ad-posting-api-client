@@ -8,15 +8,9 @@ namespace SEEK.AdPostingApi.Client
     [Serializable]
     public class TooManyRequestsException : RequestException
     {
-        public TooManyRequestsException(string requestId, int? retryAfterSeconds) : base(requestId, 429, "Too many requests have been sent in a given amount of time.")
+        public TooManyRequestsException(string requestId, TimeSpan? delta) : base(requestId, 429, "Too many requests have been sent in a given amount of time.")
         {
-            this.RetryAfter = retryAfterSeconds == null
-                ? (TimeSpan?)null
-                : TimeSpan.FromSeconds(retryAfterSeconds.Value);
-        }
-
-        public TooManyRequestsException(string requestId) : this(requestId, null)
-        {
+            this.RetryAfter = delta;
         }
 
         protected TooManyRequestsException(SerializationInfo info, StreamingContext context) : base(info, context)

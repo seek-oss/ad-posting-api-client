@@ -62,7 +62,6 @@
     <Compile Include="Hal\EmbeddedAttribute.cs" />
     <Compile Include="Hal\IResource.cs" />
     <Compile Include="Hal\Links.cs" />
-    <Compile Include="HttpResponseMessageExtensions.cs" />
     <Compile Include="Models\ExpireAdvertisementJsonPatch.cs" />
     <Compile Include="Models\AdvertisementErrorResponse.cs" />
     <Compile Include="Models\AdvertisementError.cs" />

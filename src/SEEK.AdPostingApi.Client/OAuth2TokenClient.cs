@@ -42,7 +42,7 @@ namespace SEEK.AdPostingApi.Client
 
                 using (HttpResponseMessage response = await _httpClient.SendAsync(tokenRequest))
                 {
-                    await HandleBadResponse(response);
+                    await HandleBadResponseAsync(response);
 
                     string responseContent = await response.Content.ReadAsStringAsync();
                     var token = JsonConvert.DeserializeObject<OAuth2Token>(responseContent, _jsonSettings);
@@ -52,7 +52,7 @@ namespace SEEK.AdPostingApi.Client
             }
         }
 
-        private async Task HandleBadResponse(HttpResponseMessage response)
+        private async Task HandleBadResponseAsync(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode) return;
 
@@ -60,12 +60,11 @@ namespace SEEK.AdPostingApi.Client
             string requestId = response.Headers.TryGetValues("X-Request-Id", out requestIds) ? requestIds.First() : null;
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                throw new UnauthorizedException(requestId, "Could not get OAuth2 access token.");
+                throw new UnauthorizedException(requestId, (int)response.StatusCode, "Could not get OAuth2 access token.");
             }
 
             string responseContent = await response.Content.ReadAsStringAsync();
-            string responseContentType = response.GetHeaderValue("Content-Type");
-            throw new RequestException(requestId, (int)response.StatusCode, response.ReasonPhrase, responseContent, responseContentType);
+            throw new RequestException(requestId, (int)response.StatusCode, response.ReasonPhrase, responseContent, response.Content.Headers.ContentType?.MediaType);
         }
 
         public void Dispose()

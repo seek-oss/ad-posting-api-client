@@ -671,6 +671,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
                     RequestId,
+                    403,
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
@@ -725,6 +726,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             actualException.ShouldBeEquivalentToException(
                 new UnauthorizedException(
                     RequestId,
+                    403,
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
