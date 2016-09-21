@@ -14,7 +14,7 @@ namespace SEEK.AdPostingApi.Client
 
         public UnauthorizedException(string requestId, int httpStatusCode, AdvertisementErrorResponse errorResponse) : base(requestId, httpStatusCode, errorResponse?.Message)
         {
-            this.Errors = errorResponse?.Errors;
+            this.Errors = errorResponse?.Errors ?? new AdvertisementError[0];
         }
 
         protected UnauthorizedException(SerializationInfo info, StreamingContext context) : base(info, context)

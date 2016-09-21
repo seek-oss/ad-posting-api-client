@@ -9,9 +9,9 @@ namespace SEEK.AdPostingApi.Client
         public RequestException(string requestId, int statusCode, string message, string responseContent = null, string responseContentType = null) : base(message)
         {
             this.RequestId = requestId;
-            this.StatusCode = statusCode;
             this.ResponseContent = responseContent;
             this.ResponseContentType = responseContentType;
+            this.StatusCode = statusCode;
         }
 
         protected RequestException(SerializationInfo info, StreamingContext context) : base(info, context)

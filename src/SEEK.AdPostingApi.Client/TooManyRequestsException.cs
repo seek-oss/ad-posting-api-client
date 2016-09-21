@@ -15,7 +15,7 @@ namespace SEEK.AdPostingApi.Client
 
         protected TooManyRequestsException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            this.RetryAfter = (TimeSpan)info.GetValue(nameof(this.RetryAfter), typeof(TimeSpan));
+            this.RetryAfter = (TimeSpan?)info.GetValue(nameof(this.RetryAfter), typeof(TimeSpan?));
         }
 
         public TimeSpan? RetryAfter { get; }
