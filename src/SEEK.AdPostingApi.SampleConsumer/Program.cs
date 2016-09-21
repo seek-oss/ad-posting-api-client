@@ -43,18 +43,27 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 {
                     // Poll and check the processing status of the create advertisement request
                     // Note that Update and Expire requests can still be sent when Processing Status of a previous request(eg: Create) is Pending.
-                    ProcessingStatus processingStatus = await GetAdvertisementStatusExampleAsync(createdAdvertisement.Uri, client);
+                    ProcessingStatus processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Uri, client);
                     Console.WriteLine($"The Processing Status of the Create Advertisement request is '{processingStatus}'.");
 
-                    // Retrieve advertisement
-                    AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Uri, client);
+                    if (processingStatus != ProcessingStatus.Failed)
+                    {
+                        // Retrieve advertisement
+                        AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Uri, client);
 
-                    // Modify details on the advertisement
-                    advertisementResource.JobTitle = "Senior Dude";
-                    AdvertisementResource updatedAdvertisement = await UpdateAdvertisementExampleAsync(advertisementResource);
+                        // Modify details on the advertisement
+                        advertisementResource.JobTitle = "Senior Dude";
+                        AdvertisementResource updatedAdvertisementResource = await UpdateAdvertisementExampleAsync(advertisementResource);
 
-                    // Expire the advertisement
-                    await ExpireAdvertisementExampleAsync(updatedAdvertisement);
+                        processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Uri, client);
+                        Console.WriteLine($"The Processing Status of the Update Advertisement request is '{processingStatus}'.");
+
+                        // Expire the advertisement
+                        await ExpireAdvertisementExampleAsync(updatedAdvertisementResource);
+
+                        processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Uri, client);
+                        Console.WriteLine($"The Processing Status of the Expire Advertisement request is '{processingStatus}'.");
+                    }
                 }
 
                 // Get paged summaries of created advertisements
@@ -69,7 +78,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             Console.ReadKey(true);
         }
 
-        private static async Task<ProcessingStatus> GetAdvertisementStatusExampleAsync(Uri advertisementUri, IAdPostingApiClient client)
+        private static async Task<ProcessingStatus> WaitForAdvertisementProcessingCompleteExampleAsync(Uri advertisementUri, IAdPostingApiClient client)
         {
             ProcessingStatus status = ProcessingStatus.Unknown;
             try
@@ -217,7 +226,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
         private static void LogException(RequestException ex, [CallerMemberName] string callerName = "")
         {
-            LogException(ex.Message, ex.StatusCode, callerName);
+            Console.WriteLine($"Error (Status Code: {ex.StatusCode}) while performing `{callerName}`.\r\nMessage: {ex.Message}");
 
             switch (ex.GetType().Name)
             {
@@ -246,11 +255,6 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     LogException(ex.ResponseContentType, ex.ResponseContent);
                     break;
             }
-        }
-
-        private static void LogException(string message, int statusCode, [CallerMemberName] string callerName = "")
-        {
-            Console.WriteLine($"Error (Status Code: {statusCode}) while performing `{callerName}`.\r\nMessage: {message}");
         }
 
         private static void LogException(string responseContentType, string responseContent)
