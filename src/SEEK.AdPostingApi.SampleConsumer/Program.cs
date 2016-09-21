@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Eventing.Reader;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Polly;
@@ -22,6 +18,14 @@ namespace SEEK.AdPostingApi.SampleConsumer
         private const string ClientId = "ClientId";
         private const string ClientSecret = "ClientSecret";
 
+        private static RetryPolicy TransientErrorRetryPolicy = Policy
+            .Handle<RequestException>(ex => ex.StatusCode >= 500)
+            .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(BaseRetryIntervalSeconds * Math.Pow(2, attempt)),
+                    (exception, waitInterval) =>
+                    {
+                        Console.WriteLine($"Unexpected error, waiting {waitInterval.TotalSeconds} seconds before retrying.");
+                    });
+
         public static void Main()
         {
             Task.Run(ExampleAsync).Wait();
@@ -29,47 +33,67 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
         public static async Task ExampleAsync()
         {
-            RetryPolicy retryPolicy = Policy
-                .Handle<RequestException>(ex => ex.StatusCode >= 500)
-                .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(BaseRetryIntervalSeconds * Math.Pow(2, attempt)),
-                    (exception, waitInterval) =>
-                    {
-                        Console.WriteLine($"Unexpected error, waiting {waitInterval.TotalSeconds} seconds before retrying.");
-                    });
-
             using (var client = new AdPostingApiClient(ClientId, ClientSecret, Environment.Integration))
             {
                 // Create a new advertisement
                 Advertisement advertisement = GetExampleAdvertisementToCreate();
-                AdvertisementResource createdAdvertisement = await CreateAdvertisementExampleAsync(advertisement, client, retryPolicy);
+                AdvertisementResource createdAdvertisement = await CreateAdvertisementExampleAsync(advertisement, client);
 
                 if (createdAdvertisement != null)
                 {
+                    // Poll and check the processing status of the create advertisement request
+                    // Note that Update and Expire requests can still be sent when Processing Status of a previous request(eg: Create) is Pending.
+                    ProcessingStatus processingStatus = await GetAdvertisementStatusExampleAsync(createdAdvertisement.Uri, client);
+                    Console.WriteLine($"The Processing Status of the Create Advertisement request is '{processingStatus}'.");
+
                     // Retrieve advertisement
-                    AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Uri, client, retryPolicy);
+                    AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Uri, client);
 
                     // Modify details on the advertisement
                     advertisementResource.JobTitle = "Senior Dude";
-                    AdvertisementResource updatedAdvertisement = await UpdateAdvertisementExampleAsync(advertisementResource, retryPolicy);
+                    AdvertisementResource updatedAdvertisement = await UpdateAdvertisementExampleAsync(advertisementResource);
 
                     // Expire the advertisement
-                    await ExpireAdvertisementExampleAsync(updatedAdvertisement, retryPolicy);
+                    await ExpireAdvertisementExampleAsync(updatedAdvertisement);
                 }
 
-                // Get a summarised page of created advertisements
-                AdvertisementSummaryPageResource advertisementSummaryPage = await GetAllAdvertisementsExampleAsync(client, retryPolicy);
+                // Get paged summaries of created advertisements
+                AdvertisementSummaryPageResource advertisementSummaryPage = await GetAllAdvertisementsExampleAsync(client);
+                while (!advertisementSummaryPage.Eof)
+                {
+                    advertisementSummaryPage = await GetAllAdvertisementsNextPageExampleAsync(advertisementSummaryPage);
+                }
             }
 
             Console.WriteLine("Finished Example. Press a key to exit.");
             Console.ReadKey(true);
         }
 
-        public static async Task<AdvertisementResource> CreateAdvertisementExampleAsync(Advertisement advertisementToCreate, IAdPostingApiClient client, Policy retryPolicy)
+        private static async Task<ProcessingStatus> GetAdvertisementStatusExampleAsync(Uri advertisementUri, IAdPostingApiClient client)
+        {
+            ProcessingStatus status = ProcessingStatus.Unknown;
+            try
+            {
+                await Policy
+                    .Handle<RequestException>(ex => ex.StatusCode >= 500) // retry on transient errors
+                    .OrResult<ProcessingStatus>(p => p == ProcessingStatus.Pending) // retry while status is Pending
+                    .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(BaseRetryIntervalSeconds * Math.Pow(2, attempt)))
+                    .ExecuteAsync(async () => status = await client.GetAdvertisementStatusAsync(advertisementUri));
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return status;
+        }
+
+        public static async Task<AdvertisementResource> CreateAdvertisementExampleAsync(Advertisement advertisementToCreate, IAdPostingApiClient client)
         {
             AdvertisementResource advertisementResource = null;
             try
             {
-                await retryPolicy.ExecuteAsync(async () => { advertisementResource = await client.CreateAdvertisementAsync(advertisementToCreate); });
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await client.CreateAdvertisementAsync(advertisementToCreate));
                 Console.WriteLine($"Created Advertisement:\n{JsonConvert.SerializeObject(advertisementResource, Formatting.Indented)}");
             }
             catch (RequestException ex)
@@ -80,12 +104,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return advertisementResource;
         }
 
-        public static async Task<AdvertisementResource> UpdateAdvertisementExampleAsync(AdvertisementResource advertisement, Policy retryPolicy)
+        public static async Task<AdvertisementResource> UpdateAdvertisementExampleAsync(AdvertisementResource advertisement)
         {
             AdvertisementResource advertisementResource = null;
             try
             {
-                await retryPolicy.ExecuteAsync(async () => { advertisementResource = await advertisement.SaveAsync(); });
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await advertisement.SaveAsync());
                 Console.WriteLine($"Updated Advertisement:\n{JsonConvert.SerializeObject(advertisementResource, Formatting.Indented)}");
             }
             catch (RequestException ex)
@@ -96,12 +120,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return advertisementResource;
         }
 
-        private static async Task<AdvertisementResource> ExpireAdvertisementExampleAsync(AdvertisementResource advertisement, RetryPolicy retryPolicy)
+        private static async Task<AdvertisementResource> ExpireAdvertisementExampleAsync(AdvertisementResource advertisement)
         {
             AdvertisementResource advertisementResource = null;
             try
             {
-                await retryPolicy.ExecuteAsync(async () => { advertisementResource = await advertisement.ExpireAsync(); });
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await advertisement.ExpireAsync());
                 Console.WriteLine($"Expired Advertisement:\n{JsonConvert.SerializeObject(advertisementResource, Formatting.Indented)}");
             }
             catch (RequestException ex)
@@ -112,12 +136,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return advertisementResource;
         }
 
-        private static async Task<AdvertisementResource> GetAdvertisementExampleAsync(Uri advertisementUri, AdPostingApiClient client, RetryPolicy retryPolicy)
+        private static async Task<AdvertisementResource> GetAdvertisementExampleAsync(Uri advertisementUri, AdPostingApiClient client)
         {
             AdvertisementResource advertisementResource = null;
             try
             {
-                await retryPolicy.ExecuteAsync(async () => { advertisementResource = await client.GetAdvertisementAsync(advertisementUri); });
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await client.GetAdvertisementAsync(advertisementUri));
                 Console.WriteLine($"Retrieved Advertisement:\n{JsonConvert.SerializeObject(advertisementResource, Formatting.Indented)}");
             }
             catch (RequestException ex)
@@ -128,13 +152,13 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return advertisementResource;
         }
 
-        private static async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsExampleAsync(AdPostingApiClient client, RetryPolicy retryPolicy)
+        private static async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsExampleAsync(AdPostingApiClient client)
         {
             AdvertisementSummaryPageResource advertisementSummaryPage = null;
             try
             {
-                await retryPolicy.ExecuteAsync(async () => { advertisementSummaryPage = await client.GetAllAdvertisementsAsync(); });
-                Console.WriteLine($"Retrieved all advertisements:{JsonConvert.SerializeObject(advertisementSummaryPage, Formatting.Indented)}");
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementSummaryPage = await client.GetAllAdvertisementsAsync());
+                Console.WriteLine($"Retrieve all advertisements:{JsonConvert.SerializeObject(advertisementSummaryPage, Formatting.Indented)}");
             }
             catch (RequestException ex)
             {
@@ -142,6 +166,21 @@ namespace SEEK.AdPostingApi.SampleConsumer
             }
 
             return advertisementSummaryPage;
+        }
+
+        private static async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsNextPageExampleAsync(AdvertisementSummaryPageResource summaryPage)
+        {
+            try
+            {
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => summaryPage = await summaryPage.NextPageAsync());
+                Console.WriteLine($"Next page of advertisements:{JsonConvert.SerializeObject(summaryPage, Formatting.Indented)}");
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return summaryPage;
         }
 
         private static Advertisement GetExampleAdvertisementToCreate()
@@ -228,7 +267,10 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
         private static void PrintValidationErrors(AdvertisementError[] errors)
         {
-            Console.WriteLine("Advertisement creation failed. Validation errors:");
+            if (errors.Length < 1) return;
+
+            Console.WriteLine("Validation errors:");
+
             int counter = 1;
             foreach (AdvertisementError error in errors)
             {
