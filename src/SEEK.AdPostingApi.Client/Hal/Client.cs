@@ -201,7 +201,7 @@ namespace SEEK.AdPostingApi.Client.Hal
                     break;
 
                 case 429:
-                    throw new TooManyRequestsException(requestId, httpResponse.Headers.RetryAfter.Delta);
+                    throw new TooManyRequestsException(requestId, httpResponse.Headers.RetryAfter?.Delta);
             }
 
             if (!httpResponse.IsSuccessStatusCode)
