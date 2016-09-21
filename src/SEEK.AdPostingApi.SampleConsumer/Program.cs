@@ -46,11 +46,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     ProcessingStatus processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Uri, client);
                     Console.WriteLine($"The Processing Status of the Create Advertisement request is '{processingStatus}'.");
 
+                    // Retrieve advertisement
+                    AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Uri, client);
+
                     if (processingStatus != ProcessingStatus.Failed)
                     {
-                        // Retrieve advertisement
-                        AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Uri, client);
-
                         // Modify details on the advertisement
                         advertisementResource.JobTitle = "Senior Dude";
                         AdvertisementResource updatedAdvertisementResource = await UpdateAdvertisementExampleAsync(advertisementResource);
@@ -63,6 +63,10 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
                         processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Uri, client);
                         Console.WriteLine($"The Processing Status of the Expire Advertisement request is '{processingStatus}'.");
+                    }
+                    else
+                    {
+                        PrintAdvertisementErrors(advertisementResource.Errors);
                     }
                 }
 
@@ -236,11 +240,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     break;
 
                 case nameof(ValidationException):
-                    PrintValidationErrors(((ValidationException)ex).Errors);
+                    PrintAdvertisementErrors(((ValidationException)ex).Errors);
                     break;
 
                 case nameof(UnauthorizedException):
-                    PrintValidationErrors(((UnauthorizedException)ex).Errors);
+                    PrintAdvertisementErrors(((UnauthorizedException)ex).Errors);
                     break;
 
                 case nameof(TooManyRequestsException):
@@ -269,11 +273,11 @@ namespace SEEK.AdPostingApi.SampleConsumer
             }
         }
 
-        private static void PrintValidationErrors(AdvertisementError[] errors)
+        private static void PrintAdvertisementErrors(AdvertisementError[] errors)
         {
             if (errors.Length < 1) return;
 
-            Console.WriteLine("Validation errors:");
+            Console.WriteLine("Advertisement Errors:");
 
             int counter = 1;
             foreach (AdvertisementError error in errors)
