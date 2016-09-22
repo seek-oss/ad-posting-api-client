@@ -18,7 +18,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
         private const string ClientId = "ClientId";
         private const string ClientSecret = "ClientSecret";
 
-        private static RetryPolicy TransientErrorRetryPolicy = Policy
+        private static readonly RetryPolicy TransientErrorRetryPolicy = Policy
             .Handle<RequestException>(ex => ex.StatusCode >= 500)
             .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(BaseRetryIntervalSeconds * Math.Pow(2, attempt)),
                     (exception, waitInterval) =>
@@ -33,7 +33,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
         public static async Task ExampleAsync()
         {
-            using (var client = new AdPostingApiClient(ClientId, ClientSecret, Environment.Integration))
+            using (IAdPostingApiClient client = new AdPostingApiClient(ClientId, ClientSecret, Environment.Integration))
             {
                 // Create a new advertisement
                 Advertisement advertisement = GetExampleAdvertisementToCreate();
@@ -43,30 +43,28 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 {
                     // Poll and check the processing status of the create advertisement request
                     // Note that Update and Expire requests can still be sent when Processing Status of a previous request(eg: Create) is Pending.
-                    ProcessingStatus processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Uri, client);
+                    ProcessingStatus processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Id, client);
                     Console.WriteLine($"The Processing Status of the Create Advertisement request is '{processingStatus}'.");
 
                     // Retrieve advertisement
-                    AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Uri, client);
+                    AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Id, client);
 
-                    if (processingStatus != ProcessingStatus.Failed)
+                    if (processingStatus == ProcessingStatus.Failed)
+                    {
+                        // The advertisement could not be processed, the Errors item on the retrieved advertisement lists the errors.
+                        PrintAdvertisementErrors(advertisementResource.Errors);
+                    }
+                    else
                     {
                         // Modify details on the advertisement
                         advertisementResource.JobTitle = "Senior Dude";
                         AdvertisementResource updatedAdvertisementResource = await UpdateAdvertisementExampleAsync(advertisementResource);
 
-                        processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Uri, client);
+                        processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Id, client);
                         Console.WriteLine($"The Processing Status of the Update Advertisement request is '{processingStatus}'.");
 
                         // Expire the advertisement
                         await ExpireAdvertisementExampleAsync(updatedAdvertisementResource);
-
-                        processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Uri, client);
-                        Console.WriteLine($"The Processing Status of the Expire Advertisement request is '{processingStatus}'.");
-                    }
-                    else
-                    {
-                        PrintAdvertisementErrors(advertisementResource.Errors);
                     }
                 }
 
@@ -82,7 +80,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             Console.ReadKey(true);
         }
 
-        private static async Task<ProcessingStatus> WaitForAdvertisementProcessingCompleteExampleAsync(Uri advertisementUri, IAdPostingApiClient client)
+        private static async Task<ProcessingStatus> WaitForAdvertisementProcessingCompleteExampleAsync(Guid advertisementId, IAdPostingApiClient client)
         {
             ProcessingStatus status = ProcessingStatus.Unknown;
             try
@@ -91,7 +89,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     .Handle<RequestException>(ex => ex.StatusCode >= 500) // retry on transient errors
                     .OrResult<ProcessingStatus>(p => p == ProcessingStatus.Pending) // retry while status is Pending
                     .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(BaseRetryIntervalSeconds * Math.Pow(2, attempt)))
-                    .ExecuteAsync(async () => status = await client.GetAdvertisementStatusAsync(advertisementUri));
+                    .ExecuteAsync(async () => status = await client.GetAdvertisementStatusAsync(advertisementId));
             }
             catch (RequestException ex)
             {
@@ -149,12 +147,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return advertisementResource;
         }
 
-        private static async Task<AdvertisementResource> GetAdvertisementExampleAsync(Uri advertisementUri, AdPostingApiClient client)
+        private static async Task<AdvertisementResource> GetAdvertisementExampleAsync(Guid advertisementId, IAdPostingApiClient client)
         {
             AdvertisementResource advertisementResource = null;
             try
             {
-                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await client.GetAdvertisementAsync(advertisementUri));
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await client.GetAdvertisementAsync(advertisementId));
                 Console.WriteLine($"Retrieved Advertisement:\n{JsonConvert.SerializeObject(advertisementResource, Formatting.Indented)}");
             }
             catch (RequestException ex)
@@ -165,7 +163,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return advertisementResource;
         }
 
-        private static async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsExampleAsync(AdPostingApiClient client)
+        private static async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsExampleAsync(IAdPostingApiClient client)
         {
             AdvertisementSummaryPageResource advertisementSummaryPage = null;
             try
