@@ -52,6 +52,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
                     if (processingStatus == ProcessingStatus.Failed)
                     {
                         // The advertisement could not be processed, the Errors item on the retrieved advertisement lists the errors.
+                        // Correct the errors then send an update request.
                         PrintAdvertisementErrors(advertisementResource.Errors);
                     }
                     else
