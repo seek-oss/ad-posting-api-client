@@ -157,7 +157,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             switch ((int)httpResponse.StatusCode)
             {
                 case (int)HttpStatusCode.Unauthorized:
-                    throw new UnauthorizedException(requestId, $"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
+                    throw new UnauthorizedException(requestId, (int)httpResponse.StatusCode, $"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
 
                 case (int)HttpStatusCode.Forbidden:
                     string content = await httpResponse.Content.ReadAsStringAsync();
@@ -165,12 +165,12 @@ namespace SEEK.AdPostingApi.Client.Hal
 
                     if (string.IsNullOrEmpty(content))
                     {
-                        throw new UnauthorizedException(requestId, $"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
+                        throw new UnauthorizedException(requestId, (int)httpResponse.StatusCode, $"[{httpRequest.Method}] {httpRequest.RequestUri.AbsoluteUri} is not authorized.");
                     }
 
                     if (this.TryDeserializeError(content, out advertisementErrorResponse))
                     {
-                        throw new UnauthorizedException(requestId, advertisementErrorResponse);
+                        throw new UnauthorizedException(requestId, (int)httpResponse.StatusCode, advertisementErrorResponse);
                     }
 
                     break;
@@ -199,9 +199,16 @@ namespace SEEK.AdPostingApi.Client.Hal
                     }
 
                     break;
+
+                case 429:
+                    throw new TooManyRequestsException(requestId, httpResponse.Headers.RetryAfter?.Delta);
             }
 
-            httpResponse.EnsureSuccessStatusCode();
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                string responseContent = await httpResponse.Content.ReadAsStringAsync();
+                throw new RequestException(requestId, (int)httpResponse.StatusCode, httpResponse.ReasonPhrase, responseContent, httpResponse.Content.Headers.ContentType?.MediaType);
+            }
         }
 
         private bool TryDeserializeError(string responseContent, out AdvertisementErrorResponse error)

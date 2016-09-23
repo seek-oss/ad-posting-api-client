@@ -7,13 +7,13 @@ namespace SEEK.AdPostingApi.Client
     [Serializable]
     public class UnauthorizedException : RequestException
     {
-        public UnauthorizedException(string requestId, string message) : base(requestId, message)
+        public UnauthorizedException(string requestId, int httpStatusCode, string message) : base(requestId, httpStatusCode, message)
         {
         }
 
-        public UnauthorizedException(string requestId, AdvertisementErrorResponse errorResponse) : base(requestId, errorResponse?.Message)
+        public UnauthorizedException(string requestId, int httpStatusCode, AdvertisementErrorResponse errorResponse) : base(requestId, httpStatusCode, errorResponse?.Message)
         {
-            this.Errors = errorResponse?.Errors;
+            this.Errors = errorResponse?.Errors ?? new AdvertisementError[0];
         }
 
         protected UnauthorizedException(SerializationInfo info, StreamingContext context) : base(info, context)

@@ -93,7 +93,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             }
 
             actualException.ShouldBeEquivalentToException(
-                new UnauthorizedException(RequestId, $"[GET] {this.Fixture.AdPostingApiServiceBaseUri} is not authorized."));
+                new UnauthorizedException(RequestId, 401, $"[GET] {this.Fixture.AdPostingApiServiceBaseUri} is not authorized."));
         }
 
         private AdPostingApiFixture Fixture { get; }

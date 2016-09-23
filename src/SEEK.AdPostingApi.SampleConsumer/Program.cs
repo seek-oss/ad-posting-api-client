@@ -1,42 +1,210 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Polly;
+using Polly.Retry;
 using SEEK.AdPostingApi.Client;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
+using Environment = SEEK.AdPostingApi.Client.Environment;
 
 namespace SEEK.AdPostingApi.SampleConsumer
 {
     public class Program
     {
+        private const string AdvertiserId = "AdvertiserId";
+        private const int BaseRetryIntervalSeconds = 2;
+        private const string ClientId = "ClientId";
+        private const string ClientSecret = "ClientSecret";
+
+        private static readonly RetryPolicy TransientErrorRetryPolicy = Policy
+            .Handle<RequestException>(ex => ex.StatusCode >= 500)
+            .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(BaseRetryIntervalSeconds * Math.Pow(2, attempt)),
+                    (exception, waitInterval) =>
+                    {
+                        Console.WriteLine($"Unexpected error, waiting {waitInterval.TotalSeconds} seconds before retrying.");
+                    });
+
         public static void Main()
         {
-            Task.Run(MainAsync).Wait();
+            Task.Run(ExampleAsync).Wait();
         }
 
-        private enum CreateResult
+        public static async Task ExampleAsync()
         {
-            Unknown,
-            Created,
-            AlreadyExists,
-            ValidationErrors,
-            Timeout,
-            Unauthorized
-        }
-
-        private static async Task MainAsync()
-        {
-            IAdPostingApiClient postingClient = new AdPostingApiClient("<client id>", "<client secret>", Client.Environment.Integration);
-
-            // An example advertisement with a unique creation ID that ensures multiple create retries will not create duplicate advertisements.
-            var ad = new Advertisement
+            using (IAdPostingApiClient client = new AdPostingApiClient(ClientId, ClientSecret, Environment.Integration))
             {
-                CreationId = "Sample Consumer 2575274f-7526-455d-a2a3-32447e40733d",
-                ThirdParties = new ThirdParties { AdvertiserId = "Advertiser Id" },
-                JobTitle = "A Job Title",
-                SearchJobTitle = "A Job Title for Searching",
-                JobSummary = "Job summary of the job ad",
-                AdvertisementDetails = "Experience Required",
+                // Create a new advertisement
+                Advertisement advertisement = GetExampleAdvertisementToCreate();
+                AdvertisementResource createdAdvertisement = await CreateAdvertisementExampleAsync(advertisement, client);
+
+                if (createdAdvertisement != null)
+                {
+                    // Poll and check the processing status of the create advertisement request
+                    // Note that Update and Expire requests can still be sent when Processing Status of a previous request(eg: Create) is Pending.
+                    ProcessingStatus processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Id, client);
+                    Console.WriteLine($"The Processing Status of the Create Advertisement request is '{processingStatus}'.");
+
+                    // Retrieve advertisement
+                    AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Id, client);
+
+                    if (processingStatus == ProcessingStatus.Failed)
+                    {
+                        // The advertisement could not be processed, the Errors item on the retrieved advertisement lists the errors.
+                        // Correct the errors then send an update request.
+                        PrintAdvertisementErrors(advertisementResource.Errors);
+                    }
+                    else
+                    {
+                        // Modify details on the advertisement
+                        advertisementResource.JobTitle = "Senior Dude";
+                        AdvertisementResource updatedAdvertisementResource = await UpdateAdvertisementExampleAsync(advertisementResource);
+
+                        processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Id, client);
+                        Console.WriteLine($"The Processing Status of the Update Advertisement request is '{processingStatus}'.");
+
+                        // Expire the advertisement
+                        await ExpireAdvertisementExampleAsync(updatedAdvertisementResource);
+                    }
+                }
+
+                // Get paged summaries of created advertisements
+                AdvertisementSummaryPageResource advertisementSummaryPage = await GetAllAdvertisementsExampleAsync(client);
+                while (!advertisementSummaryPage.Eof)
+                {
+                    advertisementSummaryPage = await GetAllAdvertisementsNextPageExampleAsync(advertisementSummaryPage);
+                }
+            }
+
+            Console.WriteLine("Finished Example. Press a key to exit.");
+            Console.ReadKey(true);
+        }
+
+        private static async Task<ProcessingStatus> WaitForAdvertisementProcessingCompleteExampleAsync(Guid advertisementId, IAdPostingApiClient client)
+        {
+            ProcessingStatus status = ProcessingStatus.Unknown;
+            try
+            {
+                await Policy
+                    .Handle<RequestException>(ex => ex.StatusCode >= 500) // retry on transient errors
+                    .OrResult<ProcessingStatus>(p => p == ProcessingStatus.Pending) // retry while status is Pending
+                    .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(BaseRetryIntervalSeconds * Math.Pow(2, attempt)))
+                    .ExecuteAsync(async () => status = await client.GetAdvertisementStatusAsync(advertisementId));
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return status;
+        }
+
+        public static async Task<AdvertisementResource> CreateAdvertisementExampleAsync(Advertisement advertisementToCreate, IAdPostingApiClient client)
+        {
+            AdvertisementResource advertisementResource = null;
+            try
+            {
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await client.CreateAdvertisementAsync(advertisementToCreate));
+                Console.WriteLine($"Created Advertisement:\n{JsonConvert.SerializeObject(advertisementResource, Formatting.Indented)}");
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return advertisementResource;
+        }
+
+        public static async Task<AdvertisementResource> UpdateAdvertisementExampleAsync(AdvertisementResource advertisement)
+        {
+            AdvertisementResource advertisementResource = null;
+            try
+            {
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await advertisement.SaveAsync());
+                Console.WriteLine($"Updated Advertisement:\n{JsonConvert.SerializeObject(advertisementResource, Formatting.Indented)}");
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return advertisementResource;
+        }
+
+        private static async Task<AdvertisementResource> ExpireAdvertisementExampleAsync(AdvertisementResource advertisement)
+        {
+            AdvertisementResource advertisementResource = null;
+            try
+            {
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await advertisement.ExpireAsync());
+                Console.WriteLine($"Expired Advertisement:\n{JsonConvert.SerializeObject(advertisementResource, Formatting.Indented)}");
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return advertisementResource;
+        }
+
+        private static async Task<AdvertisementResource> GetAdvertisementExampleAsync(Guid advertisementId, IAdPostingApiClient client)
+        {
+            AdvertisementResource advertisementResource = null;
+            try
+            {
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementResource = await client.GetAdvertisementAsync(advertisementId));
+                Console.WriteLine($"Retrieved Advertisement:\n{JsonConvert.SerializeObject(advertisementResource, Formatting.Indented)}");
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return advertisementResource;
+        }
+
+        private static async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsExampleAsync(IAdPostingApiClient client)
+        {
+            AdvertisementSummaryPageResource advertisementSummaryPage = null;
+            try
+            {
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => advertisementSummaryPage = await client.GetAllAdvertisementsAsync());
+                Console.WriteLine($"Retrieve all advertisements:{JsonConvert.SerializeObject(advertisementSummaryPage, Formatting.Indented)}");
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return advertisementSummaryPage;
+        }
+
+        private static async Task<AdvertisementSummaryPageResource> GetAllAdvertisementsNextPageExampleAsync(AdvertisementSummaryPageResource summaryPage)
+        {
+            try
+            {
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => summaryPage = await summaryPage.NextPageAsync());
+                Console.WriteLine($"Next page of advertisements:{JsonConvert.SerializeObject(summaryPage, Formatting.Indented)}");
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return summaryPage;
+        }
+
+        private static Advertisement GetExampleAdvertisementToCreate()
+        {
+            return new Advertisement
+            {
+                CreationId = "Sample Consumer " + Guid.NewGuid(),
+                ThirdParties = new ThirdParties { AdvertiserId = AdvertiserId },
+                JobTitle = "A Job for a Dude",
+                SearchJobTitle = "Dudes find job best when they search on this title",
+                JobSummary = "Things a dude should know",
+                AdvertisementDetails = "Things the dude should have done and will need to do",
                 AdvertisementType = AdvertisementType.Classic,
                 WorkType = WorkType.Casual,
                 Salary = new Salary
@@ -57,111 +225,65 @@ namespace SEEK.AdPostingApi.SampleConsumer
                 },
                 SubclassificationId = "AerospaceEngineering"
             };
+        }
 
-            // Example of creating the advertisement using a simple retry loop.
-            AdvertisementError[] errors = null;
-            var createResult = CreateResult.Unknown;
-            Guid? advertisementId = null;
-            Uri advertisementLink = null;
-            var maxAttempts = 2;
-            while (maxAttempts > 0)
+        private static void LogException(RequestException ex, [CallerMemberName] string callerName = "")
+        {
+            Console.WriteLine($"Error (Status Code: {ex.StatusCode}) while performing `{callerName}`.\r\nMessage: {ex.Message}");
+
+            switch (ex.GetType().Name)
             {
-                try
-                {
-                    var advertisement = await postingClient.CreateAdvertisementAsync(ad);
+                case nameof(CreationIdAlreadyExistsException):
+                    Uri advertisementLink = ((CreationIdAlreadyExistsException)ex).AdvertisementLink;
+                    Console.WriteLine($"Advertisement Link:{advertisementLink}");
+                    break;
 
-                    advertisementId = advertisement.Id;
-                    advertisementLink = advertisement.Uri;
-                    createResult = CreateResult.Created;
+                case nameof(ValidationException):
+                    PrintAdvertisementErrors(((ValidationException)ex).Errors);
                     break;
-                }
-                catch (CreationIdAlreadyExistsException ex)
-                {
-                    advertisementLink = ex.AdvertisementLink;
-                    createResult = CreateResult.AlreadyExists;
+
+                case nameof(UnauthorizedException):
+                    PrintAdvertisementErrors(((UnauthorizedException)ex).Errors);
                     break;
-                }
-                catch (ValidationException ex)
-                {
-                    errors = ex.Errors;
-                    createResult = CreateResult.ValidationErrors;
-                    break;
-                }
-                catch (UnauthorizedException ex)
-                {
-                    Console.WriteLine("Unauthorized exception while creating advertisement.\r\n{0}", ex.Message);
-                    createResult = CreateResult.Unauthorized;
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    maxAttempts--;
-                    Console.WriteLine("Unexpected exception while creating advertisement.\r\n{0}", ex);
-                    if (maxAttempts == 0)
+
+                case nameof(TooManyRequestsException):
+                    TimeSpan? retryAfter = ((TooManyRequestsException)ex).RetryAfter;
+                    if (retryAfter != null)
                     {
-                        createResult = CreateResult.Timeout;
-                        break;
-                    }
-                    await Task.Delay(2000);
-                }
-            }
-
-            Console.WriteLine("Advertisement creation result: {0}", createResult);
-            switch (createResult)
-            {
-                case CreateResult.Created:
-                case CreateResult.AlreadyExists:
-                    if (createResult == CreateResult.Created)
-                    {
-                        Console.WriteLine($"Advertisement Id: {advertisementId}");
-                    }
-                    Console.WriteLine($"Advertisement Link: {advertisementLink}");
-
-                    // Use the returned advertisement link to get the advertisement.
-                    AdvertisementResource advertisementResource = await postingClient.GetAdvertisementAsync(advertisementLink);
-                    Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
-
-                    // Update the advertisement.
-                    advertisementResource.JobTitle = "New job title";
-                    advertisementResource = await advertisementResource.SaveAsync();
-
-                    Console.WriteLine();
-                    Console.WriteLine("Updated advertisement.");
-                    Console.WriteLine(JsonConvert.SerializeObject(advertisementResource, Formatting.Indented));
-
-                    var expiredAdvertisementContent = await advertisementResource.ExpireAsync();
-                    Console.WriteLine();
-                    Console.WriteLine("Expired advertisement.");
-                    Console.WriteLine(JsonConvert.SerializeObject(expiredAdvertisementContent, Formatting.Indented));
-
-                    var advertisementList = await postingClient.GetAllAdvertisementsAsync();
-                    Console.WriteLine();
-                    Console.WriteLine("Retrieve all advertisements.");
-                    Console.WriteLine(JsonConvert.SerializeObject(advertisementList, Formatting.Indented));
-                    break;
-
-                case CreateResult.ValidationErrors:
-                    // There were validation errors; show the errors.
-                    Console.WriteLine("Advertisement creation failed. Validation errors:");
-                    var counter = 1;
-                    foreach (var error in errors)
-                    {
-                        Console.WriteLine($"  [{counter:##}] Field: '{error.Field}' Code: '{error.Code}' Message: '{error.Message}'");
-                        counter++;
+                        Console.WriteLine($"A Retry-After period of {retryAfter.Value.TotalSeconds} seconds is provided.");
                     }
                     break;
 
-                case CreateResult.Timeout:
-                    Console.WriteLine("Advertisement not created. Maximum attempts reached.");
-                    break;
-
-                default:
-                    Console.WriteLine($"Advertisement not created. Unexpected createResult {createResult}.");
+                case nameof(RequestException):
+                    LogException(ex.ResponseContentType, ex.ResponseContent);
                     break;
             }
+        }
 
-            Console.WriteLine("Finished Example. Press a key to exit.");
-            Console.ReadKey(true);
+        private static void LogException(string responseContentType, string responseContent)
+        {
+            if (responseContentType != null)
+            {
+                Console.WriteLine($"Response Content-Type: {responseContentType}");
+            }
+            if (responseContent != null)
+            {
+                Console.WriteLine($"Response Content: {responseContent}");
+            }
+        }
+
+        private static void PrintAdvertisementErrors(AdvertisementError[] errors)
+        {
+            if (errors.Length < 1) return;
+
+            Console.WriteLine("Advertisement Errors:");
+
+            int counter = 1;
+            foreach (AdvertisementError error in errors)
+            {
+                Console.WriteLine($"  [{counter:##}] Field: '{error.Field}' Code: '{error.Code}' Message: '{error.Message}'");
+                counter++;
+            }
         }
     }
 }
