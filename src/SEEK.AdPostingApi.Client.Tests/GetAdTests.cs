@@ -135,7 +135,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [Fact]
+        [Fact(Skip = "Warnings are not implemented")]
         public async Task GetExistingAdvertisementWithWarnings()
         {
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
