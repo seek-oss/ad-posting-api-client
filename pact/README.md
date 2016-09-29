@@ -14,8 +14,6 @@
 
 * [A GET advertisement request for an advertisement with errors](#a_GET_advertisement_request_for_an_advertisement_with_errors_given_There_is_a_failed_classic_advertisement) given there is a failed classic advertisement
 
-* [A GET advertisement request for an advertisement with warnings](#a_GET_advertisement_request_for_an_advertisement_with_warnings_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
-
 * [A GET advertisements request for all advertisements](#a_GET_advertisements_request_for_all_advertisements_given_There_are_no_advertisements) given there are no advertisements
 
 * [A GET advertisements request for first page of data](#a_GET_advertisements_request_for_first_page_of_data_given_A_page_size_of_3_with_more_than_1_page_of_data) given a page size of 3 with more than 1 page of data
@@ -97,8 +95,6 @@
 * [A PUT advertisement request to update a job for an advertiser not related to the requestor's account](#a_PUT_advertisement_request_to_update_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
 
 * [A PUT advertisement request to update a job using a disabled requestor account](#a_PUT_advertisement_request_to_update_a_job_using_a_disabled_requestor_account_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
-
-* [A PUT advertisement request to update a standout job to classic](#a_PUT_advertisement_request_to_update_a_standout_job_to_classic_given_There_is_a_pending_standout_advertisement_with_maximum_data) given there is a pending standout advertisement with maximum data
 
 * [A PUT advertisement request to update an expired advertisement](#a_PUT_advertisement_request_to_update_an_expired_advertisement_given_There_is_an_expired_advertisement) given there is an expired advertisement
 
@@ -456,118 +452,6 @@ Ad Posting API will respond with:
       {
         "code": "Unauthorised",
         "message": "Unauthorised"
-      }
-    ]
-  }
-}
-```
-<a name="a_GET_advertisement_request_for_an_advertisement_with_warnings_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
-Given **there is a pending standout advertisement with maximum data**, upon receiving **a GET advertisement request for an advertisement with warnings** from Ad Posting API Client, with
-```json
-{
-  "method": "get",
-  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-  "headers": {
-    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-  }
-}
-```
-Ad Posting API will respond with:
-```json
-{
-  "status": 200,
-  "headers": {
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Processing-Status": "Pending",
-    "X-Request-Id": "PactRequestId"
-  },
-  "body": {
-    "advertisementDetails": "Exciting, do I need to say more?",
-    "thirdParties": {
-      "advertiserId": "1"
-    },
-    "advertisementType": "StandOut",
-    "jobSummary": "Developer job",
-    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-    "location": {
-      "id": "EuropeRussia",
-      "areaId": "RussiaEasternEurope"
-    },
-    "salary": {
-      "minimum": 100000.0,
-      "maximum": 119999.0,
-      "type": "AnnualPackage",
-      "details": "We will pay you"
-    },
-    "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com",
-      "teamName": "Recruiter Team Name"
-    },
-    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-    "contact": {
-      "name": "Contact name",
-      "email": "qwert@asdf.com",
-      "phone": "+1 (123) 456 7889"
-    },
-    "video": {
-      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-      "position": "Above"
-    },
-    "applicationEmail": "asdf@asdf.com",
-    "applicationFormUrl": "http://apply.com/",
-    "endApplicationUrl": "http://endform.com/",
-    "screenId": 1,
-    "jobReference": "JOB1234",
-    "agentJobReference": "AGENTJOB1234",
-    "template": {
-      "id": 1,
-      "items": [
-        {
-          "name": "Template Line 1",
-          "value": "Template Value 1"
-        },
-        {
-          "name": "Template Line 2",
-          "value": "Template Value 2"
-        }
-      ]
-    },
-    "standout": {
-      "logoId": 1,
-      "bullets": [
-        "Uzi",
-        "Remington Model",
-        "AK-47"
-      ]
-    },
-    "additionalProperties": [
-      "ResidentsOnly",
-      "Graduate"
-    ],
-    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-    "expiryDate": "2015-11-06T21:19:00Z",
-    "state": "Open",
-    "_links": {
-      "self": {
-        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
-      },
-      "view": {
-        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
-      }
-    },
-    "warnings": [
-      {
-        "field": "standout.logoId",
-        "code": "missing"
-      },
-      {
-        "field": "standout.bullets",
-        "code": "missing"
       }
     ]
   }
@@ -3232,62 +3116,6 @@ Ad Posting API will respond with:
     "errors": [
       {
         "code": "AccountError"
-      }
-    ]
-  }
-}
-```
-<a name="a_PUT_advertisement_request_to_update_a_standout_job_to_classic_given_There_is_a_pending_standout_advertisement_with_maximum_data"></a>
-Given **there is a pending standout advertisement with maximum data**, upon receiving **a PUT advertisement request to update a standout job to classic** from Ad Posting API Client, with
-```json
-{
-  "method": "put",
-  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-  "headers": {
-    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-  },
-  "body": {
-    "advertisementDetails": "Exciting, do I need to say more?",
-    "thirdParties": {
-      "advertiserId": "1"
-    },
-    "advertisementType": "Classic",
-    "jobSummary": "Developer job",
-    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-    "location": {
-      "id": "EuropeRussia",
-      "areaId": "RussiaEasternEurope"
-    },
-    "salary": {
-      "minimum": 100000.0,
-      "maximum": 119999.0,
-      "type": "AnnualPackage"
-    },
-    "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    }
-  }
-}
-```
-Ad Posting API will respond with:
-```json
-{
-  "status": 403,
-  "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "X-Request-Id": "PactRequestId"
-  },
-  "body": {
-    "message": "Forbidden",
-    "errors": [
-      {
-        "code": "InvalidState"
       }
     ]
   }
