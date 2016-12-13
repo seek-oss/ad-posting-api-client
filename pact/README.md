@@ -1213,7 +1213,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
 Ad Posting API will respond with:
 ```json
 {
-  "status": 202,
+  "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
     "X-Request-Id": "PactRequestId"
@@ -1617,7 +1617,7 @@ Upon receiving **a POST advertisement request to create a job ad with granular l
 Ad Posting API will respond with:
 ```json
 {
-  "status": 202,
+  "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
     "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
@@ -2002,7 +2002,7 @@ Upon receiving **a POST advertisement request to create a job ad with required a
 Ad Posting API will respond with:
 ```json
 {
-  "status": 202,
+  "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
     "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
@@ -2131,7 +2131,7 @@ Upon receiving **a POST advertisement request to create a job ad with required f
 Ad Posting API will respond with:
 ```json
 {
-  "status": 202,
+  "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
     "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
@@ -2371,7 +2371,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
 Ad Posting API will respond with:
 ```json
 {
-  "status": 202,
+  "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
     "X-Request-Id": "PactRequestId"
@@ -2539,7 +2539,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
 Ad Posting API will respond with:
 ```json
 {
-  "status": 202,
+  "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
     "X-Request-Id": "PactRequestId"
@@ -3264,7 +3264,7 @@ Given **there is a pending standout advertisement with maximum data**, upon rece
 Ad Posting API will respond with:
 ```json
 {
-  "status": 202,
+  "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
     "X-Request-Id": "PactRequestId"
