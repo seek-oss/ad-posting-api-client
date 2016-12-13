@@ -109,7 +109,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 202,
+                        Status = 200,
                         Headers = new Dictionary<string, string>
                         {
                             {"Content-Type", ResponseContentTypes.AdvertisementVersion1},
@@ -629,7 +629,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 202,
+                        Status = 200,
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
