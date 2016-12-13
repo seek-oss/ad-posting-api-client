@@ -6,7 +6,7 @@ cd /d "%~dp0"
 set PackagesDir=packages
 set NuGetPath=.nuget\NuGet.exe
 set FakePath=%PackagesDir%\FAKE\tools\Fake.exe
-set RubyVersion=ruby-2.3.0-x64-mingw32
+set RubyVersion=ruby-2.3.3-x64-mingw32
 set RubyPackage=%RubyVersion%.7z
 
 if not exist "%FakePath%" "%NuGetPath%" Install FAKE -Version 4.26.0 -OutputDirectory "%PackagesDir%" -ExcludeVersion
