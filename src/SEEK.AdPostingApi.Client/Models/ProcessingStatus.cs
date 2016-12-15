@@ -6,13 +6,8 @@ namespace SEEK.AdPostingApi.Client.Models
     public enum ProcessingStatus
     {
         Unknown,
-
-        [Obsolete("The processing status will always be completed. All validation is done upfront and the advertisement will not fail once successfully submitted.")]
         Failed,
-
-        [Obsolete("The processing status will always be completed. All validation is done upfront and the advertisement will not fail once successfully submitted.")]
         Pending,
-
         Completed
     }
 }
