@@ -3,8 +3,6 @@
     public enum ProcessingStatus
     {
         Unknown,
-        Failed,
-        Pending,
         Completed
     }
 }

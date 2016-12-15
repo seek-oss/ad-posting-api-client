@@ -77,6 +77,7 @@ namespace SEEK.AdPostingApi.Client
             return await this._client.GetResourceAsync<AdvertisementResource>(uri);
         }
 
+        [Obsolete("The returned status will always be completed. All validation is done upfront and the advertisement will not fail once successfully submitted.")]
         public async Task<ProcessingStatus> GetAdvertisementStatusAsync(Guid advertisementId)
         {
             await this.EnsureIndexResourceInitialised();
@@ -84,6 +85,7 @@ namespace SEEK.AdPostingApi.Client
             return await this.GetAdvertisementStatusAsync(this._indexResource.GenerateAdvertisementUri(advertisementId));
         }
 
+        [Obsolete("The returned status will always be completed. All validation is done upfront and the advertisement will not fail once successfully submitted.")]
         public async Task<ProcessingStatus> GetAdvertisementStatusAsync(Uri uri)
         {
             HttpResponseHeaders httpResponseHeaders = await this._client.HeadResourceAsync<AdvertisementResource>(uri);

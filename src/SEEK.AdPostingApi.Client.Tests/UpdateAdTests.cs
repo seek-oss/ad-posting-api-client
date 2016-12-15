@@ -83,7 +83,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         private void SetupPactForUpdatingExistingAdvertisement(string link, OAuth2Token oAuth2Token, string viewRenderedAdvertisementLink)
         {
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request")
                 .With(new ProviderServiceRequest
                 {
@@ -357,7 +357,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update a job ad with a different advertiser from the one owning the job")
                 .With(
                     new ProviderServiceRequest
@@ -422,7 +422,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update a job using a disabled requestor account")
                 .With(
                     new ProviderServiceRequest
@@ -483,7 +483,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
@@ -610,7 +610,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var allFieldsWithGranularLocationInitializer = new AllFieldsInitializer(LocationType.UseGranularLocation);
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update granular location")
                 .With(new ProviderServiceRequest
                 {

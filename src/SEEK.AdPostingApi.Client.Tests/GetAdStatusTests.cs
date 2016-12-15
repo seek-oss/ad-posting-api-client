@@ -41,7 +41,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 status = await client.GetAdvertisementStatusAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
             }
 
-            Assert.Equal(ProcessingStatus.Pending, status);
+            Assert.Equal(ProcessingStatus.Completed, status);
         }
 
         [Fact]
@@ -63,13 +63,13 @@ namespace SEEK.AdPostingApi.Client.Tests
                 status = await client.GetAdvertisementStatusAsync(new Guid(advertisementId));
             }
 
-            Assert.Equal(ProcessingStatus.Pending, status);
+            Assert.Equal(ProcessingStatus.Completed, status);
         }
 
         private void SetupPactForGettingExistingAdvertisementStatus(string link, OAuth2Token oAuth2Token)
         {
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a HEAD advertisement request")
                 .With(new ProviderServiceRequest
                 {
@@ -88,7 +88,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         {"Content-Type", ResponseContentTypes.AdvertisementVersion1},
-                        {"Processing-Status", "Pending"}
+                        {"Processing-Status", "Completed"}
                     }
                 });
         }
@@ -140,7 +140,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a HEAD advertisement request for an advertisement using a disabled requestor account")
                 .With(new ProviderServiceRequest
                 {
@@ -183,7 +183,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account")
                 .With(new ProviderServiceRequest
                 {

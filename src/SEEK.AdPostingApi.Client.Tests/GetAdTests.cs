@@ -82,8 +82,8 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public static IEnumerable<object[]> GetExistingAdvertisementTheoryData => new[]
         {
-            new object[] {LocationType.UseGranularLocation, "There is a pending standout advertisement with granular location data"},
-            new object[] {LocationType.UseLocation, "There is a pending standout advertisement with maximum data"}
+            new object[] {LocationType.UseGranularLocation, "There is a standout advertisement with granular location data"},
+            new object[] {LocationType.UseLocation, "There is a standout advertisement with maximum data"}
         };
 
         private void SetupPactForGettingExistingAdvertisement(string givenStatement, string link, OAuth2Token oAuth2Token, AllFieldsInitializer builderInitializer,
@@ -109,7 +109,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         {"Content-Type", ResponseContentTypes.AdvertisementVersion1},
-                        {"Processing-Status", "Pending"},
+                        {"Processing-Status", "Completed"},
                         {"X-Request-Id", RequestId}
                     },
                     Body = new AdvertisementResponseContentBuilder(builderInitializer)
@@ -128,7 +128,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(builderInitializer)
                 .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
-                .WithProcessingStatus(ProcessingStatus.Pending)
+                .WithProcessingStatus(ProcessingStatus.Completed)
                 .WithAgentId(null)
                 .Build();
 
@@ -145,7 +145,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a GET advertisement request for an advertisement with warnings")
                 .With(new ProviderServiceRequest
                 {
@@ -164,7 +164,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Headers = new Dictionary<string, string>
                     {
                         { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
-                        { "Processing-Status", "Pending" },
+                        { "Processing-Status", "Completed" },
                         { "X-Request-Id", RequestId }
                     },
                     Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
@@ -190,70 +190,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
                 .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
-                .WithProcessingStatus(ProcessingStatus.Pending)
+                .WithProcessingStatus(ProcessingStatus.Completed)
                 .WithWarnings(
                     new AdvertisementError { Field = "standout.logoId", Code = "missing" },
                     new AdvertisementError { Field = "standout.bullets", Code = "missing" })
-                .WithAgentId(null)
-                .Build();
-
-            result.ShouldBeEquivalentTo(expectedResult);
-        }
-
-        [Fact]
-        public async Task GetExistingAdvertisementWithErrors()
-        {
-            const string advertisementId = "448b8474-6165-4eed-a5b5-d2bb52e471ef";
-
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
-            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
-
-            this.Fixture.AdPostingApiService
-                .Given("There is a failed classic advertisement")
-                .UponReceiving("a GET advertisement request for an advertisement with errors")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = link,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
-                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
-                        { "Processing-Status", "Failed" },
-                        { "X-Request-Id", RequestId }
-                    },
-                    Body = new AdvertisementResponseContentBuilder(this.MinimumFieldsInitializer)
-                        .WithId(advertisementId)
-                        .WithState(AdvertisementState.Open.ToString())
-                        .WithLink("self", link)
-                        .WithLink("view", viewRenderedAdvertisementLink)
-                        .WithErrors(new { code = "Unauthorised", message = "Unauthorised" })
-                        .WithAgentId(null)
-                        .Build()
-                });
-
-            AdvertisementResource result;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
-            }
-
-            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.MinimumFieldsInitializer)
-                .WithId(new Guid(advertisementId))
-                .WithLinks(advertisementId)
-                .WithProcessingStatus(ProcessingStatus.Failed)
-                .WithErrors(new AdvertisementError { Code = "Unauthorised", Message = "Unauthorised" })
                 .WithAgentId(null)
                 .Build();
 
@@ -308,7 +248,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a GET advertisement request for an advertisement using a disabled requestor account")
                 .With(new ProviderServiceRequest
                 {
@@ -364,7 +304,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a GET advertisement request for an advertisement of an advertiser not related to the requestor's account")
                 .With(new ProviderServiceRequest
                 {

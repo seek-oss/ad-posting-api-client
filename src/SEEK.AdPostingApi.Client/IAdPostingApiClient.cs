@@ -17,8 +17,10 @@ namespace SEEK.AdPostingApi.Client
 
         Task<AdvertisementResource> GetAdvertisementAsync(Uri uri);
 
+        [Obsolete("The returned status will always be completed. All validation is done upfront and the advertisement will not fail once successfully submitted.")]
         Task<ProcessingStatus> GetAdvertisementStatusAsync(Guid id);
 
+        [Obsolete("The returned status will always be completed. All validation is done upfront and the advertisement will not fail once successfully submitted.")]
         Task<ProcessingStatus> GetAdvertisementStatusAsync(Uri uri);
 
         Task<AdvertisementSummaryPageResource> GetAllAdvertisementsAsync(string advertiserId = null);

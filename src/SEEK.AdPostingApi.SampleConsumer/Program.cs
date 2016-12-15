@@ -41,32 +41,15 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
                 if (createdAdvertisement != null)
                 {
-                    // Poll and check the processing status of the create advertisement request
-                    // Note that Update and Expire requests can still be sent when Processing Status of a previous request(eg: Create) is Pending.
-                    ProcessingStatus processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Id, client);
-                    Console.WriteLine($"The Processing Status of the Create Advertisement request is '{processingStatus}'.");
-
                     // Retrieve advertisement
                     AdvertisementResource advertisementResource = await GetAdvertisementExampleAsync(createdAdvertisement.Id, client);
 
-                    if (processingStatus == ProcessingStatus.Failed)
-                    {
-                        // The advertisement could not be processed, the Errors item on the retrieved advertisement lists the errors.
-                        // Correct the errors then send an update request.
-                        PrintAdvertisementErrors(advertisementResource.Errors);
-                    }
-                    else
-                    {
-                        // Modify details on the advertisement
-                        advertisementResource.JobTitle = "Senior Dude";
-                        AdvertisementResource updatedAdvertisementResource = await UpdateAdvertisementExampleAsync(advertisementResource);
+                    // Modify details on the advertisement
+                    advertisementResource.JobTitle = "Senior Dude";
+                    AdvertisementResource updatedAdvertisementResource = await UpdateAdvertisementExampleAsync(advertisementResource);
 
-                        processingStatus = await WaitForAdvertisementProcessingCompleteExampleAsync(createdAdvertisement.Id, client);
-                        Console.WriteLine($"The Processing Status of the Update Advertisement request is '{processingStatus}'.");
-
-                        // Expire the advertisement
-                        await ExpireAdvertisementExampleAsync(updatedAdvertisementResource);
-                    }
+                    // Expire the advertisement
+                    await ExpireAdvertisementExampleAsync(updatedAdvertisementResource);
                 }
 
                 // Get paged summaries of created advertisements
@@ -79,25 +62,6 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
             Console.WriteLine("Finished Example. Press a key to exit.");
             Console.ReadKey(true);
-        }
-
-        private static async Task<ProcessingStatus> WaitForAdvertisementProcessingCompleteExampleAsync(Guid advertisementId, IAdPostingApiClient client)
-        {
-            ProcessingStatus status = ProcessingStatus.Unknown;
-            try
-            {
-                await Policy
-                    .Handle<RequestException>(ex => ex.StatusCode >= 500) // retry on transient errors
-                    .OrResult<ProcessingStatus>(p => p == ProcessingStatus.Pending) // retry while status is Pending
-                    .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(BaseRetryIntervalSeconds * Math.Pow(2, attempt)))
-                    .ExecuteAsync(async () => status = await client.GetAdvertisementStatusAsync(advertisementId));
-            }
-            catch (RequestException ex)
-            {
-                LogException(ex);
-            }
-
-            return status;
         }
 
         public static async Task<AdvertisementResource> CreateAdvertisementExampleAsync(Advertisement advertisementToCreate, IAdPostingApiClient client)
