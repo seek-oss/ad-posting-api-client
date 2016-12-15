@@ -21,6 +21,7 @@ namespace SEEK.AdPostingApi.Client.Resources
         public Links Links { get; set; }
 
         [JsonIgnore]
+        [Obsolete("The processing status will always be completed. All validation is done upfront and the advertisement will not fail once successfully submitted.")]
         [FromHeader("Processing-Status")]
         public ProcessingStatus ProcessingStatus { get; set; }
 
