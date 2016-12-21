@@ -67,7 +67,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 202,
+                        Status = 200,
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
@@ -132,7 +132,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 202,
+                        Status = 200,
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
@@ -477,7 +477,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving($"a POST advertisement request to create a job ad with the same creation id '{creationId}'")
                 .With(
                     new ProviderServiceRequest
@@ -836,7 +836,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 202,
+                        Status = 200,
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },

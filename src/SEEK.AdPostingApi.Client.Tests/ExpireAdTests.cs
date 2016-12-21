@@ -92,7 +92,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             string link, OAuth2Token oAuth2Token, string advertisementId, string viewRenderedAdvertisementLink, DateTime expiryDate)
         {
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PATCH advertisement request to expire an advertisement")
                 .With(
                     new ProviderServiceRequest
@@ -120,7 +120,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 202,
+                        Status = 200,
                         Headers = new Dictionary<string, string>
                         {
                             {"Content-Type", ResponseContentTypes.AdvertisementVersion1},
@@ -161,7 +161,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             DateTime expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc);
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a POST advertisement request to expire an advertisement")
                 .With(
                     new ProviderServiceRequest
@@ -181,7 +181,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(
                     new ProviderServiceResponse
                     {
-                        Status = 202,
+                        Status = 200,
                         Headers = new Dictionary<string, string>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
@@ -354,7 +354,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PATCH advertisement request to expire a job using a disabled requestor account")
                 .With(
                     new ProviderServiceRequest
@@ -422,7 +422,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PATCH advertisement request to expire a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
@@ -500,7 +500,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             };
 
             this.Fixture.AdPostingApiService
-                .Given("There is a pending standout advertisement with maximum data")
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PATCH advertisement request to expire a job using invalid request content")
                 .With(
                     new ProviderServiceRequest
