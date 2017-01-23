@@ -64,6 +64,8 @@
 
 * [A POST advertisement request to create a job ad with invalid advertisement details](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details)
 
+* [A POST advertisement request to create a job ad with invalid advertisement details while processing option CleanseJobAdDetails is present](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details_while_processing_option_CleanseJobAdDetails_is_present)
+
 * [A POST advertisement request to create a job ad with invalid field values](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_field_values)
 
 * [A POST advertisement request to create a job ad with invalid salary data](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_salary_data)
@@ -1693,6 +1695,94 @@ Ad Posting API will respond with:
         "code": "InvalidFormat"
       }
     ]
+  }
+}
+```
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details_while_processing_option_CleanseJobAdDetails_is_present"></a>
+Upon receiving **a POST advertisement request to create a job ad with invalid advertisement details while processing option CleanseJobAdDetails is present** from Ad Posting API Client, with
+```json
+{
+  "method": "post",
+  "path": "/advertisement",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": {
+    "advertisementDetails": "<p style=\"text-align:justify; color:#FF00AA\">Colourful</p>",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "creationId": "20150914-134527-00012",
+    "processingOptions": [
+      "CleanseJobAdDetails"
+    ]
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "<p style =\"text-align:justify\">Colourful</p>",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "expiryDate": "2015-11-06T21:19:00Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+      },
+      "view": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+      }
+    }
   }
 }
 ```
