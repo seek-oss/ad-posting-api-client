@@ -49,6 +49,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private int? _standoutLogoId;
         private string[] _standoutBullets;
         private AdditionalPropertyType[] _additionalPropertyTypes;
+        private ProcessingOptionsType[] _processingOptionsTypes;
         private string _recruiterEmail;
         private string _recruiterFullName;
         private string _recruiterTeamName;
@@ -303,6 +304,14 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementModelBuilder<TAdvertisement> WithProcessingOptions(
+            params ProcessingOptionsType[] processingOptionsTypes)
+        {
+            this._processingOptionsTypes = processingOptionsTypes.ToArray();
+
+            return this;
+        }
+
         public AdvertisementModelBuilder<TAdvertisement> WithRecruiterFullName(string recruiterFullName)
         {
             this._recruiterFullName = recruiterFullName;
@@ -389,7 +398,8 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                         LogoId = this._standoutLogoId,
                         Bullets = this._standoutBullets?.ToArray()
                     },
-                AdditionalProperties = this._additionalPropertyTypes?.ToArray()
+                AdditionalProperties = this._additionalPropertyTypes?.ToArray(),
+                ProcessingOptions = this._processingOptionsTypes?.ToArray()
             };
         }
     }

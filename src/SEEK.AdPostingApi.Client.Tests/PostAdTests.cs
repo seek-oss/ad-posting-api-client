@@ -405,6 +405,81 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
+        public async Task PostAdWithInvalidAdvertisementDetailsWhileCleanseJobAdDetailsOptionPresent()
+        {
+            const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            var location = $"http://localhost{link}";
+            var adDetailsBeforeCleanse = "<p style=\"text-align:justify; color:#FF00AA\">Colourful</p>";
+            var adDetailsAfterCleanse = "<p style =\"text-align:justify\">Colourful</p>";
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.Fixture.AdPostingApiService
+                .UponReceiving("a POST advertisement request to create a job ad with invalid advertisement details while processing option CleanseJobAdDetails is present")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                        },
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .WithAdvertisementDetails(adDetailsBeforeCleanse)
+                            .WithProcessingOptions(ProcessingOptionsType.CleanseJobAdDetails.ToString())
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 200,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "Location", location },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(this.MinimumFieldsInitializer)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithId(advertisementId)
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithAdvertisementDetails(adDetailsAfterCleanse)
+                            .Build()
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
+                .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                .WithAdvertisementDetails(adDetailsBeforeCleanse)
+                .WithProcessingOptions(ProcessingOptionsType.CleanseJobAdDetails)
+                .Build();
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.CreateAdvertisementAsync(requestModel);
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.MinimumFieldsInitializer)
+                .WithId(new Guid(advertisementId))
+                .WithLinks(advertisementId)
+                .WithAdvertisementDetails(adDetailsAfterCleanse)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
         public async Task PostAdWithNoCreationId()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
