@@ -405,7 +405,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task PostAdWithInvalidAdvertisementDetailsWhileCleanseJobAdDetailsOptionPresent()
+        public async Task PostAdWithInvalidAdvertisementDetailsWithCleanseJobAdDetailsOption()
         {
             const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -413,12 +413,12 @@ namespace SEEK.AdPostingApi.Client.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             var location = $"http://localhost{link}";
             var adDetailsBeforeCleanse = "<p style=\"text-align:justify; color:#FF00AA\">Colourful</p>";
-            var adDetailsAfterCleanse = "<p style =\"text-align:justify\">Colourful</p>";
+            var adDetailsAfterCleanse = "<p style=\"text-align:justify\">Colourful</p>";
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.AdPostingApiService
-                .UponReceiving("a POST advertisement request to create a job ad with invalid advertisement details while processing option CleanseJobAdDetails is present")
+                .UponReceiving("a POST advertisement request to create a job ad with invalid advertisement details and with 'CleanseJobAdDetails' processing option")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -434,7 +434,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
                             .WithAdvertisementDetails(adDetailsBeforeCleanse)
-                            .WithProcessingOptions(ProcessingOptionsType.CleanseJobAdDetails.ToString())
+                            .WithProcessingOptions(ProcessingOptionsType.CleanseAdvertisementDetails.ToString())
                             .Build()
                     }
                 )
@@ -460,7 +460,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var requestModel = new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
                 .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
                 .WithAdvertisementDetails(adDetailsBeforeCleanse)
-                .WithProcessingOptions(ProcessingOptionsType.CleanseJobAdDetails)
+                .WithProcessingOptions(ProcessingOptionsType.CleanseAdvertisementDetails)
                 .Build();
 
             AdvertisementResource result;

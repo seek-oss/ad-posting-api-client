@@ -193,12 +193,11 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task UpdateWithInvalidFieldValues()
         {
-            const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
-
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.AdPostingApiService
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request for advertisement with invalid field values")
                 .With(new ProviderServiceRequest
                 {
@@ -286,12 +285,11 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task UpdateWithInvalidSalaryData()
         {
-            const string advertisementId = "7e2fde50-bc5f-4a12-9cfb-812e50500184";
-
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            var link = $"{AdvertisementLink}/{advertisementId}";
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.AdPostingApiService
+                .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request for advertisement with invalid salary data")
                 .With(new ProviderServiceRequest
                 {
@@ -348,6 +346,144 @@ namespace SEEK.AdPostingApi.Client.Tests
                     });
 
             actualException.ShouldBeEquivalentToException(expectedException);
+        }
+
+        [Fact]
+        public async Task UpdateWithInvalidAdvertisementDetails()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a standout advertisement with maximum data")
+                .UponReceiving("a PUT advertisement request for advertisement with invalid advertisement details")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Content-Type", RequestContentTypes.AdvertisementVersion1},
+                        {"Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}"},
+                        {"User-Agent", AdPostingApiFixture.UserAgentHeaderValue}
+                    },
+                    Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
+                        .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 422,
+                        Headers = new Dictionary<string, string>
+                        {
+                            {"Content-Type", ResponseContentTypes.AdvertisementErrorVersion1},
+                            {"X-Request-Id", RequestId}
+                        },
+                        Body = new
+                        {
+                            message = "Validation Failure",
+                            errors = new[] { new { field = "advertisementDetails", code = "InvalidFormat" } }
+                        }
+                    });
+
+            ValidationException actualException;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                actualException = await Assert.ThrowsAsync<ValidationException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link),
+                        new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
+                            .WithAdvertisementDetails("Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element")
+                            .Build()));
+            }
+
+            var expectedException =
+                new ValidationException(
+                    RequestId,
+                    HttpMethod.Put,
+                    new AdvertisementErrorResponse
+                    {
+                        Message = "Validation Failure",
+                        Errors = new[] { new AdvertisementError { Field = "advertisementDetails", Code = "InvalidFormat" } }
+                    });
+
+            actualException.ShouldBeEquivalentToException(expectedException);
+        }
+
+        [Fact]
+        public async Task UpdateWithInvalidAdvertisementDetailsWithCleanseJobAdDetailsOption()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
+            var adDetailsBeforeCleanse = "<p style=\"text-align:justify; font-family:'Comic Sans MS', cursive, sans-serif\">Whimsical</p>";
+            var adDetailsAfterCleanse = "<p style=\"text-align:justify\">Whimsical</p>";
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a standout advertisement with maximum data")
+                .UponReceiving("a PUT advertisement request for advertisement with invalid advertisement details and with 'CleanseJobAdDetails' processing option")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        {"Authorization", "Bearer " + oAuth2Token.AccessToken},
+                        {"Content-Type", RequestContentTypes.AdvertisementVersion1},
+                        {"Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}"},
+                        {"User-Agent", AdPostingApiFixture.UserAgentHeaderValue}
+                    },
+                    Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
+                        .WithAdvertisementType(AdvertisementType.StandOut.ToString())
+                        .WithAdditionalProperties(AdditionalPropertyType.Graduate.ToString())
+                        .WithAdvertisementDetails(adDetailsBeforeCleanse)
+                        .WithProcessingOptions(ProcessingOptionsType.CleanseAdvertisementDetails.ToString())
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 200,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(this.MinimumFieldsInitializer)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithId(AdvertisementId)
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithAdvertisementType(AdvertisementType.StandOut.ToString())
+                            .WithAdditionalProperties(AdditionalPropertyType.Graduate.ToString())
+                            .WithAdvertisementDetails(adDetailsAfterCleanse)
+                            .Build()
+                    });
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link),
+                        new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
+                            .WithAdvertisementType(AdvertisementType.StandOut)
+                            .WithAdditionalProperties(AdditionalPropertyType.Graduate)
+                            .WithAdvertisementDetails(adDetailsBeforeCleanse)
+                            .WithProcessingOptions(ProcessingOptionsType.CleanseAdvertisementDetails)
+                            .Build());
+            }
+
+            var expectedResult = new AdvertisementResourceBuilder(this.MinimumFieldsInitializer)
+                .WithId(new Guid(AdvertisementId))
+                .WithLinks(AdvertisementId)
+                .WithAdvertisementType(AdvertisementType.StandOut)
+                .WithAdditionalProperties(AdditionalPropertyType.Graduate)
+                .WithAdvertisementDetails(adDetailsAfterCleanse)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
         }
 
         [Fact]

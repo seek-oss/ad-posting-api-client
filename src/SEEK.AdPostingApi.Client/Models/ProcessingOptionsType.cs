@@ -2,6 +2,6 @@
 {
     public enum ProcessingOptionsType
     {
-        CleanseJobAdDetails = 1
+        CleanseAdvertisementDetails = 1
     }
 }
