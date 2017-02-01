@@ -24,6 +24,12 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementContentBuilder WithProcessingOptions(params object[] processingOptionTypes)
+        {
+            this.AdvertisementModel.processingOptions = processingOptionTypes?.Clone<object[]>();
+            return this;
+        }
+
         public AdvertisementContentBuilder WithAdvertisementDetails(object advertisementDetails)
         {
             this.AdvertisementModel.advertisementDetails = advertisementDetails;

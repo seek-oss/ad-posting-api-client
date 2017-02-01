@@ -68,6 +68,7 @@
     <Compile Include="Models\GranularLocation.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\ProcessingOptionsType.cs" />
     <Compile Include="Models\Recruiter.cs" />
     <Compile Include="Models\ThirdParties.cs" />
     <Compile Include="RequestException.cs" />
