@@ -16,11 +16,8 @@ namespace SEEK.AdPostingApi.Client
         private readonly Lazy<Task> _ensureIndexResourceInitialised;
         private readonly Hal.Client _client;
 
-        public AdPostingApiClient(string id, string secret, Environment env = Environment.Production) : this(id, secret, env.GetAttribute<EnvironmentUrlAttribute>().Uri)
-        {
-        }
-
-        public AdPostingApiClient(string id, string secret, Uri adPostingUri) : this(adPostingUri, new OAuth2TokenClient(id, secret))
+        public AdPostingApiClient(string id, string secret, Environment env = Environment.Production)
+            : this(env.GetAttribute<EnvironmentUrlAttribute>().Uri, new OAuth2TokenClient(id, secret))
         {
         }
 

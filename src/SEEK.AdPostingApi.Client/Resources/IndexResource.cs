@@ -28,7 +28,7 @@ namespace SEEK.AdPostingApi.Client.Resources
 
         public Uri GenerateAdvertisementUri(Guid advertisementId)
         {
-            return this.Links.GenerateLink("advertisement", new { advertisementId = advertisementId });
+            return this.Links.GenerateLink("advertisement", new { advertisementId });
         }
 
         public async Task<AdvertisementSummaryPageResource> GetAllAdvertisements(string advertiserIdentifier = null)

@@ -60,9 +60,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     Path = "/",
                     Headers = new Dictionary<string, string>
                     {
-                        { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
-                        { "Authorization", $"Bearer {token.AccessToken}" },
-                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                        {"Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}"},
+                        {"Authorization", $"Bearer {token.AccessToken}"},
+                        {"User-Agent", AdPostingApiFixture.UserAgentHeaderValue}
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -70,7 +70,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     Status = 200,
                     Headers = new Dictionary<string, string>
                     {
-                        { "Content-Type", $"{ResponseContentTypes.Hal}" }
+                        {"Content-Type", $"{ResponseContentTypes.Hal}"}
                     },
                     Body = new
                     {
