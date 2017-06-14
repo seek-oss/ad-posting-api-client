@@ -38,7 +38,7 @@ namespace SEEK.AdPostingApi.Client
 
         internal async Task InitialiseIndexResource(Uri adPostingUri)
         {
-            this._indexResource = await this._client.GetResourceAsync<IndexResource>(adPostingUri);
+            this._indexResource = await this._client.GetResourceAsync<IndexResource, AdvertisementErrorResponse>(adPostingUri);
         }
 
         public async Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
@@ -74,7 +74,7 @@ namespace SEEK.AdPostingApi.Client
 
         public async Task<AdvertisementResource> GetAdvertisementAsync(Uri uri)
         {
-            return await this._client.GetResourceAsync<AdvertisementResource>(uri);
+            return await this._client.GetResourceAsync<AdvertisementResource, AdvertisementErrorResponse>(uri);
         }
 
         [Obsolete("The returned status will always be completed. All validation is done upfront and the advertisement will not fail once successfully submitted.")]

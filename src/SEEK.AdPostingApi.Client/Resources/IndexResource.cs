@@ -34,9 +34,9 @@ namespace SEEK.AdPostingApi.Client.Resources
         public async Task<AdvertisementSummaryPageResource> GetAllAdvertisements(string advertiserIdentifier = null)
         {
             return string.IsNullOrWhiteSpace(advertiserIdentifier)
-                ? await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(
+                ? await this._client.GetResourceAsync<AdvertisementSummaryPageResource, AdvertisementErrorResponse>(
                     this.Links.GenerateLink("advertisements"))
-                : await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(
+                : await this._client.GetResourceAsync<AdvertisementSummaryPageResource, AdvertisementErrorResponse>(
                     this.Links.GenerateLink("advertisements", new { advertiserId = advertiserIdentifier }));
         }
 
