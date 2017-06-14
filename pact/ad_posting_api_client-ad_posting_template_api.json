@@ -1,0 +1,640 @@
+{
+  "provider": {
+    "name": "Ad Posting Template API"
+  },
+  "consumer": {
+    "name": "Ad Posting API Client"
+  },
+  "interactions": [
+    {
+      "description": "a GET index request to retrieve API links with Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+      "request": {
+        "method": "get",
+        "path": "/",
+        "headers": {
+          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/hal+json; charset=utf-8"
+        },
+        "body": {
+          "_links": {
+            "advertisements": {
+              "href": "/advertisement{?advertiserId}",
+              "templated": true
+            },
+            "advertisement": {
+              "href": "/advertisement/{advertisementId}",
+              "templated": true
+            },
+            "templates": {
+              "href": "/template{?advertiserId,fromDateTimeUtc}",
+              "templated": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates for an advertiser that doesn't exist",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "advertiserId=654321",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "InvalidValue"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a GET templates request",
+      "provider_state": "A template exists for an advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": [
+              {
+                "id": "8059016",
+                "advertiserId": "456",
+                "name": "The blue template",
+                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "state": "Active"
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates for an advertiser",
+      "provider_state": "Multiple templates exist for an advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "advertiserId=456",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": [
+              {
+                "id": "8059016",
+                "advertiserId": "456",
+                "name": "The blue template",
+                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "state": "Active"
+              },
+              {
+                "id": "65146183",
+                "advertiserId": "456",
+                "name": "The template with a round logo",
+                "updateDateTime": "2016-11-04T00:11:11+11:00",
+                "state": "Active"
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates for an advertiser updated after a specified time",
+      "provider_state": "There are no templates updated since fromDateTimeUtc for an advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "advertiserId=111222&fromDateTimeUtc=2011-01-01T00:00:00Z",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": []
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request",
+      "provider_state": "Multiple templates exist for multiple advertisers related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": [
+              {
+                "id": "8059016",
+                "advertiserId": "456",
+                "name": "The blue template",
+                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "state": "Active"
+              },
+              {
+                "id": "65146183",
+                "advertiserId": "456",
+                "name": "The template with a round logo",
+                "updateDateTime": "2016-11-04T00:11:11+11:00",
+                "state": "Active"
+              },
+              {
+                "id": "9874198",
+                "advertiserId": "3214",
+                "name": "Testing template",
+                "updateDateTime": "2017-05-07T19:45:43+10:00",
+                "state": "Active"
+              },
+              {
+                "id": "892138",
+                "advertiserId": "3214",
+                "name": "Inactive template",
+                "updateDateTime": "2015-10-13T14:41:21+11:00",
+                "state": "Inactive"
+              },
+              {
+                "id": "1132687",
+                "advertiserId": "3214",
+                "name": "Our first template",
+                "updateDateTime": "2017-03-23T22:12:10+11:00",
+                "state": "Active"
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates for an advertiser updated after a specified time",
+      "provider_state": "Multiple templates updated after fromDateTimeUtc exist for an advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "advertiserId=456&fromDateTimeUtc=2015-10-13T03:41:21Z",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": [
+              {
+                "id": "8059016",
+                "advertiserId": "456",
+                "name": "The blue template",
+                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "state": "Active"
+              },
+              {
+                "id": "65146183",
+                "advertiserId": "456",
+                "name": "The template with a round logo",
+                "updateDateTime": "2016-11-04T00:11:11+11:00",
+                "state": "Active"
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates updated after a specified time",
+      "provider_state": "Multiple templates updated after fromDateTimeUtc exist for multiple advertisers related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "fromDateTimeUtc=2015-10-13T03:41:21Z",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": [
+              {
+                "id": "8059016",
+                "advertiserId": "456",
+                "name": "The blue template",
+                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "state": "Active"
+              },
+              {
+                "id": "65146183",
+                "advertiserId": "456",
+                "name": "The template with a round logo",
+                "updateDateTime": "2016-11-04T00:11:11+11:00",
+                "state": "Active"
+              },
+              {
+                "id": "9874198",
+                "advertiserId": "3214",
+                "name": "Testing template",
+                "updateDateTime": "2017-05-07T19:45:43+10:00",
+                "state": "Active"
+              },
+              {
+                "id": "892138",
+                "advertiserId": "3214",
+                "name": "Inactive template",
+                "updateDateTime": "2015-10-13T14:41:21+11:00",
+                "state": "Inactive"
+              },
+              {
+                "id": "1132687",
+                "advertiserId": "3214",
+                "name": "Our first template",
+                "updateDateTime": "2017-03-23T22:12:10+11:00",
+                "state": "Active"
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET index request to retrieve API links with Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+      "request": {
+        "method": "get",
+        "path": "/",
+        "headers": {
+          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/hal+json; charset=utf-8"
+        },
+        "body": {
+          "_links": {
+            "advertisements": {
+              "href": "/advertisement{?advertiserId}",
+              "templated": true
+            },
+            "advertisement": {
+              "href": "/advertisement/{advertisementId}",
+              "templated": true
+            },
+            "templates": {
+              "href": "/template{?advertiserId,fromDateTimeUtc}",
+              "templated": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates for an advertiser not related to requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "advertiserId=874392",
+        "headers": {
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "RelationshipError"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates for an advertiser updated after a specified time",
+      "provider_state": "A template updated since fromDateTimeUtc exists for an advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "advertiserId=456&fromDateTimeUtc=2011-01-01T00:00:00Z",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": [
+              {
+                "id": "8059016",
+                "advertiserId": "456",
+                "name": "The blue template",
+                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "state": "Active"
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request for all templates",
+      "provider_state": "There are no templates",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": []
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates updated after a specified time",
+      "provider_state": "There are no templates updated since fromDateTimeUtc for any advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "fromDateTimeUtc=2011-01-01T00:00:00Z",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": []
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates updated after a specified time",
+      "provider_state": "A template updated since fromDateTimeUtc exists for an advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "fromDateTimeUtc=2011-01-01T00:00:00Z",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": [
+              {
+                "id": "8059016",
+                "advertiserId": "456",
+                "name": "The blue template",
+                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "state": "Active"
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates for an advertiser",
+      "provider_state": "A template exists for an advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "advertiserId=456",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": [
+              {
+                "id": "8059016",
+                "advertiserId": "456",
+                "name": "The blue template",
+                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "state": "Active"
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET templates request to retrieve all templates for an advertiser",
+      "provider_state": "There are no templates for an advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/template",
+        "query": "advertiserId=111222",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "templates": []
+          },
+          "_links": {
+            "self": {
+              "href": "/template"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecificationVersion": "1.1.0"
+  }
+}

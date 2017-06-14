@@ -50,6 +50,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         public void RegisterIndexPageInteractions(OAuth2Token token)
         {
             const string advertisementLink = "/advertisement";
+            const string templateLink = "/template";
 
             this.MockProviderService
                 .UponReceiving($"a GET index request to retrieve API links with Bearer {token.AccessToken}")
@@ -83,6 +84,11 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                             advertisement = new
                             {
                                 href = advertisementLink + "/{advertisementId}",
+                                templated = true
+                            },
+                            templates = new
+                            {
+                                href = templateLink + "{?advertiserId,fromDateTimeUtc}",
                                 templated = true
                             }
                         }
