@@ -675,7 +675,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "InvalidValue" } }
+                        Errors = new[] { new Error { Code = "InvalidValue" } }
                     }));
         }
 
@@ -730,7 +730,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 

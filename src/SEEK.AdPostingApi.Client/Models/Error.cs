@@ -3,7 +3,7 @@
 namespace SEEK.AdPostingApi.Client.Models
 {
     [Serializable]
-    public class AdvertisementError
+    public class Error
     {
         public string Field { get; set; }
 

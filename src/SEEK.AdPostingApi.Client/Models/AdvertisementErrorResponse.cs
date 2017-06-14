@@ -7,6 +7,6 @@ namespace SEEK.AdPostingApi.Client.Models
     {
         public string Message { get; set; }
 
-        public AdvertisementError[] Errors { get; set; }
+        public Error[] Errors { get; set; }
     }
 }

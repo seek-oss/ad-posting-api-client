@@ -53,7 +53,7 @@ namespace SEEK.AdPostingApi.Client.Models
 
         public ProcessingOptionsType[] ProcessingOptions { get; set; }
 
-        public AdvertisementError[] Warnings { get; set; }
+        public Error[] Warnings { get; set; }
 
         public Recruiter Recruiter { get; set; }
     }

@@ -9,20 +9,20 @@ namespace SEEK.AdPostingApi.Client
     {
         public UnauthorizedException(string requestId, int httpStatusCode, string message) : base(requestId, httpStatusCode, message)
         {
-            this.Errors = new AdvertisementError[0];
+            this.Errors = new Error[0];
         }
 
         public UnauthorizedException(string requestId, int httpStatusCode, AdvertisementErrorResponse errorResponse) : base(requestId, httpStatusCode, errorResponse?.Message)
         {
-            this.Errors = errorResponse?.Errors ?? new AdvertisementError[0];
+            this.Errors = errorResponse?.Errors ?? new Error[0];
         }
 
         protected UnauthorizedException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            this.Errors = (AdvertisementError[])info.GetValue(nameof(this.Errors), typeof(AdvertisementError[]));
+            this.Errors = (Error[])info.GetValue(nameof(this.Errors), typeof(Error[]));
         }
 
-        public AdvertisementError[] Errors { get; }
+        public Error[] Errors { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

@@ -271,11 +271,11 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Message = "Validation Failure",
                         Errors = new[]
                         {
-                            new AdvertisementError { Field = "applicationEmail", Code = "InvalidEmailAddress" },
-                            new AdvertisementError { Field = "applicationFormUrl", Code = "InvalidUrl" },
-                            new AdvertisementError { Field = "salary.minimum", Code = "ValueOutOfRange" },
-                            new AdvertisementError { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
-                            new AdvertisementError { Field = "template.items[1].name", Code = "Required" }
+                            new Error { Field = "applicationEmail", Code = "InvalidEmailAddress" },
+                            new Error { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                            new Error { Field = "salary.minimum", Code = "ValueOutOfRange" },
+                            new Error { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
+                            new Error { Field = "template.items[1].name", Code = "Required" }
                         }
                     });
 
@@ -342,7 +342,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new AdvertisementError { Field = "salary.maximum", Code = "InvalidValue" } }
+                        Errors = new[] { new Error { Field = "salary.maximum", Code = "InvalidValue" } }
                     });
 
             actualException.ShouldBeEquivalentToException(expectedException);
@@ -406,7 +406,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new AdvertisementError { Field = "advertisementDetails", Code = "InvalidFormat" } }
+                        Errors = new[] { new Error { Field = "advertisementDetails", Code = "InvalidFormat" } }
                     });
 
             actualException.ShouldBeEquivalentToException(expectedException);
@@ -547,7 +547,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 
@@ -608,7 +608,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "AccountError" } }
+                        Errors = new[] { new Error { Code = "AccountError" } }
                     }));
         }
 
@@ -670,7 +670,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 
@@ -730,7 +730,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "Expired" } }
+                        Errors = new[] { new Error { Code = "Expired" } }
                     });
 
             actualException.ShouldBeEquivalentToException(expectedException);

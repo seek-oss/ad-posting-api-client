@@ -236,14 +236,14 @@ namespace SEEK.AdPostingApi.SampleConsumer
             }
         }
 
-        private static void PrintAdvertisementErrors(AdvertisementError[] errors)
+        private static void PrintAdvertisementErrors(Error[] errors)
         {
             if (errors.Length < 1) return;
 
             Console.WriteLine("Advertisement Errors:");
 
             int counter = 1;
-            foreach (AdvertisementError error in errors)
+            foreach (Error error in errors)
             {
                 Console.WriteLine($"  [{counter:##}] Field: '{error.Field}' Code: '{error.Code}' Message: '{error.Message}'");
                 counter++;

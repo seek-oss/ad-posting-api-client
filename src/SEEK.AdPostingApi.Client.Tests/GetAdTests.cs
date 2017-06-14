@@ -192,8 +192,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Completed)
                 .WithWarnings(
-                    new AdvertisementError { Field = "standout.logoId", Code = "missing" },
-                    new AdvertisementError { Field = "standout.bullets", Code = "missing" })
+                    new Error { Field = "standout.logoId", Code = "missing" },
+                    new Error { Field = "standout.bullets", Code = "missing" })
                 .WithAgentId(null)
                 .Build();
 
@@ -291,7 +291,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "AccountError" } }
+                        Errors = new[] { new Error { Code = "AccountError" } }
                     }));
         }
 
@@ -350,7 +350,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 

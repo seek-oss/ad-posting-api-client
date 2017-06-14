@@ -11,7 +11,7 @@ namespace SEEK.AdPostingApi.Client.Resources
     {
         private Hal.Client _client;
 
-        public AdvertisementError[] Errors { get; set; }
+        public Error[] Errors { get; set; }
 
         public DateTime ExpiryDate { get; set; }
 

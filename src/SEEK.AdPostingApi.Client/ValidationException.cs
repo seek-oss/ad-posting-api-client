@@ -11,15 +11,15 @@ namespace SEEK.AdPostingApi.Client
         public ValidationException(string requestId, HttpMethod method, AdvertisementErrorResponse errorResponse)
             : base(requestId, 422, $"{method:G} failed.{errorResponse?.Message.PadLeft(errorResponse.Message.Length + 1)}")
         {
-            this.Errors = errorResponse?.Errors ?? new AdvertisementError[0];
+            this.Errors = errorResponse?.Errors ?? new Error[0];
         }
 
         protected ValidationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            this.Errors = (AdvertisementError[])info.GetValue(nameof(this.Errors), typeof(AdvertisementError[]));
+            this.Errors = (Error[])info.GetValue(nameof(this.Errors), typeof(Error[]));
         }
 
-        public AdvertisementError[] Errors { get; }
+        public Error[] Errors { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

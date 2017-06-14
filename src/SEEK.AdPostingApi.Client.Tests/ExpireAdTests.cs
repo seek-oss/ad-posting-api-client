@@ -290,7 +290,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "Expired" } }
+                        Errors = new[] { new Error { Code = "Expired" } }
                     });
 
             actualException.ShouldBeEquivalentToException(expectedException);
@@ -410,7 +410,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "AccountError" } }
+                        Errors = new[] { new Error { Code = "AccountError" } }
                     }));
         }
 
@@ -478,7 +478,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 

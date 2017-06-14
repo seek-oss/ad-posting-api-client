@@ -12,17 +12,17 @@ namespace SEEK.AdPostingApi.Client
              : base(requestId, (int)HttpStatusCode.Conflict, $"The {nameof(Advertisement.CreationId)} has already been used to create an advertisement. The {nameof(AdvertisementLink)} property provides the link to the conflicting advertisement.")
         {
             this.AdvertisementLink = advertisementLink;
-            this.Errors = errorResponse?.Errors ?? new AdvertisementError[0];
+            this.Errors = errorResponse?.Errors ?? new Error[0];
         }
 
         protected CreationIdAlreadyExistsException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this.AdvertisementLink = (Uri)info.GetValue(nameof(this.AdvertisementLink), typeof(Uri));
-            this.Errors = (AdvertisementError[])info.GetValue(nameof(this.Errors), typeof(AdvertisementError[]));
+            this.Errors = (Error[])info.GetValue(nameof(this.Errors), typeof(Error[]));
         }
 
         public Uri AdvertisementLink { get; }
-        public AdvertisementError[] Errors { get; }
+        public Error[] Errors { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
