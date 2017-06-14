@@ -28,5 +28,7 @@ namespace SEEK.AdPostingApi.Client
         Task<AdvertisementResource> UpdateAdvertisementAsync(Guid id, Advertisement advertisement);
 
         Task<AdvertisementResource> UpdateAdvertisementAsync(Uri uri, Advertisement advertisement);
+
+        Task<TemplateDescriptionListResource> GetAllTemplatesAsync(int? advertiserId = null, DateTimeOffset? fromTimeUtc = null);
     }
 }

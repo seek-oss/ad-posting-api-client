@@ -63,6 +63,7 @@
     <Compile Include="Hal\IResource.cs" />
     <Compile Include="Hal\Links.cs" />
     <Compile Include="Models\Error.cs" />
+    <Compile Include="Models\TemplateErrorResponse.cs" />
     <Compile Include="Models\ExpireAdvertisementJsonPatch.cs" />
     <Compile Include="Models\AdvertisementErrorResponse.cs" />
     <Compile Include="Models\GranularLocation.cs" />
@@ -70,8 +71,12 @@
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ProcessingOptionsType.cs" />
     <Compile Include="Models\Recruiter.cs" />
+    <Compile Include="Models\TemplateDescription.cs" />
+    <Compile Include="Models\TemplateStatus.cs" />
     <Compile Include="Models\ThirdParties.cs" />
     <Compile Include="RequestException.cs" />
+    <Compile Include="Resources\TemplateDescriptionListResource.cs" />
+    <Compile Include="Resources\TemplateDescriptionResource.cs" />
     <Compile Include="TooManyRequestsException.cs" />
     <Compile Include="UnauthorizedException.cs" />
     <Compile Include="ValidationException.cs" />
