@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
 {
     public class Program
     {
-        private const string AdvertiserId = "AdvertiserId";
+        private const int AdvertiserId = 1000001;
         private const int BaseRetryIntervalSeconds = 2;
         private const string ClientId = "ClientId";
         private const string ClientSecret = "ClientSecret";
@@ -35,6 +36,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
         {
             using (IAdPostingApiClient client = new AdPostingApiClient(ClientId, ClientSecret, Environment.Integration))
             {
+                // Determine available templates for this advertiser
+                TemplateDescriptionListResource templatesList = await GetAllTemplatesForAdvertiserExampleAsync(AdvertiserId, client);
+
+                // Use first active template
+                TemplateDescriptionResource activeTemplate = templatesList.Templates.First(t => t.State == TemplateStatus.Active);
+
                 // Create a new advertisement
                 Advertisement advertisement = GetExampleAdvertisementToCreate();
                 AdvertisementResource createdAdvertisement = await CreateAdvertisementExampleAsync(advertisement, client);
@@ -46,6 +53,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
                     // Modify details on the advertisement
                     advertisementResource.JobTitle = "Senior Dude";
+                    advertisementResource.Template.Id = Int32.Parse(activeTemplate.Id);
                     AdvertisementResource updatedAdvertisementResource = await UpdateAdvertisementExampleAsync(advertisementResource);
 
                     // Expire the advertisement
@@ -159,12 +167,28 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return summaryPage;
         }
 
+        private static async Task<TemplateDescriptionListResource> GetAllTemplatesForAdvertiserExampleAsync(int advertiserId, IAdPostingApiClient client)
+        {
+            TemplateDescriptionListResource templateDescriptionListResource = null;
+            try
+            {
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => templateDescriptionListResource = await client.GetAllTemplatesAsync(advertiserId));
+                Console.WriteLine($"Retrieve all templates:{JsonConvert.SerializeObject(templateDescriptionListResource, Formatting.Indented)} for {advertiserId}");
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return templateDescriptionListResource;
+        }
+
         private static Advertisement GetExampleAdvertisementToCreate()
         {
             return new Advertisement
             {
                 CreationId = "Sample Consumer " + Guid.NewGuid(),
-                ThirdParties = new ThirdParties { AdvertiserId = AdvertiserId },
+                ThirdParties = new ThirdParties { AdvertiserId = AdvertiserId.ToString() },
                 JobTitle = "A Job for a Dude",
                 SearchJobTitle = "Dudes find job best when they search on this title",
                 JobSummary = "Things a dude should know",
