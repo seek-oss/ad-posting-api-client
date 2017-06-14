@@ -24,20 +24,20 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             AssertionOptions.IsValueType = type => (type.Namespace == typeof(int).Namespace) && !(type == typeof(Exception) || type.IsSubclassOf(typeof(Exception)));
         }
 
-        public AdPostingApiFixture(AdPostingApiPactService adPostingApiPactService)
+        public AdPostingApiFixture(IPactService adPostingApiPactService)
         {
-            this.AdPostingApiService = adPostingApiPactService.MockProviderService;
-            this.AdPostingApiService.ClearInteractions();
+            this.MockProviderService = adPostingApiPactService.MockProviderService;
+            this.MockProviderService.ClearInteractions();
             this.AdPostingApiServiceBaseUri = adPostingApiPactService.MockProviderServiceBaseUri;
         }
 
-        public IMockProviderService AdPostingApiService { get; }
+        public IMockProviderService MockProviderService { get; }
 
         public Uri AdPostingApiServiceBaseUri { get; }
 
         public void Dispose()
         {
-            this.AdPostingApiService.VerifyInteractions();
+            this.MockProviderService.VerifyInteractions();
         }
 
         public AdPostingApiClient GetClient(OAuth2Token token)
@@ -51,7 +51,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             const string advertisementLink = "/advertisement";
 
-            this.AdPostingApiService
+            this.MockProviderService
                 .UponReceiving($"a GET index request to retrieve API links with Bearer {token.AccessToken}")
                 .With(new ProviderServiceRequest
                 {

@@ -35,7 +35,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There are no advertisements")
                 .UponReceiving("a GET advertisements request for all advertisements")
                 .With(new ProviderServiceRequest
@@ -100,7 +100,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("A page size of 3 with more than 1 page of data")
                 .UponReceiving("a GET advertisements request for first page of data")
                 .With(new ProviderServiceRequest
@@ -230,7 +230,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string beforeJobId = "6";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("A page size of 3 with more than 1 page of data")
                 .UponReceiving("a GET advertisements request for the last page of data")
                 .With(new ProviderServiceRequest
@@ -400,7 +400,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("A page size of 3 with more than 1 page of data")
                 .UponReceiving("a GET advertisements request for the first page of advertisements belonging to the advertiser")
                 .With(new ProviderServiceRequest
@@ -532,7 +532,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string selfLink = "/advertisement?" + queryString;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("A page size of 3 with more than 1 page of data")
                 .UponReceiving("a GET advertisements request for the second page of advertisements belonging to the advertiser")
                 .With(new ProviderServiceRequest
@@ -633,7 +633,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a GET advertisements request to retrieve all advertisements for an advertiser that doesn't exist")
                 .With(new ProviderServiceRequest
                 {
@@ -688,7 +688,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a GET advertisements request to retrieve all advertisements for the advertiser not related to requestor")
                 .With(new ProviderServiceRequest
                 {

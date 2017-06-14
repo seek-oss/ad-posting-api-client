@@ -45,7 +45,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with required field values only")
                 .With(
                     new ProviderServiceRequest
@@ -110,7 +110,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with required and optional field values")
                 .With(
                     new ProviderServiceRequest
@@ -171,7 +171,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with invalid field values")
                 .With(
                     new ProviderServiceRequest
@@ -267,7 +267,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with invalid salary data")
                 .With(
                     new ProviderServiceRequest
@@ -340,7 +340,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with invalid advertisement details")
                 .With(
                     new ProviderServiceRequest
@@ -417,7 +417,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with invalid advertisement details and with 'CleanseJobAdDetails' processing option")
                 .With(
                     new ProviderServiceRequest
@@ -486,7 +486,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad without a creation id")
                 .With(
                     new ProviderServiceRequest
@@ -551,7 +551,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving($"a POST advertisement request to create a job ad with the same creation id '{creationId}'")
                 .With(
@@ -611,7 +611,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with an invalid advertiser id")
                 .With(
                     new ProviderServiceRequest
@@ -675,7 +675,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("The requestor's account is disabled")
                 .UponReceiving("a POST advertisement request to create a job")
                 .With(
@@ -739,7 +739,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
@@ -803,7 +803,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with duplicated names for template custom fields")
                 .With(
                     new ProviderServiceRequest
@@ -889,7 +889,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             var allFieldsWithGranularLocationInitializer = new AllFieldsInitializer(LocationType.UseGranularLocation);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with granular location")
                 .With(
                     new ProviderServiceRequest

@@ -82,7 +82,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         private void SetupPactForUpdatingExistingAdvertisement(string link, OAuth2Token oAuth2Token, string viewRenderedAdvertisementLink)
         {
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request")
                 .With(new ProviderServiceRequest
@@ -152,7 +152,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a PUT advertisement request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -196,7 +196,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request for advertisement with invalid field values")
                 .With(new ProviderServiceRequest
@@ -288,7 +288,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request for advertisement with invalid salary data")
                 .With(new ProviderServiceRequest
@@ -354,7 +354,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request for advertisement with invalid advertisement details")
                 .With(new ProviderServiceRequest
@@ -421,7 +421,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var adDetailsBeforeCleanse = "<p style=\"text-align:justify; font-family:'Comic Sans MS', cursive, sans-serif\">Whimsical</p>";
             var adDetailsAfterCleanse = "<p style=\"text-align:justify\">Whimsical</p>";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request for advertisement with invalid advertisement details and with 'CleanseJobAdDetails' processing option")
                 .With(new ProviderServiceRequest
@@ -492,7 +492,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update a job ad with a different advertiser from the one owning the job")
                 .With(
@@ -557,7 +557,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update a job using a disabled requestor account")
                 .With(
@@ -618,7 +618,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update a job for an advertiser not related to the requestor's account")
                 .With(
@@ -680,7 +680,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/c294088d-ff50-4374-bc38-7fa805790e3e";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is an expired advertisement")
                 .UponReceiving("a PUT advertisement request to update an expired advertisement")
                 .With(
@@ -745,7 +745,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             var allFieldsWithGranularLocationInitializer = new AllFieldsInitializer(LocationType.UseGranularLocation);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update granular location")
                 .With(new ProviderServiceRequest

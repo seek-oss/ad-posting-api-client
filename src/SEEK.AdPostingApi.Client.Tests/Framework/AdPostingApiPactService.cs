@@ -4,7 +4,7 @@ using PactNet.Mocks.MockHttpService;
 
 namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
-    public class AdPostingApiPactService : IDisposable
+    public class AdPostingApiPactService : IPactService, IDisposable
     {
         public AdPostingApiPactService()
         {
