@@ -14,7 +14,7 @@ namespace SEEK.AdPostingApi.Client.Resources
         public Links Links { get; set; }
 
         [JsonIgnore]
-        public Uri Uri => null;// this.Links.GenerateLink("self");
+        public Uri Uri => null;
 
         public void Initialise(Hal.Client client)
         {

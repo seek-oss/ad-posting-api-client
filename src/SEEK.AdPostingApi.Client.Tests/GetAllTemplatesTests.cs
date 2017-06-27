@@ -27,7 +27,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForPartner_MultipleTemplatesReturned()
+        public async Task GetAllTemplatesForPartnerMultipleTemplatesReturned()
         {
             const string templateId1 = "8059016";
             const string templateId2 = "65146183";
@@ -191,7 +191,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForPartner_OneTemplateReturned()
+        public async Task GetAllTemplatesForPartnerOneTemplateReturned()
         {
             const string templateId1 = "8059016";
             const string advertiserId1 = "456";
@@ -278,7 +278,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForPartner_NoTemplatesReturned()
+        public async Task GetAllTemplatesForPartnerNoTemplatesReturned()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
@@ -331,7 +331,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiser_MultipleTemplatesReturned()
+        public async Task GetAllTemplatesForAdvertiserMultipleTemplatesReturned()
         {
             const string templateId1 = "8059016";
             const string templateId2 = "65146183";
@@ -440,7 +440,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiser_OneTemplateReturned()
+        public async Task GetAllTemplatesForAdvertiserOneTemplateReturned()
         {
             const string templateId1 = "8059016";
             const string advertiserId1 = "456";
@@ -530,7 +530,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiser_NoTemplatesReturned()
+        public async Task GetAllTemplatesForAdvertiserNoTemplatesReturned()
         {
             int advertiserId = 111222;
             string queryString = "advertiserId=" + advertiserId;
@@ -586,7 +586,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiser_NonExistentAdvertiserId()
+        public async Task GetAllTemplatesForAdvertiserNonExistentAdvertiserId()
         {
             int advertiserId = 654321;
             string queryString = "advertiserId=" + advertiserId;
@@ -641,7 +641,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiser_ReturnsRelationshipError()
+        public async Task GetAllTemplatesForAdvertiserReturnsRelationshipError()
         {
             var advertiserId = 874392;
             string queryString = "advertiserId=" + advertiserId;
@@ -696,7 +696,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForPartnerAndFromDateTimeUtc_MultipleTemplatesReturned()
+        public async Task GetAllTemplatesForPartnerAndFromDateTimeUtcMultipleTemplatesReturned()
         {
             const string templateId1 = "8059016";
             const string templateId2 = "65146183";
@@ -865,7 +865,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForPartnerAndFromDateTimeUtc_OneTemplateReturned()
+        public async Task GetAllTemplatesForPartnerAndFromDateTimeUtcOneTemplateReturned()
         {
             const string templateId1 = "8059016";
             const string advertiserId1 = "456";
@@ -957,7 +957,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForPartnerAndFromDateTimeUtc_NoTemplatesReturned()
+        public async Task GetAllTemplatesForPartnerAndFromDateTimeUtcNoTemplatesReturned()
         {
             const string selfLink = "/template";
 
@@ -1019,7 +1019,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtc_MultipleTemplatesReturned()
+        public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtcMultipleTemplatesReturned()
         {
             const string templateId1 = "8059016";
             const string templateId2 = "65146183";
@@ -1131,7 +1131,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtc_OneTemplateReturned()
+        public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtcOneTemplateReturned()
         {
             const string templateId1 = "8059016";
             const string advertiserId1 = "456";
@@ -1223,7 +1223,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtc_NoTemplatesReturned()
+        public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtcNoTemplatesReturned()
         {
             const string selfLink = "/template";
 
