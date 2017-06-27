@@ -853,6 +853,10 @@ Ad Posting API will respond with:
       "advertisement": {
         "href": "/advertisement/{advertisementId}",
         "templated": true
+      },
+      "templates": {
+        "href": "/template{?advertiserId,fromDateTimeUtc}",
+        "templated": true
       }
     }
   }
@@ -886,6 +890,10 @@ Ad Posting API will respond with:
       },
       "advertisement": {
         "href": "/advertisement/{advertisementId}",
+        "templated": true
+      },
+      "templates": {
+        "href": "/template{?advertiserId,fromDateTimeUtc}",
         "templated": true
       }
     }
