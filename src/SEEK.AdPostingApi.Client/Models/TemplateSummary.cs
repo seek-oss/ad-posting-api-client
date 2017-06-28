@@ -2,7 +2,7 @@
 
 namespace SEEK.AdPostingApi.Client.Models
 {
-    public class TemplateDescription
+    public class TemplateSummary
     {
         public string Id { get; set; }
 

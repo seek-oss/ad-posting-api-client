@@ -6,12 +6,12 @@ using SEEK.AdPostingApi.Client.Hal;
 namespace SEEK.AdPostingApi.Client.Resources
 {
     [MediaType("application/vnd.seek.template-list+json;version=1")]
-    public class TemplateDescriptionListResource : IResource
+    public class TemplateSummaryListResource : IResource
     {
         private Hal.Client _client;
 
         [Embedded(Rel = "templates")]
-        public IList<TemplateDescriptionResource> Templates { get; set; }
+        public IList<TemplateSummaryResource> Templates { get; set; }
 
         [JsonIgnore]
         public Links Links { get; set; }

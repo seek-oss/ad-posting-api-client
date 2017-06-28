@@ -6,7 +6,7 @@ using SEEK.AdPostingApi.Client.Models;
 namespace SEEK.AdPostingApi.Client.Resources
 {
     [MediaType("application/vnd.seek.template+json;version=1")]
-    public class TemplateDescriptionResource : TemplateDescription, IResource
+    public class TemplateSummaryResource : TemplateSummary, IResource
     {
         private Hal.Client _client;
 

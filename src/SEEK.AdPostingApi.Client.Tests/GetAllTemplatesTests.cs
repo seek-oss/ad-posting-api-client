@@ -123,18 +123,18 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync();
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Templates = new List<TemplateDescriptionResource>
+                Templates = new List<TemplateSummaryResource>
                 {
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId1,
                         AdvertiserId = advertiserId1,
@@ -143,7 +143,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Active,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId2,
                         AdvertiserId = advertiserId1,
@@ -152,7 +152,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Active,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId3,
                         AdvertiserId = advertiserId2,
@@ -161,7 +161,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Active,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId4,
                         AdvertiserId = advertiserId2,
@@ -170,7 +170,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Inactive,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId5,
                         AdvertiserId = advertiserId2,
@@ -246,18 +246,18 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync();
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Templates = new List<TemplateDescriptionResource>
+                Templates = new List<TemplateSummaryResource>
                 {
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId1,
                         AdvertiserId = advertiserId1,
@@ -308,26 +308,26 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new
                     {
-                        _embedded = new { templates = new List<TemplateDescriptionResource>() },
+                        _embedded = new { templates = new List<TemplateSummaryResource>() },
                         _links = new { self = new { href = "/template" } }
                     }
                 });
 
-            TemplateDescriptionListResource templatesDescription;
+            TemplateSummaryListResource templatesSummary;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                templatesDescription = await client.GetAllTemplatesAsync();
+                templatesSummary = await client.GetAllTemplatesAsync();
             }
 
-            TemplateDescriptionListResource expectedtemplates = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedtemplates = new TemplateSummaryListResource
             {
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/template" } } },
-                Templates = new List<TemplateDescriptionResource>(),
+                Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
 
-            templatesDescription.ShouldBeEquivalentTo(expectedtemplates);
+            templatesSummary.ShouldBeEquivalentTo(expectedtemplates);
         }
 
         [Fact]
@@ -399,18 +399,18 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync(Int32.Parse(advertiserId1));
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Templates = new List<TemplateDescriptionResource>
+                Templates = new List<TemplateSummaryResource>
                 {
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId1,
                         AdvertiserId = advertiserId1,
@@ -419,7 +419,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Active,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId2,
                         AdvertiserId = advertiserId1,
@@ -498,18 +498,18 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync(Int32.Parse(advertiserId1));
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Templates = new List<TemplateDescriptionResource>
+                Templates = new List<TemplateSummaryResource>
                 {
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId1,
                         AdvertiserId = advertiserId1,
@@ -563,26 +563,26 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new
                     {
-                        _embedded = new { templates = new List<TemplateDescriptionResource>() },
+                        _embedded = new { templates = new List<TemplateSummaryResource>() },
                         _links = new { self = new { href = "/template" } }
                     }
                 });
 
-            TemplateDescriptionListResource templatesDescription;
+            TemplateSummaryListResource templatesSummary;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                templatesDescription = await client.GetAllTemplatesAsync(advertiserId);
+                templatesSummary = await client.GetAllTemplatesAsync(advertiserId);
             }
 
-            TemplateDescriptionListResource expectedtemplates = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedtemplates = new TemplateSummaryListResource
             {
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/template" } } },
-                Templates = new List<TemplateDescriptionResource>(),
+                Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
 
-            templatesDescription.ShouldBeEquivalentTo(expectedtemplates);
+            templatesSummary.ShouldBeEquivalentTo(expectedtemplates);
         }
 
         [Fact]
@@ -797,18 +797,18 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync(fromDateTimeUtc: fromDateTimeUtc);
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Templates = new List<TemplateDescriptionResource>
+                Templates = new List<TemplateSummaryResource>
                 {
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId1,
                         AdvertiserId = advertiserId1,
@@ -817,7 +817,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Active,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId2,
                         AdvertiserId = advertiserId1,
@@ -826,7 +826,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Active,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId3,
                         AdvertiserId = advertiserId2,
@@ -835,7 +835,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Active,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId4,
                         AdvertiserId = advertiserId2,
@@ -844,7 +844,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Inactive,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId5,
                         AdvertiserId = advertiserId2,
@@ -925,18 +925,18 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync(fromDateTimeUtc: fromDateTimeUtc);
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Templates = new List<TemplateDescriptionResource>
+                Templates = new List<TemplateSummaryResource>
                 {
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId1,
                         AdvertiserId = advertiserId1,
@@ -993,7 +993,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new
                     {
-                        _embedded = new { templates = new List<TemplateDescriptionResource>() },
+                        _embedded = new { templates = new List<TemplateSummaryResource>() },
                         _links = new
                         {
                             self = new { href = selfLink }
@@ -1001,17 +1001,17 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync(fromDateTimeUtc: fromDateTimeUtc);
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/template" } } },
-                Templates = new List<TemplateDescriptionResource>(),
+                Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
 
@@ -1090,18 +1090,18 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync(Int32.Parse(advertiserId1), fromDateTimeUtc);
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Templates = new List<TemplateDescriptionResource>
+                Templates = new List<TemplateSummaryResource>
                 {
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId1,
                         AdvertiserId = advertiserId1,
@@ -1110,7 +1110,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         State = TemplateStatus.Active,
                         Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                     },
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId2,
                         AdvertiserId = advertiserId1,
@@ -1191,18 +1191,18 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync(Int32.Parse(advertiserId1), fromDateTimeUtc);
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Templates = new List<TemplateDescriptionResource>
+                Templates = new List<TemplateSummaryResource>
                 {
-                    new TemplateDescriptionResource
+                    new TemplateSummaryResource
                     {
                         Id = templateId1,
                         AdvertiserId = advertiserId1,
@@ -1260,7 +1260,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     },
                     Body = new
                     {
-                        _embedded = new { templates = new List<TemplateDescriptionResource>() },
+                        _embedded = new { templates = new List<TemplateSummaryResource>() },
                         _links = new
                         {
                             self = new { href = selfLink }
@@ -1268,17 +1268,17 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateDescriptionListResource listResource;
+            TemplateSummaryListResource listResource;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
                 listResource = await client.GetAllTemplatesAsync(advertiserId, fromDateTimeUtc);
             }
 
-            TemplateDescriptionListResource expectedListResource = new TemplateDescriptionListResource
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/template" } } },
-                Templates = new List<TemplateDescriptionResource>(),
+                Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
 

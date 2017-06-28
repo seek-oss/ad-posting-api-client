@@ -71,12 +71,12 @@
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ProcessingOptionsType.cs" />
     <Compile Include="Models\Recruiter.cs" />
-    <Compile Include="Models\TemplateDescription.cs" />
+    <Compile Include="Models\TemplateSummary.cs" />
     <Compile Include="Models\TemplateStatus.cs" />
     <Compile Include="Models\ThirdParties.cs" />
     <Compile Include="RequestException.cs" />
-    <Compile Include="Resources\TemplateDescriptionListResource.cs" />
-    <Compile Include="Resources\TemplateDescriptionResource.cs" />
+    <Compile Include="Resources\TemplateSummaryListResource.cs" />
+    <Compile Include="Resources\TemplateSummaryResource.cs" />
     <Compile Include="TooManyRequestsException.cs" />
     <Compile Include="UnauthorizedException.cs" />
     <Compile Include="ValidationException.cs" />

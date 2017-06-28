@@ -115,7 +115,7 @@ namespace SEEK.AdPostingApi.Client
             return await this._client.PutResourceAsync<AdvertisementResource, Advertisement>(uri, advertisement);
         }
 
-        public async Task<TemplateDescriptionListResource> GetAllTemplatesAsync(int? advertiserId = null, DateTimeOffset? fromDateTimeUtc = null)
+        public async Task<TemplateSummaryListResource> GetAllTemplatesAsync(int? advertiserId = null, DateTimeOffset? fromDateTimeUtc = null)
         {
             await this.EnsureIndexResourceInitialised();
 

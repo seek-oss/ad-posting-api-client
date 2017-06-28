@@ -37,10 +37,10 @@ namespace SEEK.AdPostingApi.SampleConsumer
             using (IAdPostingApiClient client = new AdPostingApiClient(ClientId, ClientSecret, Environment.Integration))
             {
                 // Determine available templates for this advertiser
-                TemplateDescriptionListResource templatesList = await GetAllTemplatesForAdvertiserExampleAsync(AdvertiserId, client);
+                TemplateSummaryListResource templatesList = await GetAllTemplatesForAdvertiserExampleAsync(AdvertiserId, client);
 
                 // Use first active template
-                TemplateDescriptionResource activeTemplate = templatesList.Templates.First(t => t.State == TemplateStatus.Active);
+                TemplateSummaryResource activeTemplate = templatesList.Templates.FirstOrDefault(t => t.State == TemplateStatus.Active);
 
                 // Create a new advertisement
                 Advertisement advertisement = GetExampleAdvertisementToCreate();
@@ -167,20 +167,20 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return summaryPage;
         }
 
-        private static async Task<TemplateDescriptionListResource> GetAllTemplatesForAdvertiserExampleAsync(int advertiserId, IAdPostingApiClient client)
+        private static async Task<TemplateSummaryListResource> GetAllTemplatesForAdvertiserExampleAsync(int advertiserId, IAdPostingApiClient client)
         {
-            TemplateDescriptionListResource templateDescriptionListResource = null;
+            TemplateSummaryListResource templateSummaryListResource = null;
             try
             {
-                await TransientErrorRetryPolicy.ExecuteAsync(async () => templateDescriptionListResource = await client.GetAllTemplatesAsync(advertiserId));
-                Console.WriteLine($"Retrieve all templates:{JsonConvert.SerializeObject(templateDescriptionListResource, Formatting.Indented)} for {advertiserId}");
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => templateSummaryListResource = await client.GetAllTemplatesAsync(advertiserId));
+                Console.WriteLine($"Retrieve all templates:{JsonConvert.SerializeObject(templateSummaryListResource, Formatting.Indented)} for {advertiserId}");
             }
             catch (RequestException ex)
             {
                 LogException(ex);
             }
 
-            return templateDescriptionListResource;
+            return templateSummaryListResource;
         }
 
         private static Advertisement GetExampleAdvertisementToCreate()
