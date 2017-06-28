@@ -53,7 +53,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
                     // Modify details on the advertisement
                     advertisementResource.JobTitle = "Senior Dude";
-                    advertisementResource.Template.Id = Int32.Parse(activeTemplate.Id);
+
+                    if (activeTemplate != null)
+                    {
+                        advertisementResource.Template.Id = Int32.Parse(activeTemplate.Id);
+                    }
+
                     AdvertisementResource updatedAdvertisementResource = await UpdateAdvertisementExampleAsync(advertisementResource);
 
                     // Expire the advertisement
