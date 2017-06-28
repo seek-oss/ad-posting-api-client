@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 
 namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class TemplateDescriptionResponseContentBuilder
     {
-        private static readonly Random _random = new Random();
         private readonly dynamic _templateDescriptionModel = new ExpandoObject();
-
-        public TemplateDescriptionResponseContentBuilder()
-        {
-            this.WithId(_random.Next(Int32.MaxValue));
-        }
 
         public TemplateDescriptionResponseContentBuilder WithId(object id)
         {
