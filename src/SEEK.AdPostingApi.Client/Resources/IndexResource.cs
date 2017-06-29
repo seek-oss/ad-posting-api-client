@@ -40,21 +40,6 @@ namespace SEEK.AdPostingApi.Client.Resources
                     this.Links.GenerateLink("advertisements", new { advertiserId = advertiserIdentifier }));
         }
 
-        public async Task<TemplateSummaryListResource> GetAllTemplates(long? advertiserIdentifier = null, DateTimeOffset? fromDateTimeUtc = null)
-        {
-            return !advertiserIdentifier.HasValue
-                ? await this._client.GetResourceAsync<TemplateSummaryListResource, TemplateErrorResponse>(
-                    this.Links.GenerateLink("templates", new
-                    {
-                        fromDateTimeUtc = fromDateTimeUtc.HasValue ? $"{fromDateTimeUtc:yyyy-MM-ddTHH:mm:ssZ}" : null,
-                    }))
-                : await this._client.GetResourceAsync<TemplateSummaryListResource, TemplateErrorResponse>(
-                    this.Links.GenerateLink("templates", new
-                    {
-                        advertiserId = advertiserIdentifier,
-                        fromDateTimeUtc = fromDateTimeUtc.HasValue ? $"{fromDateTimeUtc:yyyy-MM-ddTHH:mm:ssZ}" : null,
-                    }));
-        }
 
         public void Initialise(Hal.Client client)
         {

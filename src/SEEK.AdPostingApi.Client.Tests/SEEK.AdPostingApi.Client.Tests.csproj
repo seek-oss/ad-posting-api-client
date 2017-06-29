@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\AdPostingTemplateApiFixture.cs" />
     <Compile Include="Framework\AdPostingTemplateApiCollection.cs" />
     <Compile Include="Framework\AdPostingTemplateApiPactService.cs" />
     <Compile Include="Framework\IPactService.cs" />

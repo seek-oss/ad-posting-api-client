@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -13,6 +14,7 @@ namespace SEEK.AdPostingApi.Client
     {
         private readonly IOAuth2TokenClient _tokenClient;
         private IndexResource _indexResource;
+        private readonly Uri _adPostingUri;
         private readonly Lazy<Task> _ensureIndexResourceInitialised;
         private readonly Hal.Client _client;
 
@@ -26,6 +28,7 @@ namespace SEEK.AdPostingApi.Client
             this._ensureIndexResourceInitialised = new Lazy<Task>(() => this.InitialiseIndexResource(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             this._tokenClient = tokenClient;
             this._client = new Hal.Client(new HttpClient(new AdPostingApiMessageHandler(new OAuthMessageHandler(tokenClient))));
+            this._adPostingUri = adPostingUri;
         }
 
         private Task EnsureIndexResourceInitialised()
@@ -117,9 +120,15 @@ namespace SEEK.AdPostingApi.Client
 
         public async Task<TemplateSummaryListResource> GetAllTemplatesAsync(int? advertiserId = null, DateTimeOffset? fromDateTimeUtc = null)
         {
-            await this.EnsureIndexResourceInitialised();
+            Link baseLink = new Link { Href = "/template{?advertiserId,fromDateTimeUtc}", Templated = true };
 
-            return await this._indexResource.GetAllTemplates(advertiserId, fromDateTimeUtc);
+            var parameters = new
+            {
+                advertiserId,
+                fromDateTimeUtc = fromDateTimeUtc.HasValue ? $"{fromDateTimeUtc:yyyy-MM-ddTHH:mm:ssZ}" : null,
+            };
+
+            return await this._client.GetResourceAsync<TemplateSummaryListResource, TemplateErrorResponse>(new Uri(this._adPostingUri, baseLink.Resolve(parameters)));
         }
 
         public void Dispose()

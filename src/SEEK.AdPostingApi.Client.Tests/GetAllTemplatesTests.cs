@@ -18,7 +18,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         public GetAllTemplatesTests(AdPostingTemplateApiPactService adPostingTemplateApiPactService)
         {
-            this.Fixture = new AdPostingApiFixture(adPostingTemplateApiPactService);
+            this.Fixture = new AdPostingTemplateApiFixture(adPostingTemplateApiPactService);
         }
 
         public void Dispose()
@@ -48,8 +48,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             DateTimeOffset template5UpdateDateTime = DateTimeOffset.Parse("2017-03-23T11:12:10Z");
             const string selfLink = "/template";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.MockProviderService
                 .Given("Multiple templates exist for multiple advertisers related to the requestor")
@@ -200,8 +198,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string selfLink = "/template";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
-
             this.Fixture.MockProviderService
                 .Given("A template exists for an advertiser related to the requestor")
                 .UponReceiving("a GET templates request")
@@ -282,8 +278,6 @@ namespace SEEK.AdPostingApi.Client.Tests
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
-
             this.Fixture.MockProviderService
                 .Given("There are no templates")
                 .UponReceiving("a GET templates request for all templates")
@@ -344,8 +338,6 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             string queryString = "advertiserId=" + advertiserId1;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.MockProviderService
                 .Given("Multiple templates exist for an advertiser related to the requestor")
@@ -451,8 +443,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             string queryString = "advertiserId=" + advertiserId1;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
-
             this.Fixture.MockProviderService
                 .Given("A template exists for an advertiser related to the requestor")
                 .UponReceiving("a GET templates request to retrieve all templates for an advertiser")
@@ -536,8 +526,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             string queryString = "advertiserId=" + advertiserId;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
-
             this.Fixture.MockProviderService
                 .Given("There are no templates for an advertiser related to the requestor")
                 .UponReceiving("a GET templates request to retrieve all templates for an advertiser")
@@ -592,8 +580,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             string queryString = "advertiserId=" + advertiserId;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
-
             this.Fixture.MockProviderService
                 .UponReceiving("a GET templates request to retrieve all templates for an advertiser that doesn't exist")
                 .With(new ProviderServiceRequest
@@ -646,8 +632,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             var advertiserId = 874392;
             string queryString = "advertiserId=" + advertiserId;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
-
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.MockProviderService
                 .UponReceiving("a GET templates request to retrieve all templates for an advertiser not related to requestor")
@@ -721,8 +705,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             var fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
             string queryString = "fromDateTimeUtc=" + fromDateTimeUtcString;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.MockProviderService
                 .Given("Multiple templates updated after fromDateTimeUtc exist for multiple advertisers related to the requestor")
@@ -878,8 +860,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             string queryString = "fromDateTimeUtc=" + fromDateTimeUtcString;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
-
             this.Fixture.MockProviderService
                 .Given("A template updated since fromDateTimeUtc exists for an advertiser related to the requestor")
                 .UponReceiving("a GET templates request to retrieve all templates updated after a specified time")
@@ -966,8 +946,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             string queryString = "fromDateTimeUtc=" + fromDateTimeUtcString;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
-
             this.Fixture.MockProviderService
                 .Given("There are no templates updated since fromDateTimeUtc for any advertiser related to the requestor")
                 .UponReceiving("a GET templates request to retrieve all templates updated after a specified time")
@@ -1035,8 +1013,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             var fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
             string queryString = "advertiserId=" + advertiserId1 + "&fromDateTimeUtc=" + fromDateTimeUtcString;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.MockProviderService
                 .Given("Multiple templates updated after fromDateTimeUtc exist for an advertiser related to the requestor")
@@ -1144,7 +1120,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             string queryString = "advertiserId=" + advertiserId1 + "&fromDateTimeUtc=" + fromDateTimeUtcString;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.MockProviderService
                 .Given("A template updated since fromDateTimeUtc exists for an advertiser related to the requestor")
@@ -1233,8 +1208,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             string queryString = "advertiserId=" + advertiserId + "&fromDateTimeUtc=" + fromDateTimeUtcString;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
-            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
-
             this.Fixture.MockProviderService
                 .Given("There are no templates updated since fromDateTimeUtc for an advertiser related to the requestor")
                 .UponReceiving("a GET templates request to retrieve all templates for an advertiser updated after a specified time")
@@ -1285,6 +1258,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             listResource.ShouldBeEquivalentTo(expectedListResource);
         }
 
-        private AdPostingApiFixture Fixture { get; }
+        private AdPostingTemplateApiFixture Fixture { get; }
     }
 }
