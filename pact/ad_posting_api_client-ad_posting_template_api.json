@@ -69,7 +69,7 @@
     },
     {
       "description": "a GET templates request",
-      "provider_state": "A template exists for an advertiser related to the requestor",
+      "provider_state": "One template exists for an advertiser related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",
@@ -472,7 +472,7 @@
     },
     {
       "description": "a GET templates request to retrieve all templates for an advertiser",
-      "provider_state": "A template exists for an advertiser related to the requestor",
+      "provider_state": "One template exists for an advertiser related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",

@@ -199,7 +199,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.MockProviderService
-                .Given("A template exists for an advertiser related to the requestor")
+                .Given("One template exists for an advertiser related to the requestor")
                 .UponReceiving("a GET templates request")
                 .With(new ProviderServiceRequest
                 {
@@ -445,7 +445,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.MockProviderService
-                .Given("A template exists for an advertiser related to the requestor")
+                .Given("One template exists for an advertiser related to the requestor")
                 .UponReceiving("a GET templates request to retrieve all templates for an advertiser")
                 .With(new ProviderServiceRequest
                 {
