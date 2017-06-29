@@ -46,7 +46,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             DateTimeOffset template3UpdateDateTime = DateTimeOffset.Parse("2017-05-07T09:45:43Z");
             DateTimeOffset template4UpdateDateTime = DateTimeOffset.Parse("2015-10-13T03:41:21Z");
             DateTimeOffset template5UpdateDateTime = DateTimeOffset.Parse("2017-03-23T11:12:10Z");
-            const string selfLink = "/template";
+            const string uriPath = "/template";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.MockProviderService
@@ -55,7 +55,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
@@ -116,7 +116,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = uriPath }
                         }
                     }
                 });
@@ -180,7 +180,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = selfLink } },
+                    { "self", new Link { Href = uriPath } },
                 },
                 RequestId = RequestId
             };
@@ -195,7 +195,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string advertiserId1 = "456";
             const string template1Name = "The blue template";
             DateTimeOffset template1UpdateDateTime = DateTimeOffset.Parse("2017-01-03T11:45:44Z");
-            const string selfLink = "/template";
+            const string uriPath = "/template";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.MockProviderService
@@ -204,7 +204,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
@@ -237,7 +237,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = uriPath }
                         }
                     }
                 });
@@ -265,7 +265,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = selfLink } },
+                    { "self", new Link { Href = uriPath } },
                 },
                 RequestId = RequestId
             };
@@ -276,6 +276,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllTemplatesForPartnerNoTemplatesReturned()
         {
+            const string uriPath = "/template";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.MockProviderService
@@ -284,7 +285,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Headers = new Dictionary<string, string>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
@@ -334,7 +335,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string template2Name = "The template with a round logo";
             DateTimeOffset template1UpdateDateTime = DateTimeOffset.Parse("2017-01-03T11:45:44Z");
             DateTimeOffset template2UpdateDateTime = DateTimeOffset.Parse("2016-11-03T13:11:11Z");
-            const string selfLink = "/template";
+            const string uriPath = "/template";
 
             string queryString = "advertiserId=" + advertiserId1;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -345,7 +346,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -386,7 +387,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = $"{uriPath}?{queryString}" }
                         }
                     }
                 });
@@ -423,7 +424,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = selfLink } },
+                    { "self", new Link { Href = $"{uriPath}?{queryString}" } },
                 },
                 RequestId = RequestId
             };
@@ -438,7 +439,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string advertiserId1 = "456";
             const string template1Name = "The blue template";
             DateTimeOffset template1UpdateDateTime = DateTimeOffset.Parse("2017-01-03T11:45:44Z");
-            const string selfLink = "/template";
+            const string uriPath = "/template";
 
             string queryString = "advertiserId=" + advertiserId1;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -449,7 +450,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -483,7 +484,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = $"{uriPath}?{queryString}" }
                         }
                     }
                 });
@@ -511,7 +512,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = selfLink } },
+                    { "self", new Link { Href = $"{uriPath}?{queryString}" } },
                 },
                 RequestId = RequestId
             };
@@ -522,6 +523,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllTemplatesForAdvertiserNoTemplatesReturned()
         {
+            const string uriPath = "/template";
             int advertiserId = 111222;
             string queryString = "advertiserId=" + advertiserId;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -532,7 +534,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -576,6 +578,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllTemplatesForAdvertiserNonExistentAdvertiserId()
         {
+            const string uriPath = "/template";
             int advertiserId = 654321;
             string queryString = "advertiserId=" + advertiserId;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -585,7 +588,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -629,6 +632,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllTemplatesForAdvertiserReturnsRelationshipError()
         {
+            const string uriPath = "/template";
             var advertiserId = 874392;
             string queryString = "advertiserId=" + advertiserId;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
@@ -638,7 +642,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -699,7 +703,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             DateTimeOffset template3UpdateDateTime = DateTimeOffset.Parse("2017-05-07T09:45:43Z");
             DateTimeOffset template4UpdateDateTime = DateTimeOffset.Parse("2015-10-13T03:41:21Z");
             DateTimeOffset template5UpdateDateTime = DateTimeOffset.Parse("2017-03-23T11:12:10Z");
-            const string selfLink = "/template";
+            const string uriPath = "/template";
 
             var fromDateTimeUtcString = "2015-10-13T03:41:21Z"; // inclusive search
             var fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
@@ -712,7 +716,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -774,7 +778,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = $"{uriPath}?{queryString}" }
                         }
                     }
                 });
@@ -838,7 +842,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = selfLink } },
+                    { "self", new Link { Href = $"{uriPath}?{queryString}" } }
                 },
                 RequestId = RequestId
             };
@@ -853,7 +857,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string advertiserId1 = "456";
             const string template1Name = "The blue template";
             DateTimeOffset template1UpdateDateTime = DateTimeOffset.Parse("2017-01-03T11:45:44Z");
-            const string selfLink = "/template";
+            const string uriPath = "/template";
 
             var fromDateTimeUtcString = "2011-01-01T00:00:00Z";
             var fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
@@ -866,7 +870,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -900,7 +904,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = $"{uriPath}?{queryString}" }
                         }
                     }
                 });
@@ -928,7 +932,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = selfLink } },
+                    { "self", new Link { Href = $"{uriPath}?{queryString}" } }
                 },
                 RequestId = RequestId
             };
@@ -939,7 +943,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllTemplatesForPartnerAndFromDateTimeUtcNoTemplatesReturned()
         {
-            const string selfLink = "/template";
+            const string uriPath = "/template";
 
             var fromDateTimeUtcString = "2011-01-01T00:00:00Z";
             var fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
@@ -952,7 +956,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -974,7 +978,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         _embedded = new { templates = new List<TemplateSummaryResource>() },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = $"{uriPath}?{queryString}" }
                         }
                     }
                 });
@@ -988,7 +992,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/template" } } },
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = $"{uriPath}?{queryString}" } } },
                 Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
@@ -1007,7 +1011,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string template2Name = "The template with a round logo";
             DateTimeOffset template1UpdateDateTime = DateTimeOffset.Parse("2017-01-03T11:45:44Z");
             DateTimeOffset template2UpdateDateTime = DateTimeOffset.Parse("2016-11-03T13:11:11Z");
-            const string selfLink = "/template";
+            const string uriPath = "/template";
 
             var fromDateTimeUtcString = "2015-10-13T03:41:21Z"; // inclusive search
             var fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
@@ -1020,7 +1024,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -1061,7 +1065,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = $"{uriPath}?{queryString}" }
                         }
                     }
                 });
@@ -1098,7 +1102,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = selfLink } },
+                    { "self", new Link { Href = $"{uriPath}?{queryString}" } },
                 },
                 RequestId = RequestId
             };
@@ -1113,13 +1117,12 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string advertiserId1 = "456";
             const string template1Name = "The blue template";
             DateTimeOffset template1UpdateDateTime = DateTimeOffset.Parse("2017-01-03T11:45:44Z");
-            const string selfLink = "/template";
+            const string uriPath = "/template";
 
             var fromDateTimeUtcString = "2011-01-01T00:00:00Z";
             var fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
             string queryString = "advertiserId=" + advertiserId1 + "&fromDateTimeUtc=" + fromDateTimeUtcString;
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
 
             this.Fixture.MockProviderService
                 .Given("A template updated since fromDateTimeUtc exists for an advertiser related to the requestor")
@@ -1127,7 +1130,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -1161,7 +1164,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = $"{uriPath}?{queryString}" }
                         }
                     }
                 });
@@ -1189,7 +1192,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = selfLink } },
+                    { "self", new Link { Href = $"{uriPath}?{queryString}" } },
                 },
                 RequestId = RequestId
             };
@@ -1200,7 +1203,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtcNoTemplatesReturned()
         {
-            const string selfLink = "/template";
+            const string uriPath = "/template";
 
             int advertiserId = 111222;
             var fromDateTimeUtcString = "2011-01-01T00:00:00Z";
@@ -1214,7 +1217,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = "/template",
+                    Path = uriPath,
                     Query = queryString,
                     Headers = new Dictionary<string, string>
                     {
@@ -1236,7 +1239,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         _embedded = new { templates = new List<TemplateSummaryResource>() },
                         _links = new
                         {
-                            self = new { href = selfLink }
+                            self = new { href = $"{uriPath}?{queryString}" }
                         }
                     }
                 });
@@ -1250,7 +1253,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/template" } } },
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = $"{uriPath}?{queryString}" } } },
                 Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };

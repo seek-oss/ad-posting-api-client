@@ -61,7 +61,7 @@
           },
           "_links": {
             "self": {
-              "href": "/template"
+              "href": "/template?fromDateTimeUtc=2011-01-01T00:00:00Z"
             }
           }
         }
@@ -138,7 +138,7 @@
           },
           "_links": {
             "self": {
-              "href": "/template"
+              "href": "/template?advertiserId=456&fromDateTimeUtc=2011-01-01T00:00:00Z"
             }
           }
         }
@@ -184,7 +184,7 @@
           },
           "_links": {
             "self": {
-              "href": "/template"
+              "href": "/template?advertiserId=456&fromDateTimeUtc=2015-10-13T03:41:21Z"
             }
           }
         }
@@ -215,7 +215,7 @@
           },
           "_links": {
             "self": {
-              "href": "/template"
+              "href": "/template?advertiserId=111222&fromDateTimeUtc=2011-01-01T00:00:00Z"
             }
           }
         }
@@ -261,7 +261,7 @@
           },
           "_links": {
             "self": {
-              "href": "/template"
+              "href": "/template?advertiserId=456"
             }
           }
         }
@@ -359,7 +359,7 @@
           },
           "_links": {
             "self": {
-              "href": "/template"
+              "href": "/template?fromDateTimeUtc=2015-10-13T03:41:21Z"
             }
           }
         }
@@ -464,7 +464,7 @@
           },
           "_links": {
             "self": {
-              "href": "/template"
+              "href": "/template?fromDateTimeUtc=2011-01-01T00:00:00Z"
             }
           }
         }
@@ -503,7 +503,7 @@
           },
           "_links": {
             "self": {
-              "href": "/template"
+              "href": "/template?advertiserId=456"
             }
           }
         }
