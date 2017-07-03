@@ -37,37 +37,6 @@
       }
     },
     {
-      "description": "a GET templates request to retrieve all templates updated after a specified time",
-      "provider_state": "There are no templates updated since fromDateTimeUtc for any advertiser related to the requestor",
-      "request": {
-        "method": "get",
-        "path": "/template",
-        "query": "fromDateTimeUtc=2011-01-01T00:00:00Z",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "_embedded": {
-            "templates": []
-          },
-          "_links": {
-            "self": {
-              "href": "/template?fromDateTimeUtc=2011-01-01T00:00:00Z"
-            }
-          }
-        }
-      }
-    },
-    {
       "description": "a GET templates request to retrieve all templates for an advertiser updated after a specified time",
       "provider_state": "Multiple templates updated after fromDateTimeUtc exist for an advertiser related to the requestor",
       "request": {
@@ -114,37 +83,6 @@
       }
     },
     {
-      "description": "a GET templates request to retrieve all templates for an advertiser updated after a specified time",
-      "provider_state": "There are no templates updated since fromDateTimeUtc for an advertiser related to the requestor",
-      "request": {
-        "method": "get",
-        "path": "/template",
-        "query": "advertiserId=111222&fromDateTimeUtc=2011-01-01T00:00:00Z",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "_embedded": {
-            "templates": []
-          },
-          "_links": {
-            "self": {
-              "href": "/template?advertiserId=111222&fromDateTimeUtc=2011-01-01T00:00:00Z"
-            }
-          }
-        }
-      }
-    },
-    {
       "description": "a GET templates request to retrieve all templates for an advertiser",
       "provider_state": "Multiple templates exist for an advertiser related to the requestor",
       "request": {
@@ -185,37 +123,6 @@
           "_links": {
             "self": {
               "href": "/template?advertiserId=456"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET templates request to retrieve all templates for an advertiser",
-      "provider_state": "There are no templates for an advertiser related to the requestor",
-      "request": {
-        "method": "get",
-        "path": "/template",
-        "query": "advertiserId=111222",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.template-list+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "_embedded": {
-            "templates": []
-          },
-          "_links": {
-            "self": {
-              "href": "/template?advertiserId=111222"
             }
           }
         }

@@ -345,63 +345,6 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiserNoTemplatesReturned()
-        {
-            string advertiserId = "111222";
-            string queryString = "advertiserId=" + advertiserId;
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            this.Fixture.MockProviderService
-                .Given("There are no templates for an advertiser related to the requestor")
-                .UponReceiving("a GET templates request to retrieve all templates for an advertiser")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = AdPostingTemplateApiFixture.TemplateApiBasePath,
-                    Query = queryString,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.TemplateListVersion1}, {ResponseContentTypes.TemplateErrorVersion1}" },
-                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", ResponseContentTypes.TemplateListVersion1 },
-                        { "X-Request-Id", RequestId }
-                    },
-                    Body = new
-                    {
-                        _embedded = new { templates = new List<TemplateSummaryResource>() },
-                        _links = new { self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
-                    }
-                });
-
-            TemplateSummaryListResource templatesSummary;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                templatesSummary = await client.GetAllTemplatesAsync(advertiserId);
-            }
-
-            TemplateSummaryListResource expectedtemplates = new TemplateSummaryListResource
-            {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-                {
-                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
-                },
-                Templates = new List<TemplateSummaryResource>(),
-                RequestId = RequestId
-            };
-
-            templatesSummary.ShouldBeEquivalentTo(expectedtemplates);
-        }
-
-        [Fact]
         public async Task GetAllTemplatesForAdvertiserNonExistentAdvertiserId()
         {
             string advertiserId = "654321";
@@ -674,67 +617,6 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForPartnerAndFromDateTimeUtcNoTemplatesReturned()
-        {
-            string fromDateTimeUtcString = "2011-01-01T00:00:00Z";
-            DateTimeOffset fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
-            string queryString = "fromDateTimeUtc=" + fromDateTimeUtcString;
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            this.Fixture.MockProviderService
-                .Given("There are no templates updated since fromDateTimeUtc for any advertiser related to the requestor")
-                .UponReceiving("a GET templates request to retrieve all templates updated after a specified time")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = AdPostingTemplateApiFixture.TemplateApiBasePath,
-                    Query = queryString,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.TemplateListVersion1}, {ResponseContentTypes.TemplateErrorVersion1}" },
-                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", ResponseContentTypes.TemplateListVersion1 },
-                        { "X-Request-Id", RequestId }
-                    },
-                    Body = new
-                    {
-                        _embedded = new { templates = new List<TemplateSummaryResource>() },
-                        _links = new
-                        {
-                            self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" }
-                        }
-                    }
-                });
-
-            TemplateSummaryListResource listResource;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                listResource = await client.GetAllTemplatesAsync(fromDateTimeUtc: fromDateTimeUtc);
-            }
-
-            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
-            {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-                {
-                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
-                },
-                Templates = new List<TemplateSummaryResource>(),
-                RequestId = RequestId
-            };
-
-            listResource.ShouldBeEquivalentTo(expectedListResource);
-        }
-
-        [Fact]
         public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtcMultipleTemplatesReturned()
         {
             const string templateId1 = "8059016";
@@ -837,68 +719,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
                 },
-                RequestId = RequestId
-            };
-
-            listResource.ShouldBeEquivalentTo(expectedListResource);
-        }
-
-        [Fact]
-        public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtcNoTemplatesReturned()
-        {
-            string advertiserId = "111222";
-            string fromDateTimeUtcString = "2011-01-01T00:00:00Z";
-            DateTimeOffset fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
-            string queryString = "advertiserId=" + advertiserId + "&fromDateTimeUtc=" + fromDateTimeUtcString;
-            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-
-            this.Fixture.MockProviderService
-                .Given("There are no templates updated since fromDateTimeUtc for an advertiser related to the requestor")
-                .UponReceiving("a GET templates request to retrieve all templates for an advertiser updated after a specified time")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = AdPostingTemplateApiFixture.TemplateApiBasePath,
-                    Query = queryString,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.TemplateListVersion1}, {ResponseContentTypes.TemplateErrorVersion1}" },
-                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 200,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", ResponseContentTypes.TemplateListVersion1 },
-                        { "X-Request-Id", RequestId }
-                    },
-                    Body = new
-                    {
-                        _embedded = new { templates = new List<TemplateSummaryResource>() },
-                        _links = new
-                        {
-                            self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" }
-                        }
-                    }
-                });
-
-            TemplateSummaryListResource listResource;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
-            {
-                listResource = await client.GetAllTemplatesAsync(advertiserId, fromDateTimeUtc);
-            }
-
-            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
-            {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
-                {
-                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
-                },
-                Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
 
