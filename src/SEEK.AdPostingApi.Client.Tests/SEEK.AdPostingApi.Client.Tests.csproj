@@ -111,7 +111,7 @@
     <Compile Include="Framework\AdPostingTemplateApiCollection.cs" />
     <Compile Include="Framework\AdPostingTemplateApiPactService.cs" />
     <Compile Include="Framework\IPactService.cs" />
-    <Compile Include="Framework\TemplateDescriptionResponseContentBuilder.cs" />
+    <Compile Include="Framework\TemplateSummaryResponseContentBuilder.cs" />
     <Compile Include="Framework\LocationType.cs" />
     <Compile Include="Framework\RequestContentTypes.cs" />
     <Compile Include="Framework\AccessTokens.cs" />

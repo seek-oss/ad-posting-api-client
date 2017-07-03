@@ -76,35 +76,35 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId1)
                                     .WithAdvertiserId(advertiserId1)
                                     .WithName(template1Name)
                                     .WithUpdateDateTime(template1UpdateDateTime)
                                     .WithTemplateState("Active")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId2)
                                     .WithAdvertiserId(advertiserId1)
                                     .WithName(template2Name)
                                     .WithUpdateDateTime(template2UpdateDateTime)
                                     .WithTemplateState("Active")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId3)
                                     .WithAdvertiserId(advertiserId2)
                                     .WithName(template3Name)
                                     .WithUpdateDateTime(template3UpdateDateTime)
                                     .WithTemplateState("Active")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId4)
                                     .WithAdvertiserId(advertiserId2)
                                     .WithName(template4Name)
                                     .WithUpdateDateTime(template4UpdateDateTime)
                                     .WithTemplateState("Inactive")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId5)
                                     .WithAdvertiserId(advertiserId2)
                                     .WithName(template5Name)
@@ -281,14 +281,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId1)
                                     .WithAdvertiserId(advertiserId1)
                                     .WithName(template1Name)
                                     .WithUpdateDateTime(template1UpdateDateTime)
                                     .WithTemplateState("Active")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId2)
                                     .WithAdvertiserId(advertiserId1)
                                     .WithName(template2Name)
@@ -562,35 +562,35 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId1)
                                     .WithAdvertiserId(advertiserId1)
                                     .WithName(template1Name)
                                     .WithUpdateDateTime(template1UpdateDateTime)
                                     .WithTemplateState("Active")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId2)
                                     .WithAdvertiserId(advertiserId1)
                                     .WithName(template2Name)
                                     .WithUpdateDateTime(template2UpdateDateTime)
                                     .WithTemplateState("Active")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId3)
                                     .WithAdvertiserId(advertiserId2)
                                     .WithName(template3Name)
                                     .WithUpdateDateTime(template3UpdateDateTime)
                                     .WithTemplateState("Active")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId4)
                                     .WithAdvertiserId(advertiserId2)
                                     .WithName(template4Name)
                                     .WithUpdateDateTime(template4UpdateDateTime)
                                     .WithTemplateState("Inactive")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId5)
                                     .WithAdvertiserId(advertiserId2)
                                     .WithName(template5Name)
@@ -780,14 +780,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId1)
                                     .WithAdvertiserId(advertiserId1)
                                     .WithName(template1Name)
                                     .WithUpdateDateTime(template1UpdateDateTime)
                                     .WithTemplateState("Active")
                                     .Build(),
-                                new TemplateDescriptionResponseContentBuilder()
+                                new TemplateSummaryResponseContentBuilder()
                                     .WithId(templateId2)
                                     .WithAdvertiserId(advertiserId1)
                                     .WithName(template2Name)
