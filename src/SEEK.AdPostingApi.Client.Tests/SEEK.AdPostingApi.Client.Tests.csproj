@@ -126,6 +126,7 @@
     <Compile Include="Framework\FluentAssertionsExtensions.cs" />
     <Compile Include="ExpireAdTests.cs" />
     <Compile Include="Framework\ResponseContentTypes.cs" />
+    <Compile Include="Framework\TemplatePactAdPostingApiClient.cs" />
     <Compile Include="GetAdStatusTests.cs" />
     <Compile Include="GetAllAdTests.cs" />
     <Compile Include="GetAdTests.cs" />

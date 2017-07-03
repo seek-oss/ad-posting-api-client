@@ -14,7 +14,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
 {
     public class Program
     {
-        private const int AdvertiserId = 1000001;
+        private const string AdvertiserId = "1000001";
         private const int BaseRetryIntervalSeconds = 2;
         private const string ClientId = "ClientId";
         private const string ClientSecret = "ClientSecret";
@@ -172,7 +172,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return summaryPage;
         }
 
-        private static async Task<TemplateSummaryListResource> GetAllTemplatesForAdvertiserExampleAsync(int advertiserId, IAdPostingApiClient client)
+        private static async Task<TemplateSummaryListResource> GetAllTemplatesForAdvertiserExampleAsync(string advertiserId, IAdPostingApiClient client)
         {
             TemplateSummaryListResource templateSummaryListResource = null;
             try
@@ -193,7 +193,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return new Advertisement
             {
                 CreationId = "Sample Consumer " + Guid.NewGuid(),
-                ThirdParties = new ThirdParties { AdvertiserId = AdvertiserId.ToString() },
+                ThirdParties = new ThirdParties { AdvertiserId = AdvertiserId },
                 JobTitle = "A Job for a Dude",
                 SearchJobTitle = "Dudes find job best when they search on this title",
                 JobSummary = "Things a dude should know",

@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using SEEK.AdPostingApi.Client.Hal;
 using SEEK.AdPostingApi.Client.Models;
 using SEEK.AdPostingApi.Client.Resources;
 
@@ -14,7 +13,6 @@ namespace SEEK.AdPostingApi.Client
     {
         private readonly IOAuth2TokenClient _tokenClient;
         private IndexResource _indexResource;
-        private readonly Uri _adPostingUri;
         private readonly Lazy<Task> _ensureIndexResourceInitialised;
         private readonly Hal.Client _client;
 
@@ -28,7 +26,6 @@ namespace SEEK.AdPostingApi.Client
             this._ensureIndexResourceInitialised = new Lazy<Task>(() => this.InitialiseIndexResource(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             this._tokenClient = tokenClient;
             this._client = new Hal.Client(new HttpClient(new AdPostingApiMessageHandler(new OAuthMessageHandler(tokenClient))));
-            this._adPostingUri = adPostingUri;
         }
 
         private Task EnsureIndexResourceInitialised()
@@ -38,7 +35,12 @@ namespace SEEK.AdPostingApi.Client
 
         internal async Task InitialiseIndexResource(Uri adPostingUri)
         {
-            this._indexResource = await this._client.GetResourceAsync<IndexResource, AdvertisementErrorResponse>(adPostingUri);
+            this._indexResource = await this.GetIndexResourceAsync(adPostingUri, this._client);
+        }
+
+        protected internal virtual async Task<IndexResource> GetIndexResourceAsync(Uri adPostingUri, Hal.Client halClient)
+        {
+            return await halClient.GetResourceAsync<IndexResource, AdvertisementErrorResponse>(adPostingUri);
         }
 
         public async Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
@@ -118,17 +120,11 @@ namespace SEEK.AdPostingApi.Client
             return await this._client.PutResourceAsync<AdvertisementResource, Advertisement>(uri, advertisement);
         }
 
-        public async Task<TemplateSummaryListResource> GetAllTemplatesAsync(int? advertiserId = null, DateTimeOffset? fromDateTimeUtc = null)
+        public async Task<TemplateSummaryListResource> GetAllTemplatesAsync(string advertiserId = null, DateTimeOffset? fromDateTimeUtc = null)
         {
-            Link baseLink = new Link { Href = "/template{?advertiserId,fromDateTimeUtc}", Templated = true };
+            await this.EnsureIndexResourceInitialised();
 
-            var parameters = new
-            {
-                advertiserId,
-                fromDateTimeUtc = fromDateTimeUtc.HasValue ? $"{fromDateTimeUtc:yyyy-MM-ddTHH:mm:ssZ}" : null,
-            };
-
-            return await this._client.GetResourceAsync<TemplateSummaryListResource, TemplateErrorResponse>(new Uri(this._adPostingUri, baseLink.Resolve(parameters)));
+            return await this._indexResource.GetAllTemplates(advertiserId, fromDateTimeUtc);
         }
 
         public void Dispose()

@@ -9,13 +9,12 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
     public class AdPostingTemplateApiFixture : IDisposable
     {
-        public const string UserAgentProductName = "SEEK.AdPostingApi.Client";
-        public const string UserAgentProductVersion = "0.15.630.1108";
-        public const string UserAgentHeaderValue = UserAgentProductName + "/" + UserAgentProductVersion;
+        public const string TemplateApiBasePath = "/template";
+        public const string TemplateApiLink = TemplateApiBasePath + "{?advertiserId,fromDateTimeUtc}";
 
         static AdPostingTemplateApiFixture()
         {
-            AdPostingApiMessageHandler.SetProductVersion(UserAgentProductVersion);
+            AdPostingApiMessageHandler.SetProductVersion(AdPostingApiFixture.UserAgentProductVersion);
 
             // See https://github.com/dennisdoomen/fluentassertions/issues/305 - ShouldBeEquivalentTo fails with objects from the System namespace.
             // Due to this, we need to change the IsValueType predicate so that it does not assume System.Exception and derivatives of it in the System namespace are value types.
@@ -42,7 +41,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
 
-            return new AdPostingApiClient(this.AdPostingApiServiceBaseUri, oAuthClient);
+            return new TemplatePactAdPostingApiClient(this.AdPostingApiServiceBaseUri, oAuthClient);
         }
     }
 }
