@@ -215,7 +215,7 @@
           },
           "_links": {
             "self": {
-              "href": "/template"
+              "href": "/template?advertiserId=111222"
             }
           }
         }

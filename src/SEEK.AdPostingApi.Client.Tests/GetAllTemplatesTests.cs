@@ -377,7 +377,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Body = new
                     {
                         _embedded = new { templates = new List<TemplateSummaryResource>() },
-                        _links = new { self = new { href = "/template" } }
+                        _links = new { self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
                     }
                 });
 
@@ -390,7 +390,10 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             TemplateSummaryListResource expectedtemplates = new TemplateSummaryListResource
             {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/template" } } },
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
+                {
+                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
+                },
                 Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
@@ -720,7 +723,10 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } } },
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
+                {
+                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
+                },
                 Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
@@ -888,7 +894,10 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
             {
-                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } } },
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
+                {
+                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
+                },
                 Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
