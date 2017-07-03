@@ -289,7 +289,7 @@
       }
     },
     {
-      "description": "a GET templates request",
+      "description": "a GET templates request for all templates",
       "provider_state": "Multiple templates exist for multiple advertisers related to the requestor",
       "request": {
         "method": "get",

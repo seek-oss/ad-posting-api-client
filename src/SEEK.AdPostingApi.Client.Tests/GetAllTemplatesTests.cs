@@ -50,7 +50,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.MockProviderService
                 .Given("Multiple templates exist for multiple advertisers related to the requestor")
-                .UponReceiving("a GET templates request")
+                .UponReceiving("a GET templates request for all templates")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
