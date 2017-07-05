@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using PactNet;
 using PactNet.Mocks.MockHttpService;
 
@@ -12,7 +13,14 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .ServiceConsumer("Ad Posting API Client")
                 .HasPactWith("Ad Posting Template API");
 
-            this.MockProviderService = this.PactBuilder.MockService(MockServerPort);
+            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                Formatting = Formatting.None,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
+
+            this.MockProviderService = this.PactBuilder.MockService(MockServerPort, serializerSettings);
         }
 
         public IMockProviderService MockProviderService { get; }

@@ -62,14 +62,14 @@
                 "id": "9874198",
                 "advertiserId": "3214",
                 "name": "Testing template",
-                "updateDateTime": "2017-05-07T19:45:43+10:00",
+                "updateDateTime": "2017-05-07T09:45:43Z",
                 "state": "Active"
               },
               {
                 "id": "1132687",
                 "advertiserId": "3214",
                 "name": "Our first template",
-                "updateDateTime": "2017-03-23T22:12:10+11:00",
+                "updateDateTime": "2017-03-23T11:12:10Z",
                 "state": "Active"
               }
             ]
@@ -108,14 +108,14 @@
                 "id": "8059016",
                 "advertiserId": "456",
                 "name": "The blue template",
-                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "updateDateTime": "2017-01-03T11:45:44Z",
                 "state": "Active"
               },
               {
                 "id": "65146183",
                 "advertiserId": "456",
                 "name": "The template with a round logo",
-                "updateDateTime": "2016-11-04T00:11:11+11:00",
+                "updateDateTime": "2016-11-03T13:11:11Z",
                 "state": "Active"
               }
             ]
@@ -154,21 +154,21 @@
                 "id": "8059016",
                 "advertiserId": "456",
                 "name": "The blue template",
-                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "updateDateTime": "2017-01-03T11:45:44Z",
                 "state": "Active"
               },
               {
                 "id": "9874198",
                 "advertiserId": "3214",
                 "name": "Testing template",
-                "updateDateTime": "2017-05-07T19:45:43+10:00",
+                "updateDateTime": "2017-05-07T09:45:43Z",
                 "state": "Active"
               },
               {
                 "id": "1132687",
                 "advertiserId": "3214",
                 "name": "Our first template",
-                "updateDateTime": "2017-03-23T22:12:10+11:00",
+                "updateDateTime": "2017-03-23T11:12:10Z",
                 "state": "Active"
               }
             ]
@@ -206,35 +206,35 @@
                 "id": "8059016",
                 "advertiserId": "456",
                 "name": "The blue template",
-                "updateDateTime": "2017-01-03T22:45:44+11:00",
+                "updateDateTime": "2017-01-03T11:45:44Z",
                 "state": "Active"
               },
               {
                 "id": "65146183",
                 "advertiserId": "456",
                 "name": "The template with a round logo",
-                "updateDateTime": "2016-11-04T00:11:11+11:00",
+                "updateDateTime": "2016-11-03T13:11:11Z",
                 "state": "Active"
               },
               {
                 "id": "9874198",
                 "advertiserId": "3214",
                 "name": "Testing template",
-                "updateDateTime": "2017-05-07T19:45:43+10:00",
+                "updateDateTime": "2017-05-07T09:45:43Z",
                 "state": "Active"
               },
               {
                 "id": "892138",
                 "advertiserId": "3214",
                 "name": "Inactive template",
-                "updateDateTime": "2015-10-13T14:41:21+11:00",
+                "updateDateTime": "2015-10-13T03:41:21Z",
                 "state": "Inactive"
               },
               {
                 "id": "1132687",
                 "advertiserId": "3214",
                 "name": "Our first template",
-                "updateDateTime": "2017-03-23T22:12:10+11:00",
+                "updateDateTime": "2017-03-23T11:12:10Z",
                 "state": "Active"
               }
             ]
