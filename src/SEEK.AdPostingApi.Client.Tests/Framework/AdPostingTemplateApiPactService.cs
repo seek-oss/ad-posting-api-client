@@ -12,14 +12,18 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .ServiceConsumer("Ad Posting API Client")
                 .HasPactWith("Ad Posting Template API");
 
-            this.MockProviderService = this.PactBuilder.MockService(this.MockServerPort);
+            this.MockProviderService = this.PactBuilder.MockService(MockServerPort);
         }
 
         public IMockProviderService MockProviderService { get; }
 
-        public Uri MockProviderServiceBaseUri => new Uri($"http://localhost:{this.MockServerPort}");
+        public static Uri _MockProviderServiceBaseUri => new Uri($"http://localhost:{_MockServerPort}");
 
-        private int MockServerPort => 8894;
+        public Uri MockProviderServiceBaseUri => _MockProviderServiceBaseUri;
+
+        public static int _MockServerPort => 8894;
+
+        private int MockServerPort => _MockServerPort;
 
         private IPactBuilder PactBuilder { get; }
 
