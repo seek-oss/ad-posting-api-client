@@ -24,11 +24,11 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             AssertionOptions.IsValueType = type => (type.Namespace == typeof(int).Namespace) && !(type == typeof(Exception) || type.IsSubclassOf(typeof(Exception)));
         }
 
-        public AdPostingApiFixture(IPactService adPostingApiPactService)
+        public AdPostingApiFixture(AdPostingApiPactService adPostingApiPactService)
         {
             this.MockProviderService = adPostingApiPactService.MockProviderService;
             this.MockProviderService.ClearInteractions();
-            this.AdPostingApiServiceBaseUri = adPostingApiPactService.MockProviderServiceBaseUri;
+            this.AdPostingApiServiceBaseUri = AdPostingApiPactService.MockProviderServiceBaseUri;
         }
 
         public IMockProviderService MockProviderService { get; }

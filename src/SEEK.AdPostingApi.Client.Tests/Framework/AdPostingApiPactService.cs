@@ -4,7 +4,7 @@ using PactNet.Mocks.MockHttpService;
 
 namespace SEEK.AdPostingApi.Client.Tests.Framework
 {
-    public class AdPostingApiPactService : IPactService, IDisposable
+    public class AdPostingApiPactService : IDisposable
     {
         public AdPostingApiPactService()
         {
@@ -12,14 +12,14 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .ServiceConsumer("Ad Posting API Client")
                 .HasPactWith("Ad Posting API");
 
-            this.MockProviderService = this.PactBuilder.MockService(this.MockServerPort);
+            this.MockProviderService = this.PactBuilder.MockService(MockServerPort);
         }
 
         public IMockProviderService MockProviderService { get; }
 
-        public Uri MockProviderServiceBaseUri => new Uri($"http://localhost:{this.MockServerPort}");
+        public static Uri MockProviderServiceBaseUri => new Uri($"http://localhost:{MockServerPort}");
 
-        private int MockServerPort => 8893;
+        private static int MockServerPort => 8893;
 
         private IPactBuilder PactBuilder { get; }
 

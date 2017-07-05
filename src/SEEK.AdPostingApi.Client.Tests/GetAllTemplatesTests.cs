@@ -82,7 +82,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Name = Template1Name,
             UpdateDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString1),
             State = TemplateStatus.Active,
-            Links = new Links(AdPostingTemplateApiPactService._MockProviderServiceBaseUri)
+            Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
 
         private readonly TemplateSummaryResource _expectedTemplateResource2 = new TemplateSummaryResource
@@ -92,7 +92,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Name = Template2Name,
             UpdateDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString2),
             State = TemplateStatus.Active,
-            Links = new Links(AdPostingTemplateApiPactService._MockProviderServiceBaseUri)
+            Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
 
         private readonly TemplateSummaryResource _expectedTemplateResource3 = new TemplateSummaryResource
@@ -102,7 +102,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Name = Template3Name,
             UpdateDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString3),
             State = TemplateStatus.Active,
-            Links = new Links(AdPostingTemplateApiPactService._MockProviderServiceBaseUri)
+            Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
 
         private readonly TemplateSummaryResource _expectedTemplateResource4 = new TemplateSummaryResource
@@ -112,7 +112,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Name = Template4Name,
             UpdateDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString4),
             State = TemplateStatus.Inactive,
-            Links = new Links(AdPostingTemplateApiPactService._MockProviderServiceBaseUri)
+            Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
 
         private readonly TemplateSummaryResource _expectedTemplateResource5 = new TemplateSummaryResource
@@ -122,7 +122,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Name = Template5Name,
             UpdateDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString5),
             State = TemplateStatus.Active,
-            Links = new Links(AdPostingTemplateApiPactService._MockProviderServiceBaseUri)
+            Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
 
         #endregion

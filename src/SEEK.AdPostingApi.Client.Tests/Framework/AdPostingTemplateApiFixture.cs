@@ -25,7 +25,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             this.MockProviderService = adPostingTemplateApiPactService.MockProviderService;
             this.MockProviderService.ClearInteractions();
-            this.AdPostingApiServiceBaseUri = adPostingTemplateApiPactService.MockProviderServiceBaseUri;
+            this.AdPostingApiServiceBaseUri = AdPostingTemplateApiPactService.MockProviderServiceBaseUri;
         }
 
         public IMockProviderService MockProviderService { get; }
