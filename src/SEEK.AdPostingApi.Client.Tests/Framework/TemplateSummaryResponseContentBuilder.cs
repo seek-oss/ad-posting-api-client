@@ -31,9 +31,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
-        public TemplateSummaryResponseContentBuilder WithUpdateDateTime(object updateDateTime)
+        public TemplateSummaryResponseContentBuilder WithUpdatedUtcDateTime(object updatedUTc)
         {
-            this._templateSummaryModel.updateDateTime = updateDateTime;
+            this._templateSummaryModel.updatedUtc = updatedUTc;
             return this;
         }
 
