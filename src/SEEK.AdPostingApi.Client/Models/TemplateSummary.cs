@@ -12,6 +12,6 @@ namespace SEEK.AdPostingApi.Client.Models
 
         public string AdvertiserId { get; set; }
 
-        public DateTimeOffset UpdatedUtc { get; set; }
+        public DateTimeOffset UpdatedDateTime { get; set; }
     }
 }

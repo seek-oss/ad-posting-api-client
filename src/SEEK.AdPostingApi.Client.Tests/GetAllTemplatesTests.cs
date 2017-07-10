@@ -44,35 +44,35 @@ namespace SEEK.AdPostingApi.Client.Tests
             .WithId(TemplateId1)
             .WithAdvertiserId(AdvertiserId1)
             .WithName(Template1Name)
-            .WithUpdatedUtcDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString1))
+            .WithUpdatedDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString1))
             .WithTemplateState("Active");
 
         private readonly TemplateSummaryResponseContentBuilder _template2 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId2)
             .WithAdvertiserId(AdvertiserId1)
             .WithName(Template2Name)
-            .WithUpdatedUtcDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString2))
+            .WithUpdatedDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString2))
             .WithTemplateState("Active");
 
         private readonly TemplateSummaryResponseContentBuilder _template3 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId3)
             .WithAdvertiserId(AdvertiserId2)
             .WithName(Template3Name)
-            .WithUpdatedUtcDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString3))
+            .WithUpdatedDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString3))
             .WithTemplateState("Active");
 
         private readonly TemplateSummaryResponseContentBuilder _template4 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId4)
             .WithAdvertiserId(AdvertiserId2)
             .WithName(Template4Name)
-            .WithUpdatedUtcDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString4))
+            .WithUpdatedDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString4))
             .WithTemplateState("Inactive");
 
         private readonly TemplateSummaryResponseContentBuilder _template5 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId5)
             .WithAdvertiserId(AdvertiserId2)
             .WithName(Template5Name)
-            .WithUpdatedUtcDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString5))
+            .WithUpdatedDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString5))
             .WithTemplateState("Active");
 
         private readonly TemplateSummaryResource _expectedTemplateResource1 = new TemplateSummaryResource
@@ -80,7 +80,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Id = TemplateId1,
             AdvertiserId = AdvertiserId1,
             Name = Template1Name,
-            UpdatedUtc = DateTimeOffset.Parse(TemplateUpdateDateTimeString1),
+            UpdatedDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString1),
             State = TemplateStatus.Active,
             Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
@@ -90,7 +90,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Id = TemplateId2,
             AdvertiserId = AdvertiserId1,
             Name = Template2Name,
-            UpdatedUtc = DateTimeOffset.Parse(TemplateUpdateDateTimeString2),
+            UpdatedDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString2),
             State = TemplateStatus.Active,
             Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
@@ -100,7 +100,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Id = TemplateId3,
             AdvertiserId = AdvertiserId2,
             Name = Template3Name,
-            UpdatedUtc = DateTimeOffset.Parse(TemplateUpdateDateTimeString3),
+            UpdatedDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString3),
             State = TemplateStatus.Active,
             Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
@@ -110,7 +110,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Id = TemplateId4,
             AdvertiserId = AdvertiserId2,
             Name = Template4Name,
-            UpdatedUtc = DateTimeOffset.Parse(TemplateUpdateDateTimeString4),
+            UpdatedDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString4),
             State = TemplateStatus.Inactive,
             Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
@@ -120,7 +120,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             Id = TemplateId5,
             AdvertiserId = AdvertiserId2,
             Name = Template5Name,
-            UpdatedUtc = DateTimeOffset.Parse(TemplateUpdateDateTimeString5),
+            UpdatedDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString5),
             State = TemplateStatus.Active,
             Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
         };
@@ -166,7 +166,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         _embedded = new
                         {
-                            // sorted by UpdatedUtc, Descending
+                            // sorted by UpdatedDateTime, Descending
                             templates = new[]
                             {
                                 this._template3.Build(),
@@ -194,7 +194,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 Templates = new List<TemplateSummaryResource>
                 {
-                    // sorted by UpdatedUtc, Descending
+                    // sorted by UpdatedDateTime, Descending
                     this._expectedTemplateResource3,
                     this._expectedTemplateResource5,
                     this._expectedTemplateResource1,
@@ -294,7 +294,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                // sorted by UpdatedUtc, Descending
+                                // sorted by UpdatedDateTime, Descending
                                 this._template1.Build(),
                                 this._template2.Build()
                             }
@@ -317,7 +317,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 Templates = new List<TemplateSummaryResource>
                 {
-                    // sorted by UpdatedUtc, Descending
+                    // sorted by UpdatedDateTime, Descending
                     this._expectedTemplateResource1,
                     this._expectedTemplateResource2
                 },
@@ -470,7 +470,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                // sorted by UpdatedUtc, Descending
+                                // sorted by UpdatedDateTime, Descending
                                 this._template3.Build(),
                                 this._template5.Build(),
                                 this._template1.Build()
@@ -494,7 +494,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 Templates = new List<TemplateSummaryResource>
                 {
-                    // sorted by UpdatedUtc, Descending
+                    // sorted by UpdatedDateTime, Descending
                     this._expectedTemplateResource3,
                     this._expectedTemplateResource5,
                     this._expectedTemplateResource1
@@ -544,7 +544,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                // sorted by UpdatedUtc, Descending
+                                // sorted by UpdatedDateTime, Descending
                                 this._template3.Build(),
                                 this._template5.Build()
                             }
@@ -567,7 +567,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 Templates = new List<TemplateSummaryResource>
                 {
-                    // sorted by UpdatedUtc, Descending
+                    // sorted by UpdatedDateTime, Descending
                     this._expectedTemplateResource3,
                     this._expectedTemplateResource5
                 },
