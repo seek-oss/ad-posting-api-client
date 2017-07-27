@@ -16,11 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-tools", "build-tools"
 		..\build\build-tools\version.fsx = ..\build\build-tools\version.fsx
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.Client", "SEEK.AdPostingApi.Client\SEEK.AdPostingApi.Client.csproj", "{8E851EC8-CA55-4940-9F7E-8DA547734FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.Client", "SEEK.AdPostingApi.Client\SEEK.AdPostingApi.Client.csproj", "{8E851EC8-CA55-4940-9F7E-8DA547734FBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.Client.Tests", "SEEK.AdPostingApi.Client.Tests\SEEK.AdPostingApi.Client.Tests.csproj", "{7ED7ADDF-55DF-4BED-B5A3-2019B7A2969B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.SampleConsumer", "SEEK.AdPostingApi.SampleConsumer\SEEK.AdPostingApi.SampleConsumer.csproj", "{DCDA0CFC-BF7F-4212-A106-512D5BD9E805}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.SampleConsumer", "SEEK.AdPostingApi.SampleConsumer\SEEK.AdPostingApi.SampleConsumer.csproj", "{DCDA0CFC-BF7F-4212-A106-512D5BD9E805}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,10 +30,6 @@ Global
 		{8E851EC8-CA55-4940-9F7E-8DA547734FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E851EC8-CA55-4940-9F7E-8DA547734FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E851EC8-CA55-4940-9F7E-8DA547734FBA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7ED7ADDF-55DF-4BED-B5A3-2019B7A2969B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7ED7ADDF-55DF-4BED-B5A3-2019B7A2969B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7ED7ADDF-55DF-4BED-B5A3-2019B7A2969B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7ED7ADDF-55DF-4BED-B5A3-2019B7A2969B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCDA0CFC-BF7F-4212-A106-512D5BD9E805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCDA0CFC-BF7F-4212-A106-512D5BD9E805}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCDA0CFC-BF7F-4212-A106-512D5BD9E805}.Release|Any CPU.ActiveCfg = Release|Any CPU

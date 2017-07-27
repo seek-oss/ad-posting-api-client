@@ -1,6 +1,6 @@
-﻿using Marvin.JsonPatch;
-using Marvin.JsonPatch.Operations;
-using SEEK.AdPostingApi.Client.Hal;
+﻿using SEEK.AdPostingApi.Client.Hal;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace SEEK.AdPostingApi.Client.Models
 {

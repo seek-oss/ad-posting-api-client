@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 
 namespace SEEK.AdPostingApi.Client.Hal
 {
@@ -7,7 +8,7 @@ namespace SEEK.AdPostingApi.Client.Hal
     {
         public static string GetMediaType(this Type type)
         {
-            var mediaTypeAttribute = type.GetCustomAttributes(typeof(MediaTypeAttribute), true)
+            var mediaTypeAttribute = type.GetTypeInfo().GetCustomAttributes(typeof(MediaTypeAttribute), true)
                 .Cast<MediaTypeAttribute>()
                 .Single();
 

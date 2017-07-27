@@ -11,18 +11,18 @@ namespace SEEK.AdPostingApi.Client
             this.RetryAfter = delta;
         }
 
-        protected TooManyRequestsException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected TooManyRequestsException(SerializationInfo info) : base(info)
         {
             this.RetryAfter = (TimeSpan?)info.GetValue(nameof(this.RetryAfter), typeof(TimeSpan?));
         }
 
         public TimeSpan? RetryAfter { get; }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        public void GetObjectData(SerializationInfo info)
         {
             info.AddValue(nameof(this.RetryAfter), this.RetryAfter);
 
-            base.GetObjectData(info, context);
+            base.GetObjectData(info);
         }
     }
 }
