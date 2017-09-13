@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -42,6 +44,19 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(token));
 
             return new TemplatePactAdPostingApiClient(this.AdPostingApiServiceBaseUri, oAuthClient);
+        }
+
+        public HttpRequestMessage CreateGetTemplatesRequest(string queryString, string accessToken)
+        {
+            var requestUri = new Uri(this.AdPostingApiServiceBaseUri, $"{TemplateApiBasePath}?{queryString}");
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            request.Headers.Accept.Clear();
+            request.Headers.Accept.ParseAdd(ResponseContentTypes.TemplateListVersion1);
+            request.Headers.Accept.ParseAdd(ResponseContentTypes.TemplateErrorVersion1);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            request.Headers.UserAgent.Add(new ProductInfoHeaderValue(AdPostingApiFixture.UserAgentProductName, AdPostingApiFixture.UserAgentProductVersion));
+
+            return request;
         }
     }
 }

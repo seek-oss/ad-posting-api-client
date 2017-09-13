@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
@@ -516,7 +515,6 @@ namespace SEEK.AdPostingApi.Client.Tests
         {
             const string invalidFromDateTimeUtc = "not-an-accepted-date-time-format";
             string queryString = "fromDateTimeUtc=" + invalidFromDateTimeUtc;
-            string link = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}";
 
             this.Fixture.MockProviderService
                 .Given("There are multiple templates for multiple advertisers related to the requestor")
@@ -554,7 +552,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             using (var client = new HttpClient())
             {
                 {
-                    using (HttpRequestMessage request = this.CreateGetRequest(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), this._oAuth2TokenRequestorA.AccessToken))
+                    using (HttpRequestMessage request = this.Fixture.CreateGetTemplatesRequest(queryString, this._oAuth2TokenRequestorA.AccessToken))
                     {
                         using (HttpResponseMessage response = await client.SendAsync(request))
                         {
@@ -638,17 +636,5 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         private AdPostingTemplateApiFixture Fixture { get; }
-
-        private HttpRequestMessage CreateGetRequest(Uri requestUri, string accessToken)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
-            request.Headers.Accept.Clear();
-            request.Headers.Accept.ParseAdd(ResponseContentTypes.TemplateListVersion1);
-            request.Headers.Accept.ParseAdd(ResponseContentTypes.TemplateErrorVersion1);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            request.Headers.UserAgent.Add(new ProductInfoHeaderValue(AdPostingApiFixture.UserAgentProductName, AdPostingApiFixture.UserAgentProductVersion));
-
-            return request;
-        }
     }
 }
