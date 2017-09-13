@@ -3,7 +3,7 @@
 namespace SEEK.AdPostingApi.Client.Models
 {
     [MediaType("application/vnd.seek.advertisement-error+json;version=1")]
-    public class AdvertisementErrorResponse
+    public class AdvertisementErrorResponse : IErrorResponse
     {
         public string Message { get; set; }
 

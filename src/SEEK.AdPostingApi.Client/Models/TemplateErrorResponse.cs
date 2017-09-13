@@ -3,7 +3,7 @@
 namespace SEEK.AdPostingApi.Client.Models
 {
     [MediaType("application/vnd.seek.template-error+json;version=1")]
-    public class TemplateErrorResponse
+    public class TemplateErrorResponse : IErrorResponse
     {
         public string Message { get; set; }
 

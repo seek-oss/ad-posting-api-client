@@ -7,36 +7,6 @@
   },
   "interactions": [
     {
-      "description": "a GET templates request to retrieve all templates for an advertiser updated after a specified time and specified time is invalid",
-      "provider_state": "There are multiple templates for multiple advertisers related to the requestor",
-      "request": {
-        "method": "get",
-        "path": "/template",
-        "query": "advertiserId=3214&fromDateTimeUtc=invalidfromdatetimeutc",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 422,
-        "headers": {
-          "Content-Type": "application/vnd.seek.template-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Validation Failure",
-          "errors": [
-            {
-              "field": "fromDateTimeUtc",
-              "code": "InvalidValue"
-            }
-          ]
-        }
-      }
-    },
-    {
       "description": "a GET templates request to retrieve all templates",
       "provider_state": "There are no templates for any advertiser related to the requestor",
       "request": {
@@ -159,12 +129,12 @@
       }
     },
     {
-      "description": "a GET templates request to retrieve all templates updated after a specified time and specified time is invalid",
+      "description": "a GET templates request to retrieve all templates with invalid request field values",
       "provider_state": "There are multiple templates for multiple advertisers related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",
-        "query": "fromDateTimeUtc=invalidfromdatetimeutc",
+        "query": "fromDateTimeUtc=not-an-accepted-date-time-format",
         "headers": {
           "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
           "Accept": "application/vnd.seek.template-list+json; version=1; charset=utf-8, application/vnd.seek.template-error+json; version=1; charset=utf-8",

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
@@ -438,7 +439,9 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllTemplatesForPartnerAndFromDateTimeUtcMultipleTemplatesReturned()
         {
-            string queryString = "fromDateTimeUtc=" + TemplateUpdateDateTimeString1;
+            string fromDateTimeUtcString = TemplateUpdateDateTimeString1; // inclusive search
+            DateTimeOffset fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
+            string queryString = "fromDateTimeUtc=" + fromDateTimeUtcString;
 
             this.Fixture.MockProviderService
                 .Given("There are multiple templates for multiple advertisers related to the requestor")
@@ -486,7 +489,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(fromDateTimeUtc: TemplateUpdateDateTimeString1);
+                listResource = await client.GetAllTemplatesAsync(fromDateTimeUtc: fromDateTimeUtc);
             }
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
@@ -509,14 +512,15 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForPartnerAndInvalidFromDateTimeUtcError()
+        public async Task GetAllTemplatesWithInvalidRequestFieldValuesReturnsError()
         {
-            const string invalidFromDateTimeUtc = "invalidfromdatetimeutc";
+            const string invalidFromDateTimeUtc = "not-an-accepted-date-time-format";
             string queryString = "fromDateTimeUtc=" + invalidFromDateTimeUtc;
+            string link = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}";
 
             this.Fixture.MockProviderService
                 .Given("There are multiple templates for multiple advertisers related to the requestor")
-                .UponReceiving("a GET templates request to retrieve all templates updated after a specified time and specified time is invalid")
+                .UponReceiving("a GET templates request to retrieve all templates with invalid request field values")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -547,32 +551,24 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            ValidationException actualException;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
+            using (var client = new HttpClient())
             {
-                actualException = await Assert.ThrowsAsync<ValidationException>(async () => await client.GetAllTemplatesAsync(fromDateTimeUtc: invalidFromDateTimeUtc));
-            }
-
-            var expectedException =
-                new ValidationException(
-                    RequestId,
-                    HttpMethod.Get,
-                    new TemplateErrorResponse
+                {
+                    using (HttpRequestMessage request = this.CreateGetRequest(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), this._oAuth2TokenRequestorA.AccessToken))
                     {
-                        Message = "Validation Failure",
-                        Errors = new[]
+                        using (HttpResponseMessage response = await client.SendAsync(request))
                         {
-                            new Error { Field = "fromDateTimeUtc", Code = "InvalidValue" }
+                            Assert.Equal(422, (int)response.StatusCode);
                         }
-                    });
-
-            actualException.ShouldBeEquivalentToException(expectedException);
+                    }
+                }
+            }
         }
 
         [Fact]
         public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtcMultipleTemplatesReturned()
         {
+            DateTimeOffset fromDateTimeUtc = DateTimeOffset.Parse(TemplateUpdateDateTimeString1);
             string queryString = "advertiserId=" + AdvertiserId2 + "&fromDateTimeUtc=" + TemplateUpdateDateTimeString1;
 
             this.Fixture.MockProviderService
@@ -620,7 +616,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(AdvertiserId2, TemplateUpdateDateTimeString1);
+                listResource = await client.GetAllTemplatesAsync(AdvertiserId2, fromDateTimeUtc);
             }
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
@@ -641,68 +637,18 @@ namespace SEEK.AdPostingApi.Client.Tests
             listResource.ShouldBeEquivalentTo(expectedListResource);
         }
 
-        [Fact]
-        public async Task GetAllTemplatesForAdvertiserAndInvalidFromDateTimeUtcError()
-        {
-            const string invalidFromDateTimeUtc = "invalidfromdatetimeutc";
-            string queryString = "advertiserId=" + AdvertiserId2 + "&fromDateTimeUtc=" + invalidFromDateTimeUtc;
-
-            this.Fixture.MockProviderService
-                .Given("There are multiple templates for multiple advertisers related to the requestor")
-                .UponReceiving("a GET templates request to retrieve all templates for an advertiser updated after a specified time and specified time is invalid")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = AdPostingTemplateApiFixture.TemplateApiBasePath,
-                    Query = queryString,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Authorization", "Bearer " + this._oAuth2TokenRequestorA.AccessToken },
-                        { "Accept", $"{ResponseContentTypes.TemplateListVersion1}, {ResponseContentTypes.TemplateErrorVersion1}" },
-                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
-                    }
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 422,
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", ResponseContentTypes.TemplateErrorVersion1 },
-                        { "X-Request-Id", RequestId }
-                    },
-                    Body = new
-                    {
-                        message = "Validation Failure",
-                        errors = new[]
-                        {
-                            new { field = "fromDateTimeUtc", code = "InvalidValue" }
-                        }
-                    }
-                });
-
-            ValidationException actualException;
-
-            using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
-            {
-                actualException = await Assert.ThrowsAsync<ValidationException>(async () => await client.GetAllTemplatesAsync(AdvertiserId2, invalidFromDateTimeUtc));
-            }
-
-            var expectedException =
-                new ValidationException(
-                    RequestId,
-                    HttpMethod.Get,
-                    new TemplateErrorResponse
-                    {
-                        Message = "Validation Failure",
-                        Errors = new[]
-                        {
-                            new Error { Field = "fromDateTimeUtc", Code = "InvalidValue" }
-                        }
-                    });
-
-            actualException.ShouldBeEquivalentToException(expectedException);
-        }
-
         private AdPostingTemplateApiFixture Fixture { get; }
+
+        private HttpRequestMessage CreateGetRequest(Uri requestUri, string accessToken)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            request.Headers.Accept.Clear();
+            request.Headers.Accept.ParseAdd(ResponseContentTypes.TemplateListVersion1);
+            request.Headers.Accept.ParseAdd(ResponseContentTypes.TemplateErrorVersion1);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            request.Headers.UserAgent.Add(new ProductInfoHeaderValue(AdPostingApiFixture.UserAgentProductName, AdPostingApiFixture.UserAgentProductVersion));
+
+            return request;
+        }
     }
 }

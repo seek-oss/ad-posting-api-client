@@ -8,13 +8,7 @@ namespace SEEK.AdPostingApi.Client
     [Serializable]
     public class ValidationException : RequestException
     {
-        public ValidationException(string requestId, HttpMethod method, AdvertisementErrorResponse errorResponse)
-            : base(requestId, 422, $"{method:G} failed.{errorResponse?.Message.PadLeft(errorResponse.Message.Length + 1)}")
-        {
-            this.Errors = errorResponse?.Errors ?? new Error[0];
-        }
-
-        public ValidationException(string requestId, HttpMethod method, TemplateErrorResponse errorResponse)
+        public ValidationException(string requestId, HttpMethod method, IErrorResponse errorResponse)
             : base(requestId, 422, $"{method:G} failed.{errorResponse?.Message.PadLeft(errorResponse.Message.Length + 1)}")
         {
             this.Errors = errorResponse?.Errors ?? new Error[0];
