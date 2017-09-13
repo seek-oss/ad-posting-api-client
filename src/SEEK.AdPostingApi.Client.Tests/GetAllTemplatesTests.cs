@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
@@ -507,6 +508,59 @@ namespace SEEK.AdPostingApi.Client.Tests
             };
 
             listResource.ShouldBeEquivalentTo(expectedListResource);
+        }
+
+        [Fact]
+        public async Task GetAllTemplatesWithInvalidRequestFieldValuesReturnsError()
+        {
+            const string invalidFromDateTimeUtc = "not-an-accepted-date-time-format";
+            string queryString = "fromDateTimeUtc=" + invalidFromDateTimeUtc;
+
+            this.Fixture.MockProviderService
+                .Given("There are multiple templates for multiple advertisers related to the requestor")
+                .UponReceiving("a GET templates request to retrieve all templates with invalid request field values")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = AdPostingTemplateApiFixture.TemplateApiBasePath,
+                    Query = queryString,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + this._oAuth2TokenRequestorA.AccessToken },
+                        { "Accept", $"{ResponseContentTypes.TemplateListVersion1}, {ResponseContentTypes.TemplateErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 422,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Content-Type", ResponseContentTypes.TemplateErrorVersion1 },
+                        { "X-Request-Id", RequestId }
+                    },
+                    Body = new
+                    {
+                        message = "Validation Failure",
+                        errors = new[]
+                        {
+                            new { field = "fromDateTimeUtc", code = "InvalidValue" }
+                        }
+                    }
+                });
+
+            using (var client = new HttpClient())
+            {
+                {
+                    using (HttpRequestMessage request = this.Fixture.CreateGetTemplatesRequest(queryString, this._oAuth2TokenRequestorA.AccessToken))
+                    {
+                        using (HttpResponseMessage response = await client.SendAsync(request))
+                        {
+                            Assert.Equal(422, (int)response.StatusCode);
+                        }
+                    }
+                }
+            }
         }
 
         [Fact]
