@@ -14,6 +14,12 @@ namespace SEEK.AdPostingApi.Client
             this.Errors = errorResponse?.Errors ?? new Error[0];
         }
 
+        public ValidationException(string requestId, HttpMethod method, TemplateErrorResponse errorResponse)
+            : base(requestId, 422, $"{method:G} failed.{errorResponse?.Message.PadLeft(errorResponse.Message.Length + 1)}")
+        {
+            this.Errors = errorResponse?.Errors ?? new Error[0];
+        }
+
         protected ValidationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             this.Errors = (Error[])info.GetValue(nameof(this.Errors), typeof(Error[]));

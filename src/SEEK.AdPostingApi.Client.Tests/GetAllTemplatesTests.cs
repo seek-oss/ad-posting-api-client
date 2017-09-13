@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PactNet.Mocks.MockHttpService.Models;
@@ -437,9 +438,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllTemplatesForPartnerAndFromDateTimeUtcMultipleTemplatesReturned()
         {
-            string fromDateTimeUtcString = TemplateUpdateDateTimeString1; // inclusive search
-            DateTimeOffset fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
-            string queryString = "fromDateTimeUtc=" + fromDateTimeUtcString;
+            string queryString = "fromDateTimeUtc=" + TemplateUpdateDateTimeString1;
 
             this.Fixture.MockProviderService
                 .Given("There are multiple templates for multiple advertisers related to the requestor")
@@ -487,7 +486,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(fromDateTimeUtc: fromDateTimeUtc);
+                listResource = await client.GetAllTemplatesAsync(fromDateTimeUtc: TemplateUpdateDateTimeString1);
             }
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
@@ -510,9 +509,70 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
+        public async Task GetAllTemplatesForPartnerAndInvalidFromDateTimeUtcError()
+        {
+            const string invalidFromDateTimeUtc = "invalidfromdatetimeutc";
+            string queryString = "fromDateTimeUtc=" + invalidFromDateTimeUtc;
+
+            this.Fixture.MockProviderService
+                .Given("There are multiple templates for multiple advertisers related to the requestor")
+                .UponReceiving("a GET templates request to retrieve all templates updated after a specified time and specified time is invalid")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = AdPostingTemplateApiFixture.TemplateApiBasePath,
+                    Query = queryString,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + this._oAuth2TokenRequestorA.AccessToken },
+                        { "Accept", $"{ResponseContentTypes.TemplateListVersion1}, {ResponseContentTypes.TemplateErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 422,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Content-Type", ResponseContentTypes.TemplateErrorVersion1 },
+                        { "X-Request-Id", RequestId }
+                    },
+                    Body = new
+                    {
+                        message = "Validation Failure",
+                        errors = new[]
+                        {
+                            new { field = "fromDateTimeUtc", code = "InvalidValue" }
+                        }
+                    }
+                });
+
+            ValidationException actualException;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
+            {
+                actualException = await Assert.ThrowsAsync<ValidationException>(async () => await client.GetAllTemplatesAsync(fromDateTimeUtc: invalidFromDateTimeUtc));
+            }
+
+            var expectedException =
+                new ValidationException(
+                    RequestId,
+                    HttpMethod.Get,
+                    new TemplateErrorResponse
+                    {
+                        Message = "Validation Failure",
+                        Errors = new[]
+                        {
+                            new Error { Field = "fromDateTimeUtc", Code = "InvalidValue" }
+                        }
+                    });
+
+            actualException.ShouldBeEquivalentToException(expectedException);
+        }
+
+        [Fact]
         public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtcMultipleTemplatesReturned()
         {
-            DateTimeOffset fromDateTimeUtc = DateTimeOffset.Parse(TemplateUpdateDateTimeString1);
             string queryString = "advertiserId=" + AdvertiserId2 + "&fromDateTimeUtc=" + TemplateUpdateDateTimeString1;
 
             this.Fixture.MockProviderService
@@ -560,7 +620,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(AdvertiserId2, fromDateTimeUtc);
+                listResource = await client.GetAllTemplatesAsync(AdvertiserId2, TemplateUpdateDateTimeString1);
             }
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
@@ -579,6 +639,68 @@ namespace SEEK.AdPostingApi.Client.Tests
             };
 
             listResource.ShouldBeEquivalentTo(expectedListResource);
+        }
+
+        [Fact]
+        public async Task GetAllTemplatesForAdvertiserAndInvalidFromDateTimeUtcError()
+        {
+            const string invalidFromDateTimeUtc = "invalidfromdatetimeutc";
+            string queryString = "advertiserId=" + AdvertiserId2 + "&fromDateTimeUtc=" + invalidFromDateTimeUtc;
+
+            this.Fixture.MockProviderService
+                .Given("There are multiple templates for multiple advertisers related to the requestor")
+                .UponReceiving("a GET templates request to retrieve all templates for an advertiser updated after a specified time and specified time is invalid")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = AdPostingTemplateApiFixture.TemplateApiBasePath,
+                    Query = queryString,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + this._oAuth2TokenRequestorA.AccessToken },
+                        { "Accept", $"{ResponseContentTypes.TemplateListVersion1}, {ResponseContentTypes.TemplateErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 422,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Content-Type", ResponseContentTypes.TemplateErrorVersion1 },
+                        { "X-Request-Id", RequestId }
+                    },
+                    Body = new
+                    {
+                        message = "Validation Failure",
+                        errors = new[]
+                        {
+                            new { field = "fromDateTimeUtc", code = "InvalidValue" }
+                        }
+                    }
+                });
+
+            ValidationException actualException;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
+            {
+                actualException = await Assert.ThrowsAsync<ValidationException>(async () => await client.GetAllTemplatesAsync(AdvertiserId2, invalidFromDateTimeUtc));
+            }
+
+            var expectedException =
+                new ValidationException(
+                    RequestId,
+                    HttpMethod.Get,
+                    new TemplateErrorResponse
+                    {
+                        Message = "Validation Failure",
+                        Errors = new[]
+                        {
+                            new Error { Field = "fromDateTimeUtc", Code = "InvalidValue" }
+                        }
+                    });
+
+            actualException.ShouldBeEquivalentToException(expectedException);
         }
 
         private AdPostingTemplateApiFixture Fixture { get; }
