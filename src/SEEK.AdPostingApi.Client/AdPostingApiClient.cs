@@ -120,11 +120,11 @@ namespace SEEK.AdPostingApi.Client
             return await this._client.PutResourceAsync<AdvertisementResource, Advertisement>(uri, advertisement);
         }
 
-        public async Task<TemplateSummaryListResource> GetAllTemplatesAsync(string advertiserId = null, DateTimeOffset? fromDateTimeUtc = null)
+        public async Task<TemplateSummaryListResource> GetAllTemplatesAsync(string advertiserId = null, string after = null)
         {
             await this.EnsureIndexResourceInitialised();
 
-            return await this._indexResource.GetAllTemplates(advertiserId, fromDateTimeUtc);
+            return await this._indexResource.GetAllTemplates(advertiserId, after);
         }
 
         public void Dispose()

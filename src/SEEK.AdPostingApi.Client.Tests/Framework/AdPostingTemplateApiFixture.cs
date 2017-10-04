@@ -12,7 +12,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
     public class AdPostingTemplateApiFixture : IDisposable
     {
         public const string TemplateApiBasePath = "/template";
-        public const string TemplateApiLink = TemplateApiBasePath + "{?advertiserId,fromDateTimeUtc}";
+        public const string TemplateApiLink = TemplateApiBasePath + "{?advertiserId,after}";
 
         static AdPostingTemplateApiFixture()
         {

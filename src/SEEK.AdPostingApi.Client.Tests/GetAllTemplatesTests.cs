@@ -40,6 +40,9 @@ namespace SEEK.AdPostingApi.Client.Tests
         private const string TemplateUpdateDateTimeString3 = "2017-05-07T09:45:43Z";
         private const string TemplateUpdateDateTimeString4 = "2015-10-13T03:41:21Z";
         private const string TemplateUpdateDateTimeString5 = "2017-03-23T11:12:10Z";
+        private const string TemplateWriteSequence1 = "7001";
+        private const string TemplateWriteSequence2 = "6011";
+        private const string TemplateWriteSequence3 = "7005";
 
         private readonly TemplateSummaryResponseContentBuilder _template1 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId1)
@@ -179,7 +182,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = AdPostingTemplateApiFixture.TemplateApiBasePath }
+                            self = new { href = AdPostingTemplateApiFixture.TemplateApiBasePath },
+                            next = new { href = AdPostingTemplateApiFixture.TemplateApiBasePath + $"?after={TemplateWriteSequence3}" }
                         }
                     }
                 });
@@ -204,7 +208,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = AdPostingTemplateApiFixture.TemplateApiBasePath } }
+                    { "self", new Link { Href = AdPostingTemplateApiFixture.TemplateApiBasePath } },
+                    { "next", new Link { Href = AdPostingTemplateApiFixture.TemplateApiBasePath + $"?after={TemplateWriteSequence3}"} }
                 },
                 RequestId = RequestId
             };
@@ -302,7 +307,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" }
+                            self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" },
+                            next = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}&after={TemplateWriteSequence1}" }
                         }
                     }
                 });
@@ -324,7 +330,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
+                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } },
+                    { "next", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}&after={TemplateWriteSequence1}" } },
                 },
                 RequestId = RequestId
             };
@@ -436,15 +443,13 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForPartnerAndFromDateTimeUtcMultipleTemplatesReturned()
+        public async Task GetAllTemplatesForPartnerAndAfterSequenceIdentifierMultipleTemplatesReturned()
         {
-            string fromDateTimeUtcString = TemplateUpdateDateTimeString1; // inclusive search
-            DateTimeOffset fromDateTimeUtc = DateTimeOffset.Parse(fromDateTimeUtcString);
-            string queryString = "fromDateTimeUtc=" + fromDateTimeUtcString;
+            string queryString = "after=" + TemplateWriteSequence2;
 
             this.Fixture.MockProviderService
                 .Given("There are multiple templates for multiple advertisers related to the requestor")
-                .UponReceiving("a GET templates request to retrieve all templates updated after a specified time")
+                .UponReceiving("a GET templates request to retrieve all templates after specified sequence identifier")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -479,7 +484,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" }
+                            self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" },
+                            next = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?after={TemplateWriteSequence3}" }
                         }
                     }
                 });
@@ -488,7 +494,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(fromDateTimeUtc: fromDateTimeUtc);
+                listResource = await client.GetAllTemplatesAsync(after: TemplateWriteSequence2);
             }
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
@@ -502,7 +508,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
-                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }
+                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } },
+                    { "next", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?after={TemplateWriteSequence3}" } }
                 },
                 RequestId = RequestId
             };
@@ -513,8 +520,8 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetAllTemplatesWithInvalidRequestFieldValuesReturnsError()
         {
-            const string invalidFromDateTimeUtc = "not-an-accepted-date-time-format";
-            string queryString = "fromDateTimeUtc=" + invalidFromDateTimeUtc;
+            const string invalidSequenceIdentifier = "not-an-accepted-sequence-format";
+            string queryString = "after=" + invalidSequenceIdentifier;
 
             this.Fixture.MockProviderService
                 .Given("There are multiple templates for multiple advertisers related to the requestor")
@@ -544,7 +551,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         message = "Validation Failure",
                         errors = new[]
                         {
-                            new { field = "fromDateTimeUtc", code = "InvalidValue" }
+                            new { field = "after", code = "InvalidValue" }
                         }
                     }
                 });
@@ -564,14 +571,13 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiserAndFromDateTimeUtcMultipleTemplatesReturned()
+        public async Task GetAllTemplatesForAdvertiserAndAfterSequenceIdentifierMultipleTemplatesReturned()
         {
-            DateTimeOffset fromDateTimeUtc = DateTimeOffset.Parse(TemplateUpdateDateTimeString1);
-            string queryString = "advertiserId=" + AdvertiserId2 + "&fromDateTimeUtc=" + TemplateUpdateDateTimeString1;
+            string queryString = "advertiserId=" + AdvertiserId2 + "&after=" + TemplateWriteSequence2;
 
             this.Fixture.MockProviderService
                 .Given("There are multiple templates for multiple advertisers related to the requestor")
-                .UponReceiving("a GET templates request to retrieve all templates for an advertiser updated after a specified time")
+                .UponReceiving("a GET templates request to retrieve all templates for an advertiser after specified sequence identifier")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
@@ -605,7 +611,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         _links = new
                         {
-                            self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" }
+                            self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" },
+                            next = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?advertiserId={AdvertiserId2}&after={TemplateWriteSequence3}" }
                         }
                     }
                 });
@@ -614,7 +621,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(AdvertiserId2, fromDateTimeUtc);
+                listResource = await client.GetAllTemplatesAsync(AdvertiserId2, TemplateWriteSequence2);
             }
 
             TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
@@ -625,6 +632,68 @@ namespace SEEK.AdPostingApi.Client.Tests
                     this._expectedTemplateResource3,
                     this._expectedTemplateResource5
                 },
+                Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
+                {
+                    { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } },
+                    { "next", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?advertiserId={AdvertiserId2}&after={TemplateWriteSequence3}" } }
+                },
+                RequestId = RequestId
+            };
+
+            listResource.ShouldBeEquivalentTo(expectedListResource);
+        }
+
+        [Fact]
+        public async Task GetAllTemplatesForAdvertiserAndAfterMaxSequenceIdentifierNoTemplatesReturned()
+        {
+            string queryString = "advertiserId=" + AdvertiserId2 + "&after=" + TemplateWriteSequence3;
+
+            this.Fixture.MockProviderService
+                .Given("There are multiple templates for multiple advertisers related to the requestor")
+                .UponReceiving("a GET templates request to retrieve all templates for an advertiser after max sequence identifier")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = AdPostingTemplateApiFixture.TemplateApiBasePath,
+                    Query = queryString,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + this._oAuth2TokenRequestorA.AccessToken },
+                        { "Accept", $"{ResponseContentTypes.TemplateListVersion1}, {ResponseContentTypes.TemplateErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Content-Type", ResponseContentTypes.TemplateListVersion1 },
+                        { "X-Request-Id", RequestId }
+                    },
+                    Body = new
+                    {
+                        _embedded = new
+                        {
+                            templates = new object[0]
+                        },
+                        _links = new
+                        {
+                            self = new { href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" }
+                        }
+                    }
+                });
+
+            TemplateSummaryListResource listResource;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
+            {
+                listResource = await client.GetAllTemplatesAsync(AdvertiserId2, TemplateWriteSequence3);
+            }
+
+            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
+            {
+                Templates = new List<TemplateSummaryResource>(),
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
                     { "self", new Link { Href = $"{AdPostingTemplateApiFixture.TemplateApiBasePath}?{queryString}" } }

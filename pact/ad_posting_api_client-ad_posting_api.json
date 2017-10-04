@@ -309,7 +309,7 @@
               "templated": true
             },
             "templates": {
-              "href": "/template{?advertiserId,fromDateTimeUtc}",
+              "href": "/template{?advertiserId,after}",
               "templated": true
             }
           }
@@ -602,7 +602,7 @@
               "templated": true
             },
             "templates": {
-              "href": "/template{?advertiserId,fromDateTimeUtc}",
+              "href": "/template{?advertiserId,after}",
               "templated": true
             }
           }
