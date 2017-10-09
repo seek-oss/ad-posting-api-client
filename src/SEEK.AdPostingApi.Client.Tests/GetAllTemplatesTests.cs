@@ -40,9 +40,9 @@ namespace SEEK.AdPostingApi.Client.Tests
         private const string TemplateUpdateDateTimeString3 = "2017-05-07T09:45:43Z";
         private const string TemplateUpdateDateTimeString4 = "2015-10-13T03:41:21Z";
         private const string TemplateUpdateDateTimeString5 = "2017-03-23T11:12:10Z";
-        private const string TemplateWriteSequence1 = "7001";
-        private const string TemplateWriteSequence2 = "6011";
-        private const string TemplateWriteSequence3 = "7005";
+        private const int TemplateWriteSequence1 = 7001;
+        private const int TemplateWriteSequence2 = 6011;
+        private const int TemplateWriteSequence3 = 7005;
 
         private readonly TemplateSummaryResponseContentBuilder _template1 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId1)

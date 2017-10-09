@@ -40,12 +40,12 @@ namespace SEEK.AdPostingApi.Client.Resources
                     this.Links.GenerateLink("advertisements", new { advertiserId = advertiserIdentifier }));
         }
 
-        public async Task<TemplateSummaryListResource> GetAllTemplates(string advertiserIdentifier = null, string after = null)
+        public async Task<TemplateSummaryListResource> GetAllTemplates(string advertiserIdentifier = null, int? after = null)
         {
             var queryParameters = new
             {
                 advertiserId = string.IsNullOrWhiteSpace(advertiserIdentifier) ? null : advertiserIdentifier,
-                after = string.IsNullOrWhiteSpace(after) ? null : after
+                after
             };
 
             return await this._client.GetResourceAsync<TemplateSummaryListResource, TemplateErrorResponse>(this.Links.GenerateLink("templates", queryParameters));
