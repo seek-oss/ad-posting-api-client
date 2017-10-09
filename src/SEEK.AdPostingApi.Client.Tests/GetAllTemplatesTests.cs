@@ -644,13 +644,13 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task GetAllTemplatesForAdvertiserAndAfterMaxSequenceIdentifierNoTemplatesReturned()
+        public async Task GetAllTemplatesForAdvertiserAndAfterSequenceIdentifierNoTemplatesReturned()
         {
             string queryString = "advertiserId=" + AdvertiserId2 + "&after=" + TemplateWriteSequence3;
 
             this.Fixture.MockProviderService
-                .Given("There are multiple templates for multiple advertisers related to the requestor")
-                .UponReceiving("a GET templates request to retrieve all templates for an advertiser after max sequence identifier")
+                .Given("There are no templates after given sequence identifier for all advertisers related to the requestor")
+                .UponReceiving("a GET templates request to retrieve all templates for an advertiser after given sequence identifier")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
