@@ -170,14 +170,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         _embedded = new
                         {
-                            // sorted by UpdatedDateTime, Descending
+                            // sorted by WriteSequence
                             templates = new[]
                             {
-                                this._template3.Build(),
-                                this._template5.Build(),
-                                this._template1.Build(),
+                                this._template4.Build(),
                                 this._template2.Build(),
-                                this._template4.Build()
+                                this._template1.Build(),
+                                this._template5.Build(),
+                                this._template3.Build()
                             }
                         },
                         _links = new
@@ -199,12 +199,12 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 Templates = new List<TemplateSummaryResource>
                 {
-                    // sorted by UpdatedDateTime, Descending
-                    this._expectedTemplateResource3,
-                    this._expectedTemplateResource5,
-                    this._expectedTemplateResource1,
+                    // sorted by WriteSequence
+                    this._expectedTemplateResource4,
                     this._expectedTemplateResource2,
-                    this._expectedTemplateResource4
+                    this._expectedTemplateResource1,
+                    this._expectedTemplateResource5,
+                    this._expectedTemplateResource3
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
@@ -300,9 +300,9 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                // sorted by UpdatedDateTime, Descending
-                                this._template1.Build(),
-                                this._template2.Build()
+                                // sorted by WriteSequence
+                                this._template2.Build(),
+                                this._template1.Build()
                             }
                         },
                         _links = new
@@ -324,9 +324,9 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 Templates = new List<TemplateSummaryResource>
                 {
-                    // sorted by UpdatedDateTime, Descending
-                    this._expectedTemplateResource1,
-                    this._expectedTemplateResource2
+                    // sorted by WriteSequence
+                    this._expectedTemplateResource2,
+                    this._expectedTemplateResource1
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
@@ -476,10 +476,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                // sorted by UpdatedDateTime, Descending
-                                this._template3.Build(),
+                                // sorted by WriteSequence
+                                this._template1.Build(),
                                 this._template5.Build(),
-                                this._template1.Build()
+                                this._template3.Build()
                             }
                         },
                         _links = new
@@ -501,10 +501,10 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 Templates = new List<TemplateSummaryResource>
                 {
-                    // sorted by UpdatedDateTime, Descending
-                    this._expectedTemplateResource3,
+                    // sorted by WriteSequence
+                    this._expectedTemplateResource1,
                     this._expectedTemplateResource5,
-                    this._expectedTemplateResource1
+                    this._expectedTemplateResource3
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
@@ -604,9 +604,9 @@ namespace SEEK.AdPostingApi.Client.Tests
                         {
                             templates = new[]
                             {
-                                // sorted by UpdatedDateTime, Descending
-                                this._template3.Build(),
-                                this._template5.Build()
+                                // sorted by WriteSequence
+                                this._template5.Build(),
+                                this._template3.Build()
                             }
                         },
                         _links = new
@@ -628,9 +628,9 @@ namespace SEEK.AdPostingApi.Client.Tests
             {
                 Templates = new List<TemplateSummaryResource>
                 {
-                    // sorted by UpdatedDateTime, Descending
-                    this._expectedTemplateResource3,
-                    this._expectedTemplateResource5
+                    // sorted by WriteSequence
+                    this._expectedTemplateResource5,
+                    this._expectedTemplateResource3
                 },
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
                 {
