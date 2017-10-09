@@ -855,7 +855,7 @@ Ad Posting API will respond with:
         "templated": true
       },
       "templates": {
-        "href": "/template{?advertiserId,fromDateTimeUtc}",
+        "href": "/template{?advertiserId,after}",
         "templated": true
       }
     }
@@ -893,7 +893,7 @@ Ad Posting API will respond with:
         "templated": true
       },
       "templates": {
-        "href": "/template{?advertiserId,fromDateTimeUtc}",
+        "href": "/template{?advertiserId,after}",
         "templated": true
       }
     }
