@@ -798,6 +798,69 @@ namespace SEEK.AdPostingApi.Client.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
+        [Fact]
+        public async Task UpdateWithDifferentQuestionnaireId()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
+
+            var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer(setQuestionnaireId:true);
+
+            this.Fixture.AdPostingApiService
+                .Given("There is a standout advertisement with maximum data and a questionnaire ID")
+                .UponReceiving("a PUT advertisement request to update a job ad with a questionnaire ID")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                    },
+                    Body = new AdvertisementContentBuilder(allFieldsWithQuestionnaireIdInitializer)
+                        .WithQuestionnaireId("DifferentQuestionnaireId")
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 200,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(allFieldsWithQuestionnaireIdInitializer)
+                            .WithId(AdvertisementId)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .Build()
+                    });
+
+            Advertisement requestModel = new AdvertisementModelBuilder(allFieldsWithQuestionnaireIdInitializer)
+                .WithQuestionnaireId("DifferentQuestionnaireId")
+                .Build();
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel);
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithQuestionnaireIdInitializer)
+                .WithId(new Guid(AdvertisementId))
+                .WithLinks(AdvertisementId)
+                .WithGranularLocationState(null)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
         private AdPostingApiFixture Fixture { get; }
     }
 }

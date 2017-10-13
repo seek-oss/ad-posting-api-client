@@ -307,6 +307,12 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementContentBuilder WithQuestionnaireId(object questionnaireId)
+        {
+            this.AdvertisementModel.questionnaireId = questionnaireId;
+            return this;
+        }
+
         public AdvertisementContentBuilder WithScreenId(object screenId)
         {
             this.AdvertisementModel.screenId = screenId;

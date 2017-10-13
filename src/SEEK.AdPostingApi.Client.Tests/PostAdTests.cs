@@ -947,6 +947,77 @@ namespace SEEK.AdPostingApi.Client.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
+        [Fact]
+        public async Task PostAdWithQuestionnaireId()
+        {
+            const string advertisementId = "c6d541a4-e4c4-4357-a101-7762f8987581";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            var location = $"http://localhost{link}";
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer(setQuestionnaireId:true);
+
+            this.Fixture.AdPostingApiService
+                .UponReceiving("a POST advertisement request to create a job ad with a questionnaire ID")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                        },
+                        Body = new AdvertisementContentBuilder(allFieldsWithQuestionnaireIdInitializer)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 200,
+                        Headers = new Dictionary<string, string>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "Location", location },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(allFieldsWithQuestionnaireIdInitializer)
+                            .WithId(advertisementId)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithGranularLocationState(null)
+                            .Build()
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(allFieldsWithQuestionnaireIdInitializer)
+                .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                .Build();
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.CreateAdvertisementAsync(requestModel);
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithQuestionnaireIdInitializer)
+                .WithId(new Guid(advertisementId))
+                .WithLinks(advertisementId)
+                .WithGranularLocationState(null)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
         private AdPostingApiFixture Fixture { get; }
     }
 }

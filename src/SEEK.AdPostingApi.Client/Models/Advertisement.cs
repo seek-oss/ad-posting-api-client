@@ -33,6 +33,8 @@ namespace SEEK.AdPostingApi.Client.Models
 
         public string EndApplicationUrl { get; set; }
 
+        public string QuestionnaireId { get; set; }
+
         public int? ScreenId { get; set; }
 
         public string JobReference { get; set; }
