@@ -1415,7 +1415,7 @@ Upon receiving **a POST advertisement request to create a job ad with a question
       "ResidentsOnly",
       "Graduate"
     ],
-    "questionnaireId": "QUESTIONNAIRE1234",
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29",
     "creationId": "20150914-134527-00012"
   }
 }
@@ -1495,7 +1495,7 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "questionnaireId": "QUESTIONNAIRE1234",
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29",
     "id": "c6d541a4-e4c4-4357-a101-7762f8987581",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -3352,7 +3352,7 @@ Given **there is a standout advertisement with maximum data and a questionnaire 
       "ResidentsOnly",
       "Graduate"
     ],
-    "questionnaireId": "DifferentQuestionnaireId"
+    "questionnaireId": "0ca150dd-7dd0-4788-99b8-a77f72a059bd"
   }
 }
 ```
@@ -3430,7 +3430,7 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "questionnaireId": "QUESTIONNAIRE1234",
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29",
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
