@@ -804,7 +804,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
-
+            var differentQuestionnaireId = Guid.Parse("0ca150dd-7dd0-4788-99b8-a77f72a059bd");
             var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer(setQuestionnaireId:true);
 
             this.Fixture.AdPostingApiService
@@ -822,7 +822,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(allFieldsWithQuestionnaireIdInitializer)
-                        .WithQuestionnaireId("DifferentQuestionnaireId")
+                        .WithQuestionnaireId(differentQuestionnaireId)
                         .Build()
                 })
                 .WillRespondWith(
@@ -843,7 +843,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     });
 
             Advertisement requestModel = new AdvertisementModelBuilder(allFieldsWithQuestionnaireIdInitializer)
-                .WithQuestionnaireId("DifferentQuestionnaireId")
+                .WithQuestionnaireId(differentQuestionnaireId)
                 .Build();
             AdvertisementResource result;
 

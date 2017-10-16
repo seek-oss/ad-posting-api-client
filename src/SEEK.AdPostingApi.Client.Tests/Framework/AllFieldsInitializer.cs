@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SEEK.AdPostingApi.Client.Models;
 
@@ -181,9 +182,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return "http://endform.com/";
         }
 
-        private string GetDefaultQuestionnaireId()
+        private Guid GetDefaultQuestionnaireId()
         {
-            return "QUESTIONNAIRE1234";
+            return Guid.Parse("77d26391-eb70-4511-ac3e-2de00c7b9e29");
         }
 
         private int GetDefaultScreenId()

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Tests.Framework
@@ -41,7 +42,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private string _applicationEmail;
         private string _applicationFormUrl;
         private string _endApplicationUrl;
-        private string _questionnaireId;
+        private Guid? _questionnaireId;
         private int? _screenId;
         private string _jobReference;
         private string _agentJobReference;
@@ -246,7 +247,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
-        public AdvertisementModelBuilder<TAdvertisement> WithQuestionnaireId(string questionnaireId)
+        public AdvertisementModelBuilder<TAdvertisement> WithQuestionnaireId(Guid questionnaireId)
         {
             this._questionnaireId = questionnaireId;
 
