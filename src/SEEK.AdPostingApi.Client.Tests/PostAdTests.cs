@@ -951,6 +951,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         public async Task PostAdWithQuestionnaireId()
         {
             const string advertisementId = "c6d541a4-e4c4-4357-a101-7762f8987581";
+            Guid questionnaireId = Guid.Parse("77d26391-eb70-4511-ac3e-2de00c7b9e29");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
@@ -958,7 +959,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer(setQuestionnaireId:true);
+            var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer();
 
             this.Fixture.AdPostingApiService
                 .UponReceiving("a POST advertisement request to create a job ad with a questionnaire ID")
@@ -976,6 +977,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         },
                         Body = new AdvertisementContentBuilder(allFieldsWithQuestionnaireIdInitializer)
                             .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .WithQuestionnaireId(questionnaireId)
+                            .WithScreenId(null)
                             .Build()
                     }
                 )
@@ -995,11 +998,15 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
                             .WithGranularLocationState(null)
+                            .WithQuestionnaireId(questionnaireId)
+                            .WithScreenId(null)
                             .Build()
                     });
 
             var requestModel = new AdvertisementModelBuilder(allFieldsWithQuestionnaireIdInitializer)
                 .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                .WithQuestionnaireId(questionnaireId)
+                .WithScreenId(null)
                 .Build();
 
             AdvertisementResource result;
@@ -1013,6 +1020,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
                 .WithGranularLocationState(null)
+                .WithQuestionnaireId(questionnaireId)
+                .WithScreenId(null)
                 .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);

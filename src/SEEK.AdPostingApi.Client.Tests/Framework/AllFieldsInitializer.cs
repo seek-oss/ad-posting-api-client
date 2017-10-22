@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SEEK.AdPostingApi.Client.Models;
 
@@ -8,13 +7,11 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
     public class AllFieldsInitializer : IBuilderInitializer
     {
         private readonly LocationType _locationType;
-        private readonly bool _setQuestionnaireId;
         private readonly IBuilderInitializer _minimumFieldsInitializer = new MinimumFieldsInitializer();
 
-        public AllFieldsInitializer(LocationType locationType = LocationType.UseLocation, bool setQuestionnaireId = false)
+        public AllFieldsInitializer(LocationType locationType = LocationType.UseLocation)
         {
             this._locationType = locationType;
-            _setQuestionnaireId = setQuestionnaireId;
         }
 
         public void Initialize(AdvertisementContentBuilder builder)
@@ -34,6 +31,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithApplicationEmail(this.GetDefaultApplicationEmail())
                 .WithApplicationFormUrl(this.GetDefaultApplicationFormUrl())
                 .WithEndApplicationUrl(this.GetDefaultEndApplicationUrl())
+                .WithScreenId(this.GetDefaultScreenId())
                 .WithJobReference(this.GetDefaultJobReference())
                 .WithAgentJobReference(this.GetDefaultAgentJobReference())
                 .WithTemplateId(this.GetDefaultTemplateId())
@@ -58,15 +56,6 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     .WithGranularLocationCity(this.GetDefaultGranularLocationCity())
                     .WithGranularLocationPostCode(this.GetDefaultGranularLocationPostCode());
             }
-
-            if (this._setQuestionnaireId)
-            {
-                builder.WithQuestionnaireId(this.GetDefaultQuestionnaireId());
-            }
-            else
-            {
-                builder.WithScreenId(this.GetDefaultScreenId());
-            }
         }
 
         public void Initialize<TAdvertisement>(AdvertisementModelBuilder<TAdvertisement> builder)
@@ -87,6 +76,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WithApplicationEmail(this.GetDefaultApplicationEmail())
                 .WithApplicationFormUrl(this.GetDefaultApplicationFormUrl())
                 .WithEndApplicationUrl(this.GetDefaultEndApplicationUrl())
+                .WithScreenId(this.GetDefaultScreenId())
                 .WithJobReference(this.GetDefaultJobReference())
                 .WithAgentJobReference(this.GetDefaultAgentJobReference())
                 .WithTemplateId(this.GetDefaultTemplateId())
@@ -115,15 +105,6 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     .WithGranularLocationState(this.GetDefaultGranularLocationState())
                     .WithGranularLocationCity(this.GetDefaultGranularLocationCity())
                     .WithGranularLocationPostCode(this.GetDefaultGranularLocationPostCode());
-            }
-
-            if (this._setQuestionnaireId)
-            {
-                builder.WithQuestionnaireId(this.GetDefaultQuestionnaireId());
-            }
-            else
-            {
-                builder.WithScreenId(this.GetDefaultScreenId());
             }
         }
 
@@ -180,11 +161,6 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private string GetDefaultEndApplicationUrl()
         {
             return "http://endform.com/";
-        }
-
-        private Guid GetDefaultQuestionnaireId()
-        {
-            return Guid.Parse("77d26391-eb70-4511-ac3e-2de00c7b9e29");
         }
 
         private int GetDefaultScreenId()

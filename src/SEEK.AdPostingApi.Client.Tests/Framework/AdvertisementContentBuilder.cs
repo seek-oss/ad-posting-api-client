@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 
@@ -309,13 +310,27 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementContentBuilder WithQuestionnaireId(object questionnaireId)
         {
-            this.AdvertisementModel.questionnaireId = questionnaireId;
+            if ((Guid?)questionnaireId == null)
+            {
+                TryRemoveProperty(this.AdvertisementModel, "questionnaireId");
+            }
+            else
+            {
+                this.AdvertisementModel.questionnaireId = questionnaireId;
+            }
             return this;
         }
 
         public AdvertisementContentBuilder WithScreenId(object screenId)
         {
-            this.AdvertisementModel.screenId = screenId;
+            if ((int?) screenId == null)
+            {
+                TryRemoveProperty(this.AdvertisementModel, "screenId");
+            }
+            else
+            {
+                this.AdvertisementModel.screenId = screenId;
+            }
             return this;
         }
 

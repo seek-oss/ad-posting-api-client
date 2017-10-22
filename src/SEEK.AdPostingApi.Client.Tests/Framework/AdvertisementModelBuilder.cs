@@ -247,7 +247,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
-        public AdvertisementModelBuilder<TAdvertisement> WithQuestionnaireId(Guid questionnaireId)
+        public AdvertisementModelBuilder<TAdvertisement> WithQuestionnaireId(Guid? questionnaireId)
         {
             this._questionnaireId = questionnaireId;
 

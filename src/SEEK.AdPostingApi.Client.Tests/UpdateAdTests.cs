@@ -804,8 +804,9 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
-            var differentQuestionnaireId = Guid.Parse("0ca150dd-7dd0-4788-99b8-a77f72a059bd");
-            var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer(setQuestionnaireId:true);
+            Guid updateQuestionnaireId = Guid.Parse("0ca150dd-7dd0-4788-99b8-a77f72a059bd");
+            Guid createQuestionnaireId = Guid.Parse("77d26391-eb70-4511-ac3e-2de00c7b9e29");
+            var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer();
 
             this.Fixture.AdPostingApiService
                 .Given("There is a standout advertisement with maximum data and a questionnaire ID")
@@ -822,7 +823,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(allFieldsWithQuestionnaireIdInitializer)
-                        .WithQuestionnaireId(differentQuestionnaireId)
+                        .WithQuestionnaireId(updateQuestionnaireId)
+                        .WithScreenId(null)
                         .Build()
                 })
                 .WillRespondWith(
@@ -839,11 +841,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithState(AdvertisementState.Open.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithQuestionnaireId(createQuestionnaireId)
+                            .WithScreenId(null)
                             .Build()
                     });
 
             Advertisement requestModel = new AdvertisementModelBuilder(allFieldsWithQuestionnaireIdInitializer)
-                .WithQuestionnaireId(differentQuestionnaireId)
+                .WithQuestionnaireId(updateQuestionnaireId)
+                .WithScreenId(null)
                 .Build();
             AdvertisementResource result;
 
@@ -855,6 +860,8 @@ namespace SEEK.AdPostingApi.Client.Tests
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithQuestionnaireIdInitializer)
                 .WithId(new Guid(AdvertisementId))
                 .WithLinks(AdvertisementId)
+                .WithQuestionnaireId(createQuestionnaireId)
+                .WithScreenId(null)
                 .WithGranularLocationState(null)
                 .Build();
 
