@@ -805,7 +805,6 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{AdvertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
             Guid questionnaireIdUsedForCreateAdvertisement = new Guid("77d26391-eb70-4511-ac3e-2de00c7b9e29");
-            var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer();
 
             this.Fixture.AdPostingApiService
                 .Given("There is a standout advertisement with maximum data and a questionnaire ID")
@@ -821,7 +820,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
                         { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
-                    Body = new AdvertisementContentBuilder(allFieldsWithQuestionnaireIdInitializer)
+                    Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
                         .WithQuestionnaireId(questionnaireIdUsedForCreateAdvertisement)
                         .WithScreenId(null)
                         .Build()
@@ -835,7 +834,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
                             { "X-Request-Id", RequestId }
                         },
-                        Body = new AdvertisementResponseContentBuilder(allFieldsWithQuestionnaireIdInitializer)
+                        Body = new AdvertisementResponseContentBuilder(this.AllFieldsInitializer)
                             .WithId(AdvertisementId)
                             .WithState(AdvertisementState.Open.ToString())
                             .WithLink("self", link)
@@ -845,7 +844,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .Build()
                     });
 
-            Advertisement requestModel = new AdvertisementModelBuilder(allFieldsWithQuestionnaireIdInitializer)
+            Advertisement requestModel = new AdvertisementModelBuilder(this.AllFieldsInitializer)
                 .WithQuestionnaireId(questionnaireIdUsedForCreateAdvertisement)
                 .WithScreenId(null)
                 .Build();
@@ -856,7 +855,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel);
             }
 
-            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithQuestionnaireIdInitializer)
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
                 .WithId(new Guid(AdvertisementId))
                 .WithLinks(AdvertisementId)
                 .WithQuestionnaireId(questionnaireIdUsedForCreateAdvertisement)
