@@ -166,6 +166,7 @@ Ad Posting API will respond with:
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -199,7 +200,6 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
-    "screenId": 1,
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -274,6 +274,7 @@ Ad Posting API will respond with:
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -301,7 +302,6 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "screenId": 1,
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -1199,6 +1199,7 @@ Ad Posting API will respond with:
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -1226,7 +1227,6 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "screenId": 1,
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-10-07T21:19:00Z",
     "state": "Expired",
@@ -1415,8 +1415,8 @@ Upon receiving **a POST advertisement request to create a job ad with a question
       "ResidentsOnly",
       "Graduate"
     ],
-    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29",
-    "creationId": "20150914-134527-00012"
+    "creationId": "20150914-134527-00012",
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29"
   }
 }
 ```
@@ -1495,7 +1495,6 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29",
     "id": "c6d541a4-e4c4-4357-a101-7762f8987581",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -1506,7 +1505,8 @@ Ad Posting API will respond with:
       "view": {
         "href": "/advertisement/c6d541a4-e4c4-4357-a101-7762f8987581/view"
       }
-    }
+    },
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29"
   }
 }
 ```
@@ -1692,6 +1692,7 @@ Upon receiving **a POST advertisement request to create a job ad with granular l
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -1725,7 +1726,6 @@ Upon receiving **a POST advertisement request to create a job ad with granular l
       "city": "Melbourne",
       "postCode": "3000"
     },
-    "screenId": 1,
     "creationId": "20150914-134527-00012"
   }
 }
@@ -1774,6 +1774,7 @@ Ad Posting API will respond with:
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -1806,7 +1807,6 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
-    "screenId": 1,
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -2171,6 +2171,7 @@ Upon receiving **a POST advertisement request to create a job ad with required a
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -2198,7 +2199,6 @@ Upon receiving **a POST advertisement request to create a job ad with required a
       "ResidentsOnly",
       "Graduate"
     ],
-    "screenId": 1,
     "creationId": "20150914-134527-00097"
   }
 }
@@ -2251,6 +2251,7 @@ Ad Posting API will respond with:
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -2278,7 +2279,6 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "screenId": 1,
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -2618,6 +2618,7 @@ Ad Posting API will respond with:
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -2645,7 +2646,6 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "screenId": 1,
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-10-07T21:19:00Z",
     "state": "Expired",
@@ -2710,6 +2710,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://FakeATS.com.au",
     "endApplicationUrl": "http://endform.com/updated",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "template": {
       "id": 1,
@@ -2735,8 +2736,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "additionalProperties": [
       "ResidentsOnly",
       "Graduate"
-    ],
-    "screenId": 1
+    ]
   }
 }
 ```
@@ -2786,6 +2786,7 @@ Ad Posting API will respond with:
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://FakeATS.com.au",
     "endApplicationUrl": "http://endform.com/updated",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "template": {
       "id": 1,
@@ -2812,7 +2813,6 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "screenId": 1,
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -3225,6 +3225,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -3251,8 +3252,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "additionalProperties": [
       "ResidentsOnly",
       "Graduate"
-    ],
-    "screenId": 1
+    ]
   }
 }
 ```
@@ -3430,7 +3430,6 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29",
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
@@ -3441,7 +3440,8 @@ Ad Posting API will respond with:
       "view": {
         "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
       }
-    }
+    },
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29"
   }
 }
 ```
@@ -3496,6 +3496,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -3522,8 +3523,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "additionalProperties": [
       "ResidentsOnly",
       "Graduate"
-    ],
-    "screenId": 1
+    ]
   }
 }
 ```
@@ -3596,6 +3596,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -3622,8 +3623,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "additionalProperties": [
       "ResidentsOnly",
       "Graduate"
-    ],
-    "screenId": 1
+    ]
   }
 }
 ```
@@ -3748,6 +3748,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -3780,8 +3781,7 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
       "state": "Victoria",
       "city": "Melbourne",
       "postCode": "3000"
-    },
-    "screenId": 1
+    }
   }
 }
 ```
@@ -3828,6 +3828,7 @@ Ad Posting API will respond with:
     "applicationEmail": "asdf@asdf.com",
     "applicationFormUrl": "http://apply.com/",
     "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
     "jobReference": "JOB1234",
     "agentJobReference": "AGENTJOB1234",
     "template": {
@@ -3860,7 +3861,6 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
-    "screenId": 1,
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
