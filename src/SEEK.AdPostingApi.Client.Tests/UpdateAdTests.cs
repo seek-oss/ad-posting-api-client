@@ -799,13 +799,12 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task UpdateWithDifferentQuestionnaireId()
+        public async Task UpdateWithSameQuestionnaireId()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
-            Guid updateQuestionnaireId = new Guid("0ca150dd-7dd0-4788-99b8-a77f72a059bd");
-            Guid createQuestionnaireId = new Guid("77d26391-eb70-4511-ac3e-2de00c7b9e29");
+            Guid questionnaireIdUsedForCreateAdvertisement = new Guid("77d26391-eb70-4511-ac3e-2de00c7b9e29");
             var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer();
 
             this.Fixture.AdPostingApiService
@@ -823,7 +822,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(allFieldsWithQuestionnaireIdInitializer)
-                        .WithQuestionnaireId(updateQuestionnaireId)
+                        .WithQuestionnaireId(questionnaireIdUsedForCreateAdvertisement)
                         .WithScreenId(null)
                         .Build()
                 })
@@ -841,13 +840,13 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithState(AdvertisementState.Open.ToString())
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
-                            .WithQuestionnaireId(createQuestionnaireId)
+                            .WithQuestionnaireId(questionnaireIdUsedForCreateAdvertisement)
                             .WithScreenId(null)
                             .Build()
                     });
 
             Advertisement requestModel = new AdvertisementModelBuilder(allFieldsWithQuestionnaireIdInitializer)
-                .WithQuestionnaireId(updateQuestionnaireId)
+                .WithQuestionnaireId(questionnaireIdUsedForCreateAdvertisement)
                 .WithScreenId(null)
                 .Build();
             AdvertisementResource result;
@@ -860,7 +859,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(allFieldsWithQuestionnaireIdInitializer)
                 .WithId(new Guid(AdvertisementId))
                 .WithLinks(AdvertisementId)
-                .WithQuestionnaireId(createQuestionnaireId)
+                .WithQuestionnaireId(questionnaireIdUsedForCreateAdvertisement)
                 .WithScreenId(null)
                 .WithGranularLocationState(null)
                 .Build();
