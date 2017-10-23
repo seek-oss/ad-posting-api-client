@@ -310,7 +310,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementContentBuilder WithQuestionnaireId(object questionnaireId)
         {
-            if ((Guid?)questionnaireId == null)
+            if (questionnaireId == null)
             {
                 TryRemoveProperty(this.AdvertisementModel, "questionnaireId");
             }
@@ -323,7 +323,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdvertisementContentBuilder WithScreenId(object screenId)
         {
-            if ((int?) screenId == null)
+            if (screenId == null)
             {
                 TryRemoveProperty(this.AdvertisementModel, "screenId");
             }

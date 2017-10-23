@@ -804,8 +804,8 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
-            Guid updateQuestionnaireId = Guid.Parse("0ca150dd-7dd0-4788-99b8-a77f72a059bd");
-            Guid createQuestionnaireId = Guid.Parse("77d26391-eb70-4511-ac3e-2de00c7b9e29");
+            Guid updateQuestionnaireId = new Guid("0ca150dd-7dd0-4788-99b8-a77f72a059bd");
+            Guid createQuestionnaireId = new Guid("77d26391-eb70-4511-ac3e-2de00c7b9e29");
             var allFieldsWithQuestionnaireIdInitializer = new AllFieldsInitializer();
 
             this.Fixture.AdPostingApiService
