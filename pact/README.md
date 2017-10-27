@@ -1426,7 +1426,7 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Location": "http://localhost/advertisement/c6d541a4-e4c4-4357-a101-7762f8987581",
+    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "X-Request-Id": "PactRequestId"
   },
   "body": {
@@ -1495,15 +1495,15 @@ Ad Posting API will respond with:
       "ResidentsOnly",
       "Graduate"
     ],
-    "id": "c6d541a4-e4c4-4357-a101-7762f8987581",
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-06T21:19:00Z",
     "state": "Open",
     "_links": {
       "self": {
-        "href": "/advertisement/c6d541a4-e4c4-4357-a101-7762f8987581"
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
       },
       "view": {
-        "href": "/advertisement/c6d541a4-e4c4-4357-a101-7762f8987581/view"
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
       }
     },
     "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29"

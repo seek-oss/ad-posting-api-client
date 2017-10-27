@@ -7,6 +7,282 @@
   },
   "interactions": [
     {
+      "description": "a PATCH advertisement request to expire a job for an advertiser not related to the requestor's account",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "patch",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": [
+          {
+            "op": "replace",
+            "path": "state",
+            "value": "Expired"
+          }
+        ]
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "RelationshipError"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a PATCH advertisement request to expire a non-existent advertisement",
+      "request": {
+        "method": "patch",
+        "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": [
+          {
+            "op": "replace",
+            "path": "state",
+            "value": "Expired"
+          }
+        ]
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
+      }
+    },
+    {
+      "description": "a PATCH advertisement request to expire an advertisement",
+      "provider_state": "There is an expired advertisement",
+      "request": {
+        "method": "patch",
+        "path": "/advertisement/c294088d-ff50-4374-bc38-7fa805790e3e",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": [
+          {
+            "op": "replace",
+            "path": "state",
+            "value": "Expired"
+          }
+        ]
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "Expired"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a PATCH advertisement request to expire an advertisement",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "patch",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": [
+          {
+            "op": "replace",
+            "path": "state",
+            "value": "Expired"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-10-07T21:19:00Z",
+          "state": "Expired",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a PATCH advertisement request to expire a job using invalid request content",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "patch",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": [
+          {
+            "op": "add",
+            "path": "state",
+            "value": "open"
+          }
+        ]
+      },
+      "response": {
+        "status": 422,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Validation Failure",
+          "errors": [
+            {
+              "code": "InvalidRequestContent"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a PATCH advertisement request to expire a job using a disabled requestor account",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "patch",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
+          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": [
+          {
+            "op": "replace",
+            "path": "state",
+            "value": "Expired"
+          }
+        ]
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "AccountError"
+            }
+          ]
+        }
+      }
+    },
+    {
       "description": "a GET index request to retrieve API links with Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
       "request": {
         "method": "get",
@@ -33,6 +309,887 @@
               "templated": true
             }
           }
+        }
+      }
+    },
+    {
+      "description": "a POST advertisement request to expire an advertisement",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "post",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": [
+          {
+            "op": "replace",
+            "path": "state",
+            "value": "Expired"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-10-07T21:19:00Z",
+          "state": "Expired",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "head",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
+      }
+    },
+    {
+      "description": "a HEAD advertisement request",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "head",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Processing-Status": "Completed"
+        }
+      }
+    },
+    {
+      "description": "a HEAD advertisement request for an advertisement using a disabled requestor account",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "head",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
+      }
+    },
+    {
+      "description": "a HEAD advertisement request for a non-existent advertisement",
+      "request": {
+        "method": "head",
+        "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
+      }
+    },
+    {
+      "description": "a GET advertisements request for the first page of advertisements belonging to the advertiser",
+      "provider_state": "A page size of 3 with more than 1 page of data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement",
+        "query": "advertiserId=456",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "advertisements": [
+              {
+                "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
+                "advertiserId": "456",
+                "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
+                "jobReference": "JOB4444",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
+                  },
+                  "view": {
+                    "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc/view"
+                  }
+                }
+              },
+              {
+                "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
+                "advertiserId": "456",
+                "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
+                "jobReference": "JOB3333",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
+                  },
+                  "view": {
+                    "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0/view"
+                  }
+                }
+              },
+              {
+                "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
+                "advertiserId": "456",
+                "jobTitle": "Exciting tester role in a great CBD location. Great $$",
+                "jobReference": "JOB2222",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d"
+                  },
+                  "view": {
+                    "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d/view"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/advertisement?advertiserId=456"
+            },
+            "next": {
+              "href": "/advertisement?advertiserId=456&beforeId=5"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET index request to retrieve API links with Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+      "request": {
+        "method": "get",
+        "path": "/",
+        "headers": {
+          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/hal+json; charset=utf-8"
+        },
+        "body": {
+          "_links": {
+            "advertisements": {
+              "href": "/advertisement{?advertiserId}",
+              "templated": true
+            },
+            "advertisement": {
+              "href": "/advertisement/{advertisementId}",
+              "templated": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET advertisements request to retrieve all advertisements for the advertiser not related to requestor",
+      "request": {
+        "method": "get",
+        "path": "/advertisement",
+        "query": "advertiserId=874392",
+        "headers": {
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "RelationshipError"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a GET advertisements request for the last page of data",
+      "provider_state": "A page size of 3 with more than 1 page of data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement",
+        "query": "beforeId=6",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "advertisements": [
+              {
+                "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
+                "advertiserId": "456",
+                "jobTitle": "Exciting tester role in a great CBD location. Great $$",
+                "jobReference": "JOB2222",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d"
+                  },
+                  "view": {
+                    "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d/view"
+                  }
+                }
+              },
+              {
+                "id": "f7302df2-704b-407c-a42a-62ff822b5461",
+                "advertiserId": "456",
+                "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
+                "jobReference": "JOB1111",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461"
+                  },
+                  "view": {
+                    "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461/view"
+                  }
+                }
+              },
+              {
+                "id": "fa6939b5-c91f-4f6a-9600-1ea74963fbb2",
+                "advertiserId": "123",
+                "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
+                "jobReference": "JOB1234",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/fa6939b5-c91f-4f6a-9600-1ea74963fbb2"
+                  },
+                  "view": {
+                    "href": "/advertisement/fa6939b5-c91f-4f6a-9600-1ea74963fbb2/view"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/advertisement?beforeId=6"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET advertisements request for all advertisements",
+      "provider_state": "There are no advertisements",
+      "request": {
+        "method": "get",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "advertisements": []
+          },
+          "_links": {
+            "self": {
+              "href": "/advertisement"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET advertisements request for the second page of advertisements belonging to the advertiser",
+      "provider_state": "A page size of 3 with more than 1 page of data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement",
+        "query": "advertiserId=456&beforeId=5",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "advertisements": [
+              {
+                "id": "f7302df2-704b-407c-a42a-62ff822b5461",
+                "advertiserId": "456",
+                "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
+                "jobReference": "JOB1111",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461"
+                  },
+                  "view": {
+                    "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461/view"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/advertisement?advertiserId=456&beforeId=5"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET advertisements request for first page of data",
+      "provider_state": "A page size of 3 with more than 1 page of data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "advertisements": [
+              {
+                "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
+                "advertiserId": "456",
+                "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
+                "jobReference": "JOB4444",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
+                  },
+                  "view": {
+                    "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc/view"
+                  }
+                }
+              },
+              {
+                "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
+                "advertiserId": "456",
+                "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
+                "jobReference": "JOB3333",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
+                  },
+                  "view": {
+                    "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0/view"
+                  }
+                }
+              },
+              {
+                "id": "e6e31b9c-3c2c-4b85-b17f-babbf7da972b",
+                "advertiserId": "345",
+                "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
+                "jobReference": "JOB12345",
+                "_links": {
+                  "self": {
+                    "href": "/advertisement/e6e31b9c-3c2c-4b85-b17f-babbf7da972b"
+                  },
+                  "view": {
+                    "href": "/advertisement/e6e31b9c-3c2c-4b85-b17f-babbf7da972b/view"
+                  }
+                }
+              }
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/advertisement"
+            },
+            "next": {
+              "href": "/advertisement?beforeId=6"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET advertisements request to retrieve all advertisements for an advertiser that doesn't exist",
+      "request": {
+        "method": "get",
+        "path": "/advertisement",
+        "query": "advertiserId=7d31d9b4-d922-43ef-9e88-f7b507ceea88",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "InvalidValue"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a GET advertisement request for an advertisement using a disabled requestor account",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "AccountError"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a GET advertisement request",
+      "provider_state": "There is a standout advertisement with granular location data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Processing-Status": "Completed",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "granularLocation": {
+            "country": "Australia",
+            "state": "Victoria",
+            "city": "Melbourne",
+            "postCode": "3000"
+          },
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-11-06T21:19:00Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET advertisement request",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Processing-Status": "Completed",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-11-06T21:19:00Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET advertisement request for an advertisement of an advertiser not related to the requestor's account",
+      "provider_state": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "RelationshipError"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a GET advertisement request for a non-existent advertisement",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
+      }
+    },
+    {
+      "description": "a GET index request to retrieve API links with an invalid access token",
+      "request": {
+        "method": "get",
+        "path": "/",
+        "headers": {
+          "Authorization": "Bearer ca11ab1e-c0de-b10b-feed-faceb0bb1e",
+          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "WWW-Authenticate": "Bearer error=\"Invalid request\""
+        }
+      }
+    },
+    {
+      "description": "a GET index request that is unauthorised to retrieve API links",
+      "request": {
+        "method": "get",
+        "path": "/",
+        "headers": {
+          "Authorization": "Bearer baaa1b4f-0dfd-4d80-a871-64fb78716667",
+          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
         }
       }
     },
@@ -1254,392 +2411,6 @@
       }
     },
     {
-      "description": "a GET index request to retrieve API links with an invalid access token",
-      "request": {
-        "method": "get",
-        "path": "/",
-        "headers": {
-          "Authorization": "Bearer ca11ab1e-c0de-b10b-feed-faceb0bb1e",
-          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 401,
-        "headers": {
-          "WWW-Authenticate": "Bearer error=\"Invalid request\""
-        }
-      }
-    },
-    {
-      "description": "a GET index request that is unauthorised to retrieve API links",
-      "request": {
-        "method": "get",
-        "path": "/",
-        "headers": {
-          "Authorization": "Bearer baaa1b4f-0dfd-4d80-a871-64fb78716667",
-          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 401,
-        "headers": {
-          "X-Request-Id": "PactRequestId"
-        }
-      }
-    },
-    {
-      "description": "a HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "head",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "X-Request-Id": "PactRequestId"
-        }
-      }
-    },
-    {
-      "description": "a HEAD advertisement request",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "head",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Processing-Status": "Completed"
-        }
-      }
-    },
-    {
-      "description": "a HEAD advertisement request for an advertisement using a disabled requestor account",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "head",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "X-Request-Id": "PactRequestId"
-        }
-      }
-    },
-    {
-      "description": "a HEAD advertisement request for a non-existent advertisement",
-      "request": {
-        "method": "head",
-        "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 404,
-        "headers": {
-          "X-Request-Id": "PactRequestId"
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request for an advertisement using a disabled requestor account",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Forbidden",
-          "errors": [
-            {
-              "code": "AccountError"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request",
-      "provider_state": "There is a standout advertisement with granular location data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Processing-Status": "Completed",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "recruiter": {
-            "fullName": "Recruiter Full Name",
-            "email": "recruiter@email.com",
-            "teamName": "Recruiter Team Name"
-          },
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
-          "granularLocation": {
-            "country": "Australia",
-            "state": "Victoria",
-            "city": "Melbourne",
-            "postCode": "3000"
-          },
-          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-          "expiryDate": "2015-11-06T21:19:00Z",
-          "state": "Open",
-          "_links": {
-            "self": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
-            },
-            "view": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Processing-Status": "Completed",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "recruiter": {
-            "fullName": "Recruiter Full Name",
-            "email": "recruiter@email.com",
-            "teamName": "Recruiter Team Name"
-          },
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
-          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-          "expiryDate": "2015-11-06T21:19:00Z",
-          "state": "Open",
-          "_links": {
-            "self": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
-            },
-            "view": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request for an advertisement of an advertiser not related to the requestor's account",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Forbidden",
-          "errors": [
-            {
-              "code": "RelationshipError"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request for a non-existent advertisement",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 404,
-        "headers": {
-          "X-Request-Id": "PactRequestId"
-        }
-      }
-    },
-    {
       "description": "a PUT advertisement request to update an expired advertisement",
       "provider_state": "There is an expired advertisement",
       "request": {
@@ -2811,777 +3582,6 @@
           "errors": [
             {
               "field": "salary.maximum",
-              "code": "InvalidValue"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a PATCH advertisement request to expire a job for an advertiser not related to the requestor's account",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "patch",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        },
-        "body": [
-          {
-            "op": "replace",
-            "path": "state",
-            "value": "Expired"
-          }
-        ]
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Forbidden",
-          "errors": [
-            {
-              "code": "RelationshipError"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a PATCH advertisement request to expire a non-existent advertisement",
-      "request": {
-        "method": "patch",
-        "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        },
-        "body": [
-          {
-            "op": "replace",
-            "path": "state",
-            "value": "Expired"
-          }
-        ]
-      },
-      "response": {
-        "status": 404,
-        "headers": {
-          "X-Request-Id": "PactRequestId"
-        }
-      }
-    },
-    {
-      "description": "a PATCH advertisement request to expire an advertisement",
-      "provider_state": "There is an expired advertisement",
-      "request": {
-        "method": "patch",
-        "path": "/advertisement/c294088d-ff50-4374-bc38-7fa805790e3e",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        },
-        "body": [
-          {
-            "op": "replace",
-            "path": "state",
-            "value": "Expired"
-          }
-        ]
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Forbidden",
-          "errors": [
-            {
-              "code": "Expired"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a PATCH advertisement request to expire an advertisement",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "patch",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        },
-        "body": [
-          {
-            "op": "replace",
-            "path": "state",
-            "value": "Expired"
-          }
-        ]
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "recruiter": {
-            "fullName": "Recruiter Full Name",
-            "email": "recruiter@email.com",
-            "teamName": "Recruiter Team Name"
-          },
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
-          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-          "expiryDate": "2015-10-07T21:19:00Z",
-          "state": "Expired",
-          "_links": {
-            "self": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
-            },
-            "view": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a PATCH advertisement request to expire a job using invalid request content",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "patch",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        },
-        "body": [
-          {
-            "op": "add",
-            "path": "state",
-            "value": "open"
-          }
-        ]
-      },
-      "response": {
-        "status": 422,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Validation Failure",
-          "errors": [
-            {
-              "code": "InvalidRequestContent"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a PATCH advertisement request to expire a job using a disabled requestor account",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "patch",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        },
-        "body": [
-          {
-            "op": "replace",
-            "path": "state",
-            "value": "Expired"
-          }
-        ]
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Forbidden",
-          "errors": [
-            {
-              "code": "AccountError"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a POST advertisement request to expire an advertisement",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "post",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        },
-        "body": [
-          {
-            "op": "replace",
-            "path": "state",
-            "value": "Expired"
-          }
-        ]
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "recruiter": {
-            "fullName": "Recruiter Full Name",
-            "email": "recruiter@email.com",
-            "teamName": "Recruiter Team Name"
-          },
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
-          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-          "expiryDate": "2015-10-07T21:19:00Z",
-          "state": "Expired",
-          "_links": {
-            "self": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
-            },
-            "view": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisements request for the first page of advertisements belonging to the advertiser",
-      "provider_state": "A page size of 3 with more than 1 page of data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement",
-        "query": "advertiserId=456",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "_embedded": {
-            "advertisements": [
-              {
-                "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
-                "advertiserId": "456",
-                "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
-                "jobReference": "JOB4444",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
-                  },
-                  "view": {
-                    "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc/view"
-                  }
-                }
-              },
-              {
-                "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
-                "advertiserId": "456",
-                "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
-                "jobReference": "JOB3333",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
-                  },
-                  "view": {
-                    "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0/view"
-                  }
-                }
-              },
-              {
-                "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
-                "advertiserId": "456",
-                "jobTitle": "Exciting tester role in a great CBD location. Great $$",
-                "jobReference": "JOB2222",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d"
-                  },
-                  "view": {
-                    "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d/view"
-                  }
-                }
-              }
-            ]
-          },
-          "_links": {
-            "self": {
-              "href": "/advertisement?advertiserId=456"
-            },
-            "next": {
-              "href": "/advertisement?advertiserId=456&beforeId=5"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET index request to retrieve API links with Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-      "request": {
-        "method": "get",
-        "path": "/",
-        "headers": {
-          "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/hal+json; charset=utf-8"
-        },
-        "body": {
-          "_links": {
-            "advertisements": {
-              "href": "/advertisement{?advertiserId}",
-              "templated": true
-            },
-            "advertisement": {
-              "href": "/advertisement/{advertisementId}",
-              "templated": true
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisements request to retrieve all advertisements for the advertiser not related to requestor",
-      "request": {
-        "method": "get",
-        "path": "/advertisement",
-        "query": "advertiserId=874392",
-        "headers": {
-          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Forbidden",
-          "errors": [
-            {
-              "code": "RelationshipError"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a GET advertisements request for the last page of data",
-      "provider_state": "A page size of 3 with more than 1 page of data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement",
-        "query": "beforeId=6",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "_embedded": {
-            "advertisements": [
-              {
-                "id": "3b138935-f65b-4ec7-91d8-fc250757b53d",
-                "advertiserId": "456",
-                "jobTitle": "Exciting tester role in a great CBD location. Great $$",
-                "jobReference": "JOB2222",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d"
-                  },
-                  "view": {
-                    "href": "/advertisement/3b138935-f65b-4ec7-91d8-fc250757b53d/view"
-                  }
-                }
-              },
-              {
-                "id": "f7302df2-704b-407c-a42a-62ff822b5461",
-                "advertiserId": "456",
-                "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
-                "jobReference": "JOB1111",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461"
-                  },
-                  "view": {
-                    "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461/view"
-                  }
-                }
-              },
-              {
-                "id": "fa6939b5-c91f-4f6a-9600-1ea74963fbb2",
-                "advertiserId": "123",
-                "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
-                "jobReference": "JOB1234",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/fa6939b5-c91f-4f6a-9600-1ea74963fbb2"
-                  },
-                  "view": {
-                    "href": "/advertisement/fa6939b5-c91f-4f6a-9600-1ea74963fbb2/view"
-                  }
-                }
-              }
-            ]
-          },
-          "_links": {
-            "self": {
-              "href": "/advertisement?beforeId=6"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisements request for all advertisements",
-      "provider_state": "There are no advertisements",
-      "request": {
-        "method": "get",
-        "path": "/advertisement",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "_embedded": {
-            "advertisements": []
-          },
-          "_links": {
-            "self": {
-              "href": "/advertisement"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisements request for the second page of advertisements belonging to the advertiser",
-      "provider_state": "A page size of 3 with more than 1 page of data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement",
-        "query": "advertiserId=456&beforeId=5",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "_embedded": {
-            "advertisements": [
-              {
-                "id": "f7302df2-704b-407c-a42a-62ff822b5461",
-                "advertiserId": "456",
-                "jobTitle": "Exciting Developer role in a great CBD location. Great $$",
-                "jobReference": "JOB1111",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461"
-                  },
-                  "view": {
-                    "href": "/advertisement/f7302df2-704b-407c-a42a-62ff822b5461/view"
-                  }
-                }
-              }
-            ]
-          },
-          "_links": {
-            "self": {
-              "href": "/advertisement?advertiserId=456&beforeId=5"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisements request for first page of data",
-      "provider_state": "A page size of 3 with more than 1 page of data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "_embedded": {
-            "advertisements": [
-              {
-                "id": "9141cf19-b8d7-4380-9e3f-3b5c22783bdc",
-                "advertiserId": "456",
-                "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
-                "jobReference": "JOB4444",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc"
-                  },
-                  "view": {
-                    "href": "/advertisement/9141cf19-b8d7-4380-9e3f-3b5c22783bdc/view"
-                  }
-                }
-              },
-              {
-                "id": "7bbe4318-fd3b-4d26-8384-d41489ff1dd0",
-                "advertiserId": "456",
-                "jobTitle": "More Exciting Senior Tester role in a great CBD location. Great $$$",
-                "jobReference": "JOB3333",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0"
-                  },
-                  "view": {
-                    "href": "/advertisement/7bbe4318-fd3b-4d26-8384-d41489ff1dd0/view"
-                  }
-                }
-              },
-              {
-                "id": "e6e31b9c-3c2c-4b85-b17f-babbf7da972b",
-                "advertiserId": "345",
-                "jobTitle": "More Exciting Senior Developer role in a great CBD location. Great $$$",
-                "jobReference": "JOB12345",
-                "_links": {
-                  "self": {
-                    "href": "/advertisement/e6e31b9c-3c2c-4b85-b17f-babbf7da972b"
-                  },
-                  "view": {
-                    "href": "/advertisement/e6e31b9c-3c2c-4b85-b17f-babbf7da972b/view"
-                  }
-                }
-              }
-            ]
-          },
-          "_links": {
-            "self": {
-              "href": "/advertisement"
-            },
-            "next": {
-              "href": "/advertisement?beforeId=6"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisements request to retrieve all advertisements for an advertiser that doesn't exist",
-      "request": {
-        "method": "get",
-        "path": "/advertisement",
-        "query": "advertiserId=7d31d9b4-d922-43ef-9e88-f7b507ceea88",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement-list+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Forbidden",
-          "errors": [
-            {
               "code": "InvalidValue"
             }
           ]
