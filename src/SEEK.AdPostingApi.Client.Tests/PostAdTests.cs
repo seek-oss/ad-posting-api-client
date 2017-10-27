@@ -950,7 +950,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task PostAdWithQuestionnaireId()
         {
-            const string advertisementId = "c6d541a4-e4c4-4357-a101-7762f8987581";
+            const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
             Guid questionnaireId = new Guid("77d26391-eb70-4511-ac3e-2de00c7b9e29");
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
