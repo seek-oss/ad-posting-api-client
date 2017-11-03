@@ -197,7 +197,7 @@ Ad Posting API will respond with:
       "postCode": "3000"
     },
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-    "expiryDate": "2015-11-06T21:19:00Z",
+    "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -299,7 +299,7 @@ Ad Posting API will respond with:
       "Graduate"
     ],
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-    "expiryDate": "2015-11-06T21:19:00Z",
+    "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -1631,7 +1631,7 @@ Ad Posting API will respond with:
       "postCode": "3000"
     },
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
-    "expiryDate": "2015-11-06T21:19:00Z",
+    "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -1777,7 +1777,7 @@ Ad Posting API will respond with:
       "email": "recruiter@email.com"
     },
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
-    "expiryDate": "2015-11-06T21:19:00Z",
+    "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -2103,7 +2103,7 @@ Ad Posting API will respond with:
       "Graduate"
     ],
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
-    "expiryDate": "2015-11-06T21:19:00Z",
+    "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -2188,7 +2188,7 @@ Ad Posting API will respond with:
       "email": "recruiter@email.com"
     },
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
-    "expiryDate": "2015-11-06T21:19:00Z",
+    "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -2637,7 +2637,7 @@ Ad Posting API will respond with:
       "Graduate"
     ],
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-    "expiryDate": "2015-11-06T21:19:00Z",
+    "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -2830,7 +2830,7 @@ Ad Posting API will respond with:
       "email": "recruiter@email.com"
     },
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-    "expiryDate": "2015-11-06T21:19:00Z",
+    "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
     "_links": {
       "self": {
@@ -3514,7 +3514,7 @@ Ad Posting API will respond with:
       "postCode": "3000"
     },
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-    "expiryDate": "2015-11-06T21:19:00Z",
+    "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
     "_links": {
       "self": {
