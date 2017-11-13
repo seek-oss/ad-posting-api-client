@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Tests.Framework
@@ -41,6 +42,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private string _applicationEmail;
         private string _applicationFormUrl;
         private string _endApplicationUrl;
+        private Guid? _questionnaireId;
         private int? _screenId;
         private string _jobReference;
         private string _agentJobReference;
@@ -245,6 +247,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementModelBuilder<TAdvertisement> WithQuestionnaireId(Guid? questionnaireId)
+        {
+            this._questionnaireId = questionnaireId;
+
+            return this;
+        }
+
         public AdvertisementModelBuilder<TAdvertisement> WithScreenId(int? screenId)
         {
             this._screenId = screenId;
@@ -364,6 +373,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 ApplicationFormUrl = this._applicationFormUrl,
                 EndApplicationUrl = this._endApplicationUrl,
                 ScreenId = this._screenId,
+                QuestionnaireId = this._questionnaireId,
                 JobReference = this._jobReference,
                 AgentJobReference = this._agentJobReference,
                 Recruiter =

@@ -56,6 +56,8 @@
 
 * [A POST advertisement request to create a job](#a_POST_advertisement_request_to_create_a_job_given_The_requestor&#39;s_account_is_disabled) given the requestor's account is disabled
 
+* [A POST advertisement request to create a job ad with a questionnaire ID](#a_POST_advertisement_request_to_create_a_job_ad_with_a_questionnaire_ID)
+
 * [A POST advertisement request to create a job ad with an invalid advertiser id](#a_POST_advertisement_request_to_create_a_job_ad_with_an_invalid_advertiser_id)
 
 * [A POST advertisement request to create a job ad with duplicated names for template custom fields](#a_POST_advertisement_request_to_create_a_job_ad_with_duplicated_names_for_template_custom_fields)
@@ -95,6 +97,8 @@
 * [A PUT advertisement request for advertisement with invalid salary data](#a_PUT_advertisement_request_for_advertisement_with_invalid_salary_data_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
 
 * [A PUT advertisement request to update a job ad with a different advertiser from the one owning the job](#a_PUT_advertisement_request_to_update_a_job_ad_with_a_different_advertiser_from_the_one_owning_the_job_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+
+* [A PUT advertisement request to update a job ad with a questionnaire ID](#a_PUT_advertisement_request_to_update_a_job_ad_with_a_questionnaire_ID_given_There_is_a_standout_advertisement_with_maximum_data_and_a_questionnaire_ID) given there is a standout advertisement with maximum data and a questionnaire ID
 
 * [A PUT advertisement request to update a job for an advertiser not related to the requestor's account](#a_PUT_advertisement_request_to_update_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
 
@@ -1330,6 +1334,179 @@ Ad Posting API will respond with:
         "code": "AccountError"
       }
     ]
+  }
+}
+```
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_a_questionnaire_ID"></a>
+Upon receiving **a POST advertisement request to create a job ad with a questionnaire ID** from Ad Posting API Client, with
+```json
+{
+  "method": "post",
+  "path": "/advertisement",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1",
+      "agentId": "385"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com",
+      "teamName": "Recruiter Team Name"
+    },
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "creationId": "20150914-134527-00012",
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1",
+      "agentId": "385"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com",
+      "teamName": "Recruiter Team Name"
+    },
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "expiryDate": "2015-11-06T21:19:00Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+      },
+      "view": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+      }
+    },
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29"
   }
 }
 ```
@@ -3094,6 +3271,177 @@ Ad Posting API will respond with:
         "code": "RelationshipError"
       }
     ]
+  }
+}
+```
+<a name="a_PUT_advertisement_request_to_update_a_job_ad_with_a_questionnaire_ID_given_There_is_a_standout_advertisement_with_maximum_data_and_a_questionnaire_ID"></a>
+Given **there is a standout advertisement with maximum data and a questionnaire ID**, upon receiving **a PUT advertisement request to update a job ad with a questionnaire ID** from Ad Posting API Client, with
+```json
+{
+  "method": "put",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1",
+      "agentId": "385"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com",
+      "teamName": "Recruiter Team Name"
+    },
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1",
+      "agentId": "385"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com",
+      "teamName": "Recruiter Team Name"
+    },
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-06T21:19:00Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+      },
+      "view": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+      }
+    },
+    "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29"
   }
 }
 ```

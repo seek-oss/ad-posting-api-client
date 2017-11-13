@@ -307,9 +307,29 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementContentBuilder WithQuestionnaireId(object questionnaireId)
+        {
+            if (questionnaireId == null)
+            {
+                TryRemoveProperty(this.AdvertisementModel, "questionnaireId");
+            }
+            else
+            {
+                this.AdvertisementModel.questionnaireId = questionnaireId;
+            }
+            return this;
+        }
+
         public AdvertisementContentBuilder WithScreenId(object screenId)
         {
-            this.AdvertisementModel.screenId = screenId;
+            if (screenId == null)
+            {
+                TryRemoveProperty(this.AdvertisementModel, "screenId");
+            }
+            else
+            {
+                this.AdvertisementModel.screenId = screenId;
+            }
             return this;
         }
 
