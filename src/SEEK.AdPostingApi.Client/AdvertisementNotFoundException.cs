@@ -11,7 +11,7 @@ namespace SEEK.AdPostingApi.Client
         {
         }
 
-        protected AdvertisementNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected AdvertisementNotFoundException(SerializationInfo info, StreamingContext context) : base(info)
         {
         }
     }

@@ -17,18 +17,18 @@ namespace SEEK.AdPostingApi.Client
             this.Errors = errorResponse?.Errors ?? new AdvertisementError[0];
         }
 
-        protected UnauthorizedException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected UnauthorizedException(SerializationInfo info) : base(info)
         {
             this.Errors = (AdvertisementError[])info.GetValue(nameof(this.Errors), typeof(AdvertisementError[]));
         }
 
         public AdvertisementError[] Errors { get; }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        public void GetObjectData(SerializationInfo info)
         {
             info.AddValue(nameof(this.Errors), this.Errors);
 
-            base.GetObjectData(info, context);
+            base.GetObjectData(info);
         }
     }
 }

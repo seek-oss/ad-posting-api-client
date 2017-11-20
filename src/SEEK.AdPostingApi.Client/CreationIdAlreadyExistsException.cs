@@ -15,7 +15,7 @@ namespace SEEK.AdPostingApi.Client
             this.Errors = errorResponse?.Errors ?? new AdvertisementError[0];
         }
 
-        protected CreationIdAlreadyExistsException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected CreationIdAlreadyExistsException(SerializationInfo info) : base(info)
         {
             this.AdvertisementLink = (Uri)info.GetValue(nameof(this.AdvertisementLink), typeof(Uri));
             this.Errors = (AdvertisementError[])info.GetValue(nameof(this.Errors), typeof(AdvertisementError[]));
@@ -24,11 +24,11 @@ namespace SEEK.AdPostingApi.Client
         public Uri AdvertisementLink { get; }
         public AdvertisementError[] Errors { get; }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        public void GetObjectData(SerializationInfo info)
         {
             info.AddValue(nameof(this.AdvertisementLink), this.AdvertisementLink);
             info.AddValue(nameof(this.Errors), this.Errors);
-            base.GetObjectData(info, context);
+            base.GetObjectData(info);
         }
     }
 }

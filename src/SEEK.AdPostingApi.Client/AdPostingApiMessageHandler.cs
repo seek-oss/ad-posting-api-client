@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,12 +10,12 @@ namespace SEEK.AdPostingApi.Client
     {
         static AdPostingApiMessageHandler()
         {
-            SetProductVersion(typeof(AdPostingApiMessageHandler).Assembly.GetName().Version.ToString());
+            SetProductVersion(typeof(AdPostingApiMessageHandler).GetTypeInfo().Assembly.GetName().Version.ToString());
         }
 
         internal static void SetProductVersion(string productVersion)
         {
-            UserAgentProduct = new ProductInfoHeaderValue(typeof(AdPostingApiMessageHandler).Assembly.GetName().Name, productVersion);
+            UserAgentProduct = new ProductInfoHeaderValue(typeof(AdPostingApiMessageHandler).GetTypeInfo().Assembly.GetName().Name, productVersion);
         }
 
         private static ProductInfoHeaderValue UserAgentProduct { get; set; }
