@@ -66,8 +66,6 @@
 
 * [A POST advertisement request to create a job ad with invalid advertisement details](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details)
 
-* [A POST advertisement request to create a job ad with invalid advertisement details and with 'CleanseJobAdDetails' processing option](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details_and_with_&#39;CleanseJobAdDetails&#39;_processing_option)
-
 * [A POST advertisement request to create a job ad with invalid field values](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_field_values)
 
 * [A POST advertisement request to create a job ad with invalid salary data](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_salary_data)
@@ -89,8 +87,6 @@
 * [A PUT advertisement request for a non-existent advertisement](#a_PUT_advertisement_request_for_a_non-existent_advertisement)
 
 * [A PUT advertisement request for advertisement with invalid advertisement details](#a_PUT_advertisement_request_for_advertisement_with_invalid_advertisement_details_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
-
-* [A PUT advertisement request for advertisement with invalid advertisement details and with 'CleanseJobAdDetails' processing option](#a_PUT_advertisement_request_for_advertisement_with_invalid_advertisement_details_and_with_&#39;CleanseJobAdDetails&#39;_processing_option_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
 
 * [A PUT advertisement request for advertisement with invalid field values](#a_PUT_advertisement_request_for_advertisement_with_invalid_field_values_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
 
@@ -1834,64 +1830,6 @@ Upon receiving **a POST advertisement request to create a job ad with invalid ad
     "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
   },
   "body": {
-    "advertisementDetails": "Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element",
-    "thirdParties": {
-      "advertiserId": "1"
-    },
-    "advertisementType": "Classic",
-    "jobSummary": "Developer job",
-    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-    "location": {
-      "id": "EuropeRussia",
-      "areaId": "RussiaEasternEurope"
-    },
-    "salary": {
-      "minimum": 100000.0,
-      "maximum": 119999.0,
-      "type": "AnnualPackage"
-    },
-    "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    },
-    "creationId": "20150914-134527-00109"
-  }
-}
-```
-Ad Posting API will respond with:
-```json
-{
-  "status": 422,
-  "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "X-Request-Id": "PactRequestId"
-  },
-  "body": {
-    "message": "Validation Failure",
-    "errors": [
-      {
-        "field": "advertisementDetails",
-        "code": "InvalidFormat"
-      }
-    ]
-  }
-}
-```
-<a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details_and_with_&#39;CleanseJobAdDetails&#39;_processing_option"></a>
-Upon receiving **a POST advertisement request to create a job ad with invalid advertisement details and with 'CleanseJobAdDetails' processing option** from Ad Posting API Client, with
-```json
-{
-  "method": "post",
-  "path": "/advertisement",
-  "headers": {
-    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-  },
-  "body": {
     "advertisementDetails": "<p style=\"text-align:justify; color:#FF00AA\">Colourful</p>",
     "thirdParties": {
       "advertiserId": "1"
@@ -2876,63 +2814,6 @@ Ad Posting API will respond with:
 ```
 <a name="a_PUT_advertisement_request_for_advertisement_with_invalid_advertisement_details_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request for advertisement with invalid advertisement details** from Ad Posting API Client, with
-```json
-{
-  "method": "put",
-  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-  "headers": {
-    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-  },
-  "body": {
-    "advertisementDetails": "Ad details with <a href='www.youtube.com'>a link</a> and incomplete <h2> element",
-    "thirdParties": {
-      "advertiserId": "1"
-    },
-    "advertisementType": "Classic",
-    "jobSummary": "Developer job",
-    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-    "location": {
-      "id": "EuropeRussia",
-      "areaId": "RussiaEasternEurope"
-    },
-    "salary": {
-      "minimum": 100000.0,
-      "maximum": 119999.0,
-      "type": "AnnualPackage"
-    },
-    "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
-    }
-  }
-}
-```
-Ad Posting API will respond with:
-```json
-{
-  "status": 422,
-  "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "X-Request-Id": "PactRequestId"
-  },
-  "body": {
-    "message": "Validation Failure",
-    "errors": [
-      {
-        "field": "advertisementDetails",
-        "code": "InvalidFormat"
-      }
-    ]
-  }
-}
-```
-<a name="a_PUT_advertisement_request_for_advertisement_with_invalid_advertisement_details_and_with_&#39;CleanseJobAdDetails&#39;_processing_option_given_There_is_a_standout_advertisement_with_maximum_data"></a>
-Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request for advertisement with invalid advertisement details and with 'CleanseJobAdDetails' processing option** from Ad Posting API Client, with
 ```json
 {
   "method": "put",
