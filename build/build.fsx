@@ -73,9 +73,12 @@ Target "PactMarkdown" (fun _ ->
                    | Some p -> Shell.Exec(p, "docs --pact-dir=" + pactDir + " --doc-dir=" + outputDir)
                    | None -> -1
 
+   if errorCode = -1 then failwithf "pact.bat not found"
    if errorCode <> 0 then failwithf "pact.bat returned with a non-zero exit code"
 
-   CopyFile (pactDir + "/README.md") (outputDir + "/markdown/Ad Posting API Client - Ad Posting API.md")
+   CopyFile (pactDir + "/Ad Posting API Client - Ad Posting API.md") (outputDir + "/markdown/Ad Posting API Client - Ad Posting API.md")
+   CopyFile (pactDir + "/Ad Posting API Client - Ad Posting Template API.md") (outputDir + "/markdown/Ad Posting API Client - Ad Posting Template API.md")
+   CopyFile (pactDir + "/README.md") (outputDir + "/markdown/README.md")
 )
 
 Target "UploadPact" (fun _ ->
@@ -88,8 +91,9 @@ Target "UploadPact" (fun _ ->
    ==> "Build"
    ==> "Test"
 
+"PactMarkdown"
+
 "Test"
-   ==> "PactMarkdown"
    ==> "UploadPact"
 
 "Test"
