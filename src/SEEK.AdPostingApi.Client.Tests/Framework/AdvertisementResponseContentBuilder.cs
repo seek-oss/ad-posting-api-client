@@ -10,7 +10,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             this
                 .WithId(Guid.NewGuid().ToString())
-                .WithExpiryDate(new DateTime(2015, 11, 6, 21, 19, 00, DateTimeKind.Utc));
+                .WithExpiryDate(new DateTime(2015, 11, 7, 12, 59, 59, DateTimeKind.Utc));
         }
 
         public AdvertisementResponseContentBuilder WithExpiryDate(DateTime expiryDate)

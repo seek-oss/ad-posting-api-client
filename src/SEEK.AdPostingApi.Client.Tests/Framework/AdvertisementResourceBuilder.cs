@@ -27,7 +27,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             this.WithId(Guid.NewGuid());
             this.WithState(AdvertisementState.Open);
-            this.WithExpiryDate(new DateTime(2015, 11, 6, 21, 19, 00, DateTimeKind.Utc));
+            this.WithExpiryDate(new DateTime(2015, 11, 7, 12, 59, 59, DateTimeKind.Utc));
         }
 
         public override TAdvertisementResource Build()

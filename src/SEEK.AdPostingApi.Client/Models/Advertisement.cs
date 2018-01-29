@@ -1,4 +1,5 @@
-﻿using SEEK.AdPostingApi.Client.Hal;
+﻿using System;
+using SEEK.AdPostingApi.Client.Hal;
 
 namespace SEEK.AdPostingApi.Client.Models
 {
@@ -32,6 +33,8 @@ namespace SEEK.AdPostingApi.Client.Models
         public string ApplicationFormUrl { get; set; }
 
         public string EndApplicationUrl { get; set; }
+
+        public Guid? QuestionnaireId { get; set; }
 
         public int? ScreenId { get; set; }
 
