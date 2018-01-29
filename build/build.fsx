@@ -47,7 +47,7 @@ Target "Build" (fun _ ->
 
 Target "Test" (fun _ ->
    !! (testDir + "/bin/**/*.Tests.dll")
-      |> VSTest (fun p -> { p with TestAdapterPath = "../src/packages/xunit.runner.visualstudio.2.1.0/build/_common/" })
+      |> VSTest (fun p -> { p with TestAdapterPath = "../src/packages/xunit.runner.visualstudio.2.3.1/build/_common/"})
 )
 
 Target "NuGet" (fun _ ->
@@ -91,9 +91,9 @@ Target "UploadPact" (fun _ ->
    ==> "Build"
    ==> "Test"
 
-"PactMarkdown"
 
 "Test"
+   ==> "PactMarkdown"
    ==> "UploadPact"
 
 "Test"
