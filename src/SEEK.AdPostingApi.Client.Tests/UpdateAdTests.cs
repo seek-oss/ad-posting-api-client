@@ -742,7 +742,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
             Guid questionnaireIdUsedForCreateAdvertisement = new Guid("77d26391-eb70-4511-ac3e-2de00c7b9e29");
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data and a questionnaire ID")
                 .UponReceiving("a PUT advertisement request to update a job ad with a questionnaire ID")
                 .With(new ProviderServiceRequest

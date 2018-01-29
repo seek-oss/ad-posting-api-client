@@ -888,7 +888,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with a questionnaire ID")
                 .With(
                     new ProviderServiceRequest
