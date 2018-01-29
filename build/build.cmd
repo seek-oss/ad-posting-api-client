@@ -42,9 +42,12 @@ endlocal
 
 if "%1" neq "UploadPact" goto :end
 
-git add --force ../pact/ad_posting_api_client-ad_posting_api.json ../pact/ad_posting_api_client-ad_posting_template_api.json
-git add --force "../pact/README.md"
+git add --force ../pact/ad_posting_api_client-ad_posting_api.json
+if errorlevel 1 goto :end
+git add --force ../pact/ad_posting_api_client-ad_posting_template_api.json
+if errorlevel 1 goto :end
 git add --force "../pact/Ad Posting API Client - Ad Posting API.md"
+if errorlevel 1 goto :end
 git add --force "../pact/Ad Posting API Client - Ad Posting Template API.md"
 if errorlevel 1 goto :end
 

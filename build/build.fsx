@@ -78,7 +78,6 @@ Target "PactMarkdown" (fun _ ->
 
    CopyFile (pactDir + "/Ad Posting API Client - Ad Posting API.md") (outputDir + "/markdown/Ad Posting API Client - Ad Posting API.md")
    CopyFile (pactDir + "/Ad Posting API Client - Ad Posting Template API.md") (outputDir + "/markdown/Ad Posting API Client - Ad Posting Template API.md")
-   CopyFile (pactDir + "/README.md") (outputDir + "/markdown/README.md")
 )
 
 Target "UploadPact" (fun _ ->
