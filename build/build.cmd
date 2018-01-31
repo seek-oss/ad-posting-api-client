@@ -6,8 +6,6 @@ cd /d "%~dp0"
 set PackagesDir=packages
 set NuGetPath=.nuget\NuGet.exe
 set FakePath=%PackagesDir%\FAKE\tools\Fake.exe
-set RubyVersion=ruby-2.3.3-x64-mingw32
-set RubyPackage=%RubyVersion%.7z
 
 if not exist "%FakePath%" "%NuGetPath%" Install FAKE -Version 4.26.0 -OutputDirectory "%PackagesDir%" -ExcludeVersion
 if errorlevel 1 goto :end
@@ -21,18 +19,7 @@ goto :dobuild
 if not exist "%PackagesDir%\7-Zip.CommandLine" "%NuGetPath%" Install 7-Zip.CommandLine -Version 9.20.0 -OutputDirectory "%PackagesDir%" -ExcludeVersion
 if errorlevel 1 goto :end
 
-if not exist "%PackagesDir%\%RubyPackage%" powershell.exe -NoProfile -ExecutionPolicy Bypass -Command Invoke-WebRequest "http://dl.bintray.com/oneclick/rubyinstaller/%RubyPackage%" -OutFile "packages\%RubyPackage%"
-if errorlevel 1 goto :end
-
-if not exist "%PackagesDir%\%RubyVersion%" "%PackagesDir%\7-Zip.CommandLine\tools\7za" x "%PackagesDir%\%RubyPackage%" -o".\%PackagesDir%" -y
-if errorlevel 1 goto :end
-
-cmd /c "%PackagesDir%\%RubyVersion%\bin\gem" install pact:1.9.1
-if errorlevel 1 goto :end
-
 set branch=--envvar branch %2
-
-set PATH=%PackagesDir%\%RubyVersion%\bin;%PATH%
 
 :dobuild
 

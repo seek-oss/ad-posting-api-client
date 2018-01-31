@@ -42,7 +42,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     Method = HttpVerb.Get,
                     Path = "/advertisement",
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
@@ -52,7 +52,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 200,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Content-Type", ResponseContentTypes.AdvertisementListVersion1 },
                         { "X-Request-Id", RequestId }
@@ -107,7 +107,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     Method = HttpVerb.Get,
                     Path = "/advertisement",
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
@@ -117,7 +117,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 200,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Content-Type", ResponseContentTypes.AdvertisementListVersion1 },
                         { "X-Request-Id", RequestId }
@@ -238,7 +238,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Method = HttpVerb.Get,
                     Path = "/advertisement",
                     Query = "beforeId=" + beforeJobId,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
@@ -248,7 +248,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 200,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Content-Type", ResponseContentTypes.AdvertisementListVersion1 },
                         { "X-Request-Id", RequestId }
@@ -408,7 +408,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Method = HttpVerb.Get,
                     Path = "/advertisement",
                     Query = queryString,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
@@ -418,7 +418,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 200,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Content-Type", ResponseContentTypes.AdvertisementListVersion1 },
                         { "X-Request-Id", RequestId }
@@ -540,7 +540,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Method = HttpVerb.Get,
                     Path = "/advertisement",
                     Query = queryString,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
@@ -550,7 +550,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 200,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Content-Type", ResponseContentTypes.AdvertisementListVersion1 },
                         { "X-Request-Id", RequestId }
@@ -640,7 +640,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Method = HttpVerb.Get,
                     Path = "/advertisement",
                     Query = queryString,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
@@ -650,7 +650,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 403,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                         { "X-Request-Id", RequestId }
@@ -695,7 +695,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Method = HttpVerb.Get,
                     Path = "/advertisement",
                     Query = queryString,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                         { "Accept", $"{ResponseContentTypes.AdvertisementListVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
@@ -705,7 +705,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 403,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                         { "X-Request-Id", RequestId }
