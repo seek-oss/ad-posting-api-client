@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="8.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Marvin.JsonPatch" Version="0.9.0" />
     <PackageReference Include="Polly" Version="4.3.0" />
     <PackageReference Include="Tavis.UriTemplates" Version="1.0.0" />
