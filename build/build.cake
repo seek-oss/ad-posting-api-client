@@ -5,7 +5,7 @@
 #load "./BuildVersion.cake"
 #load "./Pact.cake"
 
-const string SolutionPath = "../src/SEEK.AdPostingApi.Client.sln";
+const string SolutionPath = "../SEEK.AdPostingApi.Client.sln";
 const string OutputDir = "../out";
 const string PactDir = "../pact";
 const string PackagingRoot = "../out/artifacts";
@@ -80,7 +80,7 @@ Task("Test")
     var testSettings = new DotNetCoreTestSettings {
         Configuration = configuration
     };
-    DotNetCoreTest("../src/SEEK.AdPostingApi.Client.Tests/SEEK.AdPostingApi.Client.Tests.csproj", testSettings);
+    DotNetCoreTest("../test/SEEK.AdPostingApi.Client.Tests/SEEK.AdPostingApi.Client.Tests.csproj", testSettings);
 });
 
 Task("NuGet")
