@@ -11,3 +11,4 @@ src/packages
 build/lib
 build/tools/*
 !build/tools/packages.config
+AssemblyInfoGenerated.cs
