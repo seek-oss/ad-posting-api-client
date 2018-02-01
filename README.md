@@ -72,7 +72,6 @@ The build scripts are written in [Cake](https://cakebuild.net) (C#), and will au
 ### Prerequisites
 
   1. Powershell v4 or later
-  2. .NET Framework 4.5.2
 
 ### Steps
 

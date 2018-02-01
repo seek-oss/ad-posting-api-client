@@ -86,43 +86,17 @@ Task("Test")
 Task("NuGet")
 .IsDependentOn("Test")
 .Does(() => {
-    var nuGetPackSettings = new NuGetPackSettings {
-        Id = "SEEK.AdPostingApi.Client",
-        Version = version.PackageVersion,
-        Title = "SEEK.AdPostingApi.Client",
-        Authors = new[] {"SEEK"},
-        Owners = new[] {"SEEK"},
-        Description = "SEEK.AdPostingApi.Client",
-        Summary = "SEEK.AdPostingApi.Client",
-        Copyright = "Copyright 2018",
-        RequireLicenseAcceptance = false,
-        Symbols = false,
-        NoPackageAnalysis = true,
-        Dependencies = new[] {
-            new NuSpecDependency {
-                Id = "Marvin.JsonPatch",
-                Version = "0.9.0"
-            },
-            new NuSpecDependency {
-                Id = "Newtonsoft.Json",
-                Version = "10.0.3"
-            },
-            new NuSpecDependency {
-                Id = "Tavis.UriTemplates",
-                Version = "1.0.0"
-            }
-        },
-        Files = new [] {
-            new NuSpecContent {
-                Source = $"bin/{configuration}/net452/SEEK.AdPostingApi.Client.dll",
-                Target = "lib/net452"
-            }
-        },
-        BasePath = "../src/SEEK.AdPostingApi.Client",
-        OutputDirectory = PackagingRoot
-    };
     CreateDirectory(Directory(PackagingRoot));
-    NuGetPack(nuGetPackSettings);
+    var settings = new DotNetCorePackSettings {
+         Configuration = configuration,
+         OutputDirectory = PackagingRoot,
+         MSBuildSettings = new DotNetCoreMSBuildSettings {
+             Properties = {
+                 { "Version", new[] { version.PackageVersion } }
+             }
+         }
+    };
+    DotNetCorePack("../src/SEEK.AdPostingApi.Client/SEEK.AdPostingApi.Client.csproj", settings);
 });
 
 Task("PactMarkdown")
