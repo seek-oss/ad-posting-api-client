@@ -42,7 +42,7 @@ TaskTeardown(teardownContext => {
 Task("Clean")
 .Does(() => {
     DotNetCoreClean(SolutionPath);
-    DeleteDirectory(Directory(OutputDir), recursive: true);
+    CleanDirectory(Directory(OutputDir));
 });
 
 Task("Restore")
