@@ -33,7 +33,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     Method = HttpVerb.Get,
                     Path = "/",
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Authorization", "Bearer " + AccessTokens.InvalidAccessToken },
                         { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
@@ -43,7 +43,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = (int)HttpStatusCode.Unauthorized,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "WWW-Authenticate", "Bearer error=\"Invalid request\"" }
                     }
@@ -71,7 +71,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 {
                     Method = HttpVerb.Get,
                     Path = "/",
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Authorization", "Bearer " + AccessTokens.ValidAccessToken_InvalidService },
                         { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
@@ -81,7 +81,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = (int)HttpStatusCode.Unauthorized,
-                    Headers = new Dictionary<string, string> { { "X-Request-Id", RequestId } }
+                    Headers = new Dictionary<string, object> { { "X-Request-Id", RequestId } }
                 });
 
             UnauthorizedException actualException;

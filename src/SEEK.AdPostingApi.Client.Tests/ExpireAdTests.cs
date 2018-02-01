@@ -99,7 +99,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         Method = HttpVerb.Patch,
                         Path = link,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
@@ -121,7 +121,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new ProviderServiceResponse
                     {
                         Status = 200,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             {"Content-Type", ResponseContentTypes.AdvertisementVersion1},
                             {"X-Request-Id", RequestId}
@@ -168,7 +168,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         Method = HttpVerb.Post,
                         Path = link,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
@@ -182,7 +182,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new ProviderServiceResponse
                     {
                         Status = 200,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
                             { "X-Request-Id", RequestId }
@@ -241,7 +241,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         Method = HttpVerb.Patch,
                         Path = link,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
@@ -263,7 +263,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new ProviderServiceResponse
                     {
                         Status = 403,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
@@ -310,7 +310,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         Method = HttpVerb.Patch,
                         Path = link,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
@@ -332,7 +332,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new ProviderServiceResponse
                     {
                         Status = 404,
-                        Headers = new Dictionary<string, string> { { "X-Request-Id", RequestId } }
+                        Headers = new Dictionary<string, object> { { "X-Request-Id", RequestId } }
                     });
 
             AdvertisementNotFoundException actualException;
@@ -361,7 +361,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         Method = HttpVerb.Patch,
                         Path = link,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
@@ -383,7 +383,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new ProviderServiceResponse
                     {
                         Status = 403,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
@@ -429,7 +429,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         Method = HttpVerb.Patch,
                         Path = link,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
@@ -451,7 +451,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new ProviderServiceResponse
                     {
                         Status = 403,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }
@@ -507,7 +507,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     {
                         Method = HttpVerb.Patch,
                         Path = link,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Authorization", "Bearer " + oAuth2Token.AccessToken },
                             { "Content-Type", RequestContentTypes.AdvertisementPatchVersion1 },
@@ -521,7 +521,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new ProviderServiceResponse
                     {
                         Status = 422,
-                        Headers = new Dictionary<string, string>
+                        Headers = new Dictionary<string, object>
                         {
                             { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
                             { "X-Request-Id", RequestId }

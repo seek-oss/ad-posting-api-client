@@ -1,29 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.SampleConsumer", "SEEK.AdPostingApi.SampleConsumer\SEEK.AdPostingApi.SampleConsumer.csproj", "{CA4A7692-B044-47FF-A08E-70B27A1571A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.SampleConsumer", "SEEK.AdPostingApi.SampleConsumer\SEEK.AdPostingApi.SampleConsumer.csproj", "{CA4A7692-B044-47FF-A08E-70B27A1571A2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CCBCFA40-1BB1-4A7D-9539-03B54C6719F4} = {CCBCFA40-1BB1-4A7D-9539-03B54C6719F4}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.Client", "SEEK.AdPostingApi.Client\SEEK.AdPostingApi.Client.csproj", "{CCBCFA40-1BB1-4A7D-9539-03B54C6719F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.Client", "SEEK.AdPostingApi.Client\SEEK.AdPostingApi.Client.csproj", "{CCBCFA40-1BB1-4A7D-9539-03B54C6719F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEK.AdPostingApi.Client.Tests", "SEEK.AdPostingApi.Client.Tests\SEEK.AdPostingApi.Client.Tests.csproj", "{593C2601-29C7-4E37-B58A-1BBA33CF6AC8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{2177A4CA-E3F3-4F29-8354-2574BD3BEDA0}"
-	ProjectSection(SolutionItems) = preProject
-		..\build\build.cmd = ..\build\build.cmd
-		..\build\build.fsx = ..\build\build.fsx
-		..\build\version.json = ..\build\version.json
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-tools", "build-tools", "{2BF1F935-656B-430D-8106-D9DEF6DC0C4E}"
-	ProjectSection(SolutionItems) = preProject
-		..\build\build-tools\pact.fsx = ..\build\build-tools\pact.fsx
-		..\build\build-tools\version.fsx = ..\build\build-tools\version.fsx
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.Client.Tests", "SEEK.AdPostingApi.Client.Tests\SEEK.AdPostingApi.Client.Tests.csproj", "{593C2601-29C7-4E37-B58A-1BBA33CF6AC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,7 +34,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{2BF1F935-656B-430D-8106-D9DEF6DC0C4E} = {2177A4CA-E3F3-4F29-8354-2574BD3BEDA0}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1914D2A3-DE23-42B0-8A6B-800311CCB7A1}
 	EndGlobalSection
 EndGlobal

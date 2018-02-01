@@ -8,3 +8,7 @@ pact/
 src/packages
 .fake/
 *.csproj.user
+build/lib
+build/tools/*
+!build/tools/packages.config
+AssemblyInfoGenerated.cs

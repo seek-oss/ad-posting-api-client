@@ -57,7 +57,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 {
                     Method = HttpVerb.Get,
                     Path = "/",
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
                         { "Authorization", $"Bearer {token.AccessToken}" },
@@ -67,7 +67,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 200,
-                    Headers = new Dictionary<string, string>
+                    Headers = new Dictionary<string, object>
                     {
                         { "Content-Type", $"{ResponseContentTypes.Hal}" }
                     },
