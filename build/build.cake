@@ -187,6 +187,20 @@ Task("CommitPact")
         throw new Exception($"Failed to stage PACT files, git returned {addResult}");
     }
 
+    // Returns 0 if there's no changes, otherwise non-zero
+    int diffResult = StartProcess(gitPath, new ProcessSettings {
+        Arguments = new ProcessArgumentBuilder()
+            .Append("diff")
+            .Append("--cached")
+            .Append("--exit-code")
+    });
+
+    if (diffResult == 0)
+    {
+        Information("No PACT changes, nothing to commit.");
+        return;
+    }
+
     int commitResult = StartProcess(gitPath, new ProcessSettings {
         Arguments = new ProcessArgumentBuilder()
             .Append("commit")
