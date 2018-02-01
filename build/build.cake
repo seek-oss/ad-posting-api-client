@@ -220,8 +220,8 @@ Task("Help")
         * Test                       - Build and run all tests
         * NuGet                      - Build, run all tests, and generate a NuGet package
         * PactMarkdown               - Generate a human readable Markdown representation of the PACTs
-        * UploadPact                 - Build, run all tests test, and publish the PACTs to the broker
-        * CommitPact                 - Build, run all tests test, publish the PACTs to the broker, and commit the PACTs to git
+        * UploadPact                 - Build, run all tests, and publish the PACTs to the broker
+        * CommitPact                 - Build, run all tests, publish the PACTs to the broker, and commit the PACTs to git
     ");
 });
 
