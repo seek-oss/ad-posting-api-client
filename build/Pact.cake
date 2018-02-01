@@ -6,7 +6,7 @@ public class PactInteraction
 {
     public string Description { get; set; }
 
-    [JsonProperty(PropertyName="provider_state")]
+    [JsonProperty(PropertyName="providerState")]
     public string ProviderState { get; set; }
 
     public Newtonsoft.Json.Linq.JObject Request { get; set; }
