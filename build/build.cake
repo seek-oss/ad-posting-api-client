@@ -100,7 +100,7 @@ Task("NuGet")
 });
 
 Task("PactMarkdown")
-.IsDependentOn("Test")
+.IsDependentOn("NuGet")
 .Does(() => {
     // PactNet does not have support for generating Markdown from PACT files
     // Doing it manually avoids a build dependency on Ruby
@@ -119,7 +119,7 @@ Task("PactMarkdown")
 });
 
 Task("UploadPact")
-.IsDependentOn("Test")
+.IsDependentOn("NuGet")
 .Does(() => {
     PactNet.PactUriOptions options = null;
     if (!string.IsNullOrEmpty(pactBrokerUsername))
@@ -208,8 +208,8 @@ Task("Help")
         * Test                       - Build and run all tests
         * NuGet                      - Build, run all tests, and generate a NuGet package
         * PactMarkdown               - Generate a human readable Markdown representation of the PACTs
-        * UploadPact                 - Build, run all tests, and publish the PACTs to the broker
-        * CommitPact                 - Build, run all tests, publish the PACTs to the broker, and commit the PACTs to git
+        * UploadPact                 - Build, run all tests, generate a NuGet package, and publish the PACTs to the broker
+        * CommitPact                 - Build, run all tests, generate a NuGet package, publish the PACTs to the broker, and commit the PACTs to git
     ");
 });
 
