@@ -2,9 +2,9 @@
 
 ## Requests from Ad Posting API Client to Ad Posting API
 
-* [A GET advertisement request](#a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_granular_location_data) given There is a standout advertisement with granular location data
-
 * [A GET advertisement request](#a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
+
+* [A GET advertisement request](#a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_granular_location_data) given There is a standout advertisement with granular location data
 
 * [A GET advertisement request for a non\-existent advertisement](#a_GET_advertisement_request_for_a_non_existent_advertisement)
 
@@ -50,9 +50,9 @@
 
 * [A PATCH advertisement request to expire a non\-existent advertisement](#a_PATCH_advertisement_request_to_expire_a_non_existent_advertisement)
 
-* [A PATCH advertisement request to expire an advertisement](#a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_an_expired_advertisement) given There is an expired advertisement
-
 * [A PATCH advertisement request to expire an advertisement](#a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
+
+* [A PATCH advertisement request to expire an advertisement](#a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_an_expired_advertisement) given There is an expired advertisement
 
 * [A POST advertisement request to create a job](#a_POST_advertisement_request_to_create_a_job_given_The_requestor_s_account_is_disabled) given The requestor's account is disabled
 
@@ -105,6 +105,109 @@
 * [A PUT advertisement request to update granular location](#a_PUT_advertisement_request_to_update_granular_location_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
 ## Interactions from Ad Posting API Client to Ad Posting API
+
+<a name="a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+Given **there is a standout advertisement with maximum data**, upon receiving **a GET advertisement request** from Ad Posting API Client, with
+```json
+{
+  "method": "get",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Processing-Status": "Completed",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com",
+      "teamName": "Recruiter Team Name"
+    },
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-07T12:59:59Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+      },
+      "view": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+      }
+    }
+  }
+}
+```
 
 <a name="a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_granular_location_data"></a>
 Given **there is a standout advertisement with granular location data**, upon receiving **a GET advertisement request** from Ad Posting API Client, with
@@ -196,109 +299,6 @@ Ad Posting API will respond with:
       "city": "Melbourne",
       "postCode": "3000"
     },
-    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-    "expiryDate": "2015-11-07T12:59:59Z",
-    "state": "Open",
-    "_links": {
-      "self": {
-        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
-      },
-      "view": {
-        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
-      }
-    }
-  }
-}
-```
-
-<a name="a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data"></a>
-Given **there is a standout advertisement with maximum data**, upon receiving **a GET advertisement request** from Ad Posting API Client, with
-```json
-{
-  "method": "get",
-  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-  "headers": {
-    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-  }
-}
-```
-Ad Posting API will respond with:
-```json
-{
-  "status": 200,
-  "headers": {
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Processing-Status": "Completed",
-    "X-Request-Id": "PactRequestId"
-  },
-  "body": {
-    "advertisementDetails": "Exciting, do I need to say more?",
-    "thirdParties": {
-      "advertiserId": "1"
-    },
-    "advertisementType": "StandOut",
-    "jobSummary": "Developer job",
-    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-    "location": {
-      "id": "EuropeRussia",
-      "areaId": "RussiaEasternEurope"
-    },
-    "salary": {
-      "minimum": 100000.0,
-      "maximum": 119999.0,
-      "type": "AnnualPackage",
-      "details": "We will pay you"
-    },
-    "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com",
-      "teamName": "Recruiter Team Name"
-    },
-    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-    "contact": {
-      "name": "Contact name",
-      "email": "qwert@asdf.com",
-      "phone": "+1 (123) 456 7889"
-    },
-    "video": {
-      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-      "position": "Above"
-    },
-    "applicationEmail": "asdf@asdf.com",
-    "applicationFormUrl": "http://apply.com/",
-    "endApplicationUrl": "http://endform.com/",
-    "screenId": 1,
-    "jobReference": "JOB1234",
-    "agentJobReference": "AGENTJOB1234",
-    "template": {
-      "id": 1,
-      "items": [
-        {
-          "name": "Template Line 1",
-          "value": "Template Value 1"
-        },
-        {
-          "name": "Template Line 2",
-          "value": "Template Value 2"
-        }
-      ]
-    },
-    "standout": {
-      "logoId": 1,
-      "bullets": [
-        "Uzi",
-        "Remington Model",
-        "AK-47"
-      ]
-    },
-    "additionalProperties": [
-      "ResidentsOnly",
-      "Graduate"
-    ],
     "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "expiryDate": "2015-11-07T12:59:59Z",
     "state": "Open",
@@ -1150,46 +1150,6 @@ Ad Posting API will respond with:
 }
 ```
 
-<a name="a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_an_expired_advertisement"></a>
-Given **there is an expired advertisement**, upon receiving **a PATCH advertisement request to expire an advertisement** from Ad Posting API Client, with
-```json
-{
-  "method": "patch",
-  "path": "/advertisement/c294088d-ff50-4374-bc38-7fa805790e3e",
-  "headers": {
-    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-  },
-  "body": [
-    {
-      "op": "replace",
-      "path": "state",
-      "value": "Expired"
-    }
-  ]
-}
-```
-Ad Posting API will respond with:
-```json
-{
-  "status": 403,
-  "headers": {
-    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "X-Request-Id": "PactRequestId"
-  },
-  "body": {
-    "message": "Forbidden",
-    "errors": [
-      {
-        "code": "Expired"
-      }
-    ]
-  }
-}
-```
-
 <a name="a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PATCH advertisement request to expire an advertisement** from Ad Posting API Client, with
 ```json
@@ -1296,6 +1256,46 @@ Ad Posting API will respond with:
         "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
       }
     }
+  }
+}
+```
+
+<a name="a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_an_expired_advertisement"></a>
+Given **there is an expired advertisement**, upon receiving **a PATCH advertisement request to expire an advertisement** from Ad Posting API Client, with
+```json
+{
+  "method": "patch",
+  "path": "/advertisement/c294088d-ff50-4374-bc38-7fa805790e3e",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement-patch+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": [
+    {
+      "op": "replace",
+      "path": "state",
+      "value": "Expired"
+    }
+  ]
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 403,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "message": "Forbidden",
+    "errors": [
+      {
+        "code": "Expired"
+      }
+    ]
   }
 }
 ```

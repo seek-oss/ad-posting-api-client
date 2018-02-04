@@ -8,7 +8,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
     {
         public AdPostingApiPactService()
         {
-            this.PactBuilder = new PactBuilder(new PactConfig { PactDir = @"..\..\..\..\pact", LogDir = @"..\..\logs" })
+            this.PactBuilder = new PactBuilder(new PactConfig { PactDir = @"..\..\..\..\..\pact", LogDir = @"..\..\..\..\..\logs" })
                 .ServiceConsumer("Ad Posting API Client")
                 .HasPactWith("Ad Posting API");
 

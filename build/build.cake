@@ -86,47 +86,21 @@ Task("Test")
 Task("NuGet")
 .IsDependentOn("Test")
 .Does(() => {
-    var nuGetPackSettings = new NuGetPackSettings {
-        Id = "SEEK.AdPostingApi.Client",
-        Version = version.PackageVersion,
-        Title = "SEEK.AdPostingApi.Client",
-        Authors = new[] {"SEEK"},
-        Owners = new[] {"SEEK"},
-        Description = "SEEK.AdPostingApi.Client",
-        Summary = "SEEK.AdPostingApi.Client",
-        Copyright = "Copyright 2018",
-        RequireLicenseAcceptance = false,
-        Symbols = false,
-        NoPackageAnalysis = true,
-        Dependencies = new[] {
-            new NuSpecDependency {
-                Id = "Marvin.JsonPatch",
-                Version = "0.9.0"
-            },
-            new NuSpecDependency {
-                Id = "Newtonsoft.Json",
-                Version = "10.0.3"
-            },
-            new NuSpecDependency {
-                Id = "Tavis.UriTemplates",
-                Version = "1.0.0"
-            }
-        },
-        Files = new [] {
-            new NuSpecContent {
-                Source = $"bin/{configuration}/net452/SEEK.AdPostingApi.Client.dll",
-                Target = "lib/net452"
-            }
-        },
-        BasePath = "../src/SEEK.AdPostingApi.Client",
-        OutputDirectory = PackagingRoot
-    };
     CreateDirectory(Directory(PackagingRoot));
-    NuGetPack(nuGetPackSettings);
+    var settings = new DotNetCorePackSettings {
+         Configuration = configuration,
+         OutputDirectory = PackagingRoot,
+         MSBuildSettings = new DotNetCoreMSBuildSettings {
+             Properties = {
+                 { "Version", new[] { version.PackageVersion } }
+             }
+         }
+    };
+    DotNetCorePack("../src/SEEK.AdPostingApi.Client/SEEK.AdPostingApi.Client.csproj", settings);
 });
 
 Task("PactMarkdown")
-.IsDependentOn("Test")
+.IsDependentOn("NuGet")
 .Does(() => {
     // PactNet does not have support for generating Markdown from PACT files
     // Doing it manually avoids a build dependency on Ruby
@@ -145,7 +119,7 @@ Task("PactMarkdown")
 });
 
 Task("UploadPact")
-.IsDependentOn("Test")
+.IsDependentOn("NuGet")
 .Does(() => {
     PactNet.PactUriOptions options = null;
     if (!string.IsNullOrEmpty(pactBrokerUsername))
@@ -234,8 +208,8 @@ Task("Help")
         * Test                       - Build and run all tests
         * NuGet                      - Build, run all tests, and generate a NuGet package
         * PactMarkdown               - Generate a human readable Markdown representation of the PACTs
-        * UploadPact                 - Build, run all tests, and publish the PACTs to the broker
-        * CommitPact                 - Build, run all tests, publish the PACTs to the broker, and commit the PACTs to git
+        * UploadPact                 - Build, run all tests, generate a NuGet package, and publish the PACTs to the broker
+        * CommitPact                 - Build, run all tests, generate a NuGet package, publish the PACTs to the broker, and commit the PACTs to git
     ");
 });
 
