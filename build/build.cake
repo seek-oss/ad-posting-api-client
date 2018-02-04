@@ -5,7 +5,7 @@
 #load "./BuildVersion.cake"
 #load "./Pact.cake"
 
-const string SolutionPath = "../src/SEEK.AdPostingApi.Client.sln";
+const string SolutionPath = "../SEEK.AdPostingApi.Client.sln";
 const string OutputDir = "../out";
 const string PactDir = "../pact";
 const string PackagingRoot = "../out/artifacts";
@@ -80,7 +80,7 @@ Task("Test")
     var testSettings = new DotNetCoreTestSettings {
         Configuration = configuration
     };
-    DotNetCoreTest("../src/SEEK.AdPostingApi.Client.Tests/SEEK.AdPostingApi.Client.Tests.csproj", testSettings);
+    DotNetCoreTest("../test/SEEK.AdPostingApi.Client.Tests/SEEK.AdPostingApi.Client.Tests.csproj", testSettings);
 });
 
 Task("NuGet")
@@ -97,6 +97,35 @@ Task("NuGet")
          }
     };
     DotNetCorePack("../src/SEEK.AdPostingApi.Client/SEEK.AdPostingApi.Client.csproj", settings);
+});
+
+Task("NuGetTest")
+.Does(() => {
+    const string sampleProjectPath = "../sample/SEEK.AdPostingApi.SampleConsumer.csproj";
+    const string clientProjectPath = "../src/SEEK.AdPostingApi.Client/SEEK.AdPostingApi.Client.csproj";
+    string packageVersion = Argument<string>("nuGetTestPackageVersion");
+    string packageSource = Argument<string>("nuGetTestPackageSource");
+
+    DotNetCoreTool(sampleProjectPath, "remove",
+        new ProcessArgumentBuilder()
+            .Append(sampleProjectPath)
+            .Append("reference")
+            .Append(clientProjectPath));
+
+    DotNetCoreTool(sampleProjectPath, "add",
+        new ProcessArgumentBuilder()
+            .Append(sampleProjectPath)
+            .Append("package")
+            .Append("--version")
+            .Append(packageVersion)
+            .Append("--source")
+            .Append(packageSource)
+            .Append("SEEK.AdPostingApi.Client"));
+
+    var buildSettings = new DotNetCoreBuildSettings {
+        Configuration = configuration
+    };
+    DotNetCoreBuild(sampleProjectPath);
 });
 
 Task("PactMarkdown")
@@ -207,6 +236,7 @@ Task("Help")
         * Build                      - Build
         * Test                       - Build and run all tests
         * NuGet                      - Build, run all tests, and generate a NuGet package
+        * NuGetTest                  - Modify the sample client to use a specific NuGet package and build it
         * PactMarkdown               - Generate a human readable Markdown representation of the PACTs
         * UploadPact                 - Build, run all tests, generate a NuGet package, and publish the PACTs to the broker
         * CommitPact                 - Build, run all tests, generate a NuGet package, publish the PACTs to the broker, and commit the PACTs to git

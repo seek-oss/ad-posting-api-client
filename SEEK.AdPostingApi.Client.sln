@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.SampleConsumer", "SEEK.AdPostingApi.SampleConsumer\SEEK.AdPostingApi.SampleConsumer.csproj", "{CA4A7692-B044-47FF-A08E-70B27A1571A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.SampleConsumer", "sample\SEEK.AdPostingApi.SampleConsumer.csproj", "{CA4A7692-B044-47FF-A08E-70B27A1571A2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CCBCFA40-1BB1-4A7D-9539-03B54C6719F4} = {CCBCFA40-1BB1-4A7D-9539-03B54C6719F4}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.Client", "SEEK.AdPostingApi.Client\SEEK.AdPostingApi.Client.csproj", "{CCBCFA40-1BB1-4A7D-9539-03B54C6719F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.Client", "src\SEEK.AdPostingApi.Client\SEEK.AdPostingApi.Client.csproj", "{CCBCFA40-1BB1-4A7D-9539-03B54C6719F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.Client.Tests", "SEEK.AdPostingApi.Client.Tests\SEEK.AdPostingApi.Client.Tests.csproj", "{593C2601-29C7-4E37-B58A-1BBA33CF6AC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SEEK.AdPostingApi.Client.Tests", "test\SEEK.AdPostingApi.Client.Tests\SEEK.AdPostingApi.Client.Tests.csproj", "{593C2601-29C7-4E37-B58A-1BBA33CF6AC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
