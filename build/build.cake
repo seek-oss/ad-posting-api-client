@@ -118,9 +118,17 @@ Task("NuGetTest")
             .Append("package")
             .Append("--version")
             .Append(packageVersion)
+            .Append("--no-restore")
+            .Append("SEEK.AdPostingApi.Client"));
+
+    DotNetCoreTool(sampleProjectPath, "restore",
+        new ProcessArgumentBuilder()
+            .Append(sampleProjectPath)
+            .Append("--no-cache")
             .Append("--source")
             .Append(packageSource)
-            .Append("SEEK.AdPostingApi.Client"));
+            .Append("--source")
+            .Append("https://www.nuget.org/"));
 
     var buildSettings = new DotNetCoreBuildSettings {
         Configuration = configuration
