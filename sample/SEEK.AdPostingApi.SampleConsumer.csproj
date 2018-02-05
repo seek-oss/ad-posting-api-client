@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <AssemblyName>SEEK.AdPostingApi.SampleConsumer</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <Configurations>Debug;Release</Configurations>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\SEEK.AdPostingApi.Client\SEEK.AdPostingApi.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Polly" Version="5.8.0" />
+  </ItemGroup>
+</Project>

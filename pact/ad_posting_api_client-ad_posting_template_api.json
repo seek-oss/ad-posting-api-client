@@ -1,14 +1,14 @@
 {
-  "provider": {
-    "name": "Ad Posting Template API"
-  },
   "consumer": {
     "name": "Ad Posting API Client"
+  },
+  "provider": {
+    "name": "Ad Posting Template API"
   },
   "interactions": [
     {
       "description": "a GET templates request to retrieve all templates for an advertiser",
-      "provider_state": "There are multiple templates for multiple advertisers related to the requestor",
+      "providerState": "There are multiple templates for multiple advertisers related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",
@@ -57,7 +57,7 @@
     },
     {
       "description": "a GET templates request to retrieve all templates with invalid request field values",
-      "provider_state": "There are multiple templates for multiple advertisers related to the requestor",
+      "providerState": "There are multiple templates for multiple advertisers related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",
@@ -87,7 +87,7 @@
     },
     {
       "description": "a GET templates request to retrieve all templates",
-      "provider_state": "There are no templates for any advertiser related to the requestor",
+      "providerState": "There are no templates for any advertiser related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",
@@ -105,7 +105,9 @@
         },
         "body": {
           "_embedded": {
-            "templates": []
+            "templates": [
+
+            ]
           },
           "_links": {
             "self": {
@@ -117,7 +119,7 @@
     },
     {
       "description": "a GET templates request to retrieve all templates for an advertiser after given sequence identifier",
-      "provider_state": "There are no templates after given sequence identifier for all advertisers related to the requestor",
+      "providerState": "There are no templates after given sequence identifier for all advertisers related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",
@@ -136,7 +138,9 @@
         },
         "body": {
           "_embedded": {
-            "templates": []
+            "templates": [
+
+            ]
           },
           "_links": {
             "self": {
@@ -148,7 +152,7 @@
     },
     {
       "description": "a GET templates request to retrieve all templates after specified sequence identifier",
-      "provider_state": "There are multiple templates for multiple advertisers related to the requestor",
+      "providerState": "There are multiple templates for multiple advertisers related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",
@@ -204,7 +208,7 @@
     },
     {
       "description": "a GET templates request to retrieve all templates",
-      "provider_state": "There are multiple templates for multiple advertisers related to the requestor",
+      "providerState": "There are multiple templates for multiple advertisers related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",
@@ -273,7 +277,7 @@
     },
     {
       "description": "a GET templates request to retrieve all templates for an advertiser after specified sequence identifier",
-      "provider_state": "There are multiple templates for multiple advertisers related to the requestor",
+      "providerState": "There are multiple templates for multiple advertisers related to the requestor",
       "request": {
         "method": "get",
         "path": "/template",
@@ -378,6 +382,8 @@
     }
   ],
   "metadata": {
-    "pactSpecificationVersion": "1.1.0"
+    "pactSpecification": {
+      "version": "1.0.0"
+    }
   }
 }

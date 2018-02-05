@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>SEEK.AdPostingApi.Client.Tests</AssemblyName>
+    <PackageId>SEEK.AdPostingApi.Client.Tests</PackageId>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SEEK.AdPostingApi.Client\SEEK.AdPostingApi.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="PactNet" Version="2.2.1" />
+    <PackageReference Include="PactNet.Windows" Version="2.2.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="FluentAssertions" Version="4.19.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="Moq" Version="4.8.1" />
+    <PackageReference Include="RestSharp" Version="106.2.1" />
+  </ItemGroup>
+</Project>

@@ -32,8 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.15.630.1108")]
-[assembly: AssemblyFileVersion("0.15.630.1108")]
 [assembly: InternalsVisibleTo("SEEK.AdPostingApi.Client.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-[assembly: AssemblyInformationalVersion("0.15.630.1108-commitHashPlaceholder-commitBranchPlaceholder")]

@@ -1,14 +1,14 @@
 {
-  "provider": {
-    "name": "Ad Posting API"
-  },
   "consumer": {
     "name": "Ad Posting API Client"
+  },
+  "provider": {
+    "name": "Ad Posting API"
   },
   "interactions": [
     {
       "description": "a PATCH advertisement request to expire a job for an advertiser not related to the requestor's account",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "patch",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -44,7 +44,7 @@
     },
     {
       "description": "a PATCH advertisement request to expire a job using invalid request content",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "patch",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -80,7 +80,7 @@
     },
     {
       "description": "a PATCH advertisement request to expire an advertisement",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "patch",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -246,7 +246,7 @@
     },
     {
       "description": "a POST advertisement request to expire an advertisement",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "post",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -352,7 +352,7 @@
     },
     {
       "description": "a PATCH advertisement request to expire a job using a disabled requestor account",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "patch",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -388,7 +388,7 @@
     },
     {
       "description": "a PATCH advertisement request to expire an advertisement",
-      "provider_state": "There is an expired advertisement",
+      "providerState": "There is an expired advertisement",
       "request": {
         "method": "patch",
         "path": "/advertisement/c294088d-ff50-4374-bc38-7fa805790e3e",
@@ -424,7 +424,7 @@
     },
     {
       "description": "a HEAD advertisement request",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "head",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -444,7 +444,7 @@
     },
     {
       "description": "a HEAD advertisement request for an advertisement using a disabled requestor account",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "head",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -463,7 +463,7 @@
     },
     {
       "description": "a HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "head",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -499,8 +499,282 @@
       }
     },
     {
+      "description": "a GET advertisement request",
+      "providerState": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Processing-Status": "Completed",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET advertisement request",
+      "providerState": "There is a standout advertisement with granular location data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Processing-Status": "Completed",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "granularLocation": {
+            "country": "Australia",
+            "state": "Victoria",
+            "city": "Melbourne",
+            "postCode": "3000"
+          },
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a GET advertisement request for an advertisement using a disabled requestor account",
+      "providerState": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "AccountError"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a GET advertisement request for an advertisement of an advertiser not related to the requestor's account",
+      "providerState": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Forbidden",
+          "errors": [
+            {
+              "code": "RelationshipError"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a GET advertisement request for a non-existent advertisement",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "X-Request-Id": "PactRequestId"
+        }
+      }
+    },
+    {
       "description": "a GET advertisements request for the first page of advertisements belonging to the advertiser",
-      "provider_state": "A page size of 3 with more than 1 page of data",
+      "providerState": "A page size of 3 with more than 1 page of data",
       "request": {
         "method": "get",
         "path": "/advertisement",
@@ -639,7 +913,7 @@
     },
     {
       "description": "a GET advertisements request for the second page of advertisements belonging to the advertiser",
-      "provider_state": "A page size of 3 with more than 1 page of data",
+      "providerState": "A page size of 3 with more than 1 page of data",
       "request": {
         "method": "get",
         "path": "/advertisement",
@@ -713,7 +987,7 @@
     },
     {
       "description": "a GET advertisements request for all advertisements",
-      "provider_state": "There are no advertisements",
+      "providerState": "There are no advertisements",
       "request": {
         "method": "get",
         "path": "/advertisement",
@@ -731,7 +1005,9 @@
         },
         "body": {
           "_embedded": {
-            "advertisements": []
+            "advertisements": [
+
+            ]
           },
           "_links": {
             "self": {
@@ -743,7 +1019,7 @@
     },
     {
       "description": "a GET advertisements request for the last page of data",
-      "provider_state": "A page size of 3 with more than 1 page of data",
+      "providerState": "A page size of 3 with more than 1 page of data",
       "request": {
         "method": "get",
         "path": "/advertisement",
@@ -817,7 +1093,7 @@
     },
     {
       "description": "a GET advertisements request for first page of data",
-      "provider_state": "A page size of 3 with more than 1 page of data",
+      "providerState": "A page size of 3 with more than 1 page of data",
       "request": {
         "method": "get",
         "path": "/advertisement",
@@ -888,280 +1164,6 @@
               "href": "/advertisement?beforeId=6"
             }
           }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Processing-Status": "Completed",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "recruiter": {
-            "fullName": "Recruiter Full Name",
-            "email": "recruiter@email.com",
-            "teamName": "Recruiter Team Name"
-          },
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
-          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-          "expiryDate": "2015-11-07T12:59:59Z",
-          "state": "Open",
-          "_links": {
-            "self": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
-            },
-            "view": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request",
-      "provider_state": "There is a standout advertisement with granular location data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Processing-Status": "Completed",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "recruiter": {
-            "fullName": "Recruiter Full Name",
-            "email": "recruiter@email.com",
-            "teamName": "Recruiter Team Name"
-          },
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
-          "granularLocation": {
-            "country": "Australia",
-            "state": "Victoria",
-            "city": "Melbourne",
-            "postCode": "3000"
-          },
-          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-          "expiryDate": "2015-11-07T12:59:59Z",
-          "state": "Open",
-          "_links": {
-            "self": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
-            },
-            "view": {
-              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request for an advertisement using a disabled requestor account",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer ca11ab1e-c0de-b10b-f001-f00db0bb1e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Forbidden",
-          "errors": [
-            {
-              "code": "AccountError"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request for an advertisement of an advertiser not related to the requestor's account",
-      "provider_state": "There is a standout advertisement with maximum data",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-        "headers": {
-          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 403,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "message": "Forbidden",
-          "errors": [
-            {
-              "code": "RelationshipError"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "description": "a GET advertisement request for a non-existent advertisement",
-      "request": {
-        "method": "get",
-        "path": "/advertisement/9b650105-7434-473f-8293-4e23b7e0e064",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        }
-      },
-      "response": {
-        "status": 404,
-        "headers": {
-          "X-Request-Id": "PactRequestId"
         }
       }
     },
@@ -2203,7 +2205,7 @@
     },
     {
       "description": "a POST advertisement request to create a job ad with the same creation id 'CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184'",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "post",
         "path": "/advertisement",
@@ -2259,7 +2261,7 @@
     },
     {
       "description": "a POST advertisement request to create a job",
-      "provider_state": "The requestor's account is disabled",
+      "providerState": "The requestor's account is disabled",
       "request": {
         "method": "post",
         "path": "/advertisement",
@@ -2366,7 +2368,7 @@
     },
     {
       "description": "a PUT advertisement request for advertisement with invalid field values",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -2457,7 +2459,7 @@
     },
     {
       "description": "a PUT advertisement request to update a job ad with a questionnaire ID",
-      "provider_state": "There is a standout advertisement with maximum data and a questionnaire ID",
+      "providerState": "There is a standout advertisement with maximum data and a questionnaire ID",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -2625,7 +2627,7 @@
     },
     {
       "description": "a PUT advertisement request",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -2789,7 +2791,7 @@
     },
     {
       "description": "a PUT advertisement request to update a job for an advertiser not related to the requestor's account",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -2886,7 +2888,7 @@
     },
     {
       "description": "a PUT advertisement request to update a job ad with a different advertiser from the one owning the job",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -2983,7 +2985,7 @@
     },
     {
       "description": "a PUT advertisement request for advertisement with invalid advertisement details",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -3072,7 +3074,7 @@
     },
     {
       "description": "a PUT advertisement request to update granular location",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -3243,7 +3245,7 @@
     },
     {
       "description": "a PUT advertisement request for advertisement with invalid salary data",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -3297,7 +3299,7 @@
     },
     {
       "description": "a PUT advertisement request to update an expired advertisement",
-      "provider_state": "There is an expired advertisement",
+      "providerState": "There is an expired advertisement",
       "request": {
         "method": "put",
         "path": "/advertisement/c294088d-ff50-4374-bc38-7fa805790e3e",
@@ -3350,7 +3352,7 @@
     },
     {
       "description": "a PUT advertisement request to update a job using a disabled requestor account",
-      "provider_state": "There is a standout advertisement with maximum data",
+      "providerState": "There is a standout advertisement with maximum data",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -3490,6 +3492,8 @@
     }
   ],
   "metadata": {
-    "pactSpecificationVersion": "1.1.0"
+    "pactSpecification": {
+      "version": "1.0.0"
+    }
   }
 }

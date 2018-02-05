@@ -64,3 +64,24 @@ var ad = new Advertisement
 
 AdvertisementResource advertisement = await postingClient.CreateAdvertisementAsync(ad);
 ```
+
+## Building
+
+The build scripts are written in [Cake](https://cakebuild.net) (C#), and will automatically pull down the required .NET Core SDK.
+
+### Prerequisites
+
+  1. Powershell v4 or later
+
+### Steps
+
+Run the builds from the `build` folder.
+
+Some example targets:
+
+ * `.\build.ps1 -Target Help` to list help
+ * `.\build.ps1 -Target Test` to build and run all tests
+ * `.\build.ps1 -Target Test -Configuration Debug` to build and run all tests in debug mode
+ * `.\build.ps1 -Target NuGet` to build a NuGet package in `/out`
+ * `.\build.ps1 -Target UploadPact` to build, run all tests, and upload the PACTs to the broker
+    * The broker can be specified with environment variables: `PACT_BROKER_URL`, `PACT_BROKER_USERNAME` (optional), and `PACT_BROKER_PASSWORD` (optional)
