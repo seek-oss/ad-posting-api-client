@@ -15,7 +15,6 @@ string configuration = Argument("configuration", "Release");
 string pactBrokerUrl = EnvironmentVariable("PACT_BROKER_URL");
 string pactBrokerUsername = EnvironmentVariable("PACT_BROKER_USERNAME");
 string pactBrokerPassword = EnvironmentVariable("PACT_BROKER_PASSWORD");
-string pactCommitEmail = EnvironmentVariable("PACT_COMMIT_EMAIL");
 
 BuildVersion version;
 
@@ -178,63 +177,7 @@ Task("UploadPact")
 
 Task("CommitPact")
 .IsDependentOn("UploadPact")
-.IsDependentOn("PactMarkdown")
-.Does(() => {
-    // Cake.Git doesn't support SSH, so use command-line git for now
-    FilePath gitPath = Context.Tools.Resolve("git.exe");
-    if (gitPath == null)
-    {
-        throw new Exception("Failed to find git.exe, is it on the PATH?");
-    }
-
-    int addResult = StartProcess(gitPath, new ProcessSettings {
-        Arguments = new ProcessArgumentBuilder()
-            .Append("add")
-            .Append("--force")
-            .Append(MakeAbsolute(Directory(PactDir)).ToString())
-    });
-    if (addResult != 0)
-    {
-        throw new Exception($"Failed to stage PACT files, git returned {addResult}");
-    }
-
-    // Returns 0 if there's no changes, otherwise non-zero
-    int diffResult = StartProcess(gitPath, new ProcessSettings {
-        Arguments = new ProcessArgumentBuilder()
-            .Append("diff")
-            .Append("--cached")
-            .Append("--exit-code")
-    });
-
-    if (diffResult == 0)
-    {
-        Information("No PACT changes, nothing to commit.");
-        return;
-    }
-
-    int commitResult = StartProcess(gitPath, new ProcessSettings {
-        Arguments = new ProcessArgumentBuilder()
-            .Append("commit")
-            .Append($"--author=\"Build Agent <{pactCommitEmail}>\"")
-            .Append("--message=\"Update PACTs\"")
-            .Append(MakeAbsolute(Directory(PactDir)).ToString())
-    });
-    if (commitResult != 0)
-    {
-        throw new Exception($"Failed to commit PACT files, git returned {commitResult}");
-    }
-
-    int pushResult = StartProcess(gitPath, new ProcessSettings {
-        Arguments = new ProcessArgumentBuilder()
-            .Append("push")
-            .Append("origin")
-            .Append("HEAD")
-    });
-    if (pushResult != 0)
-    {
-        throw new Exception($"Failed to push PACT commit, git returned {pushResult}");
-    }
-});
+.IsDependentOn("PactMarkdown");
 
 Task("Help")
 .Does(() => {
