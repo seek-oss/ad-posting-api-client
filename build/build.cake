@@ -130,7 +130,8 @@ Task("NuGetTest")
             .Append("https://www.nuget.org/"));
 
     var buildSettings = new DotNetCoreBuildSettings {
-        Configuration = configuration
+        Configuration = configuration,
+        NoRestore = true
     };
     DotNetCoreBuild(sampleProjectPath);
 });
