@@ -4,7 +4,6 @@ build/packages
 logs/
 obj/
 out/
-pact/
 src/packages
 .fake/
 *.csproj.user
