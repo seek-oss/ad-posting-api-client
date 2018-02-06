@@ -137,7 +137,6 @@ Task("NuGetTest")
 });
 
 Task("PactMarkdown")
-.IsDependentOn("NuGet")
 .Does(() => {
     // PactNet does not have support for generating Markdown from PACT files
     // Doing it manually avoids a build dependency on Ruby
@@ -176,7 +175,7 @@ Task("UploadPact")
     }
 });
 
-Task("CommitPact")
+Task("CI")
 .IsDependentOn("UploadPact")
 .IsDependentOn("PactMarkdown");
 
@@ -189,9 +188,9 @@ Task("Help")
         * Test                       - Build and run all tests
         * NuGet                      - Build, run all tests, and generate a NuGet package
         * NuGetTest                  - Modify the sample client to use a specific NuGet package and build it
-        * PactMarkdown               - Generate a human readable Markdown representation of the PACTs
+        * PactMarkdown               - Generate Markdown of the PACTs in pact/ 
         * UploadPact                 - Build, run all tests, generate a NuGet package, and publish the PACTs to the broker
-        * CommitPact                 - Build, run all tests, generate a NuGet package, publish the PACTs to the broker, and commit the PACTs to git
+        * CI                         - The target used by continuous integration, builds, runs tests, generates a NuGet package, generates PACT documentation and publishes PACTs
     ");
 });
 
