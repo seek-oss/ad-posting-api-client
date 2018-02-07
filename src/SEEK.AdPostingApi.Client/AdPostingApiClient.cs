@@ -16,24 +16,28 @@ namespace SEEK.AdPostingApi.Client
         private readonly Lazy<Task> _ensureIndexResourceInitialised;
         private readonly Hal.Client _client;
 
-        public AdPostingApiClient(string id, string secret, Environment env = Environment.Production) : this(id, secret, env.GetAttribute<EnvironmentUrlAttribute>().Uri)
+        public AdPostingApiClient(string id, string secret, Environment env = Environment.Production, DelegatingHandler customMessageHandler = null)
+            : this(env.GetAttribute<EnvironmentUrlAttribute>().Uri, new OAuth2TokenClient(id, secret), customMessageHandler)
         {
         }
 
-        public AdPostingApiClient(string id, string secret, Uri adPostingUri) : this(adPostingUri, new OAuth2TokenClient(id, secret))
+        public AdPostingApiClient(string id, string secret, Uri adPostingUri, DelegatingHandler customMessageHandler = null)
+            : this(adPostingUri, new OAuth2TokenClient(id, secret), customMessageHandler)
         {
         }
 
-        public AdPostingApiClient(string id, string secret, Uri adPostingUri)
-            : this(adPostingUri, new OAuth2TokenClient(id, secret))
-        {
-        }
-
-        internal AdPostingApiClient(Uri adPostingUri, IOAuth2TokenClient tokenClient)
+        internal AdPostingApiClient(Uri adPostingUri, IOAuth2TokenClient tokenClient, DelegatingHandler customMessageHandler = null)
         {
             this._ensureIndexResourceInitialised = new Lazy<Task>(() => this.InitialiseIndexResource(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
             this._tokenClient = tokenClient;
-            this._client = new Hal.Client(new HttpClient(new AdPostingApiMessageHandler(new OAuthMessageHandler(tokenClient))));
+
+            HttpMessageHandler pipeline = new HttpClientHandler()
+                // Add the custom handler as the "last" handler only if it was given
+                .DecorateWith(customMessageHandler, customMessageHandler != null)
+                .DecorateWith(new OAuthMessageHandler(tokenClient))
+                .DecorateWith(new AdPostingApiMessageHandler());
+
+            this._client = new Hal.Client(new HttpClient(pipeline));
         }
 
         private Task EnsureIndexResourceInitialised()

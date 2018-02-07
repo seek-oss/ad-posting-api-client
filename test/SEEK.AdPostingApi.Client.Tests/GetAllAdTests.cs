@@ -304,7 +304,11 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(oAuth2Token));
             AdvertisementSummaryPageResource nextPageResource;
 
-            using (var client = new Hal.Client(new HttpClient(new AdPostingApiMessageHandler(new OAuthMessageHandler(oAuthClient)))))
+            HttpMessageHandler pipeline = new HttpClientHandler()
+                .DecorateWith(new OAuthMessageHandler(oAuthClient))
+                .DecorateWith(new AdPostingApiMessageHandler());
+
+            using (var client = new Hal.Client(new HttpClient(pipeline)))
             {
                 pageResource.Initialise(client);
 
@@ -590,7 +594,11 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuthClient = Mock.Of<IOAuth2TokenClient>(c => c.GetOAuth2TokenAsync() == Task.FromResult(oAuth2Token));
             AdvertisementSummaryPageResource nextPageResource;
 
-            using (var client = new Hal.Client(new HttpClient(new AdPostingApiMessageHandler(new OAuthMessageHandler(oAuthClient)))))
+            HttpMessageHandler pipeline = new HttpClientHandler()
+                .DecorateWith(new OAuthMessageHandler(oAuthClient))
+                .DecorateWith(new AdPostingApiMessageHandler());
+
+            using (var client = new Hal.Client(new HttpClient(pipeline)))
             {
                 pageResource.Initialise(client);
 
