@@ -83,5 +83,10 @@ Some example targets:
  * `.\build.ps1 -Target Test` to build and run all tests
  * `.\build.ps1 -Target Test -Configuration Debug` to build and run all tests in debug mode
  * `.\build.ps1 -Target NuGet` to build a NuGet package in `/out`
+ * `.\build.ps1 -Target PactMarkdown` to generate Markdown of the PACTs in `/pact`, this is required if they've changed
  * `.\build.ps1 -Target UploadPact` to build, run all tests, and upload the PACTs to the broker
     * The broker can be specified with environment variables: `PACT_BROKER_URL`, `PACT_BROKER_USERNAME` (optional), and `PACT_BROKER_PASSWORD` (optional)
+
+### Notes
+
+ * The latest PACTs should be committed to `/pact`, this includes the documentation generated with the `PactMarkdown` target

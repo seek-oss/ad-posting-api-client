@@ -15,7 +15,6 @@ string configuration = Argument("configuration", "Release");
 string pactBrokerUrl = EnvironmentVariable("PACT_BROKER_URL");
 string pactBrokerUsername = EnvironmentVariable("PACT_BROKER_USERNAME");
 string pactBrokerPassword = EnvironmentVariable("PACT_BROKER_PASSWORD");
-string pactCommitEmail = EnvironmentVariable("PACT_COMMIT_EMAIL");
 
 BuildVersion version;
 
@@ -118,18 +117,26 @@ Task("NuGetTest")
             .Append("package")
             .Append("--version")
             .Append(packageVersion)
-            .Append("--source")
-            .Append(packageSource)
+            .Append("--no-restore")
             .Append("SEEK.AdPostingApi.Client"));
 
+    DotNetCoreTool(sampleProjectPath, "restore",
+        new ProcessArgumentBuilder()
+            .Append(sampleProjectPath)
+            .Append("--no-cache")
+            .Append("--source")
+            .Append(packageSource)
+            .Append("--source")
+            .Append("https://www.nuget.org/"));
+
     var buildSettings = new DotNetCoreBuildSettings {
-        Configuration = configuration
+        Configuration = configuration,
+        NoRestore = true
     };
     DotNetCoreBuild(sampleProjectPath);
 });
 
 Task("PactMarkdown")
-.IsDependentOn("NuGet")
 .Does(() => {
     // PactNet does not have support for generating Markdown from PACT files
     // Doing it manually avoids a build dependency on Ruby
@@ -169,65 +176,9 @@ Task("UploadPact")
     }
 });
 
-Task("CommitPact")
+Task("CI")
 .IsDependentOn("UploadPact")
-.IsDependentOn("PactMarkdown")
-.Does(() => {
-    // Cake.Git doesn't support SSH, so use command-line git for now
-    FilePath gitPath = Context.Tools.Resolve("git.exe");
-    if (gitPath == null)
-    {
-        throw new Exception("Failed to find git.exe, is it on the PATH?");
-    }
-
-    int addResult = StartProcess(gitPath, new ProcessSettings {
-        Arguments = new ProcessArgumentBuilder()
-            .Append("add")
-            .Append("--force")
-            .Append(MakeAbsolute(Directory(PactDir)).ToString())
-    });
-    if (addResult != 0)
-    {
-        throw new Exception($"Failed to stage PACT files, git returned {addResult}");
-    }
-
-    // Returns 0 if there's no changes, otherwise non-zero
-    int diffResult = StartProcess(gitPath, new ProcessSettings {
-        Arguments = new ProcessArgumentBuilder()
-            .Append("diff")
-            .Append("--cached")
-            .Append("--exit-code")
-    });
-
-    if (diffResult == 0)
-    {
-        Information("No PACT changes, nothing to commit.");
-        return;
-    }
-
-    int commitResult = StartProcess(gitPath, new ProcessSettings {
-        Arguments = new ProcessArgumentBuilder()
-            .Append("commit")
-            .Append($"--author=\"Build Agent <{pactCommitEmail}>\"")
-            .Append("--message=\"Update PACTs\"")
-            .Append(MakeAbsolute(Directory(PactDir)).ToString())
-    });
-    if (commitResult != 0)
-    {
-        throw new Exception($"Failed to commit PACT files, git returned {commitResult}");
-    }
-
-    int pushResult = StartProcess(gitPath, new ProcessSettings {
-        Arguments = new ProcessArgumentBuilder()
-            .Append("push")
-            .Append("origin")
-            .Append("HEAD")
-    });
-    if (pushResult != 0)
-    {
-        throw new Exception($"Failed to push PACT commit, git returned {pushResult}");
-    }
-});
+.IsDependentOn("PactMarkdown");
 
 Task("Help")
 .Does(() => {
@@ -238,9 +189,9 @@ Task("Help")
         * Test                       - Build and run all tests
         * NuGet                      - Build, run all tests, and generate a NuGet package
         * NuGetTest                  - Modify the sample client to use a specific NuGet package and build it
-        * PactMarkdown               - Generate a human readable Markdown representation of the PACTs
+        * PactMarkdown               - Generate Markdown of the PACTs in pact/ 
         * UploadPact                 - Build, run all tests, generate a NuGet package, and publish the PACTs to the broker
-        * CommitPact                 - Build, run all tests, generate a NuGet package, publish the PACTs to the broker, and commit the PACTs to git
+        * CI                         - The target used by continuous integration, builds, runs tests, generates a NuGet package, generates PACT documentation and publishes PACTs
     ");
 });
 
