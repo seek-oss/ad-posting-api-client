@@ -13,7 +13,7 @@ namespace SEEK.AdPostingApi.Client
         private readonly IOAuth2TokenClient _tokenClient;
         private OAuth2Token _oAuth2Token;
 
-        public OAuthMessageHandler(IOAuth2TokenClient tokenClient) : base(new HttpClientHandler())
+        public OAuthMessageHandler(IOAuth2TokenClient tokenClient)
         {
             _tokenClient = tokenClient;
         }
