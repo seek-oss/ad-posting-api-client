@@ -20,10 +20,6 @@ namespace SEEK.AdPostingApi.Client
 
         private static ProductInfoHeaderValue UserAgentProduct { get; set; }
 
-        public AdPostingApiMessageHandler(HttpMessageHandler innerHandler) : base(innerHandler)
-        {
-        }
-
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             request.Headers.UserAgent?.Add(UserAgentProduct);

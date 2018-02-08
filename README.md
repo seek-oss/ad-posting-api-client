@@ -65,6 +65,32 @@ var ad = new Advertisement
 AdvertisementResource advertisement = await postingClient.CreateAdvertisementAsync(ad);
 ```
 
+### Example Code: Custom Request Logging
+
+This client supports specifying a custom [DelegatingHandler](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.delegatinghandler?view=netstandard-1.5) for logging or processing requests/responses before they're sent. The custom delegating handlers will:
+
+ 1. Be last in the request pipeline before sending the request; and
+ 2. Will have the `InnerHandler` automatically set by the `AdPostingApiClient`
+
+For example, a custom `LoggingDelegatingHandler` can be specified:
+
+```c#
+
+public class LoggingDelegatingHandler : DelegatingHandler
+{
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        Log.Verbose("Making request to {RequestUri}", request.RequestUri);
+        return await base.SendAsync(request, cancellationToken);
+    }
+}
+
+using (var client = new AdPostingApiClient("<client id>", "<client secret>", Environment.Integration, new LoggingDelegateHandler()))
+{
+    // Use the client as per normal
+}
+```
+
 ## Building
 
 The build scripts are written in [Cake](https://cakebuild.net) (C#), and will automatically pull down the required .NET Core SDK.
