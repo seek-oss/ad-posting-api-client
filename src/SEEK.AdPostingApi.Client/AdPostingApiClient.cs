@@ -26,6 +26,11 @@ namespace SEEK.AdPostingApi.Client
         {
         }
 
+        public AdPostingApiClient(IOAuth2TokenClient tokenClient, Uri adPostingUri, DelegatingHandler customMessageHandler = null)
+            : this(adPostingUri, tokenClient, customMessageHandler)
+        {
+        }
+
         internal AdPostingApiClient(Uri adPostingUri, IOAuth2TokenClient tokenClient, DelegatingHandler customMessageHandler = null)
         {
             this._ensureIndexResourceInitialised = new Lazy<Task>(() => this.InitialiseIndexResource(adPostingUri), LazyThreadSafetyMode.ExecutionAndPublication);
