@@ -1,28 +1,28 @@
-### A pact between Ad Posting API Client and Ad Posting API
+# A pact between Ad Posting API Client and Ad Posting API
 
-#### Requests from Ad Posting API Client to Ad Posting API
+## Requests from Ad Posting API Client to Ad Posting API
 
-* [A GET advertisement request](#a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_granular_location_data) given there is a standout advertisement with granular location data
+* [A GET advertisement request](#a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A GET advertisement request](#a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A GET advertisement request](#a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_granular_location_data) given There is a standout advertisement with granular location data
 
-* [A GET advertisement request for a non-existent advertisement](#a_GET_advertisement_request_for_a_non-existent_advertisement)
+* [A GET advertisement request for a non\-existent advertisement](#a_GET_advertisement_request_for_a_non_existent_advertisement)
 
-* [A GET advertisement request for an advertisement of an advertiser not related to the requestor's account](#a_GET_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A GET advertisement request for an advertisement of an advertiser not related to the requestor's account](#a_GET_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor_s_account_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A GET advertisement request for an advertisement using a disabled requestor account](#a_GET_advertisement_request_for_an_advertisement_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A GET advertisement request for an advertisement using a disabled requestor account](#a_GET_advertisement_request_for_an_advertisement_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A GET advertisements request for all advertisements](#a_GET_advertisements_request_for_all_advertisements_given_There_are_no_advertisements) given there are no advertisements
+* [A GET advertisements request for all advertisements](#a_GET_advertisements_request_for_all_advertisements_given_There_are_no_advertisements) given There are no advertisements
 
-* [A GET advertisements request for first page of data](#a_GET_advertisements_request_for_first_page_of_data_given_A_page_size_of_3_with_more_than_1_page_of_data) given a page size of 3 with more than 1 page of data
+* [A GET advertisements request for first page of data](#a_GET_advertisements_request_for_first_page_of_data_given_A_page_size_of_3_with_more_than_1_page_of_data) given A page size of 3 with more than 1 page of data
 
-* [A GET advertisements request for the first page of advertisements belonging to the advertiser](#a_GET_advertisements_request_for_the_first_page_of_advertisements_belonging_to_the_advertiser_given_A_page_size_of_3_with_more_than_1_page_of_data) given a page size of 3 with more than 1 page of data
+* [A GET advertisements request for the first page of advertisements belonging to the advertiser](#a_GET_advertisements_request_for_the_first_page_of_advertisements_belonging_to_the_advertiser_given_A_page_size_of_3_with_more_than_1_page_of_data) given A page size of 3 with more than 1 page of data
 
-* [A GET advertisements request for the last page of data](#a_GET_advertisements_request_for_the_last_page_of_data_given_A_page_size_of_3_with_more_than_1_page_of_data) given a page size of 3 with more than 1 page of data
+* [A GET advertisements request for the last page of data](#a_GET_advertisements_request_for_the_last_page_of_data_given_A_page_size_of_3_with_more_than_1_page_of_data) given A page size of 3 with more than 1 page of data
 
-* [A GET advertisements request for the second page of advertisements belonging to the advertiser](#a_GET_advertisements_request_for_the_second_page_of_advertisements_belonging_to_the_advertiser_given_A_page_size_of_3_with_more_than_1_page_of_data) given a page size of 3 with more than 1 page of data
+* [A GET advertisements request for the second page of advertisements belonging to the advertiser](#a_GET_advertisements_request_for_the_second_page_of_advertisements_belonging_to_the_advertiser_given_A_page_size_of_3_with_more_than_1_page_of_data) given A page size of 3 with more than 1 page of data
 
-* [A GET advertisements request to retrieve all advertisements for an advertiser that doesn't exist](#a_GET_advertisements_request_to_retrieve_all_advertisements_for_an_advertiser_that_doesn&#39;t_exist)
+* [A GET advertisements request to retrieve all advertisements for an advertiser that doesn't exist](#a_GET_advertisements_request_to_retrieve_all_advertisements_for_an_advertiser_that_doesn_t_exist)
 
 * [A GET advertisements request to retrieve all advertisements for the advertiser not related to requestor](#a_GET_advertisements_request_to_retrieve_all_advertisements_for_the_advertiser_not_related_to_requestor)
 
@@ -30,31 +30,31 @@
 
 * [A GET index request to retrieve API links with an invalid access token](#a_GET_index_request_to_retrieve_API_links_with_an_invalid_access_token)
 
-* [A GET index request to retrieve API links with Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6](#a_GET_index_request_to_retrieve_API_links_with_Bearer_a4f2aab5-5582-4ff0-b8f2-890d6146dbb6)
+* [A GET index request to retrieve API links with Bearer a4f2aab5\-5582\-4ff0\-b8f2\-890d6146dbb6](#a_GET_index_request_to_retrieve_API_links_with_Bearer_a4f2aab5_5582_4ff0_b8f2_890d6146dbb6)
 
-* [A GET index request to retrieve API links with Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e](#a_GET_index_request_to_retrieve_API_links_with_Bearer_b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e)
+* [A GET index request to retrieve API links with Bearer b635a7ea\-1361\-4cd8\-9a07\-bc3c12b2cf9e](#a_GET_index_request_to_retrieve_API_links_with_Bearer_b635a7ea_1361_4cd8_9a07_bc3c12b2cf9e)
 
-* [A HEAD advertisement request](#a_HEAD_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A HEAD advertisement request](#a_HEAD_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A HEAD advertisement request for a non-existent advertisement](#a_HEAD_advertisement_request_for_a_non-existent_advertisement)
+* [A HEAD advertisement request for a non\-existent advertisement](#a_HEAD_advertisement_request_for_a_non_existent_advertisement)
 
-* [A HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account](#a_HEAD_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account](#a_HEAD_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor_s_account_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A HEAD advertisement request for an advertisement using a disabled requestor account](#a_HEAD_advertisement_request_for_an_advertisement_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A HEAD advertisement request for an advertisement using a disabled requestor account](#a_HEAD_advertisement_request_for_an_advertisement_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PATCH advertisement request to expire a job for an advertiser not related to the requestor's account](#a_PATCH_advertisement_request_to_expire_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PATCH advertisement request to expire a job for an advertiser not related to the requestor's account](#a_PATCH_advertisement_request_to_expire_a_job_for_an_advertiser_not_related_to_the_requestor_s_account_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PATCH advertisement request to expire a job using a disabled requestor account](#a_PATCH_advertisement_request_to_expire_a_job_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PATCH advertisement request to expire a job using a disabled requestor account](#a_PATCH_advertisement_request_to_expire_a_job_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PATCH advertisement request to expire a job using invalid request content](#a_PATCH_advertisement_request_to_expire_a_job_using_invalid_request_content_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PATCH advertisement request to expire a job using invalid request content](#a_PATCH_advertisement_request_to_expire_a_job_using_invalid_request_content_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PATCH advertisement request to expire a non-existent advertisement](#a_PATCH_advertisement_request_to_expire_a_non-existent_advertisement)
+* [A PATCH advertisement request to expire a non\-existent advertisement](#a_PATCH_advertisement_request_to_expire_a_non_existent_advertisement)
 
-* [A PATCH advertisement request to expire an advertisement](#a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PATCH advertisement request to expire an advertisement](#a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PATCH advertisement request to expire an advertisement](#a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_an_expired_advertisement) given there is an expired advertisement
+* [A PATCH advertisement request to expire an advertisement](#a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_an_expired_advertisement) given There is an expired advertisement
 
-* [A POST advertisement request to create a job](#a_POST_advertisement_request_to_create_a_job_given_The_requestor&#39;s_account_is_disabled) given the requestor's account is disabled
+* [A POST advertisement request to create a job](#a_POST_advertisement_request_to_create_a_job_given_The_requestor_s_account_is_disabled) given The requestor's account is disabled
 
 * [A POST advertisement request to create a job ad with a questionnaire ID](#a_POST_advertisement_request_to_create_a_job_ad_with_a_questionnaire_ID)
 
@@ -74,37 +74,140 @@
 
 * [A POST advertisement request to create a job ad with required field values only](#a_POST_advertisement_request_to_create_a_job_ad_with_required_field_values_only)
 
-* [A POST advertisement request to create a job ad with the same creation id 'CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184'](#a_POST_advertisement_request_to_create_a_job_ad_with_the_same_creation_id_&#39;CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184&#39;_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A POST advertisement request to create a job ad with the same creation id 'CreationIdOf8e2fde50\-bc5f\-4a12\-9cfb\-812e50500184'](#a_POST_advertisement_request_to_create_a_job_ad_with_the_same_creation_id__CreationIdOf8e2fde50_bc5f_4a12_9cfb_812e50500184__given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
 * [A POST advertisement request to create a job ad without a creation id](#a_POST_advertisement_request_to_create_a_job_ad_without_a_creation_id)
 
-* [A POST advertisement request to create a job for an advertiser not related to the requestor's account](#a_POST_advertisement_request_to_create_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account)
+* [A POST advertisement request to create a job for an advertiser not related to the requestor's account](#a_POST_advertisement_request_to_create_a_job_for_an_advertiser_not_related_to_the_requestor_s_account)
 
-* [A POST advertisement request to expire an advertisement](#a_POST_advertisement_request_to_expire_an_advertisement_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A POST advertisement request to expire an advertisement](#a_POST_advertisement_request_to_expire_an_advertisement_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PUT advertisement request](#a_PUT_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PUT advertisement request](#a_PUT_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PUT advertisement request for a non-existent advertisement](#a_PUT_advertisement_request_for_a_non-existent_advertisement)
+* [A PUT advertisement request for a non\-existent advertisement](#a_PUT_advertisement_request_for_a_non_existent_advertisement)
 
-* [A PUT advertisement request for advertisement with invalid advertisement details](#a_PUT_advertisement_request_for_advertisement_with_invalid_advertisement_details_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PUT advertisement request for advertisement with invalid advertisement details](#a_PUT_advertisement_request_for_advertisement_with_invalid_advertisement_details_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PUT advertisement request for advertisement with invalid field values](#a_PUT_advertisement_request_for_advertisement_with_invalid_field_values_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PUT advertisement request for advertisement with invalid field values](#a_PUT_advertisement_request_for_advertisement_with_invalid_field_values_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PUT advertisement request for advertisement with invalid salary data](#a_PUT_advertisement_request_for_advertisement_with_invalid_salary_data_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PUT advertisement request for advertisement with invalid salary data](#a_PUT_advertisement_request_for_advertisement_with_invalid_salary_data_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PUT advertisement request to update a job ad with a different advertiser from the one owning the job](#a_PUT_advertisement_request_to_update_a_job_ad_with_a_different_advertiser_from_the_one_owning_the_job_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PUT advertisement request to update a job ad with a different advertiser from the one owning the job](#a_PUT_advertisement_request_to_update_a_job_ad_with_a_different_advertiser_from_the_one_owning_the_job_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PUT advertisement request to update a job ad with a questionnaire ID](#a_PUT_advertisement_request_to_update_a_job_ad_with_a_questionnaire_ID_given_There_is_a_standout_advertisement_with_maximum_data_and_a_questionnaire_ID) given there is a standout advertisement with maximum data and a questionnaire ID
+* [A PUT advertisement request to update a job ad with a questionnaire ID](#a_PUT_advertisement_request_to_update_a_job_ad_with_a_questionnaire_ID_given_There_is_a_standout_advertisement_with_maximum_data_and_a_questionnaire_ID) given There is a standout advertisement with maximum data and a questionnaire ID
 
-* [A PUT advertisement request to update a job for an advertiser not related to the requestor's account](#a_PUT_advertisement_request_to_update_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PUT advertisement request to update a job for an advertiser not related to the requestor's account](#a_PUT_advertisement_request_to_update_a_job_for_an_advertiser_not_related_to_the_requestor_s_account_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PUT advertisement request to update a job using a disabled requestor account](#a_PUT_advertisement_request_to_update_a_job_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PUT advertisement request to update a job using a disabled requestor account](#a_PUT_advertisement_request_to_update_a_job_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PUT advertisement request to update an expired advertisement](#a_PUT_advertisement_request_to_update_an_expired_advertisement_given_There_is_an_expired_advertisement) given there is an expired advertisement
+* [A PUT advertisement request to update an expired advertisement](#a_PUT_advertisement_request_to_update_an_expired_advertisement_given_There_is_an_expired_advertisement) given There is an expired advertisement
 
-* [A PUT advertisement request to update granular location](#a_PUT_advertisement_request_to_update_granular_location_given_There_is_a_standout_advertisement_with_maximum_data) given there is a standout advertisement with maximum data
+* [A PUT advertisement request to update granular location](#a_PUT_advertisement_request_to_update_granular_location_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-#### Interactions
+## Interactions from Ad Posting API Client to Ad Posting API
+
+<a name="a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+Given **there is a standout advertisement with maximum data**, upon receiving **a GET advertisement request** from Ad Posting API Client, with
+```json
+{
+  "method": "get",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Processing-Status": "Completed",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com",
+      "teamName": "Recruiter Team Name"
+    },
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": 1,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-07T12:59:59Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+      },
+      "view": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+      }
+    }
+  }
+}
+```
 
 <a name="a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_granular_location_data"></a>
 Given **there is a standout advertisement with granular location data**, upon receiving **a GET advertisement request** from Ad Posting API Client, with
@@ -210,110 +313,9 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_GET_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data"></a>
-Given **there is a standout advertisement with maximum data**, upon receiving **a GET advertisement request** from Ad Posting API Client, with
-```json
-{
-  "method": "get",
-  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
-  "headers": {
-    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-  }
-}
-```
-Ad Posting API will respond with:
-```json
-{
-  "status": 200,
-  "headers": {
-    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Processing-Status": "Completed",
-    "X-Request-Id": "PactRequestId"
-  },
-  "body": {
-    "advertisementDetails": "Exciting, do I need to say more?",
-    "thirdParties": {
-      "advertiserId": "1"
-    },
-    "advertisementType": "StandOut",
-    "jobSummary": "Developer job",
-    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-    "location": {
-      "id": "EuropeRussia",
-      "areaId": "RussiaEasternEurope"
-    },
-    "salary": {
-      "minimum": 100000.0,
-      "maximum": 119999.0,
-      "type": "AnnualPackage",
-      "details": "We will pay you"
-    },
-    "subclassificationId": "AerospaceEngineering",
-    "workType": "FullTime",
-    "recruiter": {
-      "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com",
-      "teamName": "Recruiter Team Name"
-    },
-    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-    "contact": {
-      "name": "Contact name",
-      "email": "qwert@asdf.com",
-      "phone": "+1 (123) 456 7889"
-    },
-    "video": {
-      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-      "position": "Above"
-    },
-    "applicationEmail": "asdf@asdf.com",
-    "applicationFormUrl": "http://apply.com/",
-    "endApplicationUrl": "http://endform.com/",
-    "screenId": 1,
-    "jobReference": "JOB1234",
-    "agentJobReference": "AGENTJOB1234",
-    "template": {
-      "id": 1,
-      "items": [
-        {
-          "name": "Template Line 1",
-          "value": "Template Value 1"
-        },
-        {
-          "name": "Template Line 2",
-          "value": "Template Value 2"
-        }
-      ]
-    },
-    "standout": {
-      "logoId": 1,
-      "bullets": [
-        "Uzi",
-        "Remington Model",
-        "AK-47"
-      ]
-    },
-    "additionalProperties": [
-      "ResidentsOnly",
-      "Graduate"
-    ],
-    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
-    "expiryDate": "2015-11-07T12:59:59Z",
-    "state": "Open",
-    "_links": {
-      "self": {
-        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
-      },
-      "view": {
-        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
-      }
-    }
-  }
-}
-```
-<a name="a_GET_advertisement_request_for_a_non-existent_advertisement"></a>
-Upon receiving **a GET advertisement request for a non-existent advertisement** from Ad Posting API Client, with
+
+<a name="a_GET_advertisement_request_for_a_non_existent_advertisement"></a>
+Upon receiving **a GET advertisement request for a non\-existent advertisement** from Ad Posting API Client, with
 ```json
 {
   "method": "get",
@@ -334,7 +336,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_GET_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+
+<a name="a_GET_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor_s_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a GET advertisement request for an advertisement of an advertiser not related to the requestor's account** from Ad Posting API Client, with
 ```json
 {
@@ -365,6 +368,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_GET_advertisement_request_for_an_advertisement_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a GET advertisement request for an advertisement using a disabled requestor account** from Ad Posting API Client, with
 ```json
@@ -396,6 +400,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_GET_advertisements_request_for_all_advertisements_given_There_are_no_advertisements"></a>
 Given **there are no advertisements**, upon receiving **a GET advertisements request for all advertisements** from Ad Posting API Client, with
 ```json
@@ -419,9 +424,7 @@ Ad Posting API will respond with:
   },
   "body": {
     "_embedded": {
-      "advertisements": [
-
-      ]
+      "advertisements": []
     },
     "_links": {
       "self": {
@@ -431,6 +434,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_GET_advertisements_request_for_first_page_of_data_given_A_page_size_of_3_with_more_than_1_page_of_data"></a>
 Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET advertisements request for first page of data** from Ad Posting API Client, with
 ```json
@@ -510,6 +514,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_GET_advertisements_request_for_the_first_page_of_advertisements_belonging_to_the_advertiser_given_A_page_size_of_3_with_more_than_1_page_of_data"></a>
 Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET advertisements request for the first page of advertisements belonging to the advertiser** from Ad Posting API Client, with
 ```json
@@ -590,6 +595,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_GET_advertisements_request_for_the_last_page_of_data_given_A_page_size_of_3_with_more_than_1_page_of_data"></a>
 Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET advertisements request for the last page of data** from Ad Posting API Client, with
 ```json
@@ -667,6 +673,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_GET_advertisements_request_for_the_second_page_of_advertisements_belonging_to_the_advertiser_given_A_page_size_of_3_with_more_than_1_page_of_data"></a>
 Given **a page size of 3 with more than 1 page of data**, upon receiving **a GET advertisements request for the second page of advertisements belonging to the advertiser** from Ad Posting API Client, with
 ```json
@@ -716,7 +723,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_GET_advertisements_request_to_retrieve_all_advertisements_for_an_advertiser_that_doesn&#39;t_exist"></a>
+
+<a name="a_GET_advertisements_request_to_retrieve_all_advertisements_for_an_advertiser_that_doesn_t_exist"></a>
 Upon receiving **a GET advertisements request to retrieve all advertisements for an advertiser that doesn't exist** from Ad Posting API Client, with
 ```json
 {
@@ -748,6 +756,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_GET_advertisements_request_to_retrieve_all_advertisements_for_the_advertiser_not_related_to_requestor"></a>
 Upon receiving **a GET advertisements request to retrieve all advertisements for the advertiser not related to requestor** from Ad Posting API Client, with
 ```json
@@ -780,12 +789,13 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_GET_index_request_that_is_unauthorised_to_retrieve_API_links"></a>
 Upon receiving **a GET index request that is unauthorised to retrieve API links** from Ad Posting API Client, with
 ```json
 {
   "method": "get",
-  "path": "",
+  "path": "/",
   "headers": {
     "Authorization": "Bearer baaa1b4f-0dfd-4d80-a871-64fb78716667",
     "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
@@ -802,12 +812,13 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_GET_index_request_to_retrieve_API_links_with_an_invalid_access_token"></a>
 Upon receiving **a GET index request to retrieve API links with an invalid access token** from Ad Posting API Client, with
 ```json
 {
   "method": "get",
-  "path": "",
+  "path": "/",
   "headers": {
     "Authorization": "Bearer ca11ab1e-c0de-b10b-feed-faceb0bb1e",
     "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
@@ -824,12 +835,13 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_GET_index_request_to_retrieve_API_links_with_Bearer_a4f2aab5-5582-4ff0-b8f2-890d6146dbb6"></a>
-Upon receiving **a GET index request to retrieve API links with Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6** from Ad Posting API Client, with
+
+<a name="a_GET_index_request_to_retrieve_API_links_with_Bearer_a4f2aab5_5582_4ff0_b8f2_890d6146dbb6"></a>
+Upon receiving **a GET index request to retrieve API links with Bearer a4f2aab5\-5582\-4ff0\-b8f2\-890d6146dbb6** from Ad Posting API Client, with
 ```json
 {
   "method": "get",
-  "path": "",
+  "path": "/",
   "headers": {
     "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
     "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
@@ -862,12 +874,13 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_GET_index_request_to_retrieve_API_links_with_Bearer_b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e"></a>
-Upon receiving **a GET index request to retrieve API links with Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e** from Ad Posting API Client, with
+
+<a name="a_GET_index_request_to_retrieve_API_links_with_Bearer_b635a7ea_1361_4cd8_9a07_bc3c12b2cf9e"></a>
+Upon receiving **a GET index request to retrieve API links with Bearer b635a7ea\-1361\-4cd8\-9a07\-bc3c12b2cf9e** from Ad Posting API Client, with
 ```json
 {
   "method": "get",
-  "path": "",
+  "path": "/",
   "headers": {
     "Accept": "application/hal+json; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
     "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
@@ -900,6 +913,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_HEAD_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a HEAD advertisement request** from Ad Posting API Client, with
 ```json
@@ -923,8 +937,9 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_HEAD_advertisement_request_for_a_non-existent_advertisement"></a>
-Upon receiving **a HEAD advertisement request for a non-existent advertisement** from Ad Posting API Client, with
+
+<a name="a_HEAD_advertisement_request_for_a_non_existent_advertisement"></a>
+Upon receiving **a HEAD advertisement request for a non\-existent advertisement** from Ad Posting API Client, with
 ```json
 {
   "method": "head",
@@ -945,7 +960,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_HEAD_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+
+<a name="a_HEAD_advertisement_request_for_an_advertisement_of_an_advertiser_not_related_to_the_requestor_s_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account** from Ad Posting API Client, with
 ```json
 {
@@ -967,6 +983,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_HEAD_advertisement_request_for_an_advertisement_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a HEAD advertisement request for an advertisement using a disabled requestor account** from Ad Posting API Client, with
 ```json
@@ -989,7 +1006,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_PATCH_advertisement_request_to_expire_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+
+<a name="a_PATCH_advertisement_request_to_expire_a_job_for_an_advertiser_not_related_to_the_requestor_s_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PATCH advertisement request to expire a job for an advertiser not related to the requestor's account** from Ad Posting API Client, with
 ```json
 {
@@ -1028,6 +1046,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PATCH_advertisement_request_to_expire_a_job_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PATCH advertisement request to expire a job using a disabled requestor account** from Ad Posting API Client, with
 ```json
@@ -1067,6 +1086,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PATCH_advertisement_request_to_expire_a_job_using_invalid_request_content_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PATCH advertisement request to expire a job using invalid request content** from Ad Posting API Client, with
 ```json
@@ -1106,8 +1126,9 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_PATCH_advertisement_request_to_expire_a_non-existent_advertisement"></a>
-Upon receiving **a PATCH advertisement request to expire a non-existent advertisement** from Ad Posting API Client, with
+
+<a name="a_PATCH_advertisement_request_to_expire_a_non_existent_advertisement"></a>
+Upon receiving **a PATCH advertisement request to expire a non\-existent advertisement** from Ad Posting API Client, with
 ```json
 {
   "method": "patch",
@@ -1136,6 +1157,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PATCH advertisement request to expire an advertisement** from Ad Posting API Client, with
 ```json
@@ -1245,6 +1267,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PATCH_advertisement_request_to_expire_an_advertisement_given_There_is_an_expired_advertisement"></a>
 Given **there is an expired advertisement**, upon receiving **a PATCH advertisement request to expire an advertisement** from Ad Posting API Client, with
 ```json
@@ -1284,7 +1307,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_POST_advertisement_request_to_create_a_job_given_The_requestor&#39;s_account_is_disabled"></a>
+
+<a name="a_POST_advertisement_request_to_create_a_job_given_The_requestor_s_account_is_disabled"></a>
 Given **the requestor's account is disabled**, upon receiving **a POST advertisement request to create a job** from Ad Posting API Client, with
 ```json
 {
@@ -1341,6 +1365,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_a_questionnaire_ID"></a>
 Upon receiving **a POST advertisement request to create a job ad with a questionnaire ID** from Ad Posting API Client, with
 ```json
@@ -1514,6 +1539,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_an_invalid_advertiser_id"></a>
 Upon receiving **a POST advertisement request to create a job ad with an invalid advertiser id** from Ad Posting API Client, with
 ```json
@@ -1571,6 +1597,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_duplicated_names_for_template_custom_fields"></a>
 Upon receiving **a POST advertisement request to create a job ad with duplicated names for template custom fields** from Ad Posting API Client, with
 ```json
@@ -1649,6 +1676,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_granular_location"></a>
 Upon receiving **a POST advertisement request to create a job ad with granular location** from Ad Posting API Client, with
 ```json
@@ -1825,6 +1853,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_advertisement_details"></a>
 Upon receiving **a POST advertisement request to create a job ad with invalid advertisement details** from Ad Posting API Client, with
 ```json
@@ -1913,6 +1942,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_field_values"></a>
 Upon receiving **a POST advertisement request to create a job ad with invalid field values** from Ad Posting API Client, with
 ```json
@@ -2008,6 +2038,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_salary_data"></a>
 Upon receiving **a POST advertisement request to create a job ad with invalid salary data** from Ad Posting API Client, with
 ```json
@@ -2066,6 +2097,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_required_and_optional_field_values"></a>
 Upon receiving **a POST advertisement request to create a job ad with required and optional field values** from Ad Posting API Client, with
 ```json
@@ -2239,6 +2271,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_required_field_values_only"></a>
 Upon receiving **a POST advertisement request to create a job ad with required field values only** from Ad Posting API Client, with
 ```json
@@ -2324,8 +2357,9 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_POST_advertisement_request_to_create_a_job_ad_with_the_same_creation_id_&#39;CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184&#39;_given_There_is_a_standout_advertisement_with_maximum_data"></a>
-Given **there is a standout advertisement with maximum data**, upon receiving **a POST advertisement request to create a job ad with the same creation id 'CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184'** from Ad Posting API Client, with
+
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_the_same_creation_id__CreationIdOf8e2fde50_bc5f_4a12_9cfb_812e50500184__given_There_is_a_standout_advertisement_with_maximum_data"></a>
+Given **there is a standout advertisement with maximum data**, upon receiving **a POST advertisement request to create a job ad with the same creation id 'CreationIdOf8e2fde50\-bc5f\-4a12\-9cfb\-812e50500184'** from Ad Posting API Client, with
 ```json
 {
   "method": "post",
@@ -2383,6 +2417,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_without_a_creation_id"></a>
 Upon receiving **a POST advertisement request to create a job ad without a creation id** from Ad Posting API Client, with
 ```json
@@ -2440,7 +2475,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_POST_advertisement_request_to_create_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account"></a>
+
+<a name="a_POST_advertisement_request_to_create_a_job_for_an_advertiser_not_related_to_the_requestor_s_account"></a>
 Upon receiving **a POST advertisement request to create a job for an advertiser not related to the requestor's account** from Ad Posting API Client, with
 ```json
 {
@@ -2497,6 +2533,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_POST_advertisement_request_to_expire_an_advertisement_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a POST advertisement request to expire an advertisement** from Ad Posting API Client, with
 ```json
@@ -2606,6 +2643,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PUT_advertisement_request_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request** from Ad Posting API Client, with
 ```json
@@ -2773,8 +2811,9 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_PUT_advertisement_request_for_a_non-existent_advertisement"></a>
-Upon receiving **a PUT advertisement request for a non-existent advertisement** from Ad Posting API Client, with
+
+<a name="a_PUT_advertisement_request_for_a_non_existent_advertisement"></a>
+Upon receiving **a PUT advertisement request for a non\-existent advertisement** from Ad Posting API Client, with
 ```json
 {
   "method": "put",
@@ -2820,6 +2859,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PUT_advertisement_request_for_advertisement_with_invalid_advertisement_details_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request for advertisement with invalid advertisement details** from Ad Posting API Client, with
 ```json
@@ -2912,6 +2952,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PUT_advertisement_request_for_advertisement_with_invalid_field_values_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request for advertisement with invalid field values** from Ad Posting API Client, with
 ```json
@@ -3006,6 +3047,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PUT_advertisement_request_for_advertisement_with_invalid_salary_data_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request for advertisement with invalid salary data** from Ad Posting API Client, with
 ```json
@@ -3063,6 +3105,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PUT_advertisement_request_to_update_a_job_ad_with_a_different_advertiser_from_the_one_owning_the_job_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request to update a job ad with a different advertiser from the one owning the job** from Ad Posting API Client, with
 ```json
@@ -3163,6 +3206,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PUT_advertisement_request_to_update_a_job_ad_with_a_questionnaire_ID_given_There_is_a_standout_advertisement_with_maximum_data_and_a_questionnaire_ID"></a>
 Given **there is a standout advertisement with maximum data and a questionnaire ID**, upon receiving **a PUT advertisement request to update a job ad with a questionnaire ID** from Ad Posting API Client, with
 ```json
@@ -3334,7 +3378,8 @@ Ad Posting API will respond with:
   }
 }
 ```
-<a name="a_PUT_advertisement_request_to_update_a_job_for_an_advertiser_not_related_to_the_requestor&#39;s_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+
+<a name="a_PUT_advertisement_request_to_update_a_job_for_an_advertiser_not_related_to_the_requestor_s_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request to update a job for an advertiser not related to the requestor's account** from Ad Posting API Client, with
 ```json
 {
@@ -3434,6 +3479,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PUT_advertisement_request_to_update_a_job_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request to update a job using a disabled requestor account** from Ad Posting API Client, with
 ```json
@@ -3534,6 +3580,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PUT_advertisement_request_to_update_an_expired_advertisement_given_There_is_an_expired_advertisement"></a>
 Given **there is an expired advertisement**, upon receiving **a PUT advertisement request to update an expired advertisement** from Ad Posting API Client, with
 ```json
@@ -3590,6 +3637,7 @@ Ad Posting API will respond with:
   }
 }
 ```
+
 <a name="a_PUT_advertisement_request_to_update_granular_location_given_There_is_a_standout_advertisement_with_maximum_data"></a>
 Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request to update granular location** from Ad Posting API Client, with
 ```json
@@ -3764,3 +3812,4 @@ Ad Posting API will respond with:
   }
 }
 ```
+
