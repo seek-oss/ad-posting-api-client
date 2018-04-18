@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
 {
     public class Program
     {
-        private const string AdvertiserId = "AdvertiserId";
+        private const string AdvertiserId = "1000001";
         private const int BaseRetryIntervalSeconds = 2;
         private const string ClientId = "ClientId";
         private const string ClientSecret = "ClientSecret";
@@ -35,6 +36,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
         {
             using (IAdPostingApiClient client = new AdPostingApiClient(ClientId, ClientSecret, Environment.Integration))
             {
+                // Determine available templates for this advertiser
+                TemplateSummaryListResource templatesList = await GetAllTemplatesForAdvertiserExampleAsync(AdvertiserId, client);
+
+                // Use first active template
+                TemplateSummaryResource activeTemplate = templatesList.Templates.FirstOrDefault(t => t.State == TemplateStatus.Active);
+
                 // Create a new advertisement
                 Advertisement advertisement = GetExampleAdvertisementToCreate();
                 AdvertisementResource createdAdvertisement = await CreateAdvertisementExampleAsync(advertisement, client);
@@ -46,6 +53,12 @@ namespace SEEK.AdPostingApi.SampleConsumer
 
                     // Modify details on the advertisement
                     advertisementResource.JobTitle = "Senior Dude";
+
+                    if (activeTemplate != null)
+                    {
+                        advertisementResource.Template.Id = Int32.Parse(activeTemplate.Id);
+                    }
+
                     AdvertisementResource updatedAdvertisementResource = await UpdateAdvertisementExampleAsync(advertisementResource);
 
                     // Expire the advertisement
@@ -159,6 +172,22 @@ namespace SEEK.AdPostingApi.SampleConsumer
             return summaryPage;
         }
 
+        private static async Task<TemplateSummaryListResource> GetAllTemplatesForAdvertiserExampleAsync(string advertiserId, IAdPostingApiClient client)
+        {
+            TemplateSummaryListResource templateSummaryListResource = null;
+            try
+            {
+                await TransientErrorRetryPolicy.ExecuteAsync(async () => templateSummaryListResource = await client.GetAllTemplatesAsync(advertiserId));
+                Console.WriteLine($"Retrieve all templates:{JsonConvert.SerializeObject(templateSummaryListResource, Formatting.Indented)} for {advertiserId}");
+            }
+            catch (RequestException ex)
+            {
+                LogException(ex);
+            }
+
+            return templateSummaryListResource;
+        }
+
         private static Advertisement GetExampleAdvertisementToCreate()
         {
             return new Advertisement
@@ -236,14 +265,14 @@ namespace SEEK.AdPostingApi.SampleConsumer
             }
         }
 
-        private static void PrintAdvertisementErrors(AdvertisementError[] errors)
+        private static void PrintAdvertisementErrors(Error[] errors)
         {
             if (errors.Length < 1) return;
 
             Console.WriteLine("Advertisement Errors:");
 
             int counter = 1;
-            foreach (AdvertisementError error in errors)
+            foreach (Error error in errors)
             {
                 Console.WriteLine($"  [{counter:##}] Field: '{error.Field}' Code: '{error.Code}' Message: '{error.Message}'");
                 counter++;

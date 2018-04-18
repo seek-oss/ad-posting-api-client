@@ -52,7 +52,12 @@ namespace SEEK.AdPostingApi.Client
 
         internal async Task InitialiseIndexResource(Uri adPostingUri)
         {
-            this._indexResource = await this._client.GetResourceAsync<IndexResource>(adPostingUri);
+            this._indexResource = await this.GetIndexResourceAsync(adPostingUri, this._client);
+        }
+
+        protected internal virtual async Task<IndexResource> GetIndexResourceAsync(Uri adPostingUri, Hal.Client halClient)
+        {
+            return await halClient.GetResourceAsync<IndexResource, AdvertisementErrorResponse>(adPostingUri);
         }
 
         public async Task<AdvertisementResource> CreateAdvertisementAsync(Advertisement advertisement)
@@ -88,7 +93,7 @@ namespace SEEK.AdPostingApi.Client
 
         public async Task<AdvertisementResource> GetAdvertisementAsync(Uri uri)
         {
-            return await this._client.GetResourceAsync<AdvertisementResource>(uri);
+            return await this._client.GetResourceAsync<AdvertisementResource, AdvertisementErrorResponse>(uri);
         }
 
         [Obsolete("The returned status will always be completed. All validation is done upfront and the advertisement will not fail once successfully submitted.")]
@@ -130,6 +135,18 @@ namespace SEEK.AdPostingApi.Client
                 throw new ArgumentNullException(nameof(advertisement));
 
             return await this._client.PutResourceAsync<AdvertisementResource, Advertisement>(uri, advertisement);
+        }
+
+        public async Task<TemplateSummaryListResource> GetAllTemplatesAsync(Uri uri)
+        {
+            return await this._client.GetResourceAsync<TemplateSummaryListResource, AdvertisementErrorResponse>(uri);
+        }
+
+        public async Task<TemplateSummaryListResource> GetAllTemplatesAsync(string advertiserId = null, int? after = null)
+        {
+            await this.EnsureIndexResourceInitialised();
+
+            return await this._indexResource.GetAllTemplates(advertiserId, after);
         }
 
         public void Dispose()

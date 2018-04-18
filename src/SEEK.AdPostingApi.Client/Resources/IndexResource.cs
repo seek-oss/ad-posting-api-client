@@ -28,16 +28,27 @@ namespace SEEK.AdPostingApi.Client.Resources
 
         public Uri GenerateAdvertisementUri(Guid advertisementId)
         {
-            return this.Links.GenerateLink("advertisement", new { advertisementId = advertisementId });
+            return this.Links.GenerateLink("advertisement", new { advertisementId });
         }
 
         public async Task<AdvertisementSummaryPageResource> GetAllAdvertisements(string advertiserIdentifier = null)
         {
             return string.IsNullOrWhiteSpace(advertiserIdentifier)
-                ? await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(
+                ? await this._client.GetResourceAsync<AdvertisementSummaryPageResource, AdvertisementErrorResponse>(
                     this.Links.GenerateLink("advertisements"))
-                : await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(
+                : await this._client.GetResourceAsync<AdvertisementSummaryPageResource, AdvertisementErrorResponse>(
                     this.Links.GenerateLink("advertisements", new { advertiserId = advertiserIdentifier }));
+        }
+
+        public async Task<TemplateSummaryListResource> GetAllTemplates(string advertiserIdentifier = null, int? after = null)
+        {
+            var queryParameters = new
+            {
+                advertiserId = string.IsNullOrWhiteSpace(advertiserIdentifier) ? null : advertiserIdentifier,
+                after
+            };
+
+            return await this._client.GetResourceAsync<TemplateSummaryListResource, TemplateErrorResponse>(this.Links.GenerateLink("templates", queryParameters));
         }
 
         public void Initialise(Hal.Client client)

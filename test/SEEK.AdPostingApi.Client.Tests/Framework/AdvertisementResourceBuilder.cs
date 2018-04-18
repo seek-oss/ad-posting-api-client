@@ -15,13 +15,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
     public class AdvertisementResourceBuilder<TAdvertisementResource> :
         AdvertisementModelBuilder<TAdvertisementResource> where TAdvertisementResource : AdvertisementResource, new()
     {
-        private AdvertisementError[] _errors;
+        private Error[] _errors;
         private DateTime _expiryDate;
         private Guid _id;
         private Links _links;
         private ProcessingStatus _processingStatus;
         private AdvertisementState _state;
-        private AdvertisementError[] _warnings;
+        private Error[] _warnings;
 
         protected AdvertisementResourceBuilder(IBuilderInitializer initializer = null) : base(initializer)
         {
@@ -46,7 +46,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return advertisementResource;
         }
 
-        public AdvertisementResourceBuilder<TAdvertisementResource> WithErrors(params AdvertisementError[] errors)
+        public AdvertisementResourceBuilder<TAdvertisementResource> WithErrors(params Error[] errors)
         {
             this._errors = errors;
 
@@ -92,7 +92,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
-        public AdvertisementResourceBuilder<TAdvertisementResource> WithWarnings(params AdvertisementError[] warnings)
+        public AdvertisementResourceBuilder<TAdvertisementResource> WithWarnings(params Error[] warnings)
         {
             this._warnings = warnings;
 

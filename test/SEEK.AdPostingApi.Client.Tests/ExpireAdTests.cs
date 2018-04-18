@@ -91,7 +91,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         private void SetupPactForExpiringExistingAdvertisement(
             string link, OAuth2Token oAuth2Token, string advertisementId, string viewRenderedAdvertisementLink, DateTime expiryDate)
         {
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PATCH advertisement request to expire an advertisement")
                 .With(
@@ -160,7 +160,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             string viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
             DateTime expiryDate = new DateTime(2015, 10, 7, 21, 19, 00, DateTimeKind.Utc);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a POST advertisement request to expire an advertisement")
                 .With(
@@ -233,7 +233,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is an expired advertisement")
                 .UponReceiving("a PATCH advertisement request to expire an advertisement")
                 .With(
@@ -290,7 +290,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "Expired" } }
+                        Errors = new[] { new Error { Code = "Expired" } }
                     });
 
             actualException.ShouldBeEquivalentToException(expectedException);
@@ -303,7 +303,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a PATCH advertisement request to expire a non-existent advertisement")
                 .With(
                     new ProviderServiceRequest
@@ -353,7 +353,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PATCH advertisement request to expire a job using a disabled requestor account")
                 .With(
@@ -410,7 +410,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "AccountError" } }
+                        Errors = new[] { new Error { Code = "AccountError" } }
                     }));
         }
 
@@ -421,7 +421,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PATCH advertisement request to expire a job for an advertiser not related to the requestor's account")
                 .With(
@@ -478,7 +478,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 
@@ -499,7 +499,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 }
             };
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PATCH advertisement request to expire a job using invalid request content")
                 .With(

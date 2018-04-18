@@ -89,7 +89,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         private void SetupPactForGettingExistingAdvertisement(string givenStatement, string link, OAuth2Token oAuth2Token, AllFieldsInitializer builderInitializer,
             string advertisementId, string viewRenderedAdvertisementLink)
         {
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given(givenStatement)
                 .UponReceiving("a GET advertisement request")
                 .With(new ProviderServiceRequest
@@ -144,7 +144,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a GET advertisement request for an advertisement with warnings")
                 .With(new ProviderServiceRequest
@@ -192,8 +192,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                 .WithLinks(advertisementId)
                 .WithProcessingStatus(ProcessingStatus.Completed)
                 .WithWarnings(
-                    new AdvertisementError { Field = "standout.logoId", Code = "missing" },
-                    new AdvertisementError { Field = "standout.bullets", Code = "missing" })
+                    new Error { Field = "standout.logoId", Code = "missing" },
+                    new Error { Field = "standout.bullets", Code = "missing" })
                 .WithAgentId(null)
                 .Build();
 
@@ -207,7 +207,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a GET advertisement request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -247,7 +247,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a GET advertisement request for an advertisement using a disabled requestor account")
                 .With(new ProviderServiceRequest
@@ -291,7 +291,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "AccountError" } }
+                        Errors = new[] { new Error { Code = "AccountError" } }
                     }));
         }
 
@@ -303,7 +303,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a GET advertisement request for an advertisement of an advertiser not related to the requestor's account")
                 .With(new ProviderServiceRequest
@@ -350,7 +350,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 

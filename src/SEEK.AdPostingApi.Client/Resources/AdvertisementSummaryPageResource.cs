@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SEEK.AdPostingApi.Client.Hal;
+using SEEK.AdPostingApi.Client.Models;
 
 namespace SEEK.AdPostingApi.Client.Resources
 {
@@ -38,7 +39,7 @@ namespace SEEK.AdPostingApi.Client.Resources
                 throw new NotSupportedException("There are no more results");
             }
 
-            return await this._client.GetResourceAsync<AdvertisementSummaryPageResource>(this.Links.GenerateLink("next"));
+            return await this._client.GetResourceAsync<AdvertisementSummaryPageResource, AdvertisementErrorResponse>(this.Links.GenerateLink("next"));
         }
     }
 }

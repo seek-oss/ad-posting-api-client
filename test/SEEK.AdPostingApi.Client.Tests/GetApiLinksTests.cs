@@ -27,7 +27,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         [Fact]
         public async Task GetApiLinksWithInvalidAccessTokenTriggersTokenRenewal()
         {
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a GET index request to retrieve API links with an invalid access token")
                 .With(new ProviderServiceRequest
                 {
@@ -65,7 +65,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_InvalidService).Build();
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a GET index request that is unauthorised to retrieve API links")
                 .With(new ProviderServiceRequest
                 {

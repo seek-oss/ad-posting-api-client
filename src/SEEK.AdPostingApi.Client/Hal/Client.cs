@@ -29,12 +29,12 @@ namespace SEEK.AdPostingApi.Client.Hal
             this._httpClient.Dispose();
         }
 
-        public async Task<TResponseResource> GetResourceAsync<TResponseResource>(Uri uri) where TResponseResource : IResource, new()
+        public async Task<TResponseResource> GetResourceAsync<TResponseResource, TErrorResponse>(Uri uri) where TResponseResource : IResource, new()
         {
             using (var httpRequest = new HttpRequestMessage(HttpMethod.Get, uri))
             {
                 httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
-                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader<TErrorResponse>());
 
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
@@ -50,7 +50,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             using (var httpRequest = new HttpRequestMessage(HttpMethod.Head, uri))
             {
                 httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
-                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader<AdvertisementErrorResponse>());
 
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
@@ -68,7 +68,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             using (HttpRequestMessage httpRequest = this.CreateHttpRequest<TRequest>(uri, new HttpMethod("PATCH"), content))
             {
                 httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
-                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader<AdvertisementErrorResponse>());
 
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
@@ -86,7 +86,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             using (HttpRequestMessage httpRequest = this.CreateHttpRequest<TRequest>(uri, HttpMethod.Post, content))
             {
                 httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
-                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader<AdvertisementErrorResponse>());
 
                 using (HttpResponseMessage httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
@@ -104,7 +104,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             using (var httpRequest = this.CreateHttpRequest<TResponseResource>(uri, HttpMethod.Put, content))
             {
                 httpRequest.Headers.Accept.Add(this.CreateResourceHeader<TResponseResource>());
-                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader());
+                httpRequest.Headers.Accept.Add(this.CreateErrorResponseHeader<AdvertisementErrorResponse>());
 
                 using (var httpResponse = await this._httpClient.SendAsync(httpRequest))
                 {
@@ -135,9 +135,9 @@ namespace SEEK.AdPostingApi.Client.Hal
             return resourceHeader;
         }
 
-        private MediaTypeWithQualityHeaderValue CreateErrorResponseHeader()
+        private MediaTypeWithQualityHeaderValue CreateErrorResponseHeader<TErrorResponse>()
         {
-            MediaTypeWithQualityHeaderValue resourceHeader = MediaTypeWithQualityHeaderValue.Parse(typeof(AdvertisementErrorResponse).GetMediaType());
+            MediaTypeWithQualityHeaderValue resourceHeader = MediaTypeWithQualityHeaderValue.Parse(typeof(TErrorResponse).GetMediaType());
 
             resourceHeader.CharSet = "utf-8";
 

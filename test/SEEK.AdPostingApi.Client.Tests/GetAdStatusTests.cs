@@ -68,7 +68,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         private void SetupPactForGettingExistingAdvertisementStatus(string link, OAuth2Token oAuth2Token)
         {
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a HEAD advertisement request")
                 .With(new ProviderServiceRequest
@@ -101,7 +101,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a HEAD advertisement request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -139,7 +139,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a HEAD advertisement request for an advertisement using a disabled requestor account")
                 .With(new ProviderServiceRequest
@@ -182,7 +182,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a HEAD advertisement request for an advertisement of an advertiser not related to the requestor's account")
                 .With(new ProviderServiceRequest

@@ -82,7 +82,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         private void SetupPactForUpdatingExistingAdvertisement(string link, OAuth2Token oAuth2Token, string viewRenderedAdvertisementLink)
         {
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request")
                 .With(new ProviderServiceRequest
@@ -152,7 +152,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a PUT advertisement request for a non-existent advertisement")
                 .With(new ProviderServiceRequest
                 {
@@ -196,7 +196,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request for advertisement with invalid field values")
                 .With(new ProviderServiceRequest
@@ -271,11 +271,11 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Message = "Validation Failure",
                         Errors = new[]
                         {
-                            new AdvertisementError { Field = "applicationEmail", Code = "InvalidEmailAddress" },
-                            new AdvertisementError { Field = "applicationFormUrl", Code = "InvalidUrl" },
-                            new AdvertisementError { Field = "salary.minimum", Code = "ValueOutOfRange" },
-                            new AdvertisementError { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
-                            new AdvertisementError { Field = "template.items[1].name", Code = "Required" }
+                            new Error { Field = "applicationEmail", Code = "InvalidEmailAddress" },
+                            new Error { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                            new Error { Field = "salary.minimum", Code = "ValueOutOfRange" },
+                            new Error { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
+                            new Error { Field = "template.items[1].name", Code = "Required" }
                         }
                     });
 
@@ -288,7 +288,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request for advertisement with invalid salary data")
                 .With(new ProviderServiceRequest
@@ -342,7 +342,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new AdvertisementError { Field = "salary.maximum", Code = "InvalidValue" } }
+                        Errors = new[] { new Error { Field = "salary.maximum", Code = "InvalidValue" } }
                     });
 
             actualException.ShouldBeEquivalentToException(expectedException);
@@ -357,7 +357,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var adDetailsBeforeCleanse = "<p style=\"text-align:justify; font-family:'Comic Sans MS', cursive, sans-serif\">Whimsical</p>";
             var adDetailsAfterCleanse = "<p style=\"text-align:justify\">Whimsical</p>";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request for advertisement with invalid advertisement details")
                 .With(new ProviderServiceRequest
@@ -428,7 +428,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update a job ad with a different advertiser from the one owning the job")
                 .With(
@@ -483,7 +483,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 
@@ -493,7 +493,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.ValidAccessToken_Disabled).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update a job using a disabled requestor account")
                 .With(
@@ -544,7 +544,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "AccountError" } }
+                        Errors = new[] { new Error { Code = "AccountError" } }
                     }));
         }
 
@@ -554,7 +554,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update a job for an advertiser not related to the requestor's account")
                 .With(
@@ -606,7 +606,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 
@@ -616,7 +616,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/c294088d-ff50-4374-bc38-7fa805790e3e";
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is an expired advertisement")
                 .UponReceiving("a PUT advertisement request to update an expired advertisement")
                 .With(
@@ -666,7 +666,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "Expired" } }
+                        Errors = new[] { new Error { Code = "Expired" } }
                     });
 
             actualException.ShouldBeEquivalentToException(expectedException);
@@ -681,7 +681,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             var allFieldsWithGranularLocationInitializer = new AllFieldsInitializer(LocationType.UseGranularLocation);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request to update granular location")
                 .With(new ProviderServiceRequest
@@ -742,7 +742,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
             Guid questionnaireIdUsedForCreateAdvertisement = new Guid("77d26391-eb70-4511-ac3e-2de00c7b9e29");
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data and a questionnaire ID")
                 .UponReceiving("a PUT advertisement request to update a job ad with a questionnaire ID")
                 .With(new ProviderServiceRequest

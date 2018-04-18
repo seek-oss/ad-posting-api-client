@@ -235,6 +235,10 @@
             "advertisement": {
               "href": "/advertisement/{advertisementId}",
               "templated": true
+            },
+            "templates": {
+              "href": "/template{?advertiserId,after}",
+              "templated": true
             }
           }
         }
@@ -869,6 +873,10 @@
             },
             "advertisement": {
               "href": "/advertisement/{advertisementId}",
+              "templated": true
+            },
+            "templates": {
+              "href": "/template{?advertiserId,after}",
               "templated": true
             }
           }

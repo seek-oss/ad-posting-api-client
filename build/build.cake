@@ -147,7 +147,8 @@ Task("PactMarkdown")
         generator.WriteFile(destinationMarkdownPath.ToString());
     }
 
-    GenerateMarkdown(File($"{PactDir}/ad_posting_api_client-ad_posting_api.json"), File($"{PactDir}/README.md"));
+    GenerateMarkdown(File($"{PactDir}/ad_posting_api_client-ad_posting_api.json"), File($"{PactDir}/Ad Posting API Client - Ad Posting API.md"));
+    GenerateMarkdown(File($"{PactDir}/ad_posting_api_client-ad_posting_template_api.json"), File($"{PactDir}/Ad Posting API Client - Ad Posting Template API.md"));
 
     DirectoryPath markdownOutputPath = Directory($"{OutputDir}/markdown");
     CreateDirectory(markdownOutputPath);

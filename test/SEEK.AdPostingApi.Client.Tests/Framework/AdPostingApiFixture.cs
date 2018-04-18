@@ -26,18 +26,18 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public AdPostingApiFixture(AdPostingApiPactService adPostingApiPactService)
         {
-            this.AdPostingApiService = adPostingApiPactService.MockProviderService;
-            this.AdPostingApiService.ClearInteractions();
-            this.AdPostingApiServiceBaseUri = adPostingApiPactService.MockProviderServiceBaseUri;
+            this.MockProviderService = adPostingApiPactService.MockProviderService;
+            this.MockProviderService.ClearInteractions();
+            this.AdPostingApiServiceBaseUri = AdPostingApiPactService.MockProviderServiceBaseUri;
         }
 
-        public IMockProviderService AdPostingApiService { get; }
+        public IMockProviderService MockProviderService { get; }
 
         public Uri AdPostingApiServiceBaseUri { get; }
 
         public void Dispose()
         {
-            this.AdPostingApiService.VerifyInteractions();
+            this.MockProviderService.VerifyInteractions();
         }
 
         public AdPostingApiClient GetClient(OAuth2Token token)
@@ -51,7 +51,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         {
             const string advertisementLink = "/advertisement";
 
-            this.AdPostingApiService
+            this.MockProviderService
                 .UponReceiving($"a GET index request to retrieve API links with Bearer {token.AccessToken}")
                 .With(new ProviderServiceRequest
                 {
@@ -59,9 +59,9 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     Path = "/",
                     Headers = new Dictionary<string, object>
                     {
-                        { "Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
-                        { "Authorization", $"Bearer {token.AccessToken}" },
-                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                        {"Accept", $"{ResponseContentTypes.Hal}, {ResponseContentTypes.AdvertisementErrorVersion1}"},
+                        {"Authorization", $"Bearer {token.AccessToken}"},
+                        {"User-Agent", UserAgentHeaderValue}
                     }
                 })
                 .WillRespondWith(new ProviderServiceResponse
@@ -69,7 +69,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                     Status = 200,
                     Headers = new Dictionary<string, object>
                     {
-                        { "Content-Type", $"{ResponseContentTypes.Hal}" }
+                        {"Content-Type", $"{ResponseContentTypes.Hal}"}
                     },
                     Body = new
                     {
@@ -83,6 +83,11 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                             advertisement = new
                             {
                                 href = advertisementLink + "/{advertisementId}",
+                                templated = true
+                            },
+                            templates = new
+                            {
+                                href = AdPostingTemplateApiFixture.TemplateApiLink,
                                 templated = true
                             }
                         }

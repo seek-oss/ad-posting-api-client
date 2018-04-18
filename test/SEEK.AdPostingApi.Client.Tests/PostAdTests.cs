@@ -45,7 +45,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with required field values only")
                 .With(
                     new ProviderServiceRequest
@@ -110,7 +110,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with required and optional field values")
                 .With(
                     new ProviderServiceRequest
@@ -171,7 +171,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with invalid field values")
                 .With(
                     new ProviderServiceRequest
@@ -249,11 +249,11 @@ namespace SEEK.AdPostingApi.Client.Tests
                         Message = "Validation Failure",
                         Errors = new[]
                         {
-                            new AdvertisementError { Field = "applicationEmail", Code = "InvalidEmailAddress" },
-                            new AdvertisementError { Field = "applicationFormUrl", Code = "InvalidUrl" },
-                            new AdvertisementError { Field = "salary.minimum", Code = "ValueOutOfRange" },
-                            new AdvertisementError { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
-                            new AdvertisementError { Field = "template.items[1].name", Code = "Required" }
+                            new Error { Field = "applicationEmail", Code = "InvalidEmailAddress" },
+                            new Error { Field = "applicationFormUrl", Code = "InvalidUrl" },
+                            new Error { Field = "salary.minimum", Code = "ValueOutOfRange" },
+                            new Error { Field = "standout.bullets[1]", Code = "MaxLengthExceeded" },
+                            new Error { Field = "template.items[1].name", Code = "Required" }
                         }
                     });
 
@@ -267,7 +267,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with invalid salary data")
                 .With(
                     new ProviderServiceRequest
@@ -327,7 +327,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new AdvertisementError { Field = "salary.maximum", Code = "InvalidValue" } }
+                        Errors = new[] { new Error { Field = "salary.maximum", Code = "InvalidValue" } }
                     });
 
             exception.ShouldBeEquivalentToException(expectedException);
@@ -346,7 +346,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with invalid advertisement details")
                 .With(
                     new ProviderServiceRequest
@@ -415,7 +415,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad without a creation id")
                 .With(
                     new ProviderServiceRequest
@@ -466,7 +466,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new AdvertisementError { Field = "creationId", Code = "Required" } }
+                        Errors = new[] { new Error { Field = "creationId", Code = "Required" } }
                     }));
         }
 
@@ -480,7 +480,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
                 .UponReceiving($"a POST advertisement request to create a job ad with the same creation id '{creationId}'")
                 .With(
@@ -527,7 +527,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 new AdvertisementErrorResponse
                 {
                     Message = "Conflict",
-                    Errors = new[] { new AdvertisementError { Field = "creationId", Code = "AlreadyExists" } }
+                    Errors = new[] { new Error { Field = "creationId", Code = "AlreadyExists" } }
                 });
 
             actualException.ShouldBeEquivalentToException(expectedException);
@@ -540,7 +540,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with an invalid advertiser id")
                 .With(
                     new ProviderServiceRequest
@@ -593,7 +593,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "InvalidValue" } }
+                        Errors = new[] { new Error { Code = "InvalidValue" } }
                     }));
         }
 
@@ -604,7 +604,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .Given("The requestor's account is disabled")
                 .UponReceiving("a POST advertisement request to create a job")
                 .With(
@@ -657,7 +657,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "AccountError" } }
+                        Errors = new[] { new Error { Code = "AccountError" } }
                     }));
         }
 
@@ -668,7 +668,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job for an advertiser not related to the requestor's account")
                 .With(
                     new ProviderServiceRequest
@@ -721,7 +721,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new AdvertisementError { Code = "RelationshipError" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 
@@ -732,7 +732,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with duplicated names for template custom fields")
                 .With(
                     new ProviderServiceRequest
@@ -797,8 +797,8 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Message = "Validation Failure",
                     Errors = new[]
                     {
-                        new AdvertisementError { Field = "template.items[0]", Code = "AlreadySpecified" },
-                        new AdvertisementError { Field = "template.items[2]", Code = "AlreadySpecified" }
+                        new Error { Field = "template.items[0]", Code = "AlreadySpecified" },
+                        new Error { Field = "template.items[2]", Code = "AlreadySpecified" }
                     }
                 });
 
@@ -818,7 +818,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             var allFieldsWithGranularLocationInitializer = new AllFieldsInitializer(LocationType.UseGranularLocation);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with granular location")
                 .With(
                     new ProviderServiceRequest
@@ -888,7 +888,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.Fixture.AdPostingApiService
+            this.Fixture.MockProviderService
                 .UponReceiving("a POST advertisement request to create a job ad with a questionnaire ID")
                 .With(
                     new ProviderServiceRequest
