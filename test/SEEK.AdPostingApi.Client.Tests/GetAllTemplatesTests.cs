@@ -370,7 +370,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     Body = new
                     {
                         message = "Forbidden",
-                        errors = new[] { new { code = "InvalidValue" } }
+                        errors = new[] { new { code = "RelationshipError" } }
                     }
                 });
 
@@ -387,7 +387,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new TemplateErrorResponse
                     {
                         Message = "Forbidden",
-                        Errors = new[] { new Error { Code = "InvalidValue" } }
+                        Errors = new[] { new Error { Code = "RelationshipError" } }
                     }));
         }
 
