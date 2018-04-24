@@ -389,7 +389,7 @@ Ad Posting Template API will respond with:
     "message": "Forbidden",
     "errors": [
       {
-        "code": "InvalidValue"
+        "code": "RelationshipError"
       }
     ]
   }
