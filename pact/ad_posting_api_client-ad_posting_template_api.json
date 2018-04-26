@@ -346,7 +346,7 @@
           "message": "Forbidden",
           "errors": [
             {
-              "code": "InvalidValue"
+              "code": "RelationshipError"
             }
           ]
         }
