@@ -261,14 +261,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task PostAdWithInvalidSalaryData()
+        public async Task PostAdWithInvalidLogoId()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.MockProviderService
-                .UponReceiving("a POST advertisement request to create a job ad with invalid salary data")
+                .UponReceiving("a POST advertisement request to create a job ad with invalid logo id")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -282,9 +282,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
-                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
-                            .WithSalaryMinimum(2.0)
-                            .WithSalaryMaximum(1.0)
+                            .WithStandoutLogoId(12341234)
                             .Build()
                     }
                 )
@@ -302,21 +300,20 @@ namespace SEEK.AdPostingApi.Client.Tests
                             message = "Validation Failure",
                             errors = new[]
                             {
-                                new { field = "salary.maximum", code = "InvalidValue" }
+                                new { field = "standout.logoId", code = "InvalidValue" }
                             }
                         }
                     });
 
-            ValidationException exception;
+
+            ValidationException actualException;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
             {
-                exception = await Assert.ThrowsAsync<ValidationException>(
+                actualException = await Assert.ThrowsAsync<ValidationException>(
                     async () =>
                         await client.CreateAdvertisementAsync(new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
-                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
-                            .WithSalaryMinimum(2)
-                            .WithSalaryMaximum(1)
+                            .WithStandoutLogoId(12341234)
                             .Build()));
             }
 
@@ -327,10 +324,10 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new Error { Field = "salary.maximum", Code = "InvalidValue" } }
+                        Errors = new[] { new Error { Field = "standout.logoId", Code = "InvalidValue" } }
                     });
 
-            exception.ShouldBeEquivalentToException(expectedException);
+            actualException.ShouldBeEquivalentToException(expectedException);
         }
 
         [Fact]

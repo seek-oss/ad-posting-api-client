@@ -68,7 +68,7 @@
 
 * [A POST advertisement request to create a job ad with invalid field values](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_field_values)
 
-* [A POST advertisement request to create a job ad with invalid salary data](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_salary_data)
+* [A POST advertisement request to create a job ad with invalid logo id](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_logo_id)
 
 * [A POST advertisement request to create a job ad with required and optional field values](#a_POST_advertisement_request_to_create_a_job_ad_with_required_and_optional_field_values)
 
@@ -90,7 +90,7 @@
 
 * [A PUT advertisement request for advertisement with invalid field values](#a_PUT_advertisement_request_for_advertisement_with_invalid_field_values_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
-* [A PUT advertisement request for advertisement with invalid salary data](#a_PUT_advertisement_request_for_advertisement_with_invalid_salary_data_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
+* [A PUT advertisement request for advertisement with invalid logo id](#a_PUT_advertisement_request_for_advertisement_with_invalid_logo_id_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
 * [A PUT advertisement request to update a job ad with a different advertiser from the one owning the job](#a_PUT_advertisement_request_to_update_a_job_ad_with_a_different_advertiser_from_the_one_owning_the_job_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
@@ -2039,8 +2039,8 @@ Ad Posting API will respond with:
 }
 ```
 
-<a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_salary_data"></a>
-Upon receiving **a POST advertisement request to create a job ad with invalid salary data** from Ad Posting API Client, with
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_invalid_logo_id"></a>
+Upon receiving **a POST advertisement request to create a job ad with invalid logo id** from Ad Posting API Client, with
 ```json
 {
   "method": "post",
@@ -2064,8 +2064,8 @@ Upon receiving **a POST advertisement request to create a job ad with invalid sa
       "areaId": "RussiaEasternEurope"
     },
     "salary": {
-      "minimum": 2.0,
-      "maximum": 1.0,
+      "minimum": 100000.0,
+      "maximum": 119999.0,
       "type": "AnnualPackage"
     },
     "subclassificationId": "AerospaceEngineering",
@@ -2074,7 +2074,9 @@ Upon receiving **a POST advertisement request to create a job ad with invalid sa
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com"
     },
-    "creationId": "20150914-134527-00012"
+    "standout": {
+      "logoId": 12341234
+    }
   }
 }
 ```
@@ -2090,7 +2092,7 @@ Ad Posting API will respond with:
     "message": "Validation Failure",
     "errors": [
       {
-        "field": "salary.maximum",
+        "field": "standout.logoId",
         "code": "InvalidValue"
       }
     ]
@@ -3048,8 +3050,8 @@ Ad Posting API will respond with:
 }
 ```
 
-<a name="a_PUT_advertisement_request_for_advertisement_with_invalid_salary_data_given_There_is_a_standout_advertisement_with_maximum_data"></a>
-Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request for advertisement with invalid salary data** from Ad Posting API Client, with
+<a name="a_PUT_advertisement_request_for_advertisement_with_invalid_logo_id_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request for advertisement with invalid logo id** from Ad Posting API Client, with
 ```json
 {
   "method": "put",
@@ -3073,8 +3075,8 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
       "areaId": "RussiaEasternEurope"
     },
     "salary": {
-      "minimum": 2.0,
-      "maximum": 1.0,
+      "minimum": 100000.0,
+      "maximum": 119999.0,
       "type": "AnnualPackage"
     },
     "subclassificationId": "AerospaceEngineering",
@@ -3082,6 +3084,9 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "recruiter": {
       "fullName": "Recruiter Full Name",
       "email": "recruiter@email.com"
+    },
+    "standout": {
+      "logoId": 12341234
     }
   }
 }
@@ -3098,7 +3103,7 @@ Ad Posting API will respond with:
     "message": "Validation Failure",
     "errors": [
       {
-        "field": "salary.maximum",
+        "field": "standout.logoId",
         "code": "InvalidValue"
       }
     ]
