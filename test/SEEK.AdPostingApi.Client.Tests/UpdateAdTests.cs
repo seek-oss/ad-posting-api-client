@@ -302,7 +302,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
                         { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
-                    Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
+                    Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
                         .WithStandoutLogoId(12341234)
                         .Build()
                 })
@@ -332,7 +332,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 actualException = await Assert.ThrowsAsync<ValidationException>(
                     async () =>
                         await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link),
-                            new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
+                            new AdvertisementModelBuilder(this.AllFieldsInitializer)
                                 .WithStandoutLogoId(12341234)
                                 .Build()));
             }
