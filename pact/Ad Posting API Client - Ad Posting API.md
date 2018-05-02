@@ -2054,9 +2054,10 @@ Upon receiving **a POST advertisement request to create a job ad with invalid lo
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
     "thirdParties": {
-      "advertiserId": "1"
+      "advertiserId": "1",
+      "agentId": "385"
     },
-    "advertisementType": "Classic",
+    "advertisementType": "StandOut",
     "jobSummary": "Developer job",
     "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
     "location": {
@@ -2066,17 +2067,58 @@ Upon receiving **a POST advertisement request to create a job ad with invalid lo
     "salary": {
       "minimum": 100000.0,
       "maximum": 119999.0,
-      "type": "AnnualPackage"
+      "type": "AnnualPackage",
+      "details": "We will pay you"
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
       "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
+      "email": "recruiter@email.com",
+      "teamName": "Recruiter Team Name"
+    },
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
     },
     "standout": {
-      "logoId": 12341234
-    }
+      "logoId": 12341234,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "creationId": "20150914-134527-00097"
   }
 }
 ```
@@ -3065,9 +3107,10 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
   "body": {
     "advertisementDetails": "Exciting, do I need to say more?",
     "thirdParties": {
-      "advertiserId": "1"
+      "advertiserId": "1",
+      "agentId": "385"
     },
-    "advertisementType": "Classic",
+    "advertisementType": "StandOut",
     "jobSummary": "Developer job",
     "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
     "location": {
@@ -3077,17 +3120,57 @@ Given **there is a standout advertisement with maximum data**, upon receiving **
     "salary": {
       "minimum": 100000.0,
       "maximum": 119999.0,
-      "type": "AnnualPackage"
+      "type": "AnnualPackage",
+      "details": "We will pay you"
     },
     "subclassificationId": "AerospaceEngineering",
     "workType": "FullTime",
     "recruiter": {
       "fullName": "Recruiter Full Name",
-      "email": "recruiter@email.com"
+      "email": "recruiter@email.com",
+      "teamName": "Recruiter Team Name"
+    },
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
     },
     "standout": {
-      "logoId": 12341234
-    }
+      "logoId": 12341234,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ]
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ]
   }
 }
 ```
