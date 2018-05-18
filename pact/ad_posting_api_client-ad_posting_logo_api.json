@@ -1,0 +1,47 @@
+{
+  "consumer": {
+    "name": "Ad Posting API Client"
+  },
+  "provider": {
+    "name": "Ad Posting Logo API"
+  },
+  "interactions": [
+    {
+      "description": "a GET logos request to retrieve all logos",
+      "providerState": "There are no logos for any advertiser related to the requestor",
+      "request": {
+        "method": "get",
+        "path": "/logo",
+        "headers": {
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "Accept": "application/vnd.seek.logo-list+json; version=1; charset=utf-8, application/vnd.seek.logo-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.logo-list+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "_embedded": {
+            "logos": [
+
+            ]
+          },
+          "_links": {
+            "self": {
+              "href": "/logo"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "1.0.0"
+    }
+  }
+}

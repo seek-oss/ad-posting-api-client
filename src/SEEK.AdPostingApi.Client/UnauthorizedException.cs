@@ -9,12 +9,7 @@ namespace SEEK.AdPostingApi.Client
             this.Errors = new Error[0];
         }
 
-        public UnauthorizedException(string requestId, int httpStatusCode, AdvertisementErrorResponse errorResponse) : base(requestId, httpStatusCode, errorResponse?.Message)
-        {
-            this.Errors = errorResponse?.Errors ?? new Error[0];
-        }
-
-        public UnauthorizedException(string requestId, int httpStatusCode, TemplateErrorResponse errorResponse) : base(requestId, httpStatusCode, errorResponse?.Message)
+        public UnauthorizedException(string requestId, int httpStatusCode, IErrorResponse errorResponse) : base(requestId, httpStatusCode, errorResponse?.Message)
         {
             this.Errors = errorResponse?.Errors ?? new Error[0];
         }
