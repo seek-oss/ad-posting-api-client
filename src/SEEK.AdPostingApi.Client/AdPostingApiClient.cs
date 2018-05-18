@@ -149,6 +149,18 @@ namespace SEEK.AdPostingApi.Client
             return await this._indexResource.GetAllTemplates(advertiserId, after);
         }
 
+        public async Task<LogoSummaryListResource> GetAllLogosAsync(Uri uri)
+        {
+            return await this._client.GetResourceAsync<LogoSummaryListResource, AdvertisementErrorResponse>(uri);
+        }
+
+        public async Task<LogoSummaryListResource> GetAllLogosAsync(string advertiserId = null)
+        {
+            await this.EnsureIndexResourceInitialised();
+
+            return await this._indexResource.GetAllLogos(advertiserId);
+        }
+
         public void Dispose()
         {
             this._tokenClient.Dispose();
