@@ -188,14 +188,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateSummaryListResource listResource;
+            TemplateSummaryListResource templatesSummary;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync();
+                templatesSummary = await client.GetAllTemplatesAsync();
             }
 
-            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
+            TemplateSummaryListResource expectedTemplates = new TemplateSummaryListResource
             {
                 Templates = new List<TemplateSummaryResource>
                 {
@@ -214,7 +214,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 RequestId = RequestId
             };
 
-            listResource.ShouldBeEquivalentTo(expectedListResource);
+            templatesSummary.ShouldBeEquivalentTo(expectedTemplates);
         }
 
         [Fact]
@@ -256,14 +256,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                 templatesSummary = await client.GetAllTemplatesAsync();
             }
 
-            TemplateSummaryListResource expectedtemplates = new TemplateSummaryListResource
+            TemplateSummaryListResource expectedTemplates = new TemplateSummaryListResource
             {
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri) { { "self", new Link { Href = "/template" } } },
                 Templates = new List<TemplateSummaryResource>(),
                 RequestId = RequestId
             };
 
-            templatesSummary.ShouldBeEquivalentTo(expectedtemplates);
+            templatesSummary.ShouldBeEquivalentTo(expectedTemplates);
         }
 
         [Fact]
@@ -313,14 +313,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateSummaryListResource listResource;
+            TemplateSummaryListResource templatesSummary;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(AdvertiserId1);
+                templatesSummary = await client.GetAllTemplatesAsync(AdvertiserId1);
             }
 
-            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
+            TemplateSummaryListResource expectedTemplates = new TemplateSummaryListResource
             {
                 Templates = new List<TemplateSummaryResource>
                 {
@@ -336,7 +336,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 RequestId = RequestId
             };
 
-            listResource.ShouldBeEquivalentTo(expectedListResource);
+            templatesSummary.ShouldBeEquivalentTo(expectedTemplates);
         }
 
         [Fact]
@@ -490,14 +490,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateSummaryListResource listResource;
+            TemplateSummaryListResource templatesSummary;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(after: TemplateWriteSequence2);
+                templatesSummary = await client.GetAllTemplatesAsync(after: TemplateWriteSequence2);
             }
 
-            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
+            TemplateSummaryListResource expectedTemplates = new TemplateSummaryListResource
             {
                 Templates = new List<TemplateSummaryResource>
                 {
@@ -514,7 +514,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 RequestId = RequestId
             };
 
-            listResource.ShouldBeEquivalentTo(expectedListResource);
+            templatesSummary.ShouldBeEquivalentTo(expectedTemplates);
         }
 
         [Fact]
@@ -617,14 +617,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateSummaryListResource listResource;
+            TemplateSummaryListResource templatesSummary;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(AdvertiserId2, TemplateWriteSequence2);
+                templatesSummary = await client.GetAllTemplatesAsync(AdvertiserId2, TemplateWriteSequence2);
             }
 
-            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
+            TemplateSummaryListResource expectedTemplates = new TemplateSummaryListResource
             {
                 Templates = new List<TemplateSummaryResource>
                 {
@@ -640,7 +640,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 RequestId = RequestId
             };
 
-            listResource.ShouldBeEquivalentTo(expectedListResource);
+            templatesSummary.ShouldBeEquivalentTo(expectedTemplates);
         }
 
         [Fact]
@@ -684,14 +684,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }
                 });
 
-            TemplateSummaryListResource listResource;
+            TemplateSummaryListResource templateSummary;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(this._oAuth2TokenRequestorA))
             {
-                listResource = await client.GetAllTemplatesAsync(AdvertiserId2, TemplateWriteSequence3);
+                templateSummary = await client.GetAllTemplatesAsync(AdvertiserId2, TemplateWriteSequence3);
             }
 
-            TemplateSummaryListResource expectedListResource = new TemplateSummaryListResource
+            TemplateSummaryListResource expectedTemplates = new TemplateSummaryListResource
             {
                 Templates = new List<TemplateSummaryResource>(),
                 Links = new Links(this.Fixture.AdPostingApiServiceBaseUri)
@@ -701,7 +701,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                 RequestId = RequestId
             };
 
-            listResource.ShouldBeEquivalentTo(expectedListResource);
+            templateSummary.ShouldBeEquivalentTo(expectedTemplates);
         }
 
         private AdPostingTemplateApiFixture Fixture { get; }

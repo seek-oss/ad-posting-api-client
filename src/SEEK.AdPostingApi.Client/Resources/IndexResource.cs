@@ -51,6 +51,16 @@ namespace SEEK.AdPostingApi.Client.Resources
             return await this._client.GetResourceAsync<TemplateSummaryListResource, TemplateErrorResponse>(this.Links.GenerateLink("templates", queryParameters));
         }
 
+        public async Task<LogoSummaryListResource> GetAllLogos(string advertiserIdentifier = null)
+        {
+            var queryParameters = new
+            {
+                advertiserId = string.IsNullOrWhiteSpace(advertiserIdentifier) ? null : advertiserIdentifier
+            };
+
+            return await this._client.GetResourceAsync<LogoSummaryListResource, LogoErrorResponse>(this.Links.GenerateLink("logos", queryParameters));
+        }
+
         public void Initialise(Hal.Client client)
         {
             this._client = client;
