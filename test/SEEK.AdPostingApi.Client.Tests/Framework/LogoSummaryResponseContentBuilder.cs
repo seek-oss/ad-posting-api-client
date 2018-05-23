@@ -10,7 +10,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
 
         public LogoSummaryResponseContentBuilder WithId(string id)
         {
-            this._logoSummaryModel.id = id;
+            this._logoSummaryModel.logoId = id;
             return this;
         }
 

@@ -4,7 +4,7 @@ namespace SEEK.AdPostingApi.Client.Models
 {
     public class LogoSummary
     {
-        public string Id { get; set; }
+        public string LogoId { get; set; }
 
         public string Name { get; set; }
 

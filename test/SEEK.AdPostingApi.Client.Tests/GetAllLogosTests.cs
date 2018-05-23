@@ -39,7 +39,7 @@ namespace SEEK.AdPostingApi.Client.Tests
         private const string LogoUpdateDateTimeString3 = "2015-11-11T11:55:55Z";
         private const string LogoUpdateDateTimeString4 = "2017-03-30T11:55:55Z";
         private const string LogoUpdateDateTimeString5 = "2017-05-05T11:55:55Z";
-        private const string Logo1ViewLink = "https://www.seek.com.au/logos/jobseeker/thumbnail/18457.png";
+        private const string Logo1ViewLink = "https://www.seek.com.au/logos/jobseeker/thumbnail/18475.png";
         private const string Logo2ViewLink = "https://www.seek.com.au/logos/jobseeker/thumbnail/781312.png";
         private const string Logo3ViewLink = "https://www.seek.com.au/logos/jobseeker/thumbnail/129301.jpg";
         private const string Logo4ViewLink = "https://www.seek.com.au/logos/jobseeker/thumbnail/129.jpg";
@@ -87,7 +87,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         private readonly LogoSummaryResource _expectedLogoResource1 = new LogoSummaryResource
         {
-            Id = LogoId1,
+            LogoId = LogoId1,
             AdvertiserId = AdvertiserId1,
             Name = Logo1Name,
             UpdatedDateTime = DateTime.Parse(LogoUpdateDateTimeString1),
@@ -100,7 +100,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         private readonly LogoSummaryResource _expectedLogoResource2 = new LogoSummaryResource
         {
-            Id = LogoId2,
+            LogoId = LogoId2,
             AdvertiserId = AdvertiserId1,
             Name = Logo2Name,
             UpdatedDateTime = DateTime.Parse(LogoUpdateDateTimeString2),
@@ -113,7 +113,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         private readonly LogoSummaryResource _expectedLogoResource3 = new LogoSummaryResource
         {
-            Id = LogoId3,
+            LogoId = LogoId3,
             AdvertiserId = AdvertiserId1,
             Name = Logo3Name,
             UpdatedDateTime = DateTime.Parse(LogoUpdateDateTimeString3),
@@ -126,7 +126,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         private readonly LogoSummaryResource _expectedLogoResource4 = new LogoSummaryResource
         {
-            Id = LogoId4,
+            LogoId = LogoId4,
             AdvertiserId = AdvertiserId2,
             Name = Logo4Name,
             UpdatedDateTime = DateTime.Parse(LogoUpdateDateTimeString4),
@@ -139,7 +139,7 @@ namespace SEEK.AdPostingApi.Client.Tests
 
         private readonly LogoSummaryResource _expectedLogoResource5 = new LogoSummaryResource
         {
-            Id = LogoId5,
+            LogoId = LogoId5,
             AdvertiserId = AdvertiserId2,
             Name = Logo5Name,
             UpdatedDateTime = DateTime.Parse(LogoUpdateDateTimeString5),
