@@ -43,27 +43,33 @@ namespace SEEK.AdPostingApi.Client.Tests
         private const int TemplateWriteSequence1 = 7001;
         private const int TemplateWriteSequence2 = 6011;
         private const int TemplateWriteSequence3 = 7005;
+        private const string Template1ThumbnailUrl = "https://www.seek.com.au/templates/example_thumbnail_fgdfdfgg.gif";
+        private const string Template2ThumbnailUrl = "https://www.seek.com.au/templates/example_thumbnail_asdklaas.gif";
+        private const string Template3ThumbnailUrl = "https://www.seek.com.au/templates/example_thumbnail_asidjasd.gif";
 
         private readonly TemplateSummaryResponseContentBuilder _template1 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId1)
             .WithAdvertiserId(AdvertiserId1)
             .WithName(Template1Name)
             .WithUpdatedDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString1))
-            .WithTemplateState("Active");
+            .WithTemplateState("Active")
+            .WithThumbnailLink("thumbnail", Template1ThumbnailUrl);
 
         private readonly TemplateSummaryResponseContentBuilder _template2 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId2)
             .WithAdvertiserId(AdvertiserId1)
             .WithName(Template2Name)
             .WithUpdatedDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString2))
-            .WithTemplateState("Active");
+            .WithTemplateState("Active")
+            .WithThumbnailLink("thumbnail", Template2ThumbnailUrl);
 
         private readonly TemplateSummaryResponseContentBuilder _template3 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId3)
             .WithAdvertiserId(AdvertiserId2)
             .WithName(Template3Name)
             .WithUpdatedDateTime(DateTimeOffset.Parse(TemplateUpdateDateTimeString3))
-            .WithTemplateState("Active");
+            .WithTemplateState("Active")
+            .WithThumbnailLink("thumbnail", Template3ThumbnailUrl);
 
         private readonly TemplateSummaryResponseContentBuilder _template4 = new TemplateSummaryResponseContentBuilder()
             .WithId(TemplateId4)
@@ -87,6 +93,9 @@ namespace SEEK.AdPostingApi.Client.Tests
             UpdatedDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString1),
             State = TemplateStatus.Active,
             Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
+            {
+                { "thumbnail", new Link { Href = Template1ThumbnailUrl } }
+            }
         };
 
         private readonly TemplateSummaryResource _expectedTemplateResource2 = new TemplateSummaryResource
@@ -97,6 +106,9 @@ namespace SEEK.AdPostingApi.Client.Tests
             UpdatedDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString2),
             State = TemplateStatus.Active,
             Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
+            {
+                { "thumbnail", new Link { Href = Template2ThumbnailUrl } }
+            }
         };
 
         private readonly TemplateSummaryResource _expectedTemplateResource3 = new TemplateSummaryResource
@@ -107,6 +119,9 @@ namespace SEEK.AdPostingApi.Client.Tests
             UpdatedDateTime = DateTimeOffset.Parse(TemplateUpdateDateTimeString3),
             State = TemplateStatus.Active,
             Links = new Links(AdPostingTemplateApiPactService.MockProviderServiceBaseUri)
+            {
+                { "thumbnail", new Link { Href = Template3ThumbnailUrl } }
+            }
         };
 
         private readonly TemplateSummaryResource _expectedTemplateResource4 = new TemplateSummaryResource
