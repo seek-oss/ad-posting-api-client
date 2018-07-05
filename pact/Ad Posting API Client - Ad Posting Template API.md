@@ -92,14 +92,24 @@ Ad Posting Template API will respond with:
           "advertiserId": "456",
           "name": "The template with a round logo",
           "updatedDateTime": "2016-11-03T13:11:11Z",
-          "state": "Active"
+          "state": "Active",
+          "_links": {
+            "thumbnail": {
+              "href": "https://www.seek.com.au/templates/example_thumbnail_asdklaas.gif"
+            }
+          }
         },
         {
           "id": "8059016",
           "advertiserId": "456",
           "name": "The blue template",
           "updatedDateTime": "2017-01-03T11:45:44Z",
-          "state": "Active"
+          "state": "Active",
+          "_links": {
+            "thumbnail": {
+              "href": "https://www.seek.com.au/templates/example_thumbnail_fgdfdfgg.gif"
+            }
+          }
         },
         {
           "id": "1132687",
@@ -113,7 +123,12 @@ Ad Posting Template API will respond with:
           "advertiserId": "3214",
           "name": "Testing template",
           "updatedDateTime": "2017-05-07T09:45:43Z",
-          "state": "Active"
+          "state": "Active",
+          "_links": {
+            "thumbnail": {
+              "href": "https://www.seek.com.au/templates/example_thumbnail_asidjasd.gif"
+            }
+          }
         }
       ]
     },
@@ -159,7 +174,12 @@ Ad Posting Template API will respond with:
           "advertiserId": "456",
           "name": "The blue template",
           "updatedDateTime": "2017-01-03T11:45:44Z",
-          "state": "Active"
+          "state": "Active",
+          "_links": {
+            "thumbnail": {
+              "href": "https://www.seek.com.au/templates/example_thumbnail_fgdfdfgg.gif"
+            }
+          }
         },
         {
           "id": "1132687",
@@ -173,7 +193,12 @@ Ad Posting Template API will respond with:
           "advertiserId": "3214",
           "name": "Testing template",
           "updatedDateTime": "2017-05-07T09:45:43Z",
-          "state": "Active"
+          "state": "Active",
+          "_links": {
+            "thumbnail": {
+              "href": "https://www.seek.com.au/templates/example_thumbnail_asidjasd.gif"
+            }
+          }
         }
       ]
     },
@@ -219,14 +244,24 @@ Ad Posting Template API will respond with:
           "advertiserId": "456",
           "name": "The template with a round logo",
           "updatedDateTime": "2016-11-03T13:11:11Z",
-          "state": "Active"
+          "state": "Active",
+          "_links": {
+            "thumbnail": {
+              "href": "https://www.seek.com.au/templates/example_thumbnail_asdklaas.gif"
+            }
+          }
         },
         {
           "id": "8059016",
           "advertiserId": "456",
           "name": "The blue template",
           "updatedDateTime": "2017-01-03T11:45:44Z",
-          "state": "Active"
+          "state": "Active",
+          "_links": {
+            "thumbnail": {
+              "href": "https://www.seek.com.au/templates/example_thumbnail_fgdfdfgg.gif"
+            }
+          }
         }
       ]
     },
@@ -314,7 +349,12 @@ Ad Posting Template API will respond with:
           "advertiserId": "3214",
           "name": "Testing template",
           "updatedDateTime": "2017-05-07T09:45:43Z",
-          "state": "Active"
+          "state": "Active",
+          "_links": {
+            "thumbnail": {
+              "href": "https://www.seek.com.au/templates/example_thumbnail_asidjasd.gif"
+            }
+          }
         }
       ]
     },
