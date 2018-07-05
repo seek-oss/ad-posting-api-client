@@ -37,6 +37,20 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public TemplateSummaryResponseContentBuilder WithThumbnailLink(string linkName, string linkRef)
+        {
+            if (!((IDictionary<string, object>)this._templateSummaryModel).ContainsKey("_links"))
+            {
+                this._templateSummaryModel._links = new ExpandoObject();
+            }
+
+            dynamic href = new ExpandoObject();
+            href.href = linkRef;
+            ((IDictionary<string, object>)this._templateSummaryModel._links).Add(linkName, href);
+
+            return this;
+        }
+
         public dynamic Build()
         {
             return ((IDictionary<string, object>)this._templateSummaryModel).Clone();
