@@ -125,9 +125,7 @@ Task("NuGetTest")
             .Append(sampleProjectPath)
             .Append("--no-cache")
             .Append("--source")
-            .Append(packageSource)
-            .Append("--source")
-            .Append("https://www.nuget.org/"));
+            .Append(packageSource));
 
     var buildSettings = new DotNetCoreBuildSettings {
         Configuration = configuration,
