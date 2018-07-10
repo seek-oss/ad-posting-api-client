@@ -127,7 +127,7 @@ Task("NuGetTest")
             .Append("--source")
             .Append(packageSource)
             .Append("--source")
-            .Append("https://www.nuget.org/"));
+            .Append("https://www.nuget.org/api/v2"));
 
     var buildSettings = new DotNetCoreBuildSettings {
         Configuration = configuration,
