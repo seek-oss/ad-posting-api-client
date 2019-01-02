@@ -1426,6 +1426,344 @@
       }
     },
     {
+      "description": "a POST request to create StandOut job ad with required and optional field values",
+      "request": {
+        "method": "post",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1",
+            "agentId": "385"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "creationId": "20150914-134527-00097"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1",
+            "agentId": "385"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+            },
+            "view": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "a POST request to create Premium job ad with required and optional field values",
+      "request": {
+        "method": "post",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1",
+            "agentId": "385"
+          },
+          "advertisementType": "Premium",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "creationId": "20150914-134527-00097"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1",
+            "agentId": "385"
+          },
+          "advertisementType": "Premium",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+            },
+            "view": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+            }
+          }
+        }
+      }
+    },
+    {
       "description": "a POST advertisement request to create a job ad with granular location",
       "request": {
         "method": "post",
@@ -1885,175 +2223,6 @@
             "fullName": "Recruiter Full Name",
             "email": "recruiter@email.com"
           },
-          "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
-          "expiryDate": "2015-11-07T12:59:59Z",
-          "state": "Open",
-          "_links": {
-            "self": {
-              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
-            },
-            "view": {
-              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
-            }
-          }
-        }
-      }
-    },
-    {
-      "description": "a POST advertisement request to create a job ad with required and optional field values",
-      "request": {
-        "method": "post",
-        "path": "/advertisement",
-        "headers": {
-          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
-          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1",
-            "agentId": "385"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "recruiter": {
-            "fullName": "Recruiter Full Name",
-            "email": "recruiter@email.com",
-            "teamName": "Recruiter Team Name"
-          },
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
-          "creationId": "20150914-134527-00097"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-          "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
-          "X-Request-Id": "PactRequestId"
-        },
-        "body": {
-          "advertisementDetails": "Exciting, do I need to say more?",
-          "thirdParties": {
-            "advertiserId": "1",
-            "agentId": "385"
-          },
-          "advertisementType": "StandOut",
-          "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
-          "location": {
-            "id": "EuropeRussia",
-            "areaId": "RussiaEasternEurope"
-          },
-          "salary": {
-            "minimum": 100000.0,
-            "maximum": 119999.0,
-            "type": "AnnualPackage",
-            "details": "We will pay you"
-          },
-          "subclassificationId": "AerospaceEngineering",
-          "workType": "FullTime",
-          "recruiter": {
-            "fullName": "Recruiter Full Name",
-            "email": "recruiter@email.com",
-            "teamName": "Recruiter Team Name"
-          },
-          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
-          "contact": {
-            "name": "Contact name",
-            "email": "qwert@asdf.com",
-            "phone": "+1 (123) 456 7889"
-          },
-          "video": {
-            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
-            "position": "Above"
-          },
-          "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
-          "screenId": 1,
-          "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
-          "template": {
-            "id": 1,
-            "items": [
-              {
-                "name": "Template Line 1",
-                "value": "Template Value 1"
-              },
-              {
-                "name": "Template Line 2",
-                "value": "Template Value 2"
-              }
-            ]
-          },
-          "standout": {
-            "logoId": 1,
-            "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
-            ]
-          },
-          "additionalProperties": [
-            "ResidentsOnly",
-            "Graduate"
-          ],
           "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
           "expiryDate": "2015-11-07T12:59:59Z",
           "state": "Open",
@@ -2670,6 +2839,104 @@
       }
     },
     {
+      "description": "a PUT advertisement request for advertisement with invalid logo id",
+      "providerState": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "put",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1",
+            "agentId": "385"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 12341234,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ]
+        }
+      },
+      "response": {
+        "status": 422,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Validation Failure",
+          "errors": [
+            {
+              "field": "standout.logoId",
+              "code": "InvalidValue"
+            }
+          ]
+        }
+      }
+    },
+    {
       "description": "a PUT advertisement request",
       "providerState": "There is a standout advertisement with maximum data",
       "request": {
@@ -2834,8 +3101,8 @@
       }
     },
     {
-      "description": "a PUT advertisement request for advertisement with invalid logo id",
-      "providerState": "There is a standout advertisement with maximum data",
+      "description": "a PUT advertisement request",
+      "providerState": "There is a premium advertisement with maximum data",
       "request": {
         "method": "put",
         "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
@@ -2848,12 +3115,11 @@
         "body": {
           "advertisementDetails": "Exciting, do I need to say more?",
           "thirdParties": {
-            "advertiserId": "1",
-            "agentId": "385"
+            "advertiserId": "1"
           },
-          "advertisementType": "StandOut",
+          "advertisementType": "Premium",
           "jobSummary": "Developer job",
-          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
           "location": {
             "id": "EuropeRussia",
             "areaId": "RussiaEasternEurope"
@@ -2882,11 +3148,10 @@
             "position": "Above"
           },
           "applicationEmail": "asdf@asdf.com",
-          "applicationFormUrl": "http://apply.com/",
-          "endApplicationUrl": "http://endform.com/",
+          "applicationFormUrl": "http://FakeATS.com.au",
+          "endApplicationUrl": "http://endform.com/updated",
           "screenId": 1,
           "jobReference": "JOB1234",
-          "agentJobReference": "AGENTJOB1234",
           "template": {
             "id": 1,
             "items": [
@@ -2901,11 +3166,11 @@
             ]
           },
           "standout": {
-            "logoId": 12341234,
+            "logoId": 1,
             "bullets": [
-              "Uzi",
-              "Remington Model",
-              "AK-47"
+              "new Uzi",
+              "new Remington Model",
+              "new AK-47"
             ]
           },
           "additionalProperties": [
@@ -2915,19 +3180,87 @@
         }
       },
       "response": {
-        "status": 422,
+        "status": 200,
         "headers": {
-          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
           "X-Request-Id": "PactRequestId"
         },
         "body": {
-          "message": "Validation Failure",
-          "errors": [
-            {
-              "field": "standout.logoId",
-              "code": "InvalidValue"
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Premium",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$ - updated",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://FakeATS.com.au",
+          "endApplicationUrl": "http://endform.com/updated",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": 1,
+            "bullets": [
+              "new Uzi",
+              "new Remington Model",
+              "new AK-47"
+            ]
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
             }
-          ]
+          }
         }
       }
     },

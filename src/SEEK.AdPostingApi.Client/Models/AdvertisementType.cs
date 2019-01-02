@@ -3,6 +3,7 @@
     public enum AdvertisementType
     {
         Classic = 1,
-        StandOut
+        StandOut,
+        Premium
     }
 }

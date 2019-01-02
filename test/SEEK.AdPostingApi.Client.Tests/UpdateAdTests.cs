@@ -32,16 +32,17 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.Dispose();
         }
 
-        [Fact]
-        public async Task UpdateExistingAdvertisementUsingHalSelfLink()
+        [Theory, MemberData(nameof(AdvertisementTypeTheoryData.AdvertisementTypes), MemberType = typeof(AdvertisementTypeTheoryData))]
+        public async Task UpdateExistingAdvertisementUsingHalSelfLink(AdvertisementType advertisementType)
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
+            var modelBuilder = new AdvertisementModelBuilder(this.AllFieldsInitializer).WithAdvertisementType(advertisementType);
 
-            this.SetupPactForUpdatingExistingAdvertisement(link, oAuth2Token, viewRenderedAdvertisementLink);
+            this.SetupPactForUpdatingExistingAdvertisement(link, oAuth2Token, viewRenderedAdvertisementLink, advertisementType);
 
-            Advertisement requestModel = this.SetupModelForExistingAdvertisement(new AdvertisementModelBuilder(this.AllFieldsInitializer)).Build();
+            Advertisement requestModel = this.SetupModelForExistingAdvertisement(modelBuilder).Build();
             AdvertisementResource result;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
@@ -49,24 +50,28 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel);
             }
 
-            AdvertisementResource expectedResult = this.SetupModelForExistingAdvertisement(
-                new AdvertisementResourceBuilder(this.AllFieldsInitializer).WithId(new Guid(AdvertisementId)).WithLinks(AdvertisementId)).Build();
+            var resourceBuilder = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(AdvertisementId))
+                .WithLinks(AdvertisementId)
+                .WithAdvertisementType(advertisementType);
+            AdvertisementResource expectedResult = this.SetupModelForExistingAdvertisement(resourceBuilder).Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [Fact]
-        public async Task UpdateExistingAdvertisementUsingHalTemplateWithAdvertisementId()
+        [Theory, MemberData(nameof(AdvertisementTypeTheoryData.AdvertisementTypes), MemberType = typeof(AdvertisementTypeTheoryData))]
+        public async Task UpdateExistingAdvertisementUsingHalTemplateWithAdvertisementId(AdvertisementType advertisementType)
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
+            var modelBuilder = new AdvertisementModelBuilder(this.AllFieldsInitializer).WithAdvertisementType(advertisementType);
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
-            this.SetupPactForUpdatingExistingAdvertisement(link, oAuth2Token, viewRenderedAdvertisementLink);
+            this.SetupPactForUpdatingExistingAdvertisement(link, oAuth2Token, viewRenderedAdvertisementLink, advertisementType);
 
-            Advertisement requestModel = this.SetupModelForExistingAdvertisement(new AdvertisementModelBuilder(this.AllFieldsInitializer)).Build();
+            Advertisement requestModel = this.SetupModelForExistingAdvertisement(modelBuilder).Build();
             AdvertisementResource result;
 
             using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
@@ -74,16 +79,19 @@ namespace SEEK.AdPostingApi.Client.Tests
                 result = await client.UpdateAdvertisementAsync(new Guid(AdvertisementId), requestModel);
             }
 
-            AdvertisementResource expectedResult = this.SetupModelForExistingAdvertisement(
-                new AdvertisementResourceBuilder(this.AllFieldsInitializer).WithId(new Guid(AdvertisementId)).WithLinks(AdvertisementId)).Build();
+            var resourceBuilder = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(AdvertisementId))
+                .WithLinks(AdvertisementId)
+                .WithAdvertisementType(advertisementType);
+            AdvertisementResource expectedResult = this.SetupModelForExistingAdvertisement(resourceBuilder).Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        private void SetupPactForUpdatingExistingAdvertisement(string link, OAuth2Token oAuth2Token, string viewRenderedAdvertisementLink)
+        private void SetupPactForUpdatingExistingAdvertisement(string link, OAuth2Token oAuth2Token, string viewRenderedAdvertisementLink, AdvertisementType advertisementType)
         {
             this.Fixture.MockProviderService
-                .Given("There is a standout advertisement with maximum data")
+                .Given($"There is a {advertisementType.ToString().ToLowerInvariant()} advertisement with maximum data")
                 .UponReceiving("a PUT advertisement request")
                 .With(new ProviderServiceRequest
                 {
@@ -97,6 +105,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
+                        .WithAdvertisementType(advertisementType.ToString())
                         .WithAgentId(null)
                         .WithAgentJobReference(null)
                         .WithJobTitle("Exciting Senior Developer role in a great CBD location. Great $$$ - updated")
@@ -127,6 +136,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithApplicationFormUrl("http://FakeATS.com.au")
                             .WithEndApplicationUrl("http://endform.com/updated")
                             .WithStandoutBullets("new Uzi", "new Remington Model", "new AK-47")
+                            .WithAdvertisementType(advertisementType.ToString())
                             .Build()
                     });
         }
@@ -322,7 +332,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             {
                                 new { field = "standout.logoId", code = "InvalidValue" }
                             }
-                        } 
+                        }
                     });
 
             ValidationException actualException;

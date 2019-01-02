@@ -99,8 +99,8 @@ namespace SEEK.AdPostingApi.Client.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
-        [Fact]
-        public async Task PostAdWithRequiredAndOptionalFieldValues()
+        [Theory, MemberData(nameof(AdvertisementTypeTheoryData.AdvertisementTypes), MemberType = typeof(AdvertisementTypeTheoryData))]
+        public async Task PostAdWithRequiredAndOptionalFieldValues(AdvertisementType advertisementType)
         {
             const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
@@ -111,7 +111,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
             this.Fixture.MockProviderService
-                .UponReceiving("a POST advertisement request to create a job ad with required and optional field values")
+                .UponReceiving($"a POST request to create {advertisementType} job ad with required and optional field values")
                 .With(
                     new ProviderServiceRequest
                     {
@@ -125,6 +125,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                         },
                         Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
+                            .WithAdvertisementType(advertisementType.ToString())
                             .WithRequestCreationId(CreationIdForAdWithMaximumRequiredData)
                             .Build()
                     }
@@ -144,10 +145,14 @@ namespace SEEK.AdPostingApi.Client.Tests
                             .WithId(advertisementId)
                             .WithLink("self", link)
                             .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithAdvertisementType(advertisementType.ToString())
                             .Build()
                     });
 
-            var requestModel = new AdvertisementModelBuilder(this.AllFieldsInitializer).WithRequestCreationId(CreationIdForAdWithMaximumRequiredData).Build();
+            var requestModel = new AdvertisementModelBuilder(this.AllFieldsInitializer)
+                .WithAdvertisementType(advertisementType)
+                .WithRequestCreationId(CreationIdForAdWithMaximumRequiredData)
+                .Build();
 
             AdvertisementResource result;
 
@@ -159,6 +164,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
                 .WithId(new Guid(advertisementId))
                 .WithLinks(advertisementId)
+                .WithAdvertisementType(advertisementType)
                 .Build();
 
             result.ShouldBeEquivalentTo(expectedResult);
@@ -305,7 +311,6 @@ namespace SEEK.AdPostingApi.Client.Tests
                             }
                         }
                     });
-
 
             ValidationException actualException;
 
