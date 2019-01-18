@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>SEEK Ad Posting API Client</Description>
-    <TargetFramework>netstandard1.5</TargetFramework>
+    <TargetFrameworks>netstandard1.5;netstandard2.0</TargetFrameworks>
     <AssemblyName>SEEK.AdPostingApi.Client</AssemblyName>
     <PackageId>SEEK.AdPostingApi.Client</PackageId>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
