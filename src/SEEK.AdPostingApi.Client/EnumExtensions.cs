@@ -8,7 +8,7 @@ namespace SEEK.AdPostingApi.Client
     {
         public static T GetAttribute<T>(this Enum @enum) where T : Attribute
         {
-            return @enum.GetType().GetMember(@enum.ToString())[0]
+            return @enum.GetType().GetTypeInfo().GetMember(@enum.ToString())[0]
                 .GetCustomAttributes(typeof(T), false)
                 .Cast<T>()
                 .SingleOrDefault();

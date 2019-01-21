@@ -1,17 +1,19 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Operations;
+﻿using System.Collections.Generic;
 using SEEK.AdPostingApi.Client.Hal;
 
 namespace SEEK.AdPostingApi.Client.Models
 {
     [MediaType("application/vnd.seek.advertisement-patch+json;version=1")]
-    public class ExpireAdvertisementJsonPatch : JsonPatchDocument<AdvertisementPatch>
+    public class ExpireAdvertisementJsonPatch : List<JsonPatchOperation>
     {
         public ExpireAdvertisementJsonPatch()
         {
-            this.Operations.Add(
-                new Operation<AdvertisementPatch>(
-                    OperationType.Replace.ToString().ToLower(), nameof(AdvertisementPatch.State).ToLower(), null, AdvertisementState.Expired.ToString()));
+            Add(new JsonPatchOperation
+            {
+                Operation = "replace",
+                Path = nameof(AdvertisementPatch.State).ToLower(),
+                Value = AdvertisementState.Expired.ToString()
+            });
         }
     }
 }
