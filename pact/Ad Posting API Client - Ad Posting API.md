@@ -1459,7 +1459,7 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "X-Request-Id": "PactRequestId"
   },
   "body": {
@@ -1772,7 +1772,7 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "X-Request-Id": "PactRequestId"
   },
   "body": {
@@ -1906,7 +1906,7 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "X-Request-Id": "PactRequestId"
   },
   "body": {
@@ -2191,7 +2191,7 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "X-Request-Id": "PactRequestId"
   },
   "body": {
@@ -2276,7 +2276,7 @@ Ad Posting API will respond with:
 {
   "status": 409,
   "headers": {
-    "Location": "http://localhost/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "Location": "http://localhost:5001/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
     "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
     "X-Request-Id": "PactRequestId"
   },
@@ -2607,7 +2607,7 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "X-Request-Id": "PactRequestId"
   },
   "body": {
@@ -2781,7 +2781,7 @@ Ad Posting API will respond with:
   "status": 200,
   "headers": {
     "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
-    "Location": "http://localhost/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "X-Request-Id": "PactRequestId"
   },
   "body": {

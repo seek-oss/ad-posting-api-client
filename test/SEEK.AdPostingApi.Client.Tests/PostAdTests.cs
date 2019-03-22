@@ -14,6 +14,7 @@ namespace SEEK.AdPostingApi.Client.Tests
     [Collection(AdPostingApiCollection.Name)]
     public class PostAdTests : IDisposable
     {
+    	private const string ServerBaseUrl = "http://localhost:5001";
         private const string AdvertisementLink = "/advertisement";
         private const string CreationIdForAdWithMinimumRequiredData = "20150914-134527-00012";
         private const string CreationIdForAdWithMaximumRequiredData = "20150914-134527-00097";
@@ -41,7 +42,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
-            var location = $"http://localhost{link}";
+            var location = $"{ServerBaseUrl}{link}";
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
@@ -106,7 +107,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
-            var location = $"http://localhost{link}";
+            var location = $"{ServerBaseUrl}{link}";
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
@@ -344,7 +345,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
-            var location = $"http://localhost{link}";
+            var location = $"{ServerBaseUrl}{link}";
             var adDetailsBeforeCleanse = "<p style=\"text-align:justify; color:#FF00AA\">Colourful</p>";
             var adDetailsAfterCleanse = "<p style=\"text-align:justify\">Colourful</p>";
 
@@ -480,7 +481,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             const string creationId = "CreationIdOf8e2fde50-bc5f-4a12-9cfb-812e50500184";
             const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
-            var location = $"http://localhost{AdvertisementLink}/{advertisementId}";
+            var location = $"{ServerBaseUrl}{AdvertisementLink}/{advertisementId}";
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
@@ -816,7 +817,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
-            var location = $"http://localhost{link}";
+            var location = $"{ServerBaseUrl}{link}";
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
@@ -888,7 +889,7 @@ namespace SEEK.AdPostingApi.Client.Tests
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{advertisementId}";
             var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
-            var location = $"http://localhost{link}";
+            var location = $"{ServerBaseUrl}{link}";
 
             this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
 
