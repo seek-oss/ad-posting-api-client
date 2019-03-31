@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>SEEK Ad Posting API Client</Description>
-    <TargetFrameworks>netstandard1.5;netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard1.5</TargetFrameworks>
     <AssemblyName>SEEK.AdPostingApi.Client</AssemblyName>
     <PackageId>SEEK.AdPostingApi.Client</PackageId>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="1.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Tavis.UriTemplates" Version="1.1.1" />
   </ItemGroup>

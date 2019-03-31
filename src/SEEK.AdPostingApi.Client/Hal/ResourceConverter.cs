@@ -37,7 +37,7 @@ namespace SEEK.AdPostingApi.Client.Hal
             {
                 foreach (JProperty embedded in token["_embedded"].Cast<JProperty>())
                 {
-                    foreach (var property in objectType.GetProperties())
+                    foreach (var property in objectType.GetTypeInfo().GetProperties())
                     {
                         var attribute = (EmbeddedAttribute)property.GetCustomAttributes(true)
                             .FirstOrDefault(attr => attr is EmbeddedAttribute && ((EmbeddedAttribute)attr).Rel == embedded.Name);
@@ -53,7 +53,7 @@ namespace SEEK.AdPostingApi.Client.Hal
                 }
             }
 
-            foreach (var property in objectType.GetProperties())
+            foreach (var property in objectType.GetTypeInfo().GetProperties())
             {
                 var attribute = (FromHeaderAttribute)property.GetCustomAttributes(true).FirstOrDefault(attr => attr is FromHeaderAttribute);
 
@@ -65,7 +65,7 @@ namespace SEEK.AdPostingApi.Client.Hal
                 }
             }
 
-            if (typeof(IResource).IsAssignableFrom(objectType))
+            if (typeof(IResource).GetTypeInfo().IsAssignableFrom(objectType))
             {
                 ((IResource)result).Links = (token["_links"] == null)
                     ? new Links()
@@ -80,7 +80,7 @@ namespace SEEK.AdPostingApi.Client.Hal
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(IResource).IsAssignableFrom(objectType);
+            return typeof(IResource).GetTypeInfo().IsAssignableFrom(objectType);
         }
     }
 }
