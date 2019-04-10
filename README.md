@@ -98,6 +98,8 @@ The build scripts are written in [Cake](https://cakebuild.net) (C#), and will au
 ### Prerequisites
 
   1. Powershell v4 or later
+  2. [CS-Script](https://github.com/filipw/dotnet-script) for generating PACT markdown files.
+     _If ".Net Core 2.1 Global Tool" does not work, use the OS-specific install instructions._
 
 ### Steps
 
