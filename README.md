@@ -19,8 +19,8 @@
 
 1. [Job Ad Posting API Documentation](https://devportal.seek.com.au)
 2. [NuGet Package](https://www.nuget.org/packages/SEEK.AdPostingApi.Client)
-3. [Release Notes](https://github.com/SEEK-Jobs/ad-posting-api-client/releases)
-4. [Contract (PACT) Between the API Client and the Job Ad Posting API](https://github.com/SEEK-Jobs/ad-posting-api-client/blob/master/pact/README.md)
+3. [Release Notes](https://github.com/seek-oss/ad-posting-api-client/releases)
+4. [Contract (PACT) Between the API Client and the Job Ad Posting API](https://github.com/seek-oss/ad-posting-api-client/blob/master/pact/README.md)
 
 ## Usage
 
