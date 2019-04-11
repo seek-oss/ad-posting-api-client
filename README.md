@@ -93,6 +93,30 @@ using (var client = new AdPostingApiClient("<client id>", "<client secret>", Env
 
 ## Building
 
+The build scripts are written in [GNU Make](https://www.gnu.org/software/make/).
+
+### Prerequisites
+
+1. [Dotnet core 2.1 LTS SDK](https://dotnet.microsoft.com/download/dotnet-core/2.1).
+2. [GNU Make](https://www.gnu.org/software/make/) to run the build locally.
+3. [CS-Script](https://github.com/filipw/dotnet-script) for generating PACT markdown files.
+     _If ".Net Core 2.1 Global Tool" does not work, use the OS-specific install instructions._
+
+### Steps
+
+Run `make` from the root folder to get help on targets.
+
+Example targets:
+
+* `make` to show help
+* `make test` to build and run tests locally
+
+### Notes
+
+* The latest PACTs in `/pact` should be committed and pushed, this includes the documentation generated with the `pact-markdown` target
+
+## Building (Powershell / Cake)
+
 The build scripts are written in [Cake](https://cakebuild.net) (C#), and will automatically pull down the required .NET Core SDK.
 
 ### Prerequisites
