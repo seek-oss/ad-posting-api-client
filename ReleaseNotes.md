@@ -4,3 +4,4 @@ Updates:
 * Added cs-script for generating PACT markdown files.
 * Added script for publishing PACTs to PACT broker.
 * Build and test using `make`.
+* Added script to create Github release.
