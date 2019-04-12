@@ -5,7 +5,6 @@ GIT_BRANCH_NORMALISED := $(shell echo "$(GIT_BRANCH)" | sed 's|[^[:alnum:]]|-|g'
 
 IMAGE = ad-posting-api-client
 APP_DOCKER_IMAGE = $(IMAGE):$(BUILD_NUMBER)
-APP_DOCKER_IMAGE_TEST = $(APP_DOCKER_IMAGE)-package-test
 
 VERSION = 2.0.$(BUILD_NUMBER)
 PACKAGE_VERSION = $(if $(GIT_BRANCH_NORMALISED:master=),$(VERSION)-$(GIT_BRANCH_NORMALISED),$(VERSION))
@@ -23,12 +22,8 @@ pact-markdown: ## Generate PACT markdown
 
 ##@ Deployments
 
-docker-build: ## Builds and tests API client, generates nuget package
+docker-build: ## Builds and tests API client, generates nuget package and tests nuget package
 	docker build --target build --build-arg 'VERSION=$(VERSION)' --build-arg='GIT_BRANCH_NORMALISED=$(GIT_BRANCH_NORMALISED)' --build-arg='PACKAGE_VERSION=$(PACKAGE_VERSION)' -t $(APP_DOCKER_IMAGE) .
-
-docker-test-package: docker-build ## Tests nuget package
-	@printf "\e[96m%s\e[0m\n" "Testing package"
-	docker build --rm --target package-test --build-arg 'VERSION=$(VERSION)' --build-arg='GIT_BRANCH_NORMALISED=$(GIT_BRANCH_NORMALISED)' --build-arg='PACKAGE_VERSION=$(PACKAGE_VERSION)' -t $(APP_DOCKER_IMAGE_TEST) .
 
 ##@ Helpers
 
@@ -39,4 +34,4 @@ help:
 
 .DEFAULT_GOAL := help
 
-.PHONY: clean test pact-markdown docker-build docker-test-package
+.PHONY: clean test pact-markdown docker-build
