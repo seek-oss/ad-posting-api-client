@@ -2,6 +2,13 @@
 
 set -eou pipefail
 
+if [[ $# -lt 3 ]]; then
+  printf "\e[1;37mUsage:\n\e[0m%s\n\n" "`basename ${0}` <pactBrokerUrl> <apiVersion> <buildNumber>"
+  if [[ $# -eq 0 ]]; then
+    exit 1
+  fi
+fi
+
 pactBrokerUrl=${1?param missing - PACT broker URL is required e.g. http://pactbroker}
 apiVersion=${2?param missing - API version e.g. 1.0}
 buildNumber=${3?param missing - build number is missing e.g. 42}
