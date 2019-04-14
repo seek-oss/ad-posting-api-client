@@ -1,0 +1,11 @@
+.DS_Store
+.dockerignore
+.git*
+Dockerfile
+Makefile
+build
+out
+logs
+pact
+**/bin
+**/obj
