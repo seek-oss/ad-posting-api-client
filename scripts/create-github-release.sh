@@ -2,6 +2,16 @@
 
 set -eou pipefail
 
+if [[ $# -lt 4 ]]; then
+  printf "\e[1;37mUsage:\n\e[0m%s\n\n\e[1;37mExample:\e[0m\n%s\n%s\n\n" \
+    "`basename ${0}` <remoteName> <githubOrg> <githubRepo> <version> [nonInteractive]" \
+    "`basename ${0}` origin seek ad-posting-api-client 1.2.3-pre-release" \
+    "`basename ${0}` origin seek ad-posting-api-client 1.2.4 true"
+  if [[ $# -eq 0 ]]; then
+    exit 1
+  fi
+fi
+
 remoteName=${1?param missing - git remote name e.g. origin}
 githubOrg=${2?param missing - github organisation e.g. seek-oss}
 githubRepo=${3?param missing - github repo e.g. ad-posting-api-client}
