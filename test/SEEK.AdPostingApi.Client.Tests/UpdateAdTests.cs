@@ -293,14 +293,14 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
-        public async Task UpdateWithInvalidLogoId()
+        public async Task UpdateWithInvalidSubclassificationId()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
             var link = $"{AdvertisementLink}/{AdvertisementId}";
 
             this.Fixture.MockProviderService
                 .Given("There is a standout advertisement with maximum data")
-                .UponReceiving("a PUT advertisement request for advertisement with invalid logo id")
+                .UponReceiving("a PUT advertisement request for advertisement with invalid sub-classification id")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Put,
@@ -313,7 +313,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                         { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
                     },
                     Body = new AdvertisementContentBuilder(this.AllFieldsInitializer)
-                        .WithStandoutLogoId(12341234)
+                        .WithSubclassificationId("invalid-subclassification-id")
                         .Build()
                 })
                 .WillRespondWith(
@@ -330,7 +330,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                             message = "Validation Failure",
                             errors = new[]
                             {
-                                new { field = "standout.logoId", code = "InvalidValue" }
+                                new { field = "subclassificationId", code = "InvalidValue" }
                             }
                         }
                     });
@@ -343,7 +343,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     async () =>
                         await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link),
                             new AdvertisementModelBuilder(this.AllFieldsInitializer)
-                                .WithStandoutLogoId(12341234)
+                                .WithSubclassificationId("invalid-subclassification-id")
                                 .Build()));
             }
 
@@ -354,7 +354,7 @@ namespace SEEK.AdPostingApi.Client.Tests
                     new AdvertisementErrorResponse
                     {
                         Message = "Validation Failure",
-                        Errors = new[] { new Error { Field = "standout.logoId", Code = "InvalidValue" } }
+                        Errors = new[] { new Error { Field = "subclassificationId", Code = "InvalidValue" } }
                     });
 
             actualException.ShouldBeEquivalentToException(expectedException);

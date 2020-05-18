@@ -5,3 +5,4 @@ Updates:
 * Added script for publishing PACTs to PACT broker.
 * Build and test using `make`.
 * Added script to create Github release.
+* Updated PACT tests for field validation.
