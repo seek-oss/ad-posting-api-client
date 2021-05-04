@@ -125,4 +125,4 @@ void GenerateMarkdown(string pactJsonPath, string destinationMarkdownPath)
 const string PactDir = "./pact";
 
 GenerateMarkdown($"{PactDir}/ad_posting_api_client-ad_posting_api.json", $"{PactDir}/Ad Posting API Client - Ad Posting API.md");
-GenerateMarkdown($"{PactDir}/ad_posting_api_client-ad_posting_template_api.json", $"{PactDir}/Ad Posting API Client - Ad Posting Template API.md");
+GenerateMarkdown($"{PactDir}/ad_posting_api_client-ad_posting_logo_api.json", $"{PactDir}/Ad Posting API Client - Ad Posting Template API.md");

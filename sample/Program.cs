@@ -19,7 +19,7 @@ namespace SEEK.AdPostingApi.SampleConsumer
         private const string ClientId = "ClientId";
         private const string ClientSecret = "ClientSecret";
 
-        private static readonly RetryPolicy TransientErrorRetryPolicy = Policy
+        private static readonly AsyncRetryPolicy TransientErrorRetryPolicy = Policy
             .Handle<RequestException>(ex => ex.StatusCode >= 500)
             .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(BaseRetryIntervalSeconds * Math.Pow(2, attempt)),
                     (exception, waitInterval) =>

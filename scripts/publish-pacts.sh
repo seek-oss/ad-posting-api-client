@@ -37,4 +37,3 @@ function publishPact {
 
 publishPact 'ad_posting_api_client-ad_posting_api' 'Ad%20Posting%20API'
 publishPact 'ad_posting_api_client-ad_posting_logo_api' 'Ad%20Posting%20Logo%20API'
-publishPact 'ad_posting_api_client-ad_posting_template_api' 'Ad%20Posting%20Template%20API'

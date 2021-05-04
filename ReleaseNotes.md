@@ -6,3 +6,4 @@ Updates:
 * Build and test using `make`.
 * Added script to create Github release.
 * Updated PACT tests for field validation.
+* Add shell script to build and publish Nuget package

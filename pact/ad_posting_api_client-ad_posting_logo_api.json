@@ -64,7 +64,7 @@
                 "logoId": "18475",
                 "advertiserId": "456",
                 "name": "The red logo",
-                "updatedDateTime": "2018-01-03T11:55:55Z",
+                "updatedDateTime": "2018-01-03T22:55:55+11:00",
                 "state": "Active",
                 "_links": {
                   "view": {
@@ -76,7 +76,7 @@
                 "logoId": "781312",
                 "advertiserId": "456",
                 "name": "The blue logo",
-                "updatedDateTime": "2016-08-23T11:55:55Z",
+                "updatedDateTime": "2016-08-23T21:55:55+10:00",
                 "state": "Active",
                 "_links": {
                   "view": {
@@ -88,7 +88,7 @@
                 "logoId": "129301",
                 "advertiserId": "456",
                 "name": "The transparent logo",
-                "updatedDateTime": "2015-11-11T11:55:55Z",
+                "updatedDateTime": "2015-11-11T22:55:55+11:00",
                 "state": "Active",
                 "_links": {
                   "view": {
@@ -217,7 +217,7 @@
                 "logoId": "18475",
                 "advertiserId": "456",
                 "name": "The red logo",
-                "updatedDateTime": "2018-01-03T11:55:55Z",
+                "updatedDateTime": "2018-01-03T22:55:55+11:00",
                 "state": "Active",
                 "_links": {
                   "view": {
@@ -229,7 +229,7 @@
                 "logoId": "781312",
                 "advertiserId": "456",
                 "name": "The blue logo",
-                "updatedDateTime": "2016-08-23T11:55:55Z",
+                "updatedDateTime": "2016-08-23T21:55:55+10:00",
                 "state": "Active",
                 "_links": {
                   "view": {
@@ -241,7 +241,7 @@
                 "logoId": "129301",
                 "advertiserId": "456",
                 "name": "The transparent logo",
-                "updatedDateTime": "2015-11-11T11:55:55Z",
+                "updatedDateTime": "2015-11-11T22:55:55+11:00",
                 "state": "Active",
                 "_links": {
                   "view": {
@@ -253,7 +253,7 @@
                 "logoId": "129",
                 "advertiserId": "3214",
                 "name": "Old logo",
-                "updatedDateTime": "2017-03-30T11:55:55Z",
+                "updatedDateTime": "2017-03-30T22:55:55+11:00",
                 "state": "Inactive",
                 "_links": {
                   "view": {
@@ -265,7 +265,7 @@
                 "logoId": "5818341",
                 "advertiserId": "3214",
                 "name": "New logo",
-                "updatedDateTime": "2017-05-05T11:55:55Z",
+                "updatedDateTime": "2017-05-05T21:55:55+10:00",
                 "state": "Active",
                 "_links": {
                   "view": {
