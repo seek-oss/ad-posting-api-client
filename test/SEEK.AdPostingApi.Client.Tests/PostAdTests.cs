@@ -172,6 +172,232 @@ namespace SEEK.AdPostingApi.Client.Tests
         }
 
         [Fact]
+        public async Task PostAdWithStandoutBrandingIdInOidFormat()
+        {
+            const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            var location = $"{ServerBaseUrl}{link}";
+            var brandingOid = "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7";
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.Fixture.MockProviderService
+                .UponReceiving("a POST advertisement request to create a job ad with standout branding Oid field")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, object>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                        },
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
+                            .WithStandoutBrandingId(brandingOid)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 200,
+                        Headers = new Dictionary<string, object>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "Location", location },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = (new AdvertisementResponseContentBuilder(this.MinimumFieldsInitializer)
+                            .WithStandoutBrandingId(brandingOid) as AdvertisementResponseContentBuilder)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithId(advertisementId)
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .Build()
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
+                .WithStandoutBrandingId(brandingOid)
+                .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.CreateAdvertisementAsync(requestModel);
+            }
+
+            AdvertisementResource expectedResult = (new AdvertisementResourceBuilder(this.MinimumFieldsInitializer)
+                .WithStandoutBrandingId(brandingOid) as AdvertisementResourceBuilder)
+                .WithId(new Guid(advertisementId))
+                .WithLinks(advertisementId)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public async Task PostAdWithStandoutBrandingIdNumericStringFormat()
+        {
+            const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            var location = $"{ServerBaseUrl}{link}";
+            var brandingId = 1234;
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.Fixture.MockProviderService
+                .UponReceiving("a POST advertisement request to create a job ad with standout branding Id field in numeric string format")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, object>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                        },
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
+                            .WithStandoutBrandingId(brandingId.ToString())
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 200,
+                        Headers = new Dictionary<string, object>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "Location", location },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(this.MinimumFieldsInitializer)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithId(advertisementId)
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithStandoutBrandingId(brandingId.ToString())
+                            .WithStandoutLogoId(brandingId)
+                            .Build()
+                    });
+
+            var requestModel = new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
+                .WithStandoutBrandingId(brandingId.ToString())
+                .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.CreateAdvertisementAsync(requestModel);
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.MinimumFieldsInitializer)
+                .WithId(new Guid(advertisementId))
+                .WithLinks(advertisementId)
+                .WithStandoutBrandingId(brandingId.ToString())
+                .WithStandoutLogoId(brandingId)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public async Task PostAdWithStandoutBrandingOidAndLogoId()
+        {
+            const string advertisementId = "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a";
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+            var location = $"{ServerBaseUrl}{link}";
+            var brandingOid = "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7";
+
+            this.Fixture.RegisterIndexPageInteractions(oAuth2Token);
+
+            this.Fixture.MockProviderService
+                .UponReceiving("a POST advertisement request to create a job ad with both standout branding Oid and logo Id fields")
+                .With(
+                    new ProviderServiceRequest
+                    {
+                        Method = HttpVerb.Post,
+                        Path = AdvertisementLink,
+                        Headers = new Dictionary<string, object>
+                        {
+                            { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                            { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                            { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                            { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                        },
+                        Body = new AdvertisementContentBuilder(this.MinimumFieldsInitializer)
+                            .WithStandoutBrandingId(brandingOid)
+                            .WithStandoutLogoId(123)
+                            .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData)
+                            .Build()
+                    }
+                )
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 422,
+                        Headers = new Dictionary<string, object>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new
+                        {
+                            message = "Validation Failure",
+                            errors = new[]
+                            {
+                                new { field = "logoId", code = "ValidationError", message = "The LogoId is not allowed when BrandingId is specified." },
+                            }
+                        }
+                    });
+
+
+            var requestModel = new AdvertisementModelBuilder(this.MinimumFieldsInitializer)
+                .WithStandoutBrandingId(brandingOid)
+                .WithStandoutLogoId(123)
+                .WithRequestCreationId(CreationIdForAdWithMinimumRequiredData).Build();
+
+            ValidationException exception;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                exception = await Assert.ThrowsAsync<ValidationException>(
+                    async () => await client.CreateAdvertisementAsync(requestModel));
+            }
+
+            var expectedException =
+                new ValidationException(
+                    RequestId,
+                    HttpMethod.Post,
+                    new AdvertisementErrorResponse
+                    {
+                        Message = "Validation Failure",
+                        Errors = new[]
+                        {
+                            new Error { Field = "logoId", Code = "ValidationError", Message = "The LogoId is not allowed when BrandingId is specified." },
+                        }
+                    });
+
+            exception.ShouldBeEquivalentToException(expectedException);
+        }
+
+        [Fact]
         public async Task PostAdWithInvalidFieldValues()
         {
             OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();

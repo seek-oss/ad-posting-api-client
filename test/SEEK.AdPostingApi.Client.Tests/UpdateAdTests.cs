@@ -814,6 +814,209 @@ namespace SEEK.AdPostingApi.Client.Tests
             result.ShouldBeEquivalentTo(expectedResult);
         }
 
+
+        [Fact]
+        public async Task UpdateWithStandoutBrandingIdInOidFormat()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
+            var brandingOid = "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7";
+
+            this.Fixture.MockProviderService
+                .Given("There is a standout advertisement with maximum data")
+                .UponReceiving("a PUT advertisement request to update standout branding Oid field")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                    },
+                    Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        .WithStandoutBrandingId(brandingOid)
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 200,
+                        Headers = new Dictionary<string, object>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(MinimumFieldsInitializer)
+                            .WithId(AdvertisementId)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithStandoutBrandingId(brandingOid)
+                            .Build()
+                    });
+
+            Advertisement requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                .WithStandoutBrandingId(brandingOid)
+                .Build();
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel);
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(MinimumFieldsInitializer)
+                .WithId(new Guid(AdvertisementId))
+                .WithLinks(AdvertisementId)
+                .WithStandoutBrandingId(brandingOid)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public async Task UpdateWithStandoutBrandingIdInNumericStringFormat()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
+            var brandingId = 1234;
+
+            this.Fixture.MockProviderService
+                .Given("There is a standout advertisement with maximum data")
+                .UponReceiving("a PUT advertisement request to update standout branding Id field in numeric string format")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                    },
+                    Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        .WithStandoutBrandingId(brandingId.ToString())
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 200,
+                        Headers = new Dictionary<string, object>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new AdvertisementResponseContentBuilder(MinimumFieldsInitializer)
+                            .WithId(AdvertisementId)
+                            .WithState(AdvertisementState.Open.ToString())
+                            .WithLink("self", link)
+                            .WithLink("view", viewRenderedAdvertisementLink)
+                            .WithStandoutBrandingId(brandingId.ToString())
+                            .WithStandoutLogoId(brandingId)
+                            .Build()
+                    });
+
+            Advertisement requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                .WithStandoutBrandingId(brandingId.ToString())
+                .Build();
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel);
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(MinimumFieldsInitializer)
+                .WithId(new Guid(AdvertisementId))
+                .WithLinks(AdvertisementId)
+                .WithStandoutBrandingId(brandingId.ToString())
+                .WithStandoutLogoId(brandingId)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public async Task UpdateWithStandoutBrandingOidAndLogoId()
+        {
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().Build();
+            var link = $"{AdvertisementLink}/{AdvertisementId}";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{AdvertisementId}/view";
+            var brandingOid = "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7";
+
+            this.Fixture.MockProviderService
+                .Given("There is a standout advertisement with maximum data")
+                .UponReceiving("a PUT advertisement request to update standout branding Oid and logo Id fields")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Put,
+                    Path = link,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Content-Type", RequestContentTypes.AdvertisementVersion1 },
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                    },
+                    Body = new AdvertisementContentBuilder(MinimumFieldsInitializer)
+                        .WithStandoutBrandingId(brandingOid)
+                        .WithStandoutLogoId(1234)
+                        .Build()
+                })
+                .WillRespondWith(
+                    new ProviderServiceResponse
+                    {
+                        Status = 422,
+                        Headers = new Dictionary<string, object>
+                        {
+                            { "Content-Type", ResponseContentTypes.AdvertisementErrorVersion1 },
+                            { "X-Request-Id", RequestId }
+                        },
+                        Body = new
+                        {
+                            message = "Validation Failure",
+                            errors = new[]
+                            {
+                                new { field = "logoId", code = "ValidationError", message = "The LogoId is not allowed when BrandingId is specified." },
+                            }
+                        }
+                    });
+
+            Advertisement requestModel = new AdvertisementModelBuilder(MinimumFieldsInitializer)
+                .WithStandoutBrandingId(brandingOid)
+                .WithStandoutLogoId(1234)
+                .Build();
+
+            ValidationException exception;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                exception = await Assert.ThrowsAsync<ValidationException>(
+                    async () => await client.UpdateAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link), requestModel));
+            }
+
+            var expectedException =
+                new ValidationException(
+                    RequestId,
+                    HttpMethod.Put,
+                    new AdvertisementErrorResponse
+                    {
+                        Message = "Validation Failure",
+                        Errors = new[]
+                        {
+                            new Error { Field = "logoId", Code = "ValidationError", Message = "The LogoId is not allowed when BrandingId is specified." },
+                        }
+                    });
+
+            exception.ShouldBeEquivalentToException(expectedException);
+        }
         private AdPostingApiFixture Fixture { get; }
     }
 }

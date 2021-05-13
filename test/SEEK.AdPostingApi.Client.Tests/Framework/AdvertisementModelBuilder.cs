@@ -48,6 +48,7 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
         private string _agentJobReference;
         private int? _templateId;
         private TemplateItem[] _templateItems;
+        private string _standoutBrandingId;
         private int? _standoutLogoId;
         private string[] _standoutBullets;
         private AdditionalPropertyType[] _additionalPropertyTypes;
@@ -291,6 +292,13 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementModelBuilder<TAdvertisement> WithStandoutBrandingId(string brandingId)
+        {
+            this._standoutBrandingId = brandingId;
+
+            return this;
+        }
+
         public AdvertisementModelBuilder<TAdvertisement> WithStandoutLogoId(int? logoId)
         {
             this._standoutLogoId = logoId;
@@ -401,10 +409,11 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
                 Video = this._videoUrl == null && this._videoPosition == null
                     ? null
                     : new Video { Url = this._videoUrl, Position = this._videoPosition ?? default(VideoPosition) },
-                Standout = this._standoutLogoId == null && this._standoutBullets == null
+                Standout = this._standoutBrandingId == null && this._standoutLogoId == null && this._standoutBullets == null
                     ? null
                     : new StandoutAdvertisement
                     {
+                        BrandingId = this._standoutBrandingId,
                         LogoId = this._standoutLogoId,
                         Bullets = this._standoutBullets?.ToArray()
                     },

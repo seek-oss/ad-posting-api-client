@@ -12,6 +12,8 @@
 
 * [A GET advertisement request for an advertisement using a disabled requestor account](#a_GET_advertisement_request_for_an_advertisement_using_a_disabled_requestor_account_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
+* [A GET advertisement request for an advertisement with standout branding Oid](#a_GET_advertisement_request_for_an_advertisement_with_standout_branding_Oid_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
+
 * [A GET advertisements request for all advertisements](#a_GET_advertisements_request_for_all_advertisements_given_There_are_no_advertisements) given There are no advertisements
 
 * [A GET advertisements request for first page of data](#a_GET_advertisements_request_for_first_page_of_data_given_A_page_size_of_3_with_more_than_1_page_of_data) given A page size of 3 with more than 1 page of data
@@ -60,6 +62,8 @@
 
 * [A POST advertisement request to create a job ad with an invalid advertiser id](#a_POST_advertisement_request_to_create_a_job_ad_with_an_invalid_advertiser_id)
 
+* [A POST advertisement request to create a job ad with both standout branding Oid and logo Id fields](#a_POST_advertisement_request_to_create_a_job_ad_with_both_standout_branding_Oid_and_logo_Id_fields)
+
 * [A POST advertisement request to create a job ad with duplicated names for template custom fields](#a_POST_advertisement_request_to_create_a_job_ad_with_duplicated_names_for_template_custom_fields)
 
 * [A POST advertisement request to create a job ad with granular location](#a_POST_advertisement_request_to_create_a_job_ad_with_granular_location)
@@ -71,6 +75,10 @@
 * [A POST advertisement request to create a job ad with invalid sub\-classification id](#a_POST_advertisement_request_to_create_a_job_ad_with_invalid_sub_classification_id)
 
 * [A POST advertisement request to create a job ad with required field values only](#a_POST_advertisement_request_to_create_a_job_ad_with_required_field_values_only)
+
+* [A POST advertisement request to create a job ad with standout branding Id field in numeric string format](#a_POST_advertisement_request_to_create_a_job_ad_with_standout_branding_Id_field_in_numeric_string_format)
+
+* [A POST advertisement request to create a job ad with standout branding Oid field](#a_POST_advertisement_request_to_create_a_job_ad_with_standout_branding_Oid_field)
 
 * [A POST advertisement request to create a job ad with the same creation id 'CreationIdOf8e2fde50\-bc5f\-4a12\-9cfb\-812e50500184'](#a_POST_advertisement_request_to_create_a_job_ad_with_the_same_creation_id__CreationIdOf8e2fde50_bc5f_4a12_9cfb_812e50500184__given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
@@ -107,6 +115,12 @@
 * [A PUT advertisement request to update an expired advertisement](#a_PUT_advertisement_request_to_update_an_expired_advertisement_given_There_is_an_expired_advertisement) given There is an expired advertisement
 
 * [A PUT advertisement request to update granular location](#a_PUT_advertisement_request_to_update_granular_location_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
+
+* [A PUT advertisement request to update standout branding Id field in numeric string format](#a_PUT_advertisement_request_to_update_standout_branding_Id_field_in_numeric_string_format_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
+
+* [A PUT advertisement request to update standout branding Oid and logo Id fields](#a_PUT_advertisement_request_to_update_standout_branding_Oid_and_logo_Id_fields_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
+
+* [A PUT advertisement request to update standout branding Oid field](#a_PUT_advertisement_request_to_update_standout_branding_Oid_field_given_There_is_a_standout_advertisement_with_maximum_data) given There is a standout advertisement with maximum data
 
 ## Interactions from Ad Posting API Client to Ad Posting API
 
@@ -401,6 +415,110 @@ Ad Posting API will respond with:
         "code": "AccountError"
       }
     ]
+  }
+}
+```
+
+<a name="a_GET_advertisement_request_for_an_advertisement_with_standout_branding_Oid_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+Given **there is a standout advertisement with maximum data**, upon receiving **a GET advertisement request for an advertisement with standout branding Oid** from Ad Posting API Client, with
+```json
+{
+  "method": "get",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Processing-Status": "Completed",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "StandOut",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage",
+      "details": "We will pay you"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com",
+      "teamName": "Recruiter Team Name"
+    },
+    "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+    "contact": {
+      "name": "Contact name",
+      "email": "qwert@asdf.com",
+      "phone": "+1 (123) 456 7889"
+    },
+    "video": {
+      "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+      "position": "Above"
+    },
+    "applicationEmail": "asdf@asdf.com",
+    "applicationFormUrl": "http://apply.com/",
+    "endApplicationUrl": "http://endform.com/",
+    "screenId": 1,
+    "jobReference": "JOB1234",
+    "agentJobReference": "AGENTJOB1234",
+    "template": {
+      "id": 1,
+      "items": [
+        {
+          "name": "Template Line 1",
+          "value": "Template Value 1"
+        },
+        {
+          "name": "Template Line 2",
+          "value": "Template Value 2"
+        }
+      ]
+    },
+    "standout": {
+      "logoId": null,
+      "bullets": [
+        "Uzi",
+        "Remington Model",
+        "AK-47"
+      ],
+      "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
+    },
+    "additionalProperties": [
+      "ResidentsOnly",
+      "Graduate"
+    ],
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-07T12:59:59Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+      },
+      "view": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+      }
+    }
   }
 }
 ```
@@ -1602,6 +1720,70 @@ Ad Posting API will respond with:
 }
 ```
 
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_both_standout_branding_Oid_and_logo_Id_fields"></a>
+Upon receiving **a POST advertisement request to create a job ad with both standout branding Oid and logo Id fields** from Ad Posting API Client, with
+```json
+{
+  "method": "post",
+  "path": "/advertisement",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "standout": {
+      "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7",
+      "logoId": 123
+    },
+    "creationId": "20150914-134527-00012"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 422,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "message": "Validation Failure",
+    "errors": [
+      {
+        "field": "logoId",
+        "code": "ValidationError",
+        "message": "The LogoId is not allowed when BrandingId is specified."
+      }
+    ]
+  }
+}
+```
+
 <a name="a_POST_advertisement_request_to_create_a_job_ad_with_duplicated_names_for_template_custom_fields"></a>
 Upon receiving **a POST advertisement request to create a job ad with duplicated names for template custom fields** from Ad Posting API Client, with
 ```json
@@ -2219,6 +2401,191 @@ Ad Posting API will respond with:
     },
     "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
     "expiryDate": "2015-11-07T12:59:59Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+      },
+      "view": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+      }
+    }
+  }
+}
+```
+
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_standout_branding_Id_field_in_numeric_string_format"></a>
+Upon receiving **a POST advertisement request to create a job ad with standout branding Id field in numeric string format** from Ad Posting API Client, with
+```json
+{
+  "method": "post",
+  "path": "/advertisement",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "standout": {
+      "brandingId": "1234"
+    },
+    "creationId": "20150914-134527-00012"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "expiryDate": "2015-11-07T12:59:59Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+      },
+      "view": {
+        "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+      }
+    },
+    "standout": {
+      "brandingId": "1234",
+      "logoId": 1234
+    }
+  }
+}
+```
+
+<a name="a_POST_advertisement_request_to_create_a_job_ad_with_standout_branding_Oid_field"></a>
+Upon receiving **a POST advertisement request to create a job ad with standout branding Oid field** from Ad Posting API Client, with
+```json
+{
+  "method": "post",
+  "path": "/advertisement",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "standout": {
+      "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
+    },
+    "creationId": "20150914-134527-00012"
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+    "expiryDate": "2015-11-07T12:59:59Z",
+    "standout": {
+      "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
+    },
     "state": "Open",
     "_links": {
       "self": {
@@ -4242,6 +4609,250 @@ Ad Posting API will respond with:
       "view": {
         "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
       }
+    }
+  }
+}
+```
+
+<a name="a_PUT_advertisement_request_to_update_standout_branding_Id_field_in_numeric_string_format_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request to update standout branding Id field in numeric string format** from Ad Posting API Client, with
+```json
+{
+  "method": "put",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "standout": {
+      "brandingId": "1234"
+    }
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-07T12:59:59Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+      },
+      "view": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+      }
+    },
+    "standout": {
+      "brandingId": "1234",
+      "logoId": 1234
+    }
+  }
+}
+```
+
+<a name="a_PUT_advertisement_request_to_update_standout_branding_Oid_and_logo_Id_fields_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request to update standout branding Oid and logo Id fields** from Ad Posting API Client, with
+```json
+{
+  "method": "put",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "standout": {
+      "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7",
+      "logoId": 1234
+    }
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 422,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "message": "Validation Failure",
+    "errors": [
+      {
+        "field": "logoId",
+        "code": "ValidationError",
+        "message": "The LogoId is not allowed when BrandingId is specified."
+      }
+    ]
+  }
+}
+```
+
+<a name="a_PUT_advertisement_request_to_update_standout_branding_Oid_field_given_There_is_a_standout_advertisement_with_maximum_data"></a>
+Given **there is a standout advertisement with maximum data**, upon receiving **a PUT advertisement request to update standout branding Oid field** from Ad Posting API Client, with
+```json
+{
+  "method": "put",
+  "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+  "headers": {
+    "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+    "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "standout": {
+      "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
+    }
+  }
+}
+```
+Ad Posting API will respond with:
+```json
+{
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+    "X-Request-Id": "PactRequestId"
+  },
+  "body": {
+    "advertisementDetails": "Exciting, do I need to say more?",
+    "thirdParties": {
+      "advertiserId": "1"
+    },
+    "advertisementType": "Classic",
+    "jobSummary": "Developer job",
+    "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+    "location": {
+      "id": "EuropeRussia",
+      "areaId": "RussiaEasternEurope"
+    },
+    "salary": {
+      "minimum": 100000.0,
+      "maximum": 119999.0,
+      "type": "AnnualPackage"
+    },
+    "subclassificationId": "AerospaceEngineering",
+    "workType": "FullTime",
+    "recruiter": {
+      "fullName": "Recruiter Full Name",
+      "email": "recruiter@email.com"
+    },
+    "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+    "expiryDate": "2015-11-07T12:59:59Z",
+    "state": "Open",
+    "_links": {
+      "self": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+      },
+      "view": {
+        "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+      }
+    },
+    "standout": {
+      "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
     }
   }
 }

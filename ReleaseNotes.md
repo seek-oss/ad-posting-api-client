@@ -7,3 +7,4 @@ Updates:
 * Added script to create Github release.
 * Updated PACT tests for field validation.
 * Add shell script to build and publish Nuget package
+* Add standout brandingId to payload when creating/updating an advertisement

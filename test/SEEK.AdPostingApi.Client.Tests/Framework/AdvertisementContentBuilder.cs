@@ -347,6 +347,15 @@ namespace SEEK.AdPostingApi.Client.Tests.Framework
             return this;
         }
 
+        public AdvertisementContentBuilder WithStandoutBrandingId(string brandingId)
+        {
+            this.EnsureStandoutPropertyExists();
+
+            this.AdvertisementModel.standout.brandingId = brandingId;
+
+            return this;
+        }
+
         public AdvertisementContentBuilder WithStandoutLogoId(object logoId)
         {
             this.EnsureStandoutPropertyExists();

@@ -699,6 +699,106 @@
       }
     },
     {
+      "description": "a GET advertisement request for an advertisement with standout branding Oid",
+      "providerState": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "get",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer a4f2aab5-5582-4ff0-b8f2-890d6146dbb6",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Processing-Status": "Completed",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "StandOut",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage",
+            "details": "We will pay you"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com",
+            "teamName": "Recruiter Team Name"
+          },
+          "searchJobTitle": "Senior Developer, .NET Core, Scala, Team Leader, Agile Methodologies",
+          "contact": {
+            "name": "Contact name",
+            "email": "qwert@asdf.com",
+            "phone": "+1 (123) 456 7889"
+          },
+          "video": {
+            "url": "https://www.youtube.com/embed/dVDk7PXNXB8",
+            "position": "Above"
+          },
+          "applicationEmail": "asdf@asdf.com",
+          "applicationFormUrl": "http://apply.com/",
+          "endApplicationUrl": "http://endform.com/",
+          "screenId": 1,
+          "jobReference": "JOB1234",
+          "agentJobReference": "AGENTJOB1234",
+          "template": {
+            "id": 1,
+            "items": [
+              {
+                "name": "Template Line 1",
+                "value": "Template Value 1"
+              },
+              {
+                "name": "Template Line 2",
+                "value": "Template Value 2"
+              }
+            ]
+          },
+          "standout": {
+            "logoId": null,
+            "bullets": [
+              "Uzi",
+              "Remington Model",
+              "AK-47"
+            ],
+            "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
+          },
+          "additionalProperties": [
+            "ResidentsOnly",
+            "Graduate"
+          ],
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+            }
+          }
+        }
+      }
+    },
+    {
       "description": "a GET advertisement request for an advertisement using a disabled requestor account",
       "providerState": "There is a standout advertisement with maximum data",
       "request": {
@@ -1936,6 +2036,93 @@
       }
     },
     {
+      "description": "a POST advertisement request to create a job ad with standout branding Oid field",
+      "request": {
+        "method": "post",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "standout": {
+            "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
+          },
+          "creationId": "20150914-134527-00012"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "standout": {
+            "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
+          },
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+            },
+            "view": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+            }
+          }
+        }
+      }
+    },
+    {
       "description": "a POST advertisement request to create a job ad with invalid sub-classification id",
       "request": {
         "method": "post",
@@ -2121,6 +2308,153 @@
               "code": "Required"
             }
           ]
+        }
+      }
+    },
+    {
+      "description": "a POST advertisement request to create a job ad with both standout branding Oid and logo Id fields",
+      "request": {
+        "method": "post",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "standout": {
+            "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7",
+            "logoId": 123
+          },
+          "creationId": "20150914-134527-00012"
+        }
+      },
+      "response": {
+        "status": 422,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Validation Failure",
+          "errors": [
+            {
+              "field": "logoId",
+              "code": "ValidationError",
+              "message": "The LogoId is not allowed when BrandingId is specified."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a POST advertisement request to create a job ad with standout branding Id field in numeric string format",
+      "request": {
+        "method": "post",
+        "path": "/advertisement",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "standout": {
+            "brandingId": "1234"
+          },
+          "creationId": "20150914-134527-00012"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Location": "http://localhost:5001/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "id": "75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a"
+            },
+            "view": {
+              "href": "/advertisement/75b2b1fc-9050-4f45-a632-ec6b7ac2bb4a/view"
+            }
+          },
+          "standout": {
+            "brandingId": "1234",
+            "logoId": 1234
+          }
         }
       }
     },
@@ -2835,6 +3169,92 @@
             }
           },
           "questionnaireId": "77d26391-eb70-4511-ac3e-2de00c7b9e29"
+        }
+      }
+    },
+    {
+      "description": "a PUT advertisement request to update standout branding Oid field",
+      "providerState": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "put",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "standout": {
+            "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+            }
+          },
+          "standout": {
+            "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7"
+          }
         }
       }
     },
@@ -3714,6 +4134,152 @@
             "view": {
               "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
             }
+          }
+        }
+      }
+    },
+    {
+      "description": "a PUT advertisement request to update standout branding Oid and logo Id fields",
+      "providerState": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "put",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "standout": {
+            "brandingId": "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7",
+            "logoId": 1234
+          }
+        }
+      },
+      "response": {
+        "status": 422,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "message": "Validation Failure",
+          "errors": [
+            {
+              "field": "logoId",
+              "code": "ValidationError",
+              "message": "The LogoId is not allowed when BrandingId is specified."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a PUT advertisement request to update standout branding Id field in numeric string format",
+      "providerState": "There is a standout advertisement with maximum data",
+      "request": {
+        "method": "put",
+        "path": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184",
+        "headers": {
+          "Authorization": "Bearer b635a7ea-1361-4cd8-9a07-bc3c12b2cf9e",
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "Accept": "application/vnd.seek.advertisement+json; version=1; charset=utf-8, application/vnd.seek.advertisement-error+json; version=1; charset=utf-8",
+          "User-Agent": "SEEK.AdPostingApi.Client/0.15.630.1108"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "standout": {
+            "brandingId": "1234"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.seek.advertisement+json; version=1; charset=utf-8",
+          "X-Request-Id": "PactRequestId"
+        },
+        "body": {
+          "advertisementDetails": "Exciting, do I need to say more?",
+          "thirdParties": {
+            "advertiserId": "1"
+          },
+          "advertisementType": "Classic",
+          "jobSummary": "Developer job",
+          "jobTitle": "Exciting Senior Developer role in a great CBD location. Great $$$",
+          "location": {
+            "id": "EuropeRussia",
+            "areaId": "RussiaEasternEurope"
+          },
+          "salary": {
+            "minimum": 100000.0,
+            "maximum": 119999.0,
+            "type": "AnnualPackage"
+          },
+          "subclassificationId": "AerospaceEngineering",
+          "workType": "FullTime",
+          "recruiter": {
+            "fullName": "Recruiter Full Name",
+            "email": "recruiter@email.com"
+          },
+          "id": "8e2fde50-bc5f-4a12-9cfb-812e50500184",
+          "expiryDate": "2015-11-07T12:59:59Z",
+          "state": "Open",
+          "_links": {
+            "self": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184"
+            },
+            "view": {
+              "href": "/advertisement/8e2fde50-bc5f-4a12-9cfb-812e50500184/view"
+            }
+          },
+          "standout": {
+            "brandingId": "1234",
+            "logoId": 1234
           }
         }
       }

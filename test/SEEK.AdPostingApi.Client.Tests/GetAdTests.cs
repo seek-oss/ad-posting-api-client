@@ -354,6 +354,69 @@ namespace SEEK.AdPostingApi.Client.Tests
                     }));
         }
 
+        [Fact]
+        public async Task GetAdvertisementWithBrandingOid()
+        {
+            const string advertisementId = "8e2fde50-bc5f-4a12-9cfb-812e50500184";
+
+            OAuth2Token oAuth2Token = new OAuth2TokenBuilder().WithAccessToken(AccessTokens.OtherThirdPartyUploader).Build();
+            var link = $"{AdvertisementLink}/{advertisementId}";
+            var brandingOid = "globalDevTest:advertisementBranding:hirerBranding:XV1V7JHU45rrz3bZXpaxL7";
+            var viewRenderedAdvertisementLink = $"{AdvertisementLink}/{advertisementId}/view";
+
+            this.Fixture.MockProviderService
+                .Given("There is a standout advertisement with maximum data")
+                .UponReceiving("a GET advertisement request for an advertisement with standout branding Oid")
+                .With(new ProviderServiceRequest
+                {
+                    Method = HttpVerb.Get,
+                    Path = link,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Authorization", "Bearer " + oAuth2Token.AccessToken },
+                        { "Accept", $"{ResponseContentTypes.AdvertisementVersion1}, {ResponseContentTypes.AdvertisementErrorVersion1}" },
+                        { "User-Agent", AdPostingApiFixture.UserAgentHeaderValue }
+                    }
+                })
+                .WillRespondWith(new ProviderServiceResponse
+                {
+                    Status = 200,
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", ResponseContentTypes.AdvertisementVersion1 },
+                        { "Processing-Status", "Completed" },
+                        { "X-Request-Id", RequestId }
+                    },
+                    Body = new AdvertisementResponseContentBuilder(AllFieldsInitializer)
+                        .WithId(advertisementId)
+                        .WithState(AdvertisementState.Open.ToString())
+                        .WithLink("self", link)
+                        .WithLink("view", viewRenderedAdvertisementLink)
+                        .WithStandoutBrandingId(brandingOid)
+                        .WithStandoutLogoId(null)
+                        .WithAgentId(null)
+                        .WithAdditionalProperties(AdditionalPropertyType.ResidentsOnly.ToString(), AdditionalPropertyType.Graduate.ToString())
+                        .Build()
+                });
+
+            AdvertisementResource result;
+
+            using (AdPostingApiClient client = this.Fixture.GetClient(oAuth2Token))
+            {
+                result = await client.GetAdvertisementAsync(new Uri(this.Fixture.AdPostingApiServiceBaseUri, link));
+            }
+
+            AdvertisementResource expectedResult = new AdvertisementResourceBuilder(this.AllFieldsInitializer)
+                .WithId(new Guid(advertisementId))
+                .WithLinks(advertisementId)
+                .WithProcessingStatus(ProcessingStatus.Completed)
+                .WithStandoutBrandingId(brandingOid)
+                .WithStandoutLogoId(null)
+                .WithAgentId(null)
+                .Build();
+
+            result.ShouldBeEquivalentTo(expectedResult);
+        }
         private AdPostingApiFixture Fixture { get; }
     }
 }
