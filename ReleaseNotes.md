@@ -1,10 +1,4 @@
-Updates:
+Features:
 
-* Added PR template to ensure nothing is missed before publishing.
-* Added cs-script for generating PACT markdown files.
-* Added script for publishing PACTs to PACT broker.
-* Build and test using `make`.
-* Added script to create Github release.
-* Updated PACT tests for field validation.
-* Add shell script to build and publish Nuget package
+* Add shell script to build and publish the Nuget package
 * Add standout brandingId to payload when creating/updating an advertisement

@@ -116,7 +116,7 @@ if [ $publishStage == "public" ]; then
     printStep "CREATING GITHUB RELEASE IN SEEK-JOBs..."
 
     git checkout master
-    git pull --rebase origin/master
+    git pull --rebase
 
     sh ./scripts/create-github-release.sh origin seek ad-posting-api-client ${version}
 
